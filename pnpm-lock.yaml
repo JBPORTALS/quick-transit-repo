@@ -357,7 +357,10 @@ importers:
         version: 1.16.0
       drizzle-orm:
         specifier: ^0.29.4
-        version: 0.29.4(@planetscale/database@1.16.0)
+        version: 0.29.4(@planetscale/database@1.16.0)(postgres@3.4.3)
+      postgres:
+        specifier: ^3.4.3
+        version: 3.4.3
     devDependencies:
       '@acme/eslint-config':
         specifier: workspace:^0.2.0
@@ -7027,7 +7030,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.4(@planetscale/database@1.16.0):
+  /drizzle-orm@0.29.4(@planetscale/database@1.16.0)(postgres@3.4.3):
     resolution: {integrity: sha512-ZnSM8TAxFhzH7p1s3+w3pRE/eKaOeNkH9SKitm717pubDVVcV2I0BCDBPGKV+pe02+wMfw37ntlTcCyo2rA3IA==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -7099,6 +7102,7 @@ packages:
         optional: true
     dependencies:
       '@planetscale/database': 1.16.0
+      postgres: 3.4.3
     dev: false
 
   /duplexer@0.1.2:
@@ -9302,6 +9306,7 @@ packages:
 
   /jscodeshift@0.14.0(@babel/preset-env@7.23.9):
     resolution: {integrity: sha512-7eCC1knD7bLUPuSCwXsMZUH51O8jIcoVyKtI6P0XM0IVzlGjckPy3FIwQlorzbN0Sg79oK+RlohN32Mqf/lrYA==}
+    hasBin: true
     peerDependencies:
       '@babel/preset-env': ^7.1.6
     dependencies:
@@ -10389,6 +10394,7 @@ packages:
   /next@14.1.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-wlzrsbfeSU48YQBjZhDzOwhWhGsy+uQycR8bHAOt1LY1bn3zZEcDyHQOEoN3aWzQ8LHCAJ1nqrWCc9XF2+O45Q==}
     engines: {node: '>=18.17.0'}
+    hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
       react: ^18.2.0
@@ -10431,6 +10437,7 @@ packages:
   /nitropack@2.8.1:
     resolution: {integrity: sha512-pODv2kEEzZSDQR+1UMXbGyNgMedUDq/qUomtiAnQKQvLy52VGlecXO1xDfH3i0kP1yKEcKTnWsx1TAF5gHM7xQ==}
     engines: {node: ^16.11.0 || >=17.0.0}
+    hasBin: true
     peerDependencies:
       xml2js: ^0.6.2
     peerDependenciesMeta:
@@ -11242,6 +11249,11 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
+  /postgres@3.4.3:
+    resolution: {integrity: sha512-iHJn4+M9vbTdHSdDzNkC0crHq+1CUdFhx+YqCE+SqWxPjm+Zu63jq7yZborOBF64c8pc58O5uMudyL1FQcHacA==}
+    engines: {node: '>=12'}
+    dev: false
+
   /preact-render-to-string@5.2.3(preact@10.11.3):
     resolution: {integrity: sha512-aPDxUn5o3GhWdtJtW0svRC2SS/l8D9MAgo2+AWml+BhDImb27ALf04Q2d+AHqUUOc6RdSXFIBVa2gxzgMKgtZA==}
     peerDependencies:
@@ -11684,6 +11696,7 @@ packages:
   /react-native@0.73.5(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0):
     resolution: {integrity: sha512-iHgDArmF4CrhL0qTj+Rn+CBN5pZWUL9lUGl8ub+V9Hwu/vnzQQh8rTMVSwVd2sV6N76KjpE5a4TfIAHkpIHhKg==}
     engines: {node: '>=18'}
+    hasBin: true
     peerDependencies:
       react: 18.2.0
     dependencies:
@@ -12091,6 +12104,7 @@ packages:
   /rollup-plugin-visualizer@5.10.0(rollup@4.6.1):
     resolution: {integrity: sha512-N4AkNL0qFvipegbDJ0kupS+8eKGjL0q+lYwV46NflLX/B8Rh73wz3kCIdg50bR6XVhNcaMA4Eb519xtm90Ckfg==}
     engines: {node: '>=14'}
+    hasBin: true
     peerDependencies:
       rollup: 2.x || 3.x || 4.x
     peerDependenciesMeta:
@@ -13023,6 +13037,7 @@ packages:
 
   /ts-node@10.9.1(@types/node@20.11.25)(typescript@5.3.3):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
     peerDependencies:
       '@swc/core': '>=1.2.50'
       '@swc/wasm': '>=1.2.50'
@@ -13469,6 +13484,7 @@ packages:
 
   /update-browserslist-db@1.0.13(browserslist@4.22.2):
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}
+    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
