@@ -3,6 +3,7 @@ import { Dimensions, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
+import { signIn } from "next-auth/react";
 
 import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
@@ -111,7 +112,17 @@ export default function Index() {
         <Text className="pb-2 text-center text-5xl font-bold text-foreground">
           Create <Text className="text-primary">T3</Text> Turbo
         </Text>
-
+        <Pressable
+          onPress={() =>
+            signIn("google", {
+              callbackUrl:
+                "http://192.168.36.111:3000/api/auth/callback/google",
+            })
+          }
+          className="flex items-center rounded-lg bg-primary p-2"
+        >
+          <Text className="text-foreground"> Signin with google</Text>
+        </Pressable>
         <Pressable
           onPress={() => void utils.post.all.invalidate()}
           className="flex items-center rounded-lg bg-primary p-2"

@@ -6,13 +6,36 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
+import type {
+  SignedInAuthObject,
+  SignedOutAuthObject,
+} from "@clerk/nextjs/api";
+import { getAuth } from "@clerk/nextjs/server";
 import { initTRPC, TRPCError } from "@trpc/server";
+import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import type { Session } from "@acme/auth";
-import { auth } from "@acme/auth";
 import { db } from "@acme/db";
+
+/**
+ * Replace this with an object if you want to pass things to createContextInner
+ */
+type AuthContextProps = {
+  auth: SignedInAuthObject | SignedOutAuthObject;
+};
+
+/** Use this helper for:
+ *  - testing, where we dont have to Mock Next.js' req/res
+ *  - trpc's `createSSGHelpers` where we don't have req/res
+ * @see https://beta.create.t3.gg/en/usage/trpc#-servertrpccontextts
+ */
+export const createContextInner = async ({ auth }: AuthContextProps) => {
+  return {
+    auth,
+    db,
+  };
+};
 
 /**
  * 1. CONTEXT
@@ -26,19 +49,8 @@ import { db } from "@acme/db";
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (opts: {
-  headers: Headers;
-  session: Session | null;
-}) => {
-  const session = opts.session ?? (await auth());
-  const source = opts.headers.get("x-trpc-source") ?? "unknown";
-
-  console.log(">>> tRPC Request from", source, "by", session?.user);
-
-  return {
-    session,
-    db,
-  };
+export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+  return await createContextInner({ auth: getAuth(opts.req) });
 };
 
 /**
@@ -95,13 +107,13 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session?.user) {
+  if (!ctx.auth.userId) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      session: { ...ctx.auth.session, user: ctx.auth.user },
     },
   });
 });
