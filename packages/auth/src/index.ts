@@ -1,7 +1,7 @@
 import type { DefaultSession } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
-import Discord from "next-auth/providers/discord";
+import Google from "next-auth/providers/google";
 
 import { db, tableCreator } from "@acme/db";
 
@@ -22,7 +22,7 @@ export const {
   signOut,
 } = NextAuth({
   adapter: DrizzleAdapter(db, tableCreator),
-  providers: [Discord],
+  providers: [Google],
   callbacks: {
     session: (opts) => {
       if (!("user" in opts)) throw "unreachable with session strategy";

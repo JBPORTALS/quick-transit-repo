@@ -7,24 +7,24 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const postRouter = createTRPCRouter({
   all: publicProcedure.query(({ ctx }) => {
-    // return ctx.db.select().from(schema.post).orderBy(desc(schema.post.id));
-    return ctx.db.query.post.findMany({
-      orderBy: desc(schema.post.id),
-      limit: 10,
-    });
+    return ctx.db.select().from(schema.post).orderBy(desc(schema.post.id));
+    // return ctx.db.query.post.findMany({
+    //   orderBy: desc(schema.post.id),
+    //   limit: 10,
+    // });
   }),
 
   byId: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(({ ctx, input }) => {
-      // return ctx.db
-      //   .select()
-      //   .from(schema.post)
-      //   .where(eq(schema.post.id, input.id));
+      return ctx.db
+        .select()
+        .from(schema.post)
+        .where(eq(schema.post.id, input.id));
 
-      return ctx.db.query.post.findFirst({
-        where: eq(schema.post.id, input.id),
-      });
+      // return ctx.db.query.post.findFirst({
+      //   where: eq(schema.post.id, input.id),
+      // });
     }),
 
   create: protectedProcedure

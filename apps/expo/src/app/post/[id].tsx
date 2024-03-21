@@ -12,12 +12,12 @@ export default function Post() {
 
   return (
     <SafeAreaView className="bg-background">
-      <Stack.Screen options={{ title: data.title }} />
+      <Stack.Screen options={{ title: data.at(0)?.title }} />
       <View className="h-full w-full p-4">
         <Text className="py-2 text-3xl font-bold text-primary">
-          {data.title}
+          {data.at(0)?.title}
         </Text>
-        <Text className="py-4 text-foreground">{data.content}</Text>
+        <Text className="py-4 text-foreground">{data.at(0)?.content}</Text>
       </View>
     </SafeAreaView>
   );

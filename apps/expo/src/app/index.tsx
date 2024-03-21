@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Dimensions, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
@@ -104,10 +104,10 @@ export default function Index() {
   });
 
   return (
-    <SafeAreaView className=" bg-background">
+    <SafeAreaView className="flex h-full w-full bg-background">
       {/* Changes page title visible on the header */}
       <Stack.Screen options={{ title: "Home Page" }} />
-      <View className="h-full w-full bg-background p-4">
+      <View className="flex h-full w-full bg-secondary p-4">
         <Text className="pb-2 text-center text-5xl font-bold text-foreground">
           Create <Text className="text-primary">T3</Text> Turbo
         </Text>
@@ -124,18 +124,19 @@ export default function Index() {
             Press on a post
           </Text>
         </View>
-
-        <FlashList
-          data={postQuery.data}
-          estimatedItemSize={20}
-          ItemSeparatorComponent={() => <View className="h-2" />}
-          renderItem={(p) => (
-            <PostCard
-              post={p.item}
-              onDelete={() => deletePostMutation.mutate(p.item.id)}
-            />
-          )}
-        />
+        <View style={{ height: 200, width: Dimensions.get("screen").width }}>
+          <FlashList
+            data={postQuery.data}
+            estimatedItemSize={200}
+            ItemSeparatorComponent={() => <View className="h-2" />}
+            renderItem={(p) => (
+              <PostCard
+                post={p.item}
+                onDelete={() => deletePostMutation.mutate(p.item.id)}
+              />
+            )}
+          />
+        </View>
 
         <CreatePost />
       </View>
