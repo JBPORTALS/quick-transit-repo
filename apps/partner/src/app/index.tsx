@@ -145,7 +145,7 @@ export default function Index() {
         <View style={{ height: 200, width: Dimensions.get("screen").width }}>
           <FlashList
             data={postQuery.data}
-            estimatedItemSize={200}
+            estimatedItemSize={20}
             ItemSeparatorComponent={() => <View className="h-2" />}
             renderItem={(p) => (
               <PostCard
