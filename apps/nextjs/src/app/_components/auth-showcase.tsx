@@ -1,37 +1,35 @@
-import { auth, signIn, signOut } from "@acme/auth";
+"use client";
+
+import {
+  auth,
+  SignInButton,
+  useClerk,
+  useSession,
+  useSignIn,
+} from "@clerk/nextjs";
+
 import { Button } from "@acme/ui/button";
 
-export async function AuthShowcase() {
-  const session = await auth();
+export function AuthShowcase() {
+  const { session } = useSession();
+  const { openSignIn, signOut } = useClerk();
+  const { signIn } = useSignIn();
 
   if (!session) {
-    return (
-      <form>
-        <Button
-          size="lg"
-          formAction={async () => {
-            "use server";
-            await signIn("google");
-          }}
-        >
-          Sign in with Google
-        </Button>
-      </form>
-    );
+    return <SignInButton />;
   }
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl">
-        {session && <span>Logged in as {session.user.name}</span>}
+        {session && <span>Logged in as {session?.user?.firstName}</span>}
       </p>
 
       <form>
         <Button
           size="lg"
-          formAction={async () => {
-            "use server";
-            await signOut();
+          formAction={() => {
+            signOut();
           }}
         >
           Sign out
