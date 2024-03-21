@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Dimensions, Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
+import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/clerk-expo";
 import { FlashList } from "@shopify/flash-list";
-import { signIn } from "next-auth/react";
 
 import type { RouterOutputs } from "~/utils/api";
+import SignInWithGoogle from "~/components/SigninWithGoogle";
 import { api } from "~/utils/api";
 
 function PostCard(props: {
@@ -50,6 +51,8 @@ function CreatePost() {
       await utils.post.all.invalidate();
     },
   });
+
+  console.log(error);
 
   return (
     <View className="mt-4 flex gap-2">
@@ -97,6 +100,8 @@ function CreatePost() {
 
 export default function Index() {
   const utils = api.useUtils();
+  const { user } = useUser();
+  const { signOut } = useAuth();
 
   const postQuery = api.post.all.useQuery();
 
@@ -112,17 +117,19 @@ export default function Index() {
         <Text className="pb-2 text-center text-5xl font-bold text-foreground">
           Create <Text className="text-primary">T3</Text> Turbo
         </Text>
-        <Pressable
-          onPress={() =>
-            signIn("google", {
-              callbackUrl:
-                "http://192.168.36.111:3000/api/auth/callback/google",
-            })
-          }
-          className="flex items-center rounded-lg bg-primary p-2"
-        >
-          <Text className="text-foreground"> Signin with google</Text>
-        </Pressable>
+        <SignedOut>
+          <SignInWithGoogle />
+        </SignedOut>
+
+        <SignedIn>
+          <Text className="text-xl">{user?.firstName}</Text>
+          <Pressable
+            onPress={() => signOut()}
+            className="flex items-center rounded-lg bg-primary p-2"
+          >
+            <Text className="text-foreground"> Logout</Text>
+          </Pressable>
+        </SignedIn>
         <Pressable
           onPress={() => void utils.post.all.invalidate()}
           className="flex items-center rounded-lg bg-primary p-2"
