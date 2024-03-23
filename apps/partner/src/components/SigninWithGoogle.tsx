@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, View } from "react-native";
+import { Button, Text, TouchableOpacity, View } from "react-native";
 import * as AuthSession from "expo-auth-session";
 import { useOAuth } from "@clerk/clerk-expo";
 
@@ -25,7 +25,6 @@ const SignInWithGoogle = () => {
         setActive?.({ session: createdSessionId });
       } else {
         // Modify this code to use signIn or signUp to set this missing requirements you set in your dashboard.
-        signIn?.reload();
       }
     } catch (err) {
       console.log(JSON.stringify(err, null, 2));
@@ -34,12 +33,16 @@ const SignInWithGoogle = () => {
   }, []);
 
   return (
-    <View className="rounded-lg border-2 border-gray-500 p-4">
-      <Button
-        title="Sign in with Google"
-        onPress={handleSignInWithGooglePress}
-      />
-    </View>
+    <TouchableOpacity
+      className="mt-5 w-full"
+      onPress={handleSignInWithGooglePress}
+    >
+      <View className="flex w-full items-center justify-center rounded-md bg-[#BD3C9C] px-5 py-3 text-white">
+        <Text className="text-lg font-medium text-white">
+          Continue with Google
+        </Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
