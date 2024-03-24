@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <View style={{ width }} className="flex h-full gap-5 bg-white px-4 pt-5">
       <Text className="text-2xl font-bold">
-        Good Evening, {`${user?.firstName} ${user?.lastName}`}
+        Good Evening, {`${user?.firstName} ${user?.lastName ?? ""}`}
       </Text>
 
       <View className="flex flex-row justify-between">
@@ -34,7 +34,6 @@ export default function Home() {
       <Text className="text-xl font-semibold">Today's Packages</Text>
 
       <FlashList
-        className="w-full"
         bounces={false}
         bouncesZoom={false}
         contentContainerStyle={{ paddingBottom: 20 }}
@@ -76,7 +75,13 @@ export default function Home() {
             <View className="flex w-full flex-row gap-3">
               <Image
                 source={require("../../../../assets/box.png")}
-                style={{ width: 60, height: 50, borderRadius: 4 }}
+                style={{
+                  width: 60,
+                  height: 50,
+                  borderRadius: 4,
+                  borderColor: "#dddddd",
+                  borderWidth: 1,
+                }}
               />
               <View className="flex w-full justify-between">
                 <Text className="w-full text-lg font-semibold">

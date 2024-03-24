@@ -38,5 +38,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  plugins: ["expo-router"],
+  plugins: [
+    "expo-router",
+    [
+      "expo-font",
+      {
+        fonts: ["node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf"],
+      },
+    ],
+  ],
 });
