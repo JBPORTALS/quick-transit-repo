@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, Text, View } from "react-native";
+import { Dimensions, StatusBar, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { Link, Redirect, Tabs, useRouter } from "expo-router";
@@ -10,9 +10,8 @@ import NavItem from "~/components/nav-item";
 
 export default function TabLayout() {
   const { user } = useUser();
-
   return (
-    <View className="flex h-full w-screen">
+    <View className="flex h-full w-full">
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: "#A83287",

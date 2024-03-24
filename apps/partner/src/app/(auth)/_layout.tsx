@@ -1,3 +1,4 @@
+import { View } from "react-native";
 import { Redirect, Slot, Stack } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { SettingsIcon } from "lucide-react-native";
@@ -10,9 +11,9 @@ export default function AuthLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false,
         headerShadowVisible: false,
         headerTitleAlign: "center",
+        headerShown: false,
       }}
     >
       <Stack.Screen name="(tabs)" />

@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
-import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Dimensions, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import { useAuth } from "@clerk/clerk-expo";
 
@@ -19,10 +19,10 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaProvider>
       <View className="flex h-full w-full" onLayout={onLayoutRootView}>
         {children}
       </View>
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
