@@ -17,24 +17,33 @@ export default function TabLayout() {
         screenOptions={{
           tabBarActiveTintColor: "#A83287",
           tabBarShowLabel: false,
+          headerTintColor: "#A83287",
           tabBarStyle: { height: 60 },
-          header: (props) => {
+          headerShadowVisible: true,
+          headerRightContainerStyle: { paddingRight: 14 },
+          headerLeftContainerStyle: { paddingLeft: 14 },
+          headerTitle: (props) => {
             return (
-              <View className="flex h-16 w-full flex-row  items-center justify-between bg-white px-4 shadow-md">
-                <TruckIcon size={32} color={"#A83287"} />
-                <Link href={"/profile"}>
-                  <Image
-                    source={user?.imageUrl}
-                    style={{
-                      height: 32,
-                      width: 32,
-                      borderRadius: 9999,
-                      borderColor: "gray",
-                      borderWidth: 1,
-                    }}
-                  />
-                </Link>
-              </View>
+              <Text className="text-2xl text-black">{props.children}</Text>
+            );
+          },
+          headerLeft: (props) => {
+            return <TruckIcon size={34} color={props.tintColor} />;
+          },
+          headerRight: (Props) => {
+            return (
+              <Link href={"/profile"}>
+                <Image
+                  source={user?.imageUrl}
+                  style={{
+                    height: 32,
+                    width: 32,
+                    borderRadius: 9999,
+                    borderColor: "gray",
+                    borderWidth: 1,
+                  }}
+                />
+              </Link>
             );
           },
         }}
