@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Redirect, Slot, Stack } from "expo-router";
+import { Link, Redirect, Slot, Stack } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { SettingsIcon } from "lucide-react-native";
 
@@ -15,6 +15,7 @@ export default function AuthLayout() {
         headerTitleAlign: "center",
         headerShown: false,
       }}
+      initialRouteName="(stacks)/settings"
     >
       <Stack.Screen name="(tabs)" />
       <Stack.Screen
@@ -23,8 +24,19 @@ export default function AuthLayout() {
           headerShown: true,
           title: "Profile Details",
           headerRight(props) {
-            return <SettingsIcon size={24} color={"black"} />;
+            return (
+              <Link href={"/(auth)/(stacks)/settings"}>
+                <SettingsIcon size={24} color={"black"} />
+              </Link>
+            );
           },
+        }}
+      />
+      <Stack.Screen
+        name="(stacks)/settings"
+        options={{
+          headerShown: true,
+          title: "Profile Settings",
         }}
       />
     </Stack>
