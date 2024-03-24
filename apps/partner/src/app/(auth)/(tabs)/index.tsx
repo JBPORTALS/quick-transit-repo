@@ -72,7 +72,7 @@ export default function Home() {
         ]}
         renderItem={(props) => {
           return (
-            <View className="flex w-full flex-row gap-3">
+            <TouchableOpacity className="flex w-full flex-row gap-3">
               <Image
                 source={require("../../../../assets/box.png")}
                 style={{
@@ -84,7 +84,7 @@ export default function Home() {
                 }}
               />
               <View className="flex w-full justify-between">
-                <Text className="w-full text-lg font-semibold">
+                <Text className="w-full text-lg">
                   {props.item.title.length >= 35
                     ? props.item.title.slice(0, 35).concat("...")
                     : props.item.title}
@@ -94,7 +94,7 @@ export default function Home() {
                 </Text>
               </View>
               <Button>View</Button>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />

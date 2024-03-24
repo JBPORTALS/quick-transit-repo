@@ -19,9 +19,13 @@ export default function TabLayout() {
           tabBarShowLabel: false,
           headerTintColor: "#A83287",
           tabBarStyle: { height: 60 },
-          headerShadowVisible: true,
+          headerShadowVisible: false,
           headerRightContainerStyle: { paddingRight: 14 },
           headerLeftContainerStyle: { paddingLeft: 14 },
+          headerBackgroundContainerStyle: {
+            borderBottomColor: "#ddd",
+            borderBottomWidth: 1,
+          },
           headerTitle: (props) => {
             return (
               <Text className="text-2xl text-black">{props.children}</Text>
@@ -74,6 +78,8 @@ export default function TabLayout() {
           name="notifications"
           options={{
             title: "Notifications",
+            tabBarBadge: "9+",
+            tabBarBadgeStyle: { backgroundColor: "dodgerblue" },
             tabBarIcon: ({ color, focused }) => (
               <NavItem {...{ focused }}>
                 <BellIcon
