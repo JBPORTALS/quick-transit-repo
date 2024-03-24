@@ -230,6 +230,9 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.294
         version: 11.0.0-next-beta.294
+      class-variance-authority:
+        specifier: ^0.7.0
+        version: 0.7.0
       expo:
         specifier: ~50.0.7
         version: 50.0.7(@babel/core@7.23.9)(@react-native/babel-preset@0.73.21)

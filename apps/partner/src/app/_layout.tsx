@@ -2,11 +2,11 @@ import { TRPCProvider } from "~/utils/api";
 
 import "../styles.css";
 
-import { StatusBar } from "react-native";
 import { Slot, useRouter, useSegments } from "expo-router";
 // This is the main layout of the app
 // It wraps your pages with the providers they need
 import * as SecureStore from "expo-secure-store";
+import { StatusBar } from "expo-status-bar";
 import { ClerkProvider, SignedIn } from "@clerk/clerk-expo";
 
 const tokenCache = {
@@ -36,7 +36,8 @@ export default function RootLayout() {
       tokenCache={tokenCache}
     >
       <TRPCProvider>
-        <StatusBar barStyle="dark-content" backgroundColor={"#ffffff"} />
+        <StatusBar style="inverted" backgroundColor={"#ffffff"} />
+
         <Slot />
       </TRPCProvider>
     </ClerkProvider>

@@ -10,8 +10,8 @@ export default function TabLayout() {
   const { user } = useUser();
 
   return (
-    <SafeAreaView className="flex h-full w-full">
-      <View className="flex h-full w-full">
+    <SafeAreaView className="flex h-full w-screen">
+      <View className="flex h-full w-screen">
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: "#A83287",
