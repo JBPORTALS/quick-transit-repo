@@ -1,30 +1,31 @@
 import React from "react";
-import { Dimensions, StatusBar, Text, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Text, View } from "react-native";
 import { Image } from "expo-image";
-import { Link, Redirect, Tabs, useRouter } from "expo-router";
-import { useAuth, useUser } from "@clerk/clerk-expo";
+import { Link, Tabs } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 import { BellIcon, HomeIcon, ListIcon, TruckIcon } from "lucide-react-native";
 
 import NavItem from "~/components/nav-item";
+import { colors } from "~/utils/constants";
 
 export default function TabLayout() {
   const { user } = useUser();
+
   return (
     <View className="flex h-full w-full">
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "#A83287",
           tabBarShowLabel: false,
-          headerTintColor: "#A83287",
+          headerTintColor: colors.primary,
           tabBarStyle: { height: 60 },
           headerShadowVisible: false,
           headerRightContainerStyle: { paddingRight: 14 },
           headerLeftContainerStyle: { paddingLeft: 14 },
           headerBackgroundContainerStyle: {
-            borderBottomColor: "#ddd",
+            borderBottomColor: colors.border,
             borderBottomWidth: 1,
           },
+          tabBarActiveTintColor: colors.primary,
           headerTitle: (props) => {
             return (
               <Text className="text-2xl text-black">{props.children}</Text>
@@ -33,7 +34,7 @@ export default function TabLayout() {
           headerLeft: (props) => {
             return <TruckIcon size={34} color={props.tintColor} />;
           },
-          headerRight: (Props) => {
+          headerRight: () => {
             return (
               <Link href={"/profile"}>
                 <Image

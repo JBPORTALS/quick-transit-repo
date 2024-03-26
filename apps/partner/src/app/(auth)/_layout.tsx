@@ -1,5 +1,4 @@
-import { View } from "react-native";
-import { Link, Redirect, Slot, Stack } from "expo-router";
+import { Link, Redirect, Stack } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { SettingsIcon } from "lucide-react-native";
 

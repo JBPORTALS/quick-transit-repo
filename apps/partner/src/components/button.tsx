@@ -2,12 +2,12 @@ import { Text, TouchableOpacity } from "react-native";
 import { cva, VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "flex items-center justify-center rounded-md px-4 py-2",
+  "flex items-center justify-center rounded-md px-4 py-3",
   {
     variants: {
       variant: {
-        primary: "bg-primary ",
-        ghost: "broder-primary border bg-transparent ",
+        primary: "bg-primary",
+        ghost: "broder-primary border bg-transparent",
       },
     },
     defaultVariants: {
@@ -16,11 +16,11 @@ const buttonVariants = cva(
   },
 );
 
-const buttonTextVariants = cva("text-lg", {
+const buttonTextVariants = cva("text-xl", {
   variants: {
     variant: {
-      primary: "text-white",
-      ghost: "text-black",
+      primary: "text-primary-foreground",
+      ghost: "text-secondary-foreground",
     },
   },
   defaultVariants: {
