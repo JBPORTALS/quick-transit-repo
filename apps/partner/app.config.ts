@@ -2,8 +2,8 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "Quick Transitt",
-  slug: "quick-transitt",
+  name: "expo",
+  slug: "expo",
   scheme: "expo",
   version: "0.1.0",
   orientation: "portrait",
@@ -13,6 +13,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     image: "./assets/splash-screen.png",
     resizeMode: "contain",
     backgroundColor: "#FFFFFF",
+    dark: {
+      backgroundColor: "#000000",
+    },
   },
   updates: {
     fallbackToCacheTimeout: 0,

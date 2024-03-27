@@ -96,7 +96,6 @@ export default function Package() {
             </View>
           </View>
           <Button
-            isLoading
             size={"sm"}
             variant={"ghost"}
             rightIcon={<PhoneCallIcon size={16} color={colors.foreground} />}
