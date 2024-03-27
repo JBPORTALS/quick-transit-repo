@@ -1,10 +1,47 @@
-import { Dimensions, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { FlashList } from "@shopify/flash-list";
 
+import PackageItem from "~/components/package-item";
 import { useColorsTheme } from "~/utils/constants";
+
+const data = [
+  {
+    title: "RJS Questions Paer Bundle A and B together",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123 dklfldjflkdjflkdjfkl",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+  },
+];
 
 export default function Home() {
   const { user } = useUser();
@@ -12,99 +49,42 @@ export default function Home() {
   const colors = useColorsTheme();
 
   return (
-    <View className="flex h-full gap-5 p-5">
-      <Text className="text-2xl font-bold text-foreground">
-        Good Evening, {`${user?.firstName} ${user?.lastName ?? ""}`}
-      </Text>
+    <ScrollView className="h-full">
+      <View className="flex h-full gap-5 p-4">
+        <Text className="text-2xl font-bold text-foreground">
+          Good Evening, {`${user?.firstName} ${user?.lastName ?? ""}`}
+        </Text>
 
-      <View className="flex flex-row justify-between gap-2">
-        <View className="flex flex-1 items-center justify-center rounded-md border-2 border-pink-300 bg-card p-7 shadow-md">
-          <Text className="text-3xl font-bold text-card-foreground">12</Text>
-          <Text className="text-lg text-muted-foreground">Pick-up</Text>
+        <View className="flex flex-row justify-between gap-2">
+          <View className="flex flex-1 items-center justify-center rounded-md border-2 border-pink-300 bg-card p-7 shadow-md">
+            <Text className="text-3xl font-bold text-card-foreground">12</Text>
+            <Text className="text-lg text-muted-foreground">Pick-up</Text>
+          </View>
+
+          <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-card p-7 shadow-md">
+            <Text className="text-3xl font-bold text-card-foreground">32</Text>
+            <Text className="text-lg text-muted-foreground">Shipping</Text>
+          </View>
+
+          <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md">
+            <Text className="text-3xl font-bold text-card-foreground">333</Text>
+            <Text className="text-lg text-muted-foreground">Dilivered</Text>
+          </View>
         </View>
 
-        <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-card p-7 shadow-md">
-          <Text className="text-3xl font-bold text-card-foreground">32</Text>
-          <Text className="text-lg text-muted-foreground">Shipping</Text>
-        </View>
-
-        <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md">
-          <Text className="text-3xl font-bold text-card-foreground">333</Text>
-          <Text className="text-lg text-muted-foreground">Dilivered</Text>
+        <Text className="text-xl font-semibold text-foreground">
+          Today's Packages
+        </Text>
+        <View className="gap-2">
+          {data.map((data, index) => (
+            <PackageItem
+              key={index}
+              data={data}
+              onPress={() => router.push(`/(auth)/(stacks)/${index}`)}
+            />
+          ))}
         </View>
       </View>
-
-      <Text className="text-xl font-semibold text-foreground">
-        Today's Packages
-      </Text>
-
-      <FlashList
-        bounces={false}
-        bouncesZoom={false}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        estimatedItemSize={40}
-        contentContainerClassName="flex"
-        contentInsetAdjustmentBehavior="scrollableAxes"
-        ItemSeparatorComponent={() => <View className="h-5" />}
-        data={[
-          {
-            title: "RJS Questions Paer Bundle A and B together",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123 dklfldjflkdjflkdjfkl",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-        ]}
-        renderItem={(props) => {
-          return (
-            <TouchableOpacity
-              onPress={() => router.push(`/(auth)/(stacks)/${props.index}`)}
-              className="flex w-full flex-row gap-3"
-            >
-              <Image
-                source={require("../../../../assets/box.png")}
-                style={{
-                  width: 60,
-                  height: 50,
-                  borderRadius: 4,
-                  borderColor: colors.border,
-                  borderWidth: 1,
-                }}
-              />
-              <View className="flex w-full justify-between">
-                <Text className="w-full text-lg text-foreground">
-                  {props.item.title.length >= 35
-                    ? props.item.title.slice(0, 35).concat("...")
-                    : props.item.title}
-                </Text>
-                <Text className="text-sm text-muted-foreground">
-                  11:00AM - 12:00PM
-                </Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
+    </ScrollView>
   );
 }

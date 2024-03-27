@@ -3,6 +3,7 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import PagerView from "react-native-pager-view";
 import { Image } from "expo-image";
 import {
+  ArrowUpRightFromCircle,
   BadgeIndianRupeeIcon,
   CloudUploadIcon,
   ExpandIcon,
@@ -20,7 +21,7 @@ export default function Package() {
   const colors = useColorsTheme();
   return (
     <ScrollView className="flex-1">
-      <View className="h-fulll flex-1 gap-3 border-t border-border p-4">
+      <View className="h-fulll flex-1 gap-4 border-t border-border p-4">
         <View
           style={{
             height: 240,
@@ -80,6 +81,19 @@ export default function Package() {
           <Text className="text-xl font-bold text-foreground">₹800</Text>
         </Text>
 
+        <View
+          className=" flex-row items-center justify-center gap-2 rounded-full border-4 border-muted-foreground/10 bg-muted/20 px-3 py-4 shadow-sm"
+          style={{ width: "auto" }}
+        >
+          <TruckIcon size={20} color={colors.mutedForeground} />
+          <Text
+            style={{ width: "auto" }}
+            className="text-base font-bold text-muted-foreground"
+          >
+            Pick-Up
+          </Text>
+        </View>
+
         <View className="flex-row justify-between gap-3 rounded-lg border border-border bg-card p-3">
           <View className="flex-row gap-3">
             <Image
@@ -109,6 +123,8 @@ export default function Package() {
             Call
           </Button>
         </View>
+
+        <View className="h-[1px] bg-border" />
 
         <Accordion>
           <Accordion.List>
