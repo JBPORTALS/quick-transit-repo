@@ -96,6 +96,7 @@ export default function Package() {
             </View>
           </View>
           <Button
+            isLoading
             size={"sm"}
             variant={"ghost"}
             rightIcon={<PhoneCallIcon size={16} color={colors.foreground} />}
@@ -132,7 +133,7 @@ export default function Package() {
                   <ExpandIcon size={24} color={colors.background} />
                 </View>
               </View>
-              <Button>Continue</Button>
+              <Button isLoading={false}>Continue</Button>
             </Accordion.Body>
           </Accordion.List>
 

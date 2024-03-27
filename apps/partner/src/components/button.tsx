@@ -1,9 +1,12 @@
 import { cloneElement } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { cva, VariantProps } from "class-variance-authority";
+import { Loader2Icon } from "lucide-react-native";
+
+import { useColorsTheme } from "~/utils/constants";
 
 const buttonVariants = cva(
-  "flex-row items-center justify-center gap-3 rounded-md px-5 py-3",
+  "flex-row items-center justify-center gap-3 rounded-md px-5 py-3 disabled:opacity-60",
   {
     variants: {
       variant: {
@@ -41,6 +44,7 @@ interface ButtonProps
   textClassName?: string;
   leftIcon?: React.ReactComponentElement<any>;
   rightIcon?: React.ReactComponentElement<any>;
+  isLoading?: boolean;
 }
 
 export default function Button({
@@ -51,24 +55,39 @@ export default function Button({
   size,
   leftIcon,
   rightIcon,
+  isLoading,
+  disabled = isLoading,
   ...props
 }: ButtonProps) {
+  const colors = useColorsTheme();
   return (
     <TouchableOpacity
+      disabled={disabled}
       className={buttonVariants({ className, variant, size })}
       {...props}
     >
-      {leftIcon && <View>{cloneElement(leftIcon)}</View>}
-      <Text
-        className={buttonTextVariants({
-          variant,
-          className: textClassName,
-          size,
-        })}
-      >
-        {children}
-      </Text>
-      {rightIcon && <View>{cloneElement(rightIcon)}</View>}
+      {leftIcon && !isLoading && <View>{cloneElement(leftIcon)}</View>}
+
+      {isLoading ? (
+        <Loader2Icon
+          size={24}
+          color={
+            variant == "primary" ? colors.primaryForeground : colors.foreground
+          }
+          className="animate-spin"
+        />
+      ) : (
+        <Text
+          className={buttonTextVariants({
+            variant,
+            className: textClassName,
+            size,
+          })}
+        >
+          {children}
+        </Text>
+      )}
+      {rightIcon && !isLoading && <View>{cloneElement(rightIcon)}</View>}
     </TouchableOpacity>
   );
 }
