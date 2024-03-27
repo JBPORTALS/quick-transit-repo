@@ -1,87 +1,97 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Image } from "expo-image";
+import { Link, useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { FlashList } from "@shopify/flash-list";
 
+import PackageItem from "~/components/package-item";
+import { useColorsTheme } from "~/utils/constants";
+
+const data = [
+  {
+    title: "RJS Questions Paer Bundle A and B together",
+    time: "11:00 AM - 12:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123 dklfldjflkdjflkdjfkl",
+    time: "12:00 PM - 1:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+    time: "3:00 PM - 4:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+    time: "4:00 PM - 5:00 PM",
+  },
+  {
+    title: "DSIT Questions Paper Box A 15CS123",
+    time: "5:00 PM - 6:00 PM",
+  },
+];
 export default function Home() {
   const { user } = useUser();
+  const router = useRouter();
+
   return (
-    <View className="flex h-full gap-5 bg-white px-4 pt-5">
-      <Text className="text-2xl font-bold">
-        Good Evening, {`${user?.firstName} ${user?.lastName}`}
-      </Text>
+    <ScrollView className="h-full">
+      <View className="flex h-full gap-5 p-4">
+        <Text className="text-2xl font-bold text-foreground">
+          Good Evening, {`${user?.firstName} ${user?.lastName ?? ""}`}
+        </Text>
 
-      <View className="flex flex-row justify-between">
-        <View className="bg- flex items-center justify-center rounded-md border border-pink-300 bg-pink-100 p-7 shadow-md">
-          <Text className="text-3xl font-bold">12</Text>
-          <Text className="text-xl text-slate-600">Pick-up</Text>
+        <View className="flex flex-row justify-between gap-2">
+          <View className="flex flex-1 items-center justify-center rounded-md border-2 border-pink-300 bg-card p-7 shadow-md">
+            <Text className="text-3xl font-bold text-card-foreground">12</Text>
+            <Text className="text-lg text-muted-foreground">Pick-up</Text>
+          </View>
+
+          <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-card p-7 shadow-md">
+            <Text className="text-3xl font-bold text-card-foreground">32</Text>
+            <Text className="text-lg text-muted-foreground">Shipping</Text>
+          </View>
+
+          <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md">
+            <Text className="text-3xl font-bold text-card-foreground">333</Text>
+            <Text className="text-lg text-muted-foreground">Dilivered</Text>
+          </View>
         </View>
 
-        <View className="bg- flex items-center justify-center rounded-md border border-orange-300 bg-orange-100 p-7 shadow-md">
-          <Text className="text-3xl font-bold">2</Text>
-          <Text className="text-xl text-slate-600">Shipping</Text>
-        </View>
-
-        <View className="bg- flex items-center justify-center rounded-md border border-green-300 bg-green-100 p-7 shadow-md">
-          <Text className="text-3xl font-bold">3</Text>
-          <Text className="text-xl text-slate-600">Dilivered</Text>
+        <Text className="text-xl font-semibold text-foreground">
+          Today's Packages
+        </Text>
+        <View className="gap-2">
+          {data.map((data, index) => (
+            <PackageItem
+              key={index}
+              data={data}
+              onPress={() => router.push(`/(auth)/(stacks)/${index}`)}
+            />
+          ))}
         </View>
       </View>
-
-      <Text className="text-xl font-semibold">Today's Packages</Text>
-
-      <FlashList
-        className="py-5"
-        estimatedItemSize={20}
-        ItemSeparatorComponent={() => <View className="h-5" />}
-        data={[
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-          {
-            title: "DSIT Questions Paper Box A 15CS123",
-          },
-        ]}
-        renderItem={(props) => {
-          return (
-            <View className="flex w-full flex-row gap-3">
-              <Image
-                source={require("../../../../assets/box.png")}
-                style={{ width: 60, height: 50, borderRadius: 4 }}
-              />
-              <View className="flex justify-between">
-                <Text className="text-lg font-semibold">
-                  {props.item.title}
-                </Text>
-                <Text className="text-sm text-slate-500">
-                  11:00AM - 12:00PM
-                </Text>
-              </View>
-            </View>
-          );
-        }}
-      />
-    </View>
+    </ScrollView>
   );
 }

@@ -2,9 +2,9 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "expo",
-  slug: "expo",
-  scheme: "expo",
+  name: "Quick Transitt",
+  slug: "quick-transit",
+  scheme: "quick-tranist",
   version: "0.1.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
@@ -13,6 +13,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     image: "./assets/splash-screen.png",
     resizeMode: "contain",
     backgroundColor: "#FFFFFF",
+    dark: {
+      backgroundColor: "#000000",
+    },
   },
   updates: {
     fallbackToCacheTimeout: 0,
@@ -38,5 +41,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  plugins: ["expo-router"],
+  plugins: [
+    "expo-router",
+    [
+      "expo-font",
+      {
+        fonts: ["node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf"],
+      },
+    ],
+  ],
 });

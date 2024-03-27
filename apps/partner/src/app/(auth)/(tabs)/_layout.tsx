@@ -1,65 +1,104 @@
 import React from "react";
-import { StatusBar, Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
-import { Link, Redirect, Tabs, useRouter } from "expo-router";
-import { useAuth, useUser } from "@clerk/clerk-expo";
+import { Link, Tabs } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 import { BellIcon, HomeIcon, ListIcon, TruckIcon } from "lucide-react-native";
+
+import NavItem from "~/components/nav-item";
+import { useColorsTheme } from "~/utils/constants";
 
 export default function TabLayout() {
   const { user } = useUser();
+  const colors = useColorsTheme();
 
   return (
-    <SafeAreaView className="flex h-full w-full">
-      <View className="flex h-full w-full">
-        <Tabs
-          screenOptions={{
-            tabBarActiveTintColor: "#A83287",
-            tabBarShowLabel: false,
-            header: (props) => {
-              return (
-                <View className="flex h-16 w-full flex-row  items-center justify-between bg-white px-4 shadow-md">
-                  <TruckIcon size={32} color={"#A83287"} />
-                  <Link href={"/profile"}>
-                    <Image
-                      source={user?.imageUrl}
-                      style={{
-                        height: 32,
-                        width: 32,
-                        borderRadius: 9999,
-                        borderColor: "gray",
-                        borderWidth: 1,
-                      }}
-                    />
-                  </Link>
-                </View>
-              );
-            },
-          }}
-        >
-          <Tabs.Screen
-            name="index"
-            options={{
-              title: "Home",
-              tabBarIcon: ({ color }) => <HomeIcon size={24} {...{ color }} />,
-            }}
-          />
-          <Tabs.Screen
-            name="packages"
-            options={{
-              title: "Packages",
-              tabBarIcon: ({ color }) => <ListIcon size={24} {...{ color }} />,
-            }}
-          />
-          <Tabs.Screen
-            name="notifications"
-            options={{
-              title: "Notifications",
-              tabBarIcon: ({ color }) => <BellIcon size={24} {...{ color }} />,
-            }}
-          />
-        </Tabs>
-      </View>
-    </SafeAreaView>
+    <Tabs
+      sceneContainerStyle={{
+        backgroundColor: colors.secondary,
+      }}
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerTintColor: colors.primary,
+        tabBarStyle: {
+          height: 72,
+          backgroundColor: colors.background,
+          paddingBottom: 14,
+        },
+        headerShadowVisible: false,
+        headerRightContainerStyle: { paddingRight: 14 },
+        headerLeftContainerStyle: { paddingLeft: 14 },
+        headerStyle: {
+          backgroundColor: colors.background,
+        },
+        tabBarActiveTintColor: colors.foreground,
+        headerTitleStyle: { display: "none" },
+        headerLeft: (props) => {
+          return (
+            <Image
+              source={require("assets/qt-logo.svg")}
+              style={{ height: 40, width: 40, objectFit: "contain" }}
+            />
+          );
+        },
+        headerRight: () => {
+          return (
+            <Link href={"/profile"}>
+              <Image
+                source={user?.imageUrl}
+                style={{
+                  height: 32,
+                  width: 32,
+                  borderRadius: 9999,
+                  borderColor: "gray",
+                  borderWidth: 1,
+                }}
+              />
+            </Link>
+          );
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, focused }) => (
+            <NavItem {...{ focused }}>
+              <HomeIcon size={24} {...{ color }} />
+            </NavItem>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="packages"
+        options={{
+          title: "Packages",
+          tabBarIcon: ({ color, focused }) => (
+            <NavItem {...{ focused }}>
+              <ListIcon size={24} {...{ color }} />
+            </NavItem>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          title: "Notifications",
+          tabBarBadge: "9+",
+          tabBarBadgeStyle: { backgroundColor: colors.primary },
+          tabBarIcon: ({ color, focused }) => (
+            <NavItem {...{ focused }}>
+              <BellIcon
+                className="bg-primary/30 p-3"
+                size={24}
+                {...{ color }}
+              />
+            </NavItem>
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
