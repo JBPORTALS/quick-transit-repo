@@ -3,20 +3,24 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import PagerView from "react-native-pager-view";
 import { Image } from "expo-image";
 import {
-  ChevronDown,
+  BadgeIndianRupeeIcon,
+  CloudUploadIcon,
   ExpandIcon,
+  PackageCheckIcon,
   PhoneCallIcon,
-  UserCheck,
+  ScrollTextIcon,
+  TruckIcon,
 } from "lucide-react-native";
 
 import { Accordion } from "~/components/accordion";
 import Button from "~/components/button";
-import { colors } from "~/utils/constants";
+import { useColorsTheme } from "~/utils/constants";
 
 export default function Package() {
+  const colors = useColorsTheme();
   return (
-    <ScrollView className="flex-1  bg-secondary">
-      <View className="h-fulll flex-1 gap-3 border-t border-border px-4 py-3">
+    <ScrollView className="flex-1">
+      <View className="h-fulll flex-1 gap-3 border-t border-border p-4">
         <View
           style={{
             height: 240,
@@ -67,16 +71,16 @@ export default function Package() {
           #27872872878278838
         </Text>
 
-        <Text className="text-lg font-semibold text-foreground">
+        <Text className="text-lg text-foreground">
           RJS Question paper (Bundle A)
         </Text>
 
-        <Text className="items-center justify-center text-lg text-foreground">
-          Amount Charged -{" "}
-          <Text className="text-2xl font-bold text-foreground">₹800</Text>
+        <Text className="items-center justify-center text-base text-foreground">
+          Total Charged -{" "}
+          <Text className="text-xl font-bold text-foreground">₹800</Text>
         </Text>
 
-        <View className="flex-row justify-between gap-3 rounded-lg border border-border bg-background p-3">
+        <View className="flex-row justify-between gap-3 rounded-lg border border-border bg-card p-3">
           <View className="flex-row gap-3">
             <Image
               source={
@@ -85,7 +89,9 @@ export default function Package() {
               style={{ height: 52, width: 52, borderRadius: 9999 }}
             />
             <View className="gap-1">
-              <Text className="text-lg font-medium">IG Institutes</Text>
+              <Text className="text-lg font-medium text-card-foreground">
+                IG Institutes
+              </Text>
               <Text className="text-muted-foreground">73837373737</Text>
             </View>
           </View>
@@ -100,10 +106,15 @@ export default function Package() {
 
         <Accordion>
           <Accordion.List>
-            <Accordion.Header Icon={<UserCheck />} title="Pick-Up Dilivery" />
+            <Accordion.Header
+              Icon={<TruckIcon size={24} color={colors.primary} />}
+              title="Pick-Up Dilivery"
+            />
             <Accordion.Body>
-              <Text className="text-lg font-medium">Pick-up Address</Text>
-              <Text className="text-lg">
+              <Text className="text-lg font-medium text-card-foreground">
+                Pick-up Address
+              </Text>
+              <Text className="text-lg text-card-foreground">
                 #678, Magadi Road, Chintamani, Banglore 512 076
               </Text>
               <View className="relative overflow-hidden rounded-xl border border-border">
@@ -121,18 +132,25 @@ export default function Package() {
                   <ExpandIcon size={24} color={colors.background} />
                 </View>
               </View>
+              <Button>Continue</Button>
             </Accordion.Body>
           </Accordion.List>
 
           <Accordion.List>
-            <Accordion.Header Icon={<UserCheck />} title="Generate Invoice" />
+            <Accordion.Header
+              Icon={<ScrollTextIcon size={24} color={colors.primary} />}
+              title="Generate Invoice"
+            />
             <Accordion.Body>
               <Text className="text-lg font-medium">Generate Invoice</Text>
             </Accordion.Body>
           </Accordion.List>
 
           <Accordion.List>
-            <Accordion.Header Icon={<UserCheck />} title="Verify Payment" />
+            <Accordion.Header
+              Icon={<BadgeIndianRupeeIcon size={24} color={colors.primary} />}
+              title="Verify Payment"
+            />
             <Accordion.Body>
               <Text className="text-lg font-medium">Verify Payment</Text>
             </Accordion.Body>
@@ -140,7 +158,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              Icon={<UserCheck />}
+              Icon={<CloudUploadIcon size={24} color={colors.primary} />}
               title="Upload Delivered Package Details"
             />
             <Accordion.Body>
@@ -151,7 +169,10 @@ export default function Package() {
           </Accordion.List>
 
           <Accordion.List>
-            <Accordion.Header Icon={<UserCheck />} title="Complete Request" />
+            <Accordion.Header
+              Icon={<PackageCheckIcon size={24} color={colors.primary} />}
+              title="Complete Request"
+            />
             <Accordion.Body>
               <Text className="text-lg font-medium">Complete Request</Text>
             </Accordion.Body>

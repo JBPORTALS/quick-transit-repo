@@ -4,42 +4,39 @@ import { Link, useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { FlashList } from "@shopify/flash-list";
 
-import { colors } from "~/utils/constants";
+import { useColorsTheme } from "~/utils/constants";
 
 export default function Home() {
   const { user } = useUser();
   const router = useRouter();
+  const colors = useColorsTheme();
 
   return (
-    <View className="flex h-full gap-5 bg-background px-4 pt-5">
-      <Text className="text-2xl font-bold">
+    <View className="flex h-full gap-5 p-5">
+      <Text className="text-2xl font-bold text-foreground">
         Good Evening, {`${user?.firstName} ${user?.lastName ?? ""}`}
       </Text>
 
-      <View className="flex flex-row justify-between gap-1">
-        <View className="flex flex-1 items-center justify-center rounded-md border-2 border-pink-300 bg-secondary p-7 shadow-md">
-          <Text className="text-3xl font-bold text-secondary-foreground">
-            12
-          </Text>
+      <View className="flex flex-row justify-between gap-2">
+        <View className="flex flex-1 items-center justify-center rounded-md border-2 border-pink-300 bg-card p-7 shadow-md">
+          <Text className="text-3xl font-bold text-card-foreground">12</Text>
           <Text className="text-lg text-muted-foreground">Pick-up</Text>
         </View>
 
-        <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-secondary p-7 shadow-md">
-          <Text className="text-3xl font-bold text-secondary-foreground">
-            32
-          </Text>
+        <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-card p-7 shadow-md">
+          <Text className="text-3xl font-bold text-card-foreground">32</Text>
           <Text className="text-lg text-muted-foreground">Shipping</Text>
         </View>
 
-        <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-secondary p-7 shadow-md">
-          <Text className="text-3xl font-bold text-secondary-foreground">
-            333
-          </Text>
+        <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md">
+          <Text className="text-3xl font-bold text-card-foreground">333</Text>
           <Text className="text-lg text-muted-foreground">Dilivered</Text>
         </View>
       </View>
 
-      <Text className="text-xl font-semibold">Today's Packages</Text>
+      <Text className="text-xl font-semibold text-foreground">
+        Today's Packages
+      </Text>
 
       <FlashList
         bounces={false}
@@ -95,7 +92,7 @@ export default function Home() {
                 }}
               />
               <View className="flex w-full justify-between">
-                <Text className="w-full text-lg">
+                <Text className="w-full text-lg text-foreground">
                   {props.item.title.length >= 35
                     ? props.item.title.slice(0, 35).concat("...")
                     : props.item.title}

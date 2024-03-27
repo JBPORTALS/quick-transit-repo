@@ -12,6 +12,7 @@ import { StatusBar } from "expo-status-bar";
 import { ClerkProvider, SignedIn } from "@clerk/clerk-expo";
 
 import AuthProvider from "~/components/auth-provider";
+import { useColorsTheme } from "~/utils/constants";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,6 +37,8 @@ const CLERK_PUBLISHABLE_KEY =
   "pk_test_cHJldHR5LWhhd2stODkuY2xlcmsuYWNjb3VudHMuZGV2JA";
 
 export default function RootLayout() {
+  const colors = useColorsTheme();
+
   return (
     <ClerkProvider
       publishableKey={CLERK_PUBLISHABLE_KEY}
@@ -43,7 +46,7 @@ export default function RootLayout() {
     >
       <AuthProvider>
         <TRPCProvider>
-          <StatusBar style="inverted" backgroundColor={"#ffffff"} />
+          <StatusBar style="auto" backgroundColor={colors.background} />
           <Slot />
         </TRPCProvider>
       </AuthProvider>

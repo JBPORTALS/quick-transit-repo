@@ -6,24 +6,31 @@ import { useUser } from "@clerk/clerk-expo";
 import { BellIcon, HomeIcon, ListIcon, TruckIcon } from "lucide-react-native";
 
 import NavItem from "~/components/nav-item";
-import { colors } from "~/utils/constants";
+import { useColorsTheme } from "~/utils/constants";
 
 export default function TabLayout() {
   const { user } = useUser();
+  const colors = useColorsTheme();
 
   return (
     <View className="flex h-full w-full">
       <Tabs
+        sceneContainerStyle={{
+          backgroundColor: colors.background,
+        }}
         screenOptions={{
           tabBarShowLabel: false,
           headerTintColor: colors.primary,
-          tabBarStyle: { height: 60 },
+          tabBarStyle: { height: 60, backgroundColor: colors.background },
           headerShadowVisible: false,
           headerRightContainerStyle: { paddingRight: 14 },
           headerLeftContainerStyle: { paddingLeft: 14 },
           headerBackgroundContainerStyle: {
             borderBottomColor: colors.border,
             borderBottomWidth: 1,
+          },
+          headerStyle: {
+            backgroundColor: colors.background,
           },
           tabBarActiveTintColor: colors.primary,
           headerTitleStyle: { display: "none" },

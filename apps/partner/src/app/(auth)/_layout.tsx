@@ -2,8 +2,11 @@ import { Link, Redirect, Stack } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { SettingsIcon } from "lucide-react-native";
 
+import { useColorsTheme } from "~/utils/constants";
+
 export default function AuthLayout() {
   const { isSignedIn } = useAuth();
+  const colors = useColorsTheme();
 
   if (!isSignedIn) return <Redirect href={"/signin"} />;
 
@@ -13,6 +16,11 @@ export default function AuthLayout() {
         headerShadowVisible: false,
         headerTitleAlign: "center",
         headerShown: false,
+        headerStyle: { backgroundColor: colors.card },
+        headerTintColor: colors.foreground,
+        contentStyle: {
+          backgroundColor: colors.background,
+        },
       }}
       // initialRouteName="(stacks)/settings"
     >
