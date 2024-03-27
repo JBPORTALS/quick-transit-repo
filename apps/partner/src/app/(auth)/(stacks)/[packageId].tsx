@@ -1,14 +1,21 @@
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import PagerView from "react-native-pager-view";
 import { Image } from "expo-image";
-import { ChevronDown, PhoneCallIcon, UserCheck } from "lucide-react-native";
+import {
+  ChevronDown,
+  ExpandIcon,
+  PhoneCallIcon,
+  UserCheck,
+} from "lucide-react-native";
 
+import { Accordion } from "~/components/accordion";
 import Button from "~/components/button";
 import { colors } from "~/utils/constants";
 
 export default function Package() {
   return (
-    <ScrollView className="flex-1  bg-background">
+    <ScrollView className="flex-1  bg-secondary">
       <View className="h-fulll flex-1 gap-3 border-t border-border px-4 py-3">
         <View
           style={{
@@ -69,7 +76,7 @@ export default function Package() {
           <Text className="text-2xl font-bold text-foreground">₹800</Text>
         </Text>
 
-        <View className="flex-row justify-between gap-3 rounded-md py-2">
+        <View className="flex-row justify-between gap-3 rounded-lg border border-border bg-background p-3">
           <View className="flex-row gap-3">
             <Image
               source={
@@ -91,33 +98,65 @@ export default function Package() {
           </Button>
         </View>
 
-        <View className="my-3 h-[0.5px] bg-muted" />
-
-        {/* Accordion */}
-        <View>
-          {/* Accordion Header */}
-          <View className="w-full flex-row items-center justify-between">
-            <View className="flex-row items-center gap-3">
-              <View className="h-14 w-14 items-center justify-center rounded-full border border-primary bg-primary/20 p-3">
-                <UserCheck size={24} color={colors.primary} />
-              </View>
-              <Text className="font-medium">Pick-up Package</Text>
-            </View>
-            <TouchableOpacity className="rounded-full border border-accent-foreground bg-accent p-1">
-              <ChevronDown size={24} color={colors.accentForeground} />
-            </TouchableOpacity>
-          </View>
-
-          {/* Accordion Body */}
-          <View className="pl-6">
-            <View className="border-l border-primary/30 py-2 pl-10">
+        <Accordion>
+          <Accordion.List>
+            <Accordion.Header Icon={<UserCheck />} title="Pick-Up Dilivery" />
+            <Accordion.Body>
               <Text className="text-lg font-medium">Pick-up Address</Text>
               <Text className="text-lg">
                 #678, Magadi Road, Chintamani, Banglore 512 076
               </Text>
-            </View>
-          </View>
-        </View>
+              <View className="relative overflow-hidden rounded-xl border border-border">
+                <MapView
+                  initialRegion={{
+                    latitude: 12,
+                    latitudeDelta: 12,
+                    longitude: 25,
+                    longitudeDelta: 21,
+                  }}
+                  loadingEnabled
+                  style={{ height: 250, borderRadius: 10 }}
+                />
+                <View className="absolute right-0 top-0 h-full w-full items-end bg-muted-foreground/30 p-3">
+                  <ExpandIcon size={24} color={colors.background} />
+                </View>
+              </View>
+            </Accordion.Body>
+          </Accordion.List>
+
+          <Accordion.List>
+            <Accordion.Header Icon={<UserCheck />} title="Generate Invoice" />
+            <Accordion.Body>
+              <Text className="text-lg font-medium">Generate Invoice</Text>
+            </Accordion.Body>
+          </Accordion.List>
+
+          <Accordion.List>
+            <Accordion.Header Icon={<UserCheck />} title="Verify Payment" />
+            <Accordion.Body>
+              <Text className="text-lg font-medium">Verify Payment</Text>
+            </Accordion.Body>
+          </Accordion.List>
+
+          <Accordion.List>
+            <Accordion.Header
+              Icon={<UserCheck />}
+              title="Upload Delivered Package Details"
+            />
+            <Accordion.Body>
+              <Text className="text-lg font-medium">
+                Upload Delivered Package Details
+              </Text>
+            </Accordion.Body>
+          </Accordion.List>
+
+          <Accordion.List>
+            <Accordion.Header Icon={<UserCheck />} title="Complete Request" />
+            <Accordion.Body>
+              <Text className="text-lg font-medium">Complete Request</Text>
+            </Accordion.Body>
+          </Accordion.List>
+        </Accordion>
       </View>
     </ScrollView>
   );
