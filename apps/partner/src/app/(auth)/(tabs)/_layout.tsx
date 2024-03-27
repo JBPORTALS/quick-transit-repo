@@ -13,93 +13,95 @@ export default function TabLayout() {
   const colors = useColorsTheme();
 
   return (
-    <View className="flex h-full w-full">
-      <Tabs
-        sceneContainerStyle={{
+    <Tabs
+      sceneContainerStyle={{
+        backgroundColor: colors.background,
+      }}
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerTintColor: colors.primary,
+        tabBarStyle: {
+          height: 72,
+          backgroundColor: colors.secondary,
+          paddingBottom: 8,
+        },
+        headerShadowVisible: false,
+        headerRightContainerStyle: { paddingRight: 14 },
+        headerLeftContainerStyle: { paddingLeft: 14 },
+        headerBackgroundContainerStyle: {
+          borderBottomColor: colors.border,
+          borderBottomWidth: 1,
+        },
+        headerStyle: {
           backgroundColor: colors.background,
-        }}
-        screenOptions={{
-          tabBarShowLabel: false,
-          headerTintColor: colors.primary,
-          tabBarStyle: { height: 60, backgroundColor: colors.background },
-          headerShadowVisible: false,
-          headerRightContainerStyle: { paddingRight: 14 },
-          headerLeftContainerStyle: { paddingLeft: 14 },
-          headerBackgroundContainerStyle: {
-            borderBottomColor: colors.border,
-            borderBottomWidth: 1,
-          },
-          headerStyle: {
-            backgroundColor: colors.background,
-          },
-          tabBarActiveTintColor: colors.primary,
-          headerTitleStyle: { display: "none" },
-          headerLeft: (props) => {
-            return (
+        },
+        tabBarActiveTintColor: colors.secondaryForeground,
+        headerTitleStyle: { display: "none" },
+        headerLeft: (props) => {
+          return (
+            <Image
+              source={require("assets/qt-logo.svg")}
+              style={{ height: 40, width: 40, objectFit: "contain" }}
+            />
+          );
+        },
+        headerRight: () => {
+          return (
+            <Link href={"/profile"}>
               <Image
-                source={require("assets/qt-logo.svg")}
-                style={{ height: 40, width: 40, objectFit: "contain" }}
+                source={user?.imageUrl}
+                style={{
+                  height: 32,
+                  width: 32,
+                  borderRadius: 9999,
+                  borderColor: "gray",
+                  borderWidth: 1,
+                }}
               />
-            );
-          },
-          headerRight: () => {
-            return (
-              <Link href={"/profile"}>
-                <Image
-                  source={user?.imageUrl}
-                  style={{
-                    height: 32,
-                    width: 32,
-                    borderRadius: 9999,
-                    borderColor: "gray",
-                    borderWidth: 1,
-                  }}
-                />
-              </Link>
-            );
-          },
+            </Link>
+          );
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, focused }) => (
+            <NavItem {...{ focused }}>
+              <HomeIcon size={24} {...{ color }} />
+            </NavItem>
+          ),
         }}
-      >
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: "Home",
-            tabBarIcon: ({ color, focused }) => (
-              <NavItem {...{ focused }}>
-                <HomeIcon size={24} {...{ color }} />
-              </NavItem>
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="packages"
-          options={{
-            title: "Packages",
-            tabBarIcon: ({ color, focused }) => (
-              <NavItem {...{ focused }}>
-                <ListIcon size={24} {...{ color }} />
-              </NavItem>
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="notifications"
-          options={{
-            title: "Notifications",
-            tabBarBadge: "9+",
-            tabBarBadgeStyle: { backgroundColor: colors.primary },
-            tabBarIcon: ({ color, focused }) => (
-              <NavItem {...{ focused }}>
-                <BellIcon
-                  className="bg-primary/30 p-3"
-                  size={24}
-                  {...{ color }}
-                />
-              </NavItem>
-            ),
-          }}
-        />
-      </Tabs>
-    </View>
+      />
+      <Tabs.Screen
+        name="packages"
+        options={{
+          title: "Packages",
+          tabBarIcon: ({ color, focused }) => (
+            <NavItem {...{ focused }}>
+              <ListIcon size={24} {...{ color }} />
+            </NavItem>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          title: "Notifications",
+          tabBarBadge: "9+",
+          tabBarBadgeStyle: { backgroundColor: colors.primary },
+          tabBarIcon: ({ color, focused }) => (
+            <NavItem {...{ focused }}>
+              <BellIcon
+                className="bg-primary/30 p-3"
+                size={24}
+                {...{ color }}
+              />
+            </NavItem>
+          ),
+        }}
+      />
+    </Tabs>
   );
 }

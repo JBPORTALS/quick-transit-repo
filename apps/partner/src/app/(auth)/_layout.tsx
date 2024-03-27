@@ -21,6 +21,8 @@ export default function AuthLayout() {
         contentStyle: {
           backgroundColor: colors.background,
         },
+        animation: "ios",
+        animationDuration: 100,
       }}
       // initialRouteName="(stacks)/settings"
     >
@@ -33,7 +35,7 @@ export default function AuthLayout() {
           headerRight(props) {
             return (
               <Link href={"/(auth)/(stacks)/settings"}>
-                <SettingsIcon size={24} color={"black"} />
+                <SettingsIcon size={24} color={colors.foreground} />
               </Link>
             );
           },

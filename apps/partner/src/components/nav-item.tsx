@@ -6,7 +6,7 @@ const navItemVariants = cva(
   {
     variants: {
       focused: {
-        true: "bg-primary/10",
+        true: "bg-primary/20 dark:bg-primary/40",
       },
     },
     defaultVariants: {

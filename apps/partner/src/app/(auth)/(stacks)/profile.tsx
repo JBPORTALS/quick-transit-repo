@@ -4,13 +4,16 @@ import { Image } from "expo-image";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { StarIcon, StarsIcon } from "lucide-react-native";
 
+import { useColorsTheme } from "~/utils/constants";
+
 export default function Profile() {
   const { signOut } = useAuth();
   const { user } = useUser();
+  const colors = useColorsTheme();
 
   return (
-    <ScrollView className="h-full w-full bg-white">
-      <View className="h-full w-full gap-5 border-t border-slate-300  px-4 py-3">
+    <ScrollView className="h-full w-full bg-background">
+      <View className="h-full w-full gap-5 border-t border-border px-4 py-3">
         <View className="items-center gap-3">
           <Image
             source={
@@ -21,19 +24,23 @@ export default function Profile() {
               height: 130,
               width: 130,
               borderRadius: 99999,
-              borderColor: "#dddd",
+              borderColor: colors.border,
               borderWidth: 1,
             }}
           />
           <View className="items-center gap-2">
-            <Text className="text-2xl font-semibold">
+            <Text className="text-2xl font-semibold text-foreground">
               {user?.firstName} {user?.lastName ?? ""}
             </Text>
             <Text className="text-muted-foreground">Pick-Up Partner</Text>
             <View className="flex-row gap-3">
               <View className="flex-1 items-center gap-3 rounded-md border border-slate-200 bg-primary/10 p-5">
-                <Text className="text-lg">Average Ratings</Text>
-                <Text className="text-2xl font-bold">4</Text>
+                <Text className="text-lg text-card-foreground">
+                  Average Ratings
+                </Text>
+                <Text className="text-2xl font-bold text-card-foreground">
+                  4
+                </Text>
                 <View className="flex-row gap-2">
                   <StarIcon size={16} color="#FFD600" />
                   <StarIcon size={16} color="#FFD600" />
@@ -44,8 +51,12 @@ export default function Profile() {
               </View>
 
               <View className="flex-1 items-center gap-3 rounded-md border border-slate-200 bg-primary/10 p-5">
-                <Text className="text-lg">Packages Delivered</Text>
-                <Text className="text-3xl font-bold">50</Text>
+                <Text className="text-lg text-card-foreground">
+                  Packages Delivered
+                </Text>
+                <Text className="text-3xl font-bold text-card-foreground">
+                  50
+                </Text>
               </View>
             </View>
           </View>
@@ -58,7 +69,7 @@ export default function Profile() {
           .map((_, index) => (
             <View
               key={index}
-              className="gap-3 rounded-md border border-border/10 bg-white p-3 shadow-sm"
+              className="gap-3 rounded-md border border-border bg-card p-3 shadow-sm"
             >
               <View className="flex-row gap-3">
                 <Image
@@ -68,7 +79,9 @@ export default function Profile() {
                   style={{ height: 52, width: 52, borderRadius: 9999 }}
                 />
                 <View className="gap-1">
-                  <Text className="text-lg font-medium">Jevon Raynor</Text>
+                  <Text className="text-lg font-medium text-card-foreground">
+                    Jevon Raynor
+                  </Text>
                   <Text className="text-muted-foreground">A day ago</Text>
                 </View>
                 <View className="ml-auto flex-row gap-2">
@@ -79,7 +92,7 @@ export default function Profile() {
                   <StarIcon size={16} color="#DDDDDD" />
                 </View>
               </View>
-              <Text className="text-lg">
+              <Text className="text-lg text-card-foreground">
                 Magna id sint irure in cillum esse nisi dolor laboris ullamco.
                 Consectetur proident ...
               </Text>
