@@ -14,7 +14,7 @@ export default function AuthLayout() {
         headerTitleAlign: "center",
         headerShown: false,
       }}
-      initialRouteName="(stacks)/settings"
+      // initialRouteName="(stacks)/settings"
     >
       <Stack.Screen name="(tabs)" />
       <Stack.Screen
@@ -36,6 +36,14 @@ export default function AuthLayout() {
         options={{
           headerShown: true,
           title: "Profile Settings",
+        }}
+      />
+
+      <Stack.Screen
+        name="(stacks)/[packageId]"
+        options={{
+          headerShown: true,
+          title: "Package Details",
         }}
       />
     </Stack>

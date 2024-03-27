@@ -1,13 +1,17 @@
-import { Text, TouchableOpacity } from "react-native";
+import { cloneElement } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { cva, VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-  "flex items-center justify-center rounded-md px-4 py-3",
+  "flex-row items-center justify-center gap-3 rounded-md px-5 py-3",
   {
     variants: {
       variant: {
         primary: "bg-primary",
-        ghost: "broder-primary border bg-transparent",
+        ghost: "border border-border bg-transparent",
+      },
+      size: {
+        sm: "px-4 py-2",
       },
     },
     defaultVariants: {
@@ -22,6 +26,9 @@ const buttonTextVariants = cva("text-xl", {
       primary: "text-primary-foreground",
       ghost: "text-secondary-foreground",
     },
+    size: {
+      sm: "text-lg",
+    },
   },
   defaultVariants: {
     variant: "primary",
@@ -32,6 +39,8 @@ interface ButtonProps
   extends React.ComponentProps<typeof TouchableOpacity>,
     VariantProps<typeof buttonVariants> {
   textClassName?: string;
+  leftIcon?: React.ReactComponentElement<any>;
+  rightIcon?: React.ReactComponentElement<any>;
 }
 
 export default function Button({
@@ -39,18 +48,27 @@ export default function Button({
   className,
   variant,
   textClassName,
+  size,
+  leftIcon,
+  rightIcon,
   ...props
 }: ButtonProps) {
   return (
     <TouchableOpacity
-      className={buttonVariants({ className, variant })}
+      className={buttonVariants({ className, variant, size })}
       {...props}
     >
+      {leftIcon && <View>{cloneElement(leftIcon)}</View>}
       <Text
-        className={buttonTextVariants({ variant, className: textClassName })}
+        className={buttonTextVariants({
+          variant,
+          className: textClassName,
+          size,
+        })}
       >
         {children}
       </Text>
+      {rightIcon && <View>{cloneElement(rightIcon)}</View>}
     </TouchableOpacity>
   );
 }

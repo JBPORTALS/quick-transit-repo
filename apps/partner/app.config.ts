@@ -2,8 +2,8 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "expo",
-  slug: "expo",
+  name: "Quick Transitt",
+  slug: "quick-transitt",
   scheme: "expo",
   version: "0.1.0",
   orientation: "portrait",

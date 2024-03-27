@@ -26,13 +26,14 @@ export default function TabLayout() {
             borderBottomWidth: 1,
           },
           tabBarActiveTintColor: colors.primary,
-          headerTitle: (props) => {
-            return (
-              <Text className="text-2xl text-black">{props.children}</Text>
-            );
-          },
+          headerTitleStyle: { display: "none" },
           headerLeft: (props) => {
-            return <TruckIcon size={34} color={props.tintColor} />;
+            return (
+              <Image
+                source={require("assets/qt-logo.svg")}
+                style={{ height: 40, width: 40, objectFit: "contain" }}
+              />
+            );
           },
           headerRight: () => {
             return (
@@ -79,7 +80,7 @@ export default function TabLayout() {
           options={{
             title: "Notifications",
             tabBarBadge: "9+",
-            tabBarBadgeStyle: { backgroundColor: "dodgerblue" },
+            tabBarBadgeStyle: { backgroundColor: colors.primary },
             tabBarIcon: ({ color, focused }) => (
               <NavItem {...{ focused }}>
                 <BellIcon
