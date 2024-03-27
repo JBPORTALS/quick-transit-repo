@@ -1,5 +1,6 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Dimensions, Text, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { Link, Tabs } from "expo-router";
 import { useUser } from "@clerk/clerk-expo";
@@ -15,27 +16,23 @@ export default function TabLayout() {
   return (
     <Tabs
       sceneContainerStyle={{
-        backgroundColor: colors.background,
+        backgroundColor: colors.secondary,
       }}
       screenOptions={{
         tabBarShowLabel: false,
         headerTintColor: colors.primary,
         tabBarStyle: {
           height: 72,
-          backgroundColor: colors.secondary,
-          paddingBottom: 8,
+          backgroundColor: colors.background,
+          paddingBottom: 14,
         },
         headerShadowVisible: false,
         headerRightContainerStyle: { paddingRight: 14 },
         headerLeftContainerStyle: { paddingLeft: 14 },
-        headerBackgroundContainerStyle: {
-          borderBottomColor: colors.border,
-          borderBottomWidth: 1,
-        },
         headerStyle: {
           backgroundColor: colors.background,
         },
-        tabBarActiveTintColor: colors.secondaryForeground,
+        tabBarActiveTintColor: colors.foreground,
         headerTitleStyle: { display: "none" },
         headerLeft: (props) => {
           return (

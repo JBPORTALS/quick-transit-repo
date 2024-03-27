@@ -1,18 +1,16 @@
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
-import { useAuth, useUser } from "@clerk/clerk-expo";
-import { StarIcon, StarsIcon } from "lucide-react-native";
+import { useUser } from "@clerk/clerk-expo";
+import { StarIcon } from "lucide-react-native";
 
 import { useColorsTheme } from "~/utils/constants";
 
 export default function Profile() {
-  const { signOut } = useAuth();
   const { user } = useUser();
   const colors = useColorsTheme();
 
   return (
-    <ScrollView className="h-full w-full bg-background">
+    <ScrollView className="h-full w-full">
       <View className="h-full w-full gap-5 border-t border-border px-4 py-3">
         <View className="items-center gap-3">
           <Image
@@ -34,7 +32,7 @@ export default function Profile() {
             </Text>
             <Text className="text-muted-foreground">Pick-Up Partner</Text>
             <View className="flex-row gap-3">
-              <View className="flex-1 items-center gap-3 rounded-md border border-slate-200 bg-primary/10 p-5">
+              <View className="flex-1 items-center gap-3 rounded-md border border-border bg-card p-5 shadow-sm">
                 <Text className="text-lg text-card-foreground">
                   Average Ratings
                 </Text>
@@ -50,7 +48,7 @@ export default function Profile() {
                 </View>
               </View>
 
-              <View className="flex-1 items-center gap-3 rounded-md border border-slate-200 bg-primary/10 p-5">
+              <View className="flex-1 items-center gap-3 rounded-md border border-border bg-card p-5 shadow-sm">
                 <Text className="text-lg text-card-foreground">
                   Packages Delivered
                 </Text>
@@ -69,7 +67,7 @@ export default function Profile() {
           .map((_, index) => (
             <View
               key={index}
-              className="gap-3 rounded-md border border-border bg-card p-3 shadow-sm"
+              className="gap-3 rounded-md border border-border bg-card p-3"
             >
               <View className="flex-row gap-3">
                 <Image

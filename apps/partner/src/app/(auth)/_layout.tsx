@@ -19,10 +19,11 @@ export default function AuthLayout() {
         headerStyle: { backgroundColor: colors.card },
         headerTintColor: colors.foreground,
         contentStyle: {
-          backgroundColor: colors.background,
+          backgroundColor: colors.secondary,
         },
         animation: "ios",
         animationDuration: 100,
+        headerBackTitleVisible: false,
       }}
       // initialRouteName="(stacks)/settings"
     >

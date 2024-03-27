@@ -1,5 +1,12 @@
-import { cloneElement } from "react";
+import React, { cloneElement } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 import { cva, VariantProps } from "class-variance-authority";
 import { Loader2Icon } from "lucide-react-native";
 
@@ -60,6 +67,21 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const colors = useColorsTheme();
+  const rotation = useSharedValue(0);
+
+  React.useEffect(() => {
+    rotation.value = withRepeat(
+      withTiming(360, { duration: 700, easing: Easing.linear }),
+      -1,
+    );
+  }, []);
+
+  const style = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: `${rotation.value}deg` }],
+    };
+  });
+
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -69,13 +91,16 @@ export default function Button({
       {leftIcon && !isLoading && <View>{cloneElement(leftIcon)}</View>}
 
       {isLoading ? (
-        <Loader2Icon
-          size={24}
-          color={
-            variant == "primary" ? colors.primaryForeground : colors.foreground
-          }
-          className="animate-spin"
-        />
+        <Animated.View style={[style]}>
+          <Loader2Icon
+            size={24}
+            color={
+              variant == "primary"
+                ? colors.primaryForeground
+                : colors.foreground
+            }
+          />
+        </Animated.View>
       ) : (
         <Text
           className={buttonTextVariants({

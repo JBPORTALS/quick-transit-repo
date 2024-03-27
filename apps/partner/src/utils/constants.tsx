@@ -32,7 +32,7 @@ export const darkColors = {
   popoverForeground: "hsl(224 71.4% 4.1%)",
   primary: "hsl(263.4 70% 50.4%)",
   primaryForeground: "hsl(210 20% 98%)",
-  secondary: "hsl(215 27.9% 16.9%)",
+  secondary: "hsl(215 27.9% 6.9%)",
   secondaryForeground: "hsl(210 20% 98%)",
   muted: "hsl(215 27.9% 16.9%)",
   mutedForeground: "hsl(217.9 10.6% 64.9%)",

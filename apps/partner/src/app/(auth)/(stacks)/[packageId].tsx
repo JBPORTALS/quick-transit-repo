@@ -86,7 +86,13 @@ export default function Package() {
               source={
                 "https://gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200"
               }
-              style={{ height: 52, width: 52, borderRadius: 9999 }}
+              style={{
+                height: 52,
+                width: 52,
+                borderRadius: 9999,
+                borderColor: colors.border,
+                borderWidth: 1,
+              }}
             />
             <View className="gap-1">
               <Text className="text-lg font-medium text-card-foreground">
@@ -111,33 +117,36 @@ export default function Package() {
               title="Pick-Up Dilivery"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium text-card-foreground">
-                Pick-up Address
-              </Text>
-              <Text className="text-lg text-card-foreground">
-                #678, Magadi Road, Chintamani, Banglore 512 076
-              </Text>
-              <View className="relative overflow-hidden rounded-xl border border-border">
-                <MapView
-                  initialRegion={{
-                    latitude: 12,
-                    latitudeDelta: 12,
-                    longitude: 25,
-                    longitudeDelta: 21,
-                  }}
-                  loadingEnabled
-                  style={{ height: 250, borderRadius: 10 }}
-                />
-                <View className="absolute right-0 top-0 h-full w-full items-end bg-muted-foreground/30 p-3">
-                  <ExpandIcon size={24} color={colors.background} />
+              <View className="gap-3">
+                <Text className="text-lg font-medium text-card-foreground">
+                  Pick-up Address
+                </Text>
+                <Text className="text-lg text-card-foreground">
+                  #678, Magadi Road, Chintamani, Banglore 512 076
+                </Text>
+                <View className="relative overflow-hidden rounded-xl border border-border">
+                  <MapView
+                    initialRegion={{
+                      latitude: 12,
+                      latitudeDelta: 12,
+                      longitude: 25,
+                      longitudeDelta: 21,
+                    }}
+                    loadingEnabled
+                    style={{ height: 250, borderRadius: 10 }}
+                  />
+                  <View className="absolute right-0 top-0 h-full w-full items-end bg-muted-foreground/30 p-3">
+                    <ExpandIcon size={24} color={colors.background} />
+                  </View>
                 </View>
+                <Button>Continue</Button>
               </View>
-              <Button isLoading={false}>Continue</Button>
             </Accordion.Body>
           </Accordion.List>
 
           <Accordion.List>
             <Accordion.Header
+              disabled
               Icon={<ScrollTextIcon size={24} color={colors.primary} />}
               title="Generate Invoice"
             />
@@ -148,6 +157,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
+              disabled
               Icon={<BadgeIndianRupeeIcon size={24} color={colors.primary} />}
               title="Verify Payment"
             />
@@ -158,6 +168,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
+              disabled
               Icon={<CloudUploadIcon size={24} color={colors.primary} />}
               title="Upload Delivered Package Details"
             />
@@ -170,6 +181,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
+              disabled
               Icon={<PackageCheckIcon size={24} color={colors.primary} />}
               title="Complete Request"
             />
