@@ -16,37 +16,44 @@ import { useColorsTheme } from "~/utils/constants";
 const data = [
   {
     title: "RJS Questions Paer Bundle A and B together",
+    time: "11:00 AM - 12:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123",
+    time: "11:00 AM - 12:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123 dklfldjflkdjflkdjfkl",
+    time: "12:00 PM - 1:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123",
+    time: "3:00 PM - 4:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123",
+    time: "4:00 PM - 5:00 PM",
   },
   {
     title: "DSIT Questions Paper Box A 15CS123",
+    time: "5:00 PM - 6:00 PM",
   },
 ];
-
 export default function Home() {
   const { user } = useUser();
   const router = useRouter();
-  const colors = useColorsTheme();
 
   return (
     <ScrollView className="h-full">

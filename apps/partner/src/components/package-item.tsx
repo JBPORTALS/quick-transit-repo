@@ -7,7 +7,7 @@ import { useColorsTheme } from "~/utils/constants";
 
 interface PackageItemProps
   extends React.ComponentProps<typeof TouchableOpacity> {
-  data: { title: string };
+  data: { title: string; time: string };
 }
 
 export default function PackageItem({ data, ...props }: PackageItemProps) {
@@ -39,7 +39,7 @@ export default function PackageItem({ data, ...props }: PackageItemProps) {
         >
           {data.title}
         </Text>
-        <Text className="text-sm text-muted-foreground">11:00AM - 12:00PM</Text>
+        <Text className="text-sm text-muted-foreground">{data.time}</Text>
         <View
           className="flex-row items-center justify-center gap-1 rounded-full border border-border px-3 py-2"
           style={{ width: "auto" }}
