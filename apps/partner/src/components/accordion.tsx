@@ -57,7 +57,7 @@ interface AccordionBodyProps extends React.ComponentProps<typeof View> {}
 
 Accordion.Body = ({ children, ...props }: AccordionBodyProps) => {
   return (
-    <View className="gap-3 border-l border-primary/20 p-3 group-last:border-l-0">
+    <View className="gap-3 border-l border-primary/20 p-2 group-last:border-l-0">
       {children}
     </View>
   );
