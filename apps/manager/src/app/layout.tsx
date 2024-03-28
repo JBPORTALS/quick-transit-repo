@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-
+import Header from '@qt/ui/header'
 import { cn } from "@qt/ui";
 import { ThemeProvider, ThemeToggle } from "@qt/ui/theme";
 import { Toaster } from "@qt/ui/toast";
@@ -11,6 +11,7 @@ import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
+import Sidebar from "@qt/ui/sidebar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -52,10 +53,19 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TRPCReactProvider>{props.children}</TRPCReactProvider>
-            <div className="absolute bottom-4 right-4">
-              <ThemeToggle />
-            </div>
+            <TRPCReactProvider>
+              <div className="flex h-screen w-full">
+                <div className="h-full w-72 ">
+                  <div className="flex fixed border-r ">
+                    <Sidebar />
+                  </div>
+                </div>
+                <div className="w-full ">
+                  <Header />
+                  {props.children}
+                </div>
+              </div>
+            </TRPCReactProvider>
             <Toaster />
           </ThemeProvider>
         </ClerkProvider>
