@@ -4,7 +4,7 @@ import { cva, VariantProps } from "class-variance-authority";
 const navItemVariants = cva("flex items-center justify-center rounded-md p-3", {
   variants: {
     focused: {
-      true: "bg-primary/15",
+      true: "bg-primary/10",
     },
   },
   defaultVariants: {

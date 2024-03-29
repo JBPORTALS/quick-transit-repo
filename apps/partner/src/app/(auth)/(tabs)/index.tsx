@@ -58,22 +58,22 @@ export default function Home() {
   return (
     <ScrollView className="h-full">
       <View className="flex h-full gap-5 p-4">
-        <Text className="text-2xl font-bold text-foreground">
+        <Text className="text-xl font-bold text-foreground">
           Good Evening, {`${user?.firstName} ${user?.lastName ?? ""}`}
         </Text>
 
         <View className="flex flex-row justify-between gap-2">
-          <View className="flex flex-1 items-center justify-center rounded-md border-2 border-pink-300 bg-card p-7 shadow-md">
+          <View className="flex flex-1 items-center justify-center rounded-md border-2 border-slate-300 bg-card p-7 shadow-md dark:border-slate-800">
             <Text className="text-3xl font-bold text-card-foreground">12</Text>
             <Text className="text-lg text-muted-foreground">Pick-up</Text>
           </View>
 
-          <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-card p-7 shadow-md">
+          <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-card p-7 shadow-md dark:border-orange-800">
             <Text className="text-3xl font-bold text-card-foreground">32</Text>
             <Text className="text-lg text-muted-foreground">Shipping</Text>
           </View>
 
-          <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md">
+          <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md dark:border-green-800">
             <Text className="text-3xl font-bold text-card-foreground">333</Text>
             <Text className="text-lg text-muted-foreground">Dilivered</Text>
           </View>

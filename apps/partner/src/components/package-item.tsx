@@ -19,7 +19,7 @@ export default function PackageItem({ data, ...props }: PackageItemProps) {
       className="flex w-full flex-row gap-3 overflow-visible rounded-md border border-border bg-card p-4"
     >
       <Image
-        source={require("assets/box.png")}
+        source={require("assets/package-1.jpg")}
         style={{
           width: 100,
           height: "auto",
