@@ -57,6 +57,14 @@ export default function AuthLayout() {
           title: "Package Details",
         }}
       />
+
+      <Stack.Screen
+        name="(stacks)/invoices/new"
+        options={{
+          headerShown: true,
+          title: "Invoice",
+        }}
+      />
     </Stack>
   );
 }

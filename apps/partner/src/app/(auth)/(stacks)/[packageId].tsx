@@ -2,11 +2,13 @@ import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import PagerView from "react-native-pager-view";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import {
   ArrowUpRightFromCircle,
   BadgeIndianRupeeIcon,
   CloudUploadIcon,
   ExpandIcon,
+  LucideScrollText,
   PackageCheckIcon,
   PhoneCallIcon,
   ScrollTextIcon,
@@ -20,6 +22,7 @@ import { useColorsTheme } from "~/utils/constants";
 
 export default function Package() {
   const colors = useColorsTheme();
+  const router = useRouter();
   return (
     <ScrollView className="flex-1">
       <View className="h-fulll flex-1 gap-4 border-t border-border p-4">
@@ -179,12 +182,28 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<ScrollTextIcon size={24} color={colors.primary} />}
               title="Generate Invoice"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">Generate Invoice</Text>
+              <View className="gap-3">
+                <Text className="text-lg text-muted-foreground">
+                  This action will generate invoice that will be submitted to
+                  customer.
+                </Text>
+                <Button
+                  onPress={() => router.push("/invoices/new")}
+                  leftIcon={
+                    <LucideScrollText
+                      size={24}
+                      color={colors.primaryForeground}
+                    />
+                  }
+                >
+                  Create Invoice
+                </Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
 
