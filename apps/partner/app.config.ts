@@ -51,5 +51,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         fonts: ["node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf"],
       },
     ],
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera",
+        recordAudioAndroid: false,
+      },
+    ],
   ],
 });

@@ -6,13 +6,17 @@ import { useRouter } from "expo-router";
 import {
   ArrowUpRightFromCircle,
   BadgeIndianRupeeIcon,
+  BanknoteIcon,
+  CameraIcon,
   CloudUploadIcon,
   ExpandIcon,
   LucideScrollText,
   PackageCheckIcon,
   PhoneCallIcon,
+  QrCodeIcon,
   ScrollTextIcon,
   TruckIcon,
+  Wallet,
 } from "lucide-react-native";
 
 import { Accordion } from "~/components/accordion";
@@ -207,27 +211,86 @@ export default function Package() {
             </Accordion.Body>
           </Accordion.List>
 
+          {/* Verify Payment */}
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<BadgeIndianRupeeIcon size={24} color={colors.primary} />}
               title="Verify Payment"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">Verify Payment</Text>
+              <View className="gap-3">
+                <Text className="text-lg text-muted-foreground">
+                  If online method Generate QR code to complete payment process.
+                </Text>
+                <Button
+                  variant={"ghost"}
+                  leftIcon={<QrCodeIcon size={24} color={colors.foreground} />}
+                >
+                  Generate
+                </Button>
+                <View className="h-[1px] bg-border" />
+                <Button
+                  leftIcon={
+                    <Wallet size={24} color={colors.primaryForeground} />
+                  }
+                >
+                  On Cash
+                </Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
 
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<CloudUploadIcon size={24} color={colors.primary} />}
               title="Upload Delivered Package Details"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">
-                Upload Delivered Package Details
-              </Text>
+              <View className="h-fit gap-3">
+                <Text className="text-lg font-medium text-card-foreground">
+                  Dilivery Address
+                </Text>
+                <Text className="text-lg text-card-foreground">
+                  #678, Magadi Road, Chintamani, Banglore 512 076
+                </Text>
+                <View className="relative overflow-hidden rounded-xl border border-border">
+                  <MapView
+                    initialRegion={{
+                      latitude: 12,
+                      latitudeDelta: 12,
+                      longitude: 25,
+                      longitudeDelta: 21,
+                    }}
+                    loadingEnabled
+                    style={{ height: 250, borderRadius: 10 }}
+                  />
+                  <View className="absolute right-0 top-0 h-full w-full items-end bg-muted-foreground/30 p-3">
+                    <ExpandIcon size={24} color={colors.background} />
+                  </View>
+                </View>
+                <Text className="text-lg font-medium text-card-foreground">
+                  {"Package Tracking ID"}
+                </Text>
+                <Input
+                  textAlign="center"
+                  keyboardType="number-pad"
+                  placeholder="--- ---"
+                />
+
+                <Button
+                  onPress={() =>
+                    router.push("/(auth)/(stacks)/take-pic-reciept/camera")
+                  }
+                  variant={"ghost"}
+                  leftIcon={<CameraIcon size={24} color={colors.foreground} />}
+                >
+                  Take Pictures Of Reciept
+                </Button>
+                <View className="h-[1px] bg-border" />
+                <Button>Submit</Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
 

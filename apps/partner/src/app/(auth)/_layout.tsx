@@ -65,6 +65,14 @@ export default function AuthLayout() {
           title: "Invoice",
         }}
       />
+
+      <Stack.Screen
+        name="(stacks)/take-pic-reciept/camera"
+        options={{
+          headerShown: false,
+          title: "Camera",
+        }}
+      />
     </Stack>
   );
 }
