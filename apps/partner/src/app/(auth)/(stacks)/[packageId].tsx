@@ -130,7 +130,7 @@ export default function Package() {
           <Accordion.List>
             <Accordion.Header
               Icon={<TruckIcon size={24} color={colors.primary} />}
-              title="Pick-Up Dilivery"
+              title="Pick-Up The Package"
             />
             <Accordion.Body>
               <View className="gap-3">
