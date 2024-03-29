@@ -15,6 +15,7 @@ import {
 
 import { Accordion } from "~/components/accordion";
 import Button from "~/components/button";
+import Input from "~/components/input";
 import { useColorsTheme } from "~/utils/constants";
 
 export default function Package() {
@@ -95,7 +96,10 @@ export default function Package() {
             Pick-Up
           </Text>
         </View>
+
         <View className="h-[1px] bg-border" />
+
+        {/* Customer / Pick-Point Call Details : */}
         <View className="flex-row justify-between gap-3 rounded-lg border border-border bg-card p-3">
           <View className="flex-row gap-3">
             <Image
@@ -135,7 +139,7 @@ export default function Package() {
               title="Pick-Up The Package"
             />
             <Accordion.Body>
-              <View className="gap-3">
+              <View className="h-fit gap-3">
                 <Text className="text-lg font-medium text-card-foreground">
                   Pick-up Address
                 </Text>
@@ -157,6 +161,17 @@ export default function Package() {
                     <ExpandIcon size={24} color={colors.background} />
                   </View>
                 </View>
+                <Text className="text-lg font-medium text-card-foreground">
+                  {"One Time Password (OTP)"}
+                </Text>
+                <Input
+                  textAlign="center"
+                  keyboardType="number-pad"
+                  placeholder="--- ---"
+                />
+                <Text className="text-lg text-muted-foreground">
+                  {"Ask customer about their package OTP"}
+                </Text>
                 <Button>Continue</Button>
               </View>
             </Accordion.Body>
