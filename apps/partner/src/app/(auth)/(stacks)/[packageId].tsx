@@ -1,13 +1,12 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { ScrollView, Text, View } from "react-native";
+import MapView from "react-native-maps";
 import PagerView from "react-native-pager-view";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import {
-  ArrowUpRightFromCircle,
   BadgeIndianRupeeIcon,
-  BanknoteIcon,
   CameraIcon,
+  CheckIcon,
   CloudUploadIcon,
   ExpandIcon,
   LucideScrollText,
@@ -296,12 +295,24 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<PackageCheckIcon size={24} color={colors.primary} />}
               title="Complete Request"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">Complete Request</Text>
+              <View className="gap-3">
+                <Text className="text-lg text-muted-foreground">
+                  One click away to complete this request 🎉
+                </Text>
+                <View className="h-[1px] bg-border" />
+                <Button
+                  rightIcon={
+                    <CheckIcon size={24} color={colors.primaryForeground} />
+                  }
+                >
+                  Done
+                </Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
         </Accordion>
