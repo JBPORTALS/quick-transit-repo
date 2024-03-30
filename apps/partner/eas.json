@@ -22,7 +22,13 @@
       }
     },
     "production": {
-      "extends": "base"
+      "extends": "base",
+      "android": {
+        "image": "latest"
+      },
+      "ios": {
+        "image": "latest"
+      }
     }
   },
   "submit": {
