@@ -88,7 +88,7 @@ export default function TabLayout() {
         name="notifications"
         options={{
           title: "Notifications",
-          // tabBarBadge: "9+",
+          tabBarBadge: "9+",
           tabBarBadgeStyle: { backgroundColor: colors.primary },
           tabBarIcon: ({ color, focused }) => (
             <NavItem {...{ focused }}>
