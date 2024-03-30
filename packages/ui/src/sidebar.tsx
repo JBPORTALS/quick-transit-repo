@@ -1,64 +1,72 @@
-"use client"
-import NavItem from './nav-item'
-import { Bike, BoxIcon, LayoutDashboardIcon, Truck, UsersIcon, Wallet } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar"
-import { usePathname } from "next/navigation";
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Bike,
+  BoxIcon,
+  LayoutDashboardIcon,
+  Truck,
+  UsersIcon,
+  Wallet,
+} from "lucide-react";
 
-export default function Sidebar() {
-  const pathname = usePathname();
+import { cn } from "../lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+import NavItem, { NavItemProps } from "./nav-item";
+
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+export default function Sidebar({
+  children,
+  className,
+  ...props
+}: SidebarProps) {
   return (
-    <div className=' h-screen px-3 py-8 w-60 flex flex-col justify-between'>
-      <div className=' flex flex-col  gap-3'>
-        <h1 className='text-lg items-center flex justify-center gap-3  text-pink-700 font-bold'><Truck size={28} color="#a83287" />Quick Transitt</h1>
-        <h2 className='flex justify-center py-4 font-bold text-lg'>Manager</h2>
-
-
-        <NavItem isActive={pathname === "/"}>
-          <Link href={"/"} className='flex'>
-            <LayoutDashboardIcon className="mr-2 " /> Dashboard
-          </Link>
-        </NavItem>
-
-     
-        <NavItem isActive={pathname === "/requests"}>
-          <Link href={"/requests"} className='flex'>
-            <BoxIcon className="mr-2" /> Requests
-            </Link>
-          </NavItem>
-      
-    
-          <NavItem isActive={pathname === "/customers"}>
-          <Link href={"/customers"} className='flex'>
-            <UsersIcon className="mr-2" /> Customers
-            </Link>
-          </NavItem>
-
-       
-          <NavItem isActive={pathname === "/pickUp-partner"}>
-          <Link href={"/pickUp-partner"} className='flex'>
-            <Bike className="mr-2" /> PickUp Partners
-            </Link>
-          </NavItem>
-
-        
-          <NavItem isActive={pathname === "/payments"}>
-          <Link href={"/payments"} className='flex'>
-            <Wallet className="mr-2" /> Payments
-            </Link>
-          </NavItem>
-   
-      </div>
-      <div className=' flex justify-center gap-2'>
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <div>
-          <h1 className='font-semibold text-lg'><Link href={"/profile"}>Quick Transit</Link></h1>
-          <span>contact@iginsititution...</span>
-        </div>
-      </div>
+    <div
+      className={cn(
+        "flex h-full w-60 flex-col justify-between gap-6 px-3 py-8",
+        className,
+      )}
+    >
+      <header className="flex justify-center">
+        <h1 className="text-lg font-bold text-primary">Quick Transit</h1>
+      </header>
+      {children}
     </div>
-  )
+  );
 }
+
+interface SidebarLabelProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+
+export const SidebarLabel = ({
+  children,
+  className,
+  ...props
+}: SidebarLabelProps) => {
+  return (
+    <h2
+      className={cn("text-center text-lg font-semibold", className)}
+      {...props}
+    >
+      {children}
+    </h2>
+  );
+};
+
+interface SidebarBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const SidebarBody = ({
+  children,
+  className,
+  ...props
+}: SidebarBodyProps) => {
+  return (
+    <div className={cn("flex h-full flex-col gap-2", className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
+interface SidebarItemProps extends NavItemProps {}
+
+export const SidebarItem = (props: SidebarItemProps) => <NavItem {...props} />;

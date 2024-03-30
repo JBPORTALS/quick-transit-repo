@@ -60,7 +60,7 @@ export default function Profile() {
           </View>
         </View>
 
-        <Text className="text-xl font-bold">Reviews</Text>
+        <Text className="text-xl font-bold text-foreground">Reviews</Text>
 
         {Array(6)
           .fill(0)
