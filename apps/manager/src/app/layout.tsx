@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
-import Header from '@qt/ui/header'
+
 import { cn } from "@qt/ui";
 import Header from "@qt/ui/header";
 import { ThemeProvider, ThemeToggle } from "@qt/ui/theme";
@@ -12,7 +12,6 @@ import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
-import Sidebar from "@qt/ui/sidebar";
 
 import { LayoutGrid, Package2Icon } from "lucide-react";
 
