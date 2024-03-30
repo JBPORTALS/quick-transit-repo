@@ -1,7 +1,7 @@
 import { cva, VariantProps } from "class-variance-authority";
 
 const navItemVariants = cva(
-  "flex items-center rounded-sm px-3 py-2 text-lg text-accent-foreground",
+  "flex items-center gap-3 rounded-sm px-3 py-2 text-base text-accent-foreground",
   {
     variants: {
       isActive: {
@@ -11,7 +11,7 @@ const navItemVariants = cva(
   },
 );
 
-interface NavItemProps
+export interface NavItemProps
   extends React.HTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof navItemVariants> {}
 
