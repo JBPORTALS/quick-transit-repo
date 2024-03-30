@@ -75,7 +75,7 @@ export default function Home() {
 
           <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md dark:border-green-800">
             <Text className="text-3xl font-bold text-card-foreground">333</Text>
-            <Text className="text-lg text-muted-foreground">Dilivered</Text>
+            <Text className="text-lg text-muted-foreground">Delivered</Text>
           </View>
         </View>
 

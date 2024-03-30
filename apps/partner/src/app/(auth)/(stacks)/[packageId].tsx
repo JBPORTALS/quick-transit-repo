@@ -91,7 +91,7 @@ export default function Package() {
           <Text className="text-xl font-bold text-foreground">₹800</Text>
         </Text>
 
-        <StatusItem variant={"shipping"} />
+        <StatusItem variant={"delivered"} />
 
         <View className="h-[1px] bg-border" />
 
@@ -131,7 +131,7 @@ export default function Package() {
         <Accordion>
           <Accordion.List>
             <Accordion.Header
-              done
+              //done
               Icon={<TruckIcon size={24} color={colors.primary} />}
               title="Pick-Up The Package"
             />
@@ -176,7 +176,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              // done
+              //done
               Icon={<ScrollTextIcon size={24} color={colors.primary} />}
               title="Generate Invoice"
             />
@@ -204,7 +204,7 @@ export default function Package() {
           {/* Verify Payment */}
           <Accordion.List>
             <Accordion.Header
-              // disabled
+              //done
               Icon={<BadgeIndianRupeeIcon size={24} color={colors.primary} />}
               title="Verify Payment"
             />
@@ -233,7 +233,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              // disabled
+              //done
               Icon={<CloudUploadIcon size={24} color={colors.primary} />}
               title="Upload Delivered Package Details"
             />
@@ -286,7 +286,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              // disabled
+              //done
               Icon={<PackageCheckIcon size={24} color={colors.primary} />}
               title="Complete Request"
             />

@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import { ArrowUpRightFromCircle, TruckIcon } from "lucide-react-native";
 
 import { useColorsTheme } from "~/utils/constants";
+import StatusItem from "./status-item";
 
 interface PackageItemProps
   extends React.ComponentProps<typeof TouchableOpacity> {
@@ -40,18 +41,7 @@ export default function PackageItem({ data, ...props }: PackageItemProps) {
           {data.title}
         </Text>
         <Text className="text-sm text-muted-foreground">{data.time}</Text>
-        <View
-          className="flex-row items-center justify-center gap-1 rounded-full border border-border px-3 py-2"
-          style={{ width: "auto" }}
-        >
-          <ArrowUpRightFromCircle size={12} color={colors.mutedForeground} />
-          <Text
-            style={{ width: "auto" }}
-            className="text-xs font-bold text-muted-foreground"
-          >
-            Shipping
-          </Text>
-        </View>
+        <StatusItem size={"sm"} variant={"shipping"} />
       </View>
     </TouchableOpacity>
   );
