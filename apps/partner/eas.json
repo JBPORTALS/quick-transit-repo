@@ -18,7 +18,11 @@
       "extends": "base",
       "distribution": "internal",
       "ios": {
-        "simulator": true
+        "simulator": true,
+        "image": "latest"
+      },
+      "android": {
+        "image": "latest"
       }
     },
     "production": {
