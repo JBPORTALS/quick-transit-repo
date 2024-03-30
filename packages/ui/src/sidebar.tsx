@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -70,3 +71,4 @@ export const SidebarBody = ({
 interface SidebarItemProps extends NavItemProps {}
 
 export const SidebarItem = (props: SidebarItemProps) => <NavItem {...props} />;
+

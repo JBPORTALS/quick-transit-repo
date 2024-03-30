@@ -1,9 +1,8 @@
-import { IndianRupee, SlidersVertical } from "lucide-react";
-
-import Header from "@qt/ui/header";
-import Rightbar from "@qt/ui/rightbar";
 
 import { api } from "~/trpc/server";
+  import Header from "@qt/ui/header"
+  import Rightbar from "@qt/ui/rightbar"
+  import { IndianRupee, SlidersVertical } from "lucide-react";
 
 export default async function HomePage() {
   const posts = api.post.all();
