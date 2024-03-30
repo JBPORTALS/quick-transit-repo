@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import * as AuthSession from "expo-auth-session";
+import { Image } from "expo-image";
 import { useOAuth } from "@clerk/clerk-expo";
 
 import { useWarmUpBrowser } from "../hooks/useWarmUpBrowser";
@@ -34,7 +35,17 @@ const SignInWithGoogle = () => {
   }, []);
 
   return (
-    <Button className="mt-5 w-full" onPress={handleSignInWithGooglePress}>
+    <Button
+      variant={"ghost"}
+      className="mt-5 w-full"
+      leftIcon={
+        <Image
+          source={require("assets/google.svg")}
+          style={{ height: 24, width: 24 }}
+        />
+      }
+      onPress={handleSignInWithGooglePress}
+    >
       Continue with google
     </Button>
   );
