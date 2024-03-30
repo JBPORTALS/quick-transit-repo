@@ -14,7 +14,12 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { cx } from "class-variance-authority";
-import { ChevronDown, ChevronUp, LucideIcon } from "lucide-react-native";
+import {
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  LucideIcon,
+} from "lucide-react-native";
 
 import { useColorsTheme } from "~/utils/constants";
 
@@ -24,11 +29,13 @@ const AccordionContext = createContext<{
   style: {};
   // setLayoutHeight: React.Dispatch<React.SetStateAction<number>>;
   isOpened: boolean;
+  setOpened: (value: boolean) => void;
 }>({
   style: {},
   toggle: () => {},
   // setLayoutHeight: () => {},
   isOpened: false,
+  setOpened: () => {},
 });
 
 interface AccordionContextProviderProps {
@@ -62,8 +69,12 @@ const AccordionContextProvider = ({
     };
   });
 
+  const setOpened = (value: boolean) => {
+    setIsOpened(value);
+  };
+
   return (
-    <AccordionContext.Provider value={{ style, toggle, isOpened }}>
+    <AccordionContext.Provider value={{ style, toggle, isOpened, setOpened }}>
       {children}
     </AccordionContext.Provider>
   );
@@ -102,17 +113,32 @@ interface AccordionHeaderProps
   extends React.ComponentProps<typeof TouchableOpacity> {
   Icon: ReactComponentElement<LucideIcon>;
   title: string;
+  done?: boolean;
 }
 
-Accordion.Header = ({ Icon, title, ...props }: AccordionHeaderProps) => {
+Accordion.Header = ({
+  Icon,
+  title,
+  done,
+  disabled,
+  ...props
+}: AccordionHeaderProps) => {
   const colors = useColorsTheme();
-  const { toggle, isOpened } = useContext(AccordionContext);
+  const { toggle, isOpened, setOpened } = useContext(AccordionContext);
+
+  React.useEffect(() => {
+    if (disabled || done) {
+      setOpened(false);
+    }
+  }, [disabled, done]);
 
   return (
     <TouchableOpacity
       {...props}
       onPress={() => toggle()}
-      className="disabled:opacity-50"
+      disabled={done || disabled}
+      className="aria-disabled:opacity-50"
+      aria-disabled={disabled}
     >
       <View className="w-full flex-row items-center justify-between ">
         <View className="flex-row items-center gap-3">
@@ -121,13 +147,17 @@ Accordion.Header = ({ Icon, title, ...props }: AccordionHeaderProps) => {
           </View>
           <Text className="font-medium text-card-foreground">{title}</Text>
         </View>
-        <View className="items-center justify-center rounded-full border border-border p-1">
-          {isOpened ? (
-            <ChevronUp size={24} color={colors.accentForeground} />
-          ) : (
-            <ChevronDown size={24} color={colors.accentForeground} />
-          )}
-        </View>
+        {done ? (
+          <CheckCircle2 size={24} color={"green"} />
+        ) : (
+          <View className="items-center justify-center rounded-full border border-border p-1">
+            {isOpened ? (
+              <ChevronUp size={24} color={colors.accentForeground} />
+            ) : (
+              <ChevronDown size={24} color={colors.accentForeground} />
+            )}
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );

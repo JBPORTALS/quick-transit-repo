@@ -21,6 +21,7 @@ import {
 import { Accordion } from "~/components/accordion";
 import Button from "~/components/button";
 import Input from "~/components/input";
+import StatusItem from "~/components/status-item";
 import { useColorsTheme } from "~/utils/constants";
 
 export default function Package() {
@@ -90,18 +91,7 @@ export default function Package() {
           <Text className="text-xl font-bold text-foreground">₹800</Text>
         </Text>
 
-        <View
-          className=" flex-row items-center justify-center gap-2 rounded-full border-4 border-muted-foreground/10 bg-muted/20 px-3 py-4 shadow-sm"
-          style={{ width: "auto" }}
-        >
-          <TruckIcon size={20} color={colors.mutedForeground} />
-          <Text
-            style={{ width: "auto" }}
-            className="text-base font-bold text-muted-foreground"
-          >
-            Pick-Up
-          </Text>
-        </View>
+        <StatusItem variant={"shipping"} />
 
         <View className="h-[1px] bg-border" />
 
@@ -141,6 +131,7 @@ export default function Package() {
         <Accordion>
           <Accordion.List>
             <Accordion.Header
+              done
               Icon={<TruckIcon size={24} color={colors.primary} />}
               title="Pick-Up The Package"
             />
@@ -185,7 +176,7 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              // disabled
+              // done
               Icon={<ScrollTextIcon size={24} color={colors.primary} />}
               title="Generate Invoice"
             />
