@@ -34,11 +34,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor: "#FFFFFF",
     },
   },
-  // extra: {
-  //   eas: {
-  //     projectId: "your-eas-project-id",
-  //   },
-  // },
+  extra: {
+    eas: {
+      projectId: "b5c8bba1-5920-4163-b485-b0d5007004b0",
+    },
+  },
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,
