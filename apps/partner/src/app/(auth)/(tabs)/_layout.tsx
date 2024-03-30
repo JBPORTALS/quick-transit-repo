@@ -25,6 +25,7 @@ export default function TabLayout() {
           height: 72,
           backgroundColor: colors.background,
           paddingBottom: 14,
+          borderColor: colors.border,
         },
         headerShadowVisible: false,
         headerRightContainerStyle: { paddingRight: 14 },
@@ -32,7 +33,8 @@ export default function TabLayout() {
         headerStyle: {
           backgroundColor: colors.background,
         },
-        tabBarActiveTintColor: colors.foreground,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.foreground,
         headerTitleStyle: { display: "none" },
         headerLeft: (props) => {
           return (
@@ -86,7 +88,7 @@ export default function TabLayout() {
         name="notifications"
         options={{
           title: "Notifications",
-          tabBarBadge: "9+",
+          // tabBarBadge: "9+",
           tabBarBadgeStyle: { backgroundColor: colors.primary },
           tabBarIcon: ({ color, focused }) => (
             <NavItem {...{ focused }}>

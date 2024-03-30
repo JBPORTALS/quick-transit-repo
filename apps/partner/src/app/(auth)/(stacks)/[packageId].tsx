@@ -28,6 +28,8 @@ export default function Package() {
             borderRadius: 10,
             overflow: "hidden",
             width: "auto",
+            borderWidth: 1,
+            borderColor: colors.border,
           }}
         >
           <PagerView
@@ -44,7 +46,7 @@ export default function Package() {
               key="1"
             >
               <Image
-                source={require("assets/box.png")}
+                source={require("assets/package-1.jpg")}
                 style={{ height: 240, width: 360 }}
                 priority={"high"}
                 transition={200}
@@ -59,7 +61,7 @@ export default function Package() {
               key="2"
             >
               <Image
-                source={require("assets/box.png")}
+                source={require("assets/package-2.jpg")}
                 style={{ height: 240, width: 360 }}
                 priority={"high"}
                 transition={200}
@@ -93,7 +95,7 @@ export default function Package() {
             Pick-Up
           </Text>
         </View>
-
+        <View className="h-[1px] bg-border" />
         <View className="flex-row justify-between gap-3 rounded-lg border border-border bg-card p-3">
           <View className="flex-row gap-3">
             <Image
@@ -130,7 +132,7 @@ export default function Package() {
           <Accordion.List>
             <Accordion.Header
               Icon={<TruckIcon size={24} color={colors.primary} />}
-              title="Pick-Up Dilivery"
+              title="Pick-Up The Package"
             />
             <Accordion.Body>
               <View className="gap-3">
