@@ -39,6 +39,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: "b5c8bba1-5920-4163-b485-b0d5007004b0",
     },
   },
+  owner: "jbsolutionsblr",
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,
