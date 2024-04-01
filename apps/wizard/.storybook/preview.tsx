@@ -1,20 +1,15 @@
+"use client";
+
 import type { Decorator, Preview } from "@storybook/react";
 import React from "react";
 
 import "../src/app/globals.css";
 
-import { Poppins } from "next/font/google";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
-
 const withPoppinsFont: Decorator = (Story) => (
-  <div className={poppins.className}>
+  <main className={"font-poppins"}>
     {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
     <Story />
-  </div>
+  </main>
 );
 
 const preview: Preview = {
@@ -26,7 +21,7 @@ const preview: Preview = {
       },
     },
   },
-  // decorators: [withPoppinsFont],
+  decorators: [withPoppinsFont],
 };
 
 export default preview;
