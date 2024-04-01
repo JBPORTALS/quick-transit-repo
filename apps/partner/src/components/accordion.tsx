@@ -112,7 +112,7 @@ Accordion.Header = ({ Icon, title, ...props }: AccordionHeaderProps) => {
     <TouchableOpacity
       {...props}
       onPress={() => toggle()}
-      className="disabled:opacity-60"
+      className="disabled:opacity-50"
     >
       <View className="w-full flex-row items-center justify-between ">
         <View className="flex-row items-center gap-3">

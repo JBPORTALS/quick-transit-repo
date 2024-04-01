@@ -242,6 +242,9 @@ importers:
       expo-auth-session:
         specifier: ^5.4.0
         version: 5.4.0(expo@50.0.7)
+      expo-camera:
+        specifier: ~14.1.1
+        version: 14.1.1(expo@50.0.7)
       expo-constants:
         specifier: ~15.4.5
         version: 15.4.5(expo@50.0.7)
@@ -9896,6 +9899,15 @@ packages:
       - supports-color
     dev: false
 
+  /expo-camera@14.1.1(expo@50.0.7):
+    resolution: {integrity: sha512-ANxQYy2P9qXxRoLWs7Gs3y7NM7OpYr7Q1H6kmQwJxHjjuJSc2qhwhY10I138d0fzB0h0p8NF1ezqIrqWct5AvQ==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.7(@babel/core@7.23.9)(@react-native/babel-preset@0.73.21)
+      invariant: 2.2.4
+    dev: false
+
   /expo-constants@15.4.5(expo@50.0.7):
     resolution: {integrity: sha512-1pVVjwk733hbbIjtQcvUFCme540v4gFemdNlaxM2UXKbfRCOh2hzgKN5joHMOysoXQe736TTUrRj7UaZI5Yyhg==}
     peerDependencies:
@@ -12255,6 +12267,7 @@ packages:
 
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
     dependencies:
       js-tokens: 4.0.0
 

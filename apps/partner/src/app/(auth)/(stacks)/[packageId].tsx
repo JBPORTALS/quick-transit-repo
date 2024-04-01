@@ -1,24 +1,31 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { ScrollView, Text, View } from "react-native";
+import MapView from "react-native-maps";
 import PagerView from "react-native-pager-view";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import {
-  ArrowUpRightFromCircle,
   BadgeIndianRupeeIcon,
+  CameraIcon,
+  CheckIcon,
   CloudUploadIcon,
   ExpandIcon,
+  LucideScrollText,
   PackageCheckIcon,
   PhoneCallIcon,
+  QrCodeIcon,
   ScrollTextIcon,
   TruckIcon,
+  Wallet,
 } from "lucide-react-native";
 
 import { Accordion } from "~/components/accordion";
 import Button from "~/components/button";
+import Input from "~/components/input";
 import { useColorsTheme } from "~/utils/constants";
 
 export default function Package() {
   const colors = useColorsTheme();
+  const router = useRouter();
   return (
     <ScrollView className="flex-1">
       <View className="h-fulll flex-1 gap-4 border-t border-border p-4">
@@ -28,6 +35,8 @@ export default function Package() {
             borderRadius: 10,
             overflow: "hidden",
             width: "auto",
+            borderWidth: 1,
+            borderColor: colors.border,
           }}
         >
           <PagerView
@@ -44,7 +53,7 @@ export default function Package() {
               key="1"
             >
               <Image
-                source={require("assets/box.png")}
+                source={require("assets/package-1.jpg")}
                 style={{ height: 240, width: 360 }}
                 priority={"high"}
                 transition={200}
@@ -59,7 +68,7 @@ export default function Package() {
               key="2"
             >
               <Image
-                source={require("assets/box.png")}
+                source={require("assets/package-2.jpg")}
                 style={{ height: 240, width: 360 }}
                 priority={"high"}
                 transition={200}
@@ -94,6 +103,9 @@ export default function Package() {
           </Text>
         </View>
 
+        <View className="h-[1px] bg-border" />
+
+        {/* Customer / Pick-Point Call Details : */}
         <View className="flex-row justify-between gap-3 rounded-lg border border-border bg-card p-3">
           <View className="flex-row gap-3">
             <Image
@@ -130,10 +142,10 @@ export default function Package() {
           <Accordion.List>
             <Accordion.Header
               Icon={<TruckIcon size={24} color={colors.primary} />}
-              title="Pick-Up Dilivery"
+              title="Pick-Up The Package"
             />
             <Accordion.Body>
-              <View className="gap-3">
+              <View className="h-fit gap-3">
                 <Text className="text-lg font-medium text-card-foreground">
                   Pick-up Address
                 </Text>
@@ -155,6 +167,17 @@ export default function Package() {
                     <ExpandIcon size={24} color={colors.background} />
                   </View>
                 </View>
+                <Text className="text-lg font-medium text-card-foreground">
+                  {"One Time Password (OTP)"}
+                </Text>
+                <Input
+                  textAlign="center"
+                  keyboardType="number-pad"
+                  placeholder="--- ---"
+                />
+                <Text className="text-lg text-muted-foreground">
+                  {"Ask customer about their package OTP"}
+                </Text>
                 <Button>Continue</Button>
               </View>
             </Accordion.Body>
@@ -162,47 +185,134 @@ export default function Package() {
 
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<ScrollTextIcon size={24} color={colors.primary} />}
               title="Generate Invoice"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">Generate Invoice</Text>
+              <View className="gap-3">
+                <Text className="text-lg text-muted-foreground">
+                  This action will generate invoice that will be submitted to
+                  customer.
+                </Text>
+                <Button
+                  onPress={() => router.push("/invoices/new")}
+                  leftIcon={
+                    <LucideScrollText
+                      size={24}
+                      color={colors.primaryForeground}
+                    />
+                  }
+                >
+                  Create Invoice
+                </Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
 
+          {/* Verify Payment */}
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<BadgeIndianRupeeIcon size={24} color={colors.primary} />}
               title="Verify Payment"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">Verify Payment</Text>
+              <View className="gap-3">
+                <Text className="text-lg text-muted-foreground">
+                  If online method Generate QR code to complete payment process.
+                </Text>
+                <Button
+                  variant={"ghost"}
+                  leftIcon={<QrCodeIcon size={24} color={colors.foreground} />}
+                >
+                  Generate
+                </Button>
+                <View className="h-[1px] bg-border" />
+                <Button
+                  leftIcon={
+                    <Wallet size={24} color={colors.primaryForeground} />
+                  }
+                >
+                  On Cash
+                </Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
 
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<CloudUploadIcon size={24} color={colors.primary} />}
               title="Upload Delivered Package Details"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">
-                Upload Delivered Package Details
-              </Text>
+              <View className="h-fit gap-3">
+                <Text className="text-lg font-medium text-card-foreground">
+                  Dilivery Address
+                </Text>
+                <Text className="text-lg text-card-foreground">
+                  #678, Magadi Road, Chintamani, Banglore 512 076
+                </Text>
+                <View className="relative overflow-hidden rounded-xl border border-border">
+                  <MapView
+                    initialRegion={{
+                      latitude: 12,
+                      latitudeDelta: 12,
+                      longitude: 25,
+                      longitudeDelta: 21,
+                    }}
+                    loadingEnabled
+                    style={{ height: 250, borderRadius: 10 }}
+                  />
+                  <View className="absolute right-0 top-0 h-full w-full items-end bg-muted-foreground/30 p-3">
+                    <ExpandIcon size={24} color={colors.background} />
+                  </View>
+                </View>
+                <Text className="text-lg font-medium text-card-foreground">
+                  {"Package Tracking ID"}
+                </Text>
+                <Input
+                  textAlign="center"
+                  keyboardType="number-pad"
+                  placeholder="--- ---"
+                />
+
+                <Button
+                  onPress={() =>
+                    router.push("/(auth)/(stacks)/take-pic-reciept/camera")
+                  }
+                  variant={"ghost"}
+                  leftIcon={<CameraIcon size={24} color={colors.foreground} />}
+                >
+                  Take Pictures Of Reciept
+                </Button>
+                <View className="h-[1px] bg-border" />
+                <Button>Submit</Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
 
           <Accordion.List>
             <Accordion.Header
-              disabled
+              // disabled
               Icon={<PackageCheckIcon size={24} color={colors.primary} />}
               title="Complete Request"
             />
             <Accordion.Body>
-              <Text className="text-lg font-medium">Complete Request</Text>
+              <View className="gap-3">
+                <Text className="text-lg text-muted-foreground">
+                  One click away to complete this request 🎉
+                </Text>
+                <View className="h-[1px] bg-border" />
+                <Button
+                  rightIcon={
+                    <CheckIcon size={24} color={colors.primaryForeground} />
+                  }
+                >
+                  Done
+                </Button>
+              </View>
             </Accordion.Body>
           </Accordion.List>
         </Accordion>

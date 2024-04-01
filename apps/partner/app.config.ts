@@ -15,6 +15,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     backgroundColor: "#FFFFFF",
     dark: {
       backgroundColor: "#000000",
+      image: "./assets/splash-screen.png",
+      resizeMode: "contain",
     },
   },
   updates: {
@@ -47,6 +49,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "expo-font",
       {
         fonts: ["node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf"],
+      },
+    ],
+    [
+      "expo-camera",
+      {
+        cameraPermission: "Allow $(PRODUCT_NAME) to access your camera",
+        recordAudioAndroid: false,
       },
     ],
   ],
