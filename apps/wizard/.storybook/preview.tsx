@@ -26,7 +26,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [withPoppinsFont],
+  // decorators: [withPoppinsFont],
 };
 
 export default preview;
