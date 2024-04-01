@@ -28,7 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     supportsTablet: true,
   },
   android: {
-    package: "your.bundle.identifier",
+    package: "com.quicktranistt",
     adaptiveIcon: {
       foregroundImage: "./assets/splash-screen.png",
       backgroundColor: "#FFFFFF",
@@ -46,12 +46,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   plugins: [
     "expo-router",
-    [
-      "expo-font",
-      {
-        fonts: ["node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf"],
-      },
-    ],
     [
       "expo-camera",
       {
