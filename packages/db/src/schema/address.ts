@@ -6,7 +6,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
-export const addressess = pgTable("addressess", {
+export const address = pgTable("address", {
     id: uuid("id").notNull().primaryKey(),
     name: text("name"),
     phone_number: integer("phone_number").notNull(),

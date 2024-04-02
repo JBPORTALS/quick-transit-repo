@@ -2,7 +2,6 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 
-import { addressess } from "./schema/addressess";
 import { bill_details } from "./schema/bill_details";
 import { categories } from "./schema/categories";
 import { users } from "./schema/users";
@@ -12,8 +11,9 @@ import { packages } from "./schema/packages";
 import { notification } from "./schema/notification";
 import { requests } from "./schema/request";
 import { post } from "./schema/post";
+import { address } from "./schema/address";
 
-export const schema = {...post, ...addressess, ...bill_details ,...categories , ...users , ...reviews , ...packages_images , ...packages , ...notification , ...requests };
+export const schema = {...post,  ...address,...bill_details ,...categories , ...users , ...reviews , ...packages_images , ...packages , ...notification , ...requests };
 
 export { pgTable as tableCreator } from "./schema/_table";
 
