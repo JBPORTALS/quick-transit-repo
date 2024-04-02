@@ -1,13 +1,4 @@
-import { relations, sql } from "drizzle-orm";
-import {
-  index,
-  integer,
-  primaryKey,
-  text,
-  timestamp,
-  uuid,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { integer, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 
 import { pgTable } from "./_table";
 
