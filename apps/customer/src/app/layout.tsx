@@ -84,19 +84,6 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                 </div>
               </div>
             </TRPCReactProvider>
-            <TRPCReactProvider>
-              <div className="flex h-screen w-full">
-                <div className="h-full w-72 ">
-                  <div className="fixed flex border-r ">
-                    <Sidebar />
-                  </div>
-                </div>
-                <div className="w-full">
-                  <Header />
-                  {props.children}
-                </div>
-              </div>
-            </TRPCReactProvider>
             <Toaster />
           </ThemeProvider>
         </ClerkProvider>

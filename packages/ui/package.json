@@ -23,7 +23,9 @@
     "./orderDetails":"./src/orderDetails.tsx",
     "./searchBar":"./src/searchBar.tsx",
     "./request":"./src/request.tsx",
-    "./stack":"./src/stack.tsx"
+    "./stack":"./src/stack.tsx",
+    "./imagePlaceholder":"./src/imagePlaceholder.tsx",
+    "./packageForm":"./src/packageForm.tsx"
   },
   "license": "MIT",
   "scripts": {
