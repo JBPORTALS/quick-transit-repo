@@ -21,7 +21,9 @@
     "./table":"./src/table.tsx",
     "./dropdown-menu":"./src/dropdown-menu.tsx",
     "./orderDetails":"./src/orderDetails.tsx",
-    "./searchBar":"./src/searchBar.tsx"
+    "./searchBar":"./src/searchBar.tsx",
+    "./request":"./src/request.tsx",
+    "./stack":"./src/stack.tsx"
   },
   "license": "MIT",
   "scripts": {
