@@ -12,3 +12,6 @@ export const post = pgTable("post", {
     .notNull(),
   updatedAt: timestamp("updatedAt"),
 });
+
+
+
