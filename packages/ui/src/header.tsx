@@ -1,15 +1,47 @@
-import { BellRing } from 'lucide-react'
-import React from 'react'
+import React from "react";
+import { BellRing } from "lucide-react";
 
-export default function Header() {
-    return (
-        <div className=" h-15 border-b flex justify-between items-center text-lg font-semibold px-10 py-2">
-            <div>
-                Dashboard
-            </div>
-            <div className="border rounded-full p-2">
-            <BellRing size={15} />
-            </div>
-        </div>
-    )
-}
+import { cn } from "../lib/utils";
+
+interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const Header = ({ children, className, ...props }: HeaderProps) => {
+  return (
+    <div
+      className={cn(
+        "h-15 flex w-full items-center justify-between border-b bg-background px-10 py-3 text-lg font-semibold",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
+interface HeaderTitleProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const HeaderTitle = ({
+  children,
+  className,
+  ...props
+}: HeaderTitleProps) => {
+  return (
+    <h2 className={cn("font-bold", className)} {...props}>
+      {children}
+    </h2>
+  );
+};
+
+interface HeaderRightProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const HeaderRight = ({
+  children,
+  className,
+  ...props
+}: HeaderRightProps) => {
+  return (
+    <div className={cn("ml-auto", className)} {...props}>
+      {children}
+    </div>
+  );
+};

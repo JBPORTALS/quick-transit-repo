@@ -8,6 +8,6 @@
     "plugins": [{ "name": "next" }],
     "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
   },
-  "include": [".", ".next/types/**/*.ts"],
+  "include": [".", ".next/types/**/*.ts", "src/stories/**/*.stories.tsx"],
   "exclude": ["node_modules"]
 }
