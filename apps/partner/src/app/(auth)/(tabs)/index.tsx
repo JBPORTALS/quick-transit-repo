@@ -9,8 +9,10 @@ import { Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { FlashList } from "@shopify/flash-list";
+import { TruckIcon } from "lucide-react-native";
 
 import PackageItem from "~/components/package-item";
+import StatsCard from "~/components/stats-card";
 import { useColorsTheme } from "~/utils/constants";
 
 const data = [
@@ -54,6 +56,7 @@ const data = [
 export default function Home() {
   const { user } = useUser();
   const router = useRouter();
+  const colors = useColorsTheme();
 
   return (
     <ScrollView className="h-full">
@@ -63,20 +66,9 @@ export default function Home() {
         </Text>
 
         <View className="flex flex-row justify-between gap-2">
-          <View className="flex flex-1 items-center justify-center rounded-md border-2 border-slate-300 bg-card p-7 shadow-md dark:border-slate-800">
-            <Text className="text-3xl font-bold text-card-foreground">12</Text>
-            <Text className="text-lg text-muted-foreground">Pick-up</Text>
-          </View>
-
-          <View className="borde-2 flex items-center justify-center rounded-md border-2 border-orange-300 bg-card p-7 shadow-md dark:border-orange-800">
-            <Text className="text-3xl font-bold text-card-foreground">32</Text>
-            <Text className="text-lg text-muted-foreground">Shipping</Text>
-          </View>
-
-          <View className="flex items-center justify-center rounded-md border-2 border-green-300 bg-card p-7 shadow-md dark:border-green-800">
-            <Text className="text-3xl font-bold text-card-foreground">333</Text>
-            <Text className="text-lg text-muted-foreground">Delivered</Text>
-          </View>
+          <StatsCard stats={20} />
+          <StatsCard variant={"shipping"} stats={4} />
+          <StatsCard variant={"delivered"} stats={35} />
         </View>
 
         <Text className="text-xl font-semibold text-foreground">
