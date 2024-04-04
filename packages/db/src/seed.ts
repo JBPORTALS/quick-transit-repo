@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 import { db } from ".";
+import { notification } from "./schema/notification";
 import { requests } from "./schema/request";
 import { users } from "./schema/users";
 
@@ -17,23 +18,25 @@ async function main() {
 
   const usersData = await db.select().from(users);
 
-  usersData.map(async (user) => {
-    for (let i = 0; i < 5; i++) {
-      await db.insert(requests).values({
-        image_of_receipt: faker.image.url(),
-        invoice_img: faker.image.url(),
-        status: faker.helpers.arrayElement(["pending", "approved", "rejected"]),
-        partner_id: user.id,
-        sub_status: faker.helpers.arrayElement([
-          "complete request",
-          "complete ",
-        ]),
-      });
-    }
-  });
+  await Promise.all(
+    usersData.map(async (user) => {
+      for (let i = 0; i < 5; i++) {
+        await db.insert(notification).values({
+          sub_text: faker.lorem.lines(1),
+          text: faker.lorem.word(),
+          type: faker.helpers.arrayElement([
+            "delivery",
+            "package_assign",
+            "package_rise",
+          ]),
+          user_id: user.id,
+        });
+      }
+    }),
+  );
 }
 
 main()
   .then(() => console.log("Data has been seed ✅"))
-  .catch(() => console.log("Something went wrong ❌"))
+  .catch((e) => console.log("Something went wrong ❌", e))
   .finally(() => process.exit(0));
