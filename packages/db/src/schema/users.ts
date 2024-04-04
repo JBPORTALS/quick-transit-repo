@@ -17,4 +17,3 @@ import {
       created_at:timestamp ("created_at").defaultNow(),
     
     });
-

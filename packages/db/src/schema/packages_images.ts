@@ -1,4 +1,3 @@
-
 import {
     text,
     uuid,
@@ -13,3 +12,4 @@ export const packages_images = pgTable("packages_images", {
     package_id:uuid("id").primaryKey().defaultRandom(),
     image_url: text("image_url"),
 });
+

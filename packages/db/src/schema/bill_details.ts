@@ -13,3 +13,4 @@ export const bill_details = pgTable("bill_details", {
     gst_charges: integer("gst_charges").notNull(),
     created_at:timestamp ("created_at").defaultNow(),
 });
+

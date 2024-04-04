@@ -15,5 +15,3 @@ export const notification = pgTable("notification", {
     sub_text:text("sub_text").notNull(),
     type: text("type").$type< "delivery"  | "package_assign"| "package_rise">().notNull(),
   });
-
-  

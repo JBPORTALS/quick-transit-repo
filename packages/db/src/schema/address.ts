@@ -17,3 +17,4 @@ export const address = pgTable("address", {
     type: text("type").$type< "delivery"  | "package"| "franchise">().notNull(),
 });
 
+

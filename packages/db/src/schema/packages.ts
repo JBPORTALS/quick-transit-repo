@@ -1,7 +1,5 @@
 
 import {
-  
-    
     text,
     timestamp,
     uuid,
@@ -32,3 +30,4 @@ export const packages = pgTable("packages", {
     bill_id:uuid("bill_id").defaultRandom().references(()=>bill_details.id,{onDelete:"cascade",onUpdate:"no action"}),
     customer_id: uuid(" customer_id").defaultRandom().references(()=>users.id,{onDelete:"cascade",onUpdate:"no action"}),
   });
+

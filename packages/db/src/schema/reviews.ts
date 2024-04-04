@@ -18,6 +18,5 @@ import { requests } from "./request";
     text:text("text").notNull(),
     ratings:integer("ratings"),
     created_at:timestamp ("created_at").defaultNow(),
-  
   });
 
