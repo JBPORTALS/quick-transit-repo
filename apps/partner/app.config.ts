@@ -9,16 +9,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
-  splash: {
-    image: "./assets/splash-screen.png",
-    resizeMode: "contain",
-    backgroundColor: "#FFFFFF",
-    dark: {
-      backgroundColor: "#000000",
-      image: "./assets/splash-screen.png",
-      resizeMode: "contain",
-    },
-  },
   updates: {
     fallbackToCacheTimeout: 0,
   },
@@ -32,6 +22,18 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     adaptiveIcon: {
       foregroundImage: "./assets/icon.png",
       backgroundColor: "#FFFFFF",
+    },
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "automatic",
+    splash: {
+      image: "./assets/splash-screen.png",
+      resizeMode: "contain",
+      backgroundColor: "#FFFFFF",
+      dark: {
+        image: "./assets/splash-screen.png",
+        resizeMode: "contain",
+        backgroundColor: "hsl(224 71.4% 4.1%)",
+      },
     },
   },
   extra: {
