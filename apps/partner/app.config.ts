@@ -24,22 +24,22 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: "your.bundle.identifier",
+    bundleIdentifier: "com.jbportalsblr.quicktransitt",
     supportsTablet: true,
   },
   android: {
-    package: "com.quicktranistt",
+    package: "com.jbportalsblr.quicktransitt",
     adaptiveIcon: {
-      foregroundImage: "./assets/splash-screen.png",
+      foregroundImage: "./assets/icon.png",
       backgroundColor: "#FFFFFF",
     },
   },
   extra: {
     eas: {
-      projectId: "b5c8bba1-5920-4163-b485-b0d5007004b0",
+      projectId: "2ed4fed3-b4e8-49b9-91ea-b0a8b9ec6a2f",
     },
   },
-  owner: "jbsolutionsblr",
+  owner: "jb_portals",
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,

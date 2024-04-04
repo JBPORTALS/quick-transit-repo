@@ -19,10 +19,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <SafeAreaProvider>
-      <View className="flex h-full w-full" onLayout={onLayoutRootView}>
-        {children}
-      </View>
+    <SafeAreaProvider onLayout={onLayoutRootView}>
+      <View className="flex h-full w-full">{children}</View>
     </SafeAreaProvider>
   );
 }
