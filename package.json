@@ -10,6 +10,7 @@
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
     "db:push": "pnpm -F db push",
+    "db:seed": "pnpm -F db seed",
     "db:studio": "pnpm -F db studio",
     "dev": "turbo dev --parallel",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
@@ -21,6 +22,7 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@qt/prettier-config": "workspace:^0.1.0",
     "@turbo/gen": "^1.12.4",
     "prettier": "^3.2.5",
@@ -29,6 +31,8 @@
   },
   "prettier": "@qt/prettier-config",
   "dependencies": {
-    "@clerk/nextjs": "^4.29.9"
+    "@clerk/nextjs": "^4.29.9",
+    "dotenv": "^16.4.5",
+    "faker": "^6.6.6"
   }
 }
