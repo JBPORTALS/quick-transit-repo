@@ -1,19 +1,29 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-
+import { address } from "./schema/address";
 import { bill_details } from "./schema/bill_details";
 import { categories } from "./schema/categories";
-import { users } from "./schema/users";
-import { reviews } from "./schema/reviews";
-import { packages_images } from "./schema/packages_images";
-import { packages } from "./schema/packages";
 import { notification } from "./schema/notification";
-import { requests } from "./schema/request";
+import { packages } from "./schema/packages";
+import { packages_images } from "./schema/packages_images";
 import { post } from "./schema/post";
-import { address } from "./schema/address";
+import { requests } from "./schema/request";
+import { reviews } from "./schema/reviews";
+import { users } from "./schema/users";
 
-export const schema = {...post,  ...address,...bill_details ,...categories , ...users , ...reviews , ...packages_images , ...packages , ...notification , ...requests };
+export const schema = {
+  ...post,
+  ...address,
+  ...bill_details,
+  ...categories,
+  ...users,
+  ...reviews,
+  ...packages_images,
+  ...packages,
+  ...notification,
+  ...requests,
+};
 
 export { pgTable as tableCreator } from "./schema/_table";
 
