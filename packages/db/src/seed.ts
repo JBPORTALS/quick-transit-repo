@@ -8,6 +8,7 @@ import { users } from "./schema/users";
 async function main() {
   await db.delete(users);
 
+  console.log("Seeding into `users` 🌱...");
   for (let i = 0; i < 10; i++) {
     await db.insert(users).values({
       name: faker.person.fullName(),
@@ -18,6 +19,7 @@ async function main() {
 
   const usersData = await db.select().from(users);
 
+  console.log("Seeding into `notification` 🌱...");
   await Promise.all(
     usersData.map(async (user) => {
       for (let i = 0; i < 5; i++) {
