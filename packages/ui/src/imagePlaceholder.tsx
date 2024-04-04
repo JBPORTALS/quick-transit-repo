@@ -1,6 +1,6 @@
 "use client"
 import { Image } from 'lucide-react';
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 
 const ImageUploader = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -60,7 +60,6 @@ const ImageUploader = () => {
           ref={fileInputRef}
           type="file"
           className="hidden"
-          placeholder='add me'
           onChange={handleFileInputChange}
         />
       </div>

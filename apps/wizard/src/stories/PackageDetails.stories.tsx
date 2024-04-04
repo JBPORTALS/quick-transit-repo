@@ -1,21 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import PackageForm from "@qt/ui/packageForm";
-import ImageUploader from "@qt/ui/imagePlaceholder";
-import { HStack, VStack } from "@qt/ui/stack";
+import PackageDetails from "@qt/ui/packageDetails";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: "UI/NewPackageForm",
+  title: "UI/PackageDetails",
   component: () => (
-    <VStack className="gap-10  " >
-      <HStack>
-        <ImageUploader />
-        <ImageUploader />
-        <ImageUploader />
-      </HStack>
-      <PackageForm  />
-    </VStack>
+   <PackageDetails />
 
   ),
   parameters: {
@@ -30,7 +21,7 @@ const meta = {
   // },
   // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn() },
-} satisfies Meta<typeof PackageForm>;
+} satisfies Meta<typeof PackageDetails>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

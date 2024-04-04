@@ -1,9 +1,4 @@
-
-"use client";
-
-
 import { cn } from "../lib/utils";
-
 
 interface VStackProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 
@@ -13,28 +8,28 @@ export const VStack= ({
   ...props
 }: VStackProps) => {
   return (
-    <h2
-      className={cn("flex flex-col gap-3", className)}
+    <div
+      className={cn("flex flex-col gap-3 items-start", className)}
       {...props}
     >
       {children}
-    </h2>
+    </div>
   );
 };
 
 interface HstackProps extends React.HTMLAttributes<HTMLHeadingElement> {}
 
-export const Hstack = ({
+export const HStack = ({
   children,
   className,
   ...props
 }: HstackProps) => {
   return (
-    <h2
-      className={cn("flex gap-3", className)}
+    <div
+      className={cn("flex gap-3 items-start", className)}
       {...props}
     >
       {children}
-    </h2>
+    </div>
   );
 };

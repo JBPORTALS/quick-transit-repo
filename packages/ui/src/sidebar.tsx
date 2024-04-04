@@ -1,19 +1,7 @@
 
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Bike,
-  BoxIcon,
-  LayoutDashboardIcon,
-  Truck,
-  UsersIcon,
-  Wallet,
-} from "lucide-react";
-
 import { cn } from "../lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import NavItem, { NavItemProps } from "./nav-item";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -62,7 +50,7 @@ export const SidebarBody = ({
   ...props
 }: SidebarBodyProps) => {
   return (
-    <div className={cn("flex h-full flex-col gap-2", className)} {...props}>
+    <div className={cn("flex h-full flex-col gap-2 ", className)} {...props}>
       {children}
     </div>
   );
