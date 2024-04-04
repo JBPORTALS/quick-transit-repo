@@ -4,7 +4,7 @@ import { fn } from "@storybook/test";
 import Requests, { RequestBody, RequestButton, RequestImage, RequestLabel, RequestTimeLabel, RequestWeightLabel } from "@qt/ui/request";
 import { CalendarDays } from "lucide-react";
 import { Button } from "@qt/ui/button";
-import { Hstack, VStack } from "@qt/ui/stack";
+import { HStack, VStack } from "@qt/ui/stack";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -12,15 +12,15 @@ const meta = {
   component: (props) => (
     <Requests {...props}>
       <RequestBody>
-      <Hstack className="py-[7px]">
+      <HStack className="py-[7px]">
         <RequestImage ></RequestImage>
-      </Hstack>
+      </HStack>
         <VStack className="gap-1">
           <RequestLabel>Question Papers</RequestLabel>
-          <Hstack>
+          <HStack>
             <RequestWeightLabel>25x20x25</RequestWeightLabel>
             <RequestWeightLabel>2Kg</RequestWeightLabel>
-          </Hstack>
+          </HStack>
           <RequestTimeLabel><CalendarDays height={16} width={16} className="mr-1"/> Requested 5 hours ago...</RequestTimeLabel>
         </VStack>
       </RequestBody>
