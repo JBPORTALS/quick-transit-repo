@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority";
 
 import { cn } from ".";
 
-const textVariants = cva("text-start font-normal", {
+const textVariants = cva("text-start font-normal text-foreground", {
   variants: {
     styles: {
       h1: "text-5xl font-extrabold ",

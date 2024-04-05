@@ -3,22 +3,23 @@
 import { cn } from "../lib/utils";
 import NavItem, { NavItemProps } from "./nav-item";
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  iconItem: React.ReactNode;
+}
 export default function Sidebar({
   children,
   className,
+  iconItem,
   ...props
 }: SidebarProps) {
   return (
     <div
       className={cn(
-        "flex h-full w-60 flex-col justify-between gap-6 bg-background px-3 py-8",
+        "flex h-full w-60 flex-col justify-between gap-6 bg-background px-3 py-8 dark:bg-secondary",
         className,
       )}
     >
-      <header className="flex justify-center py-1">
-        <h1 className="text-lg font-bold text-primary">Quick Transit</h1>
-      </header>
+      <header className="flex justify-center py-1">{iconItem}</header>
       {children}
     </div>
   );

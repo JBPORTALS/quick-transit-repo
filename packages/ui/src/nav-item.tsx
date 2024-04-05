@@ -1,7 +1,7 @@
 import { cva, VariantProps } from "class-variance-authority";
 
 const navItemVariants = cva(
-  "rounded-radius flex items-center gap-3 rounded-sm px-3 py-2 text-base text-accent-foreground",
+  "rounded-radius flex items-center gap-3 rounded-sm px-3 py-2 text-sm text-accent-foreground",
   {
     variants: {
       isActive: {

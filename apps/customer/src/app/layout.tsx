@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 
 import { cn } from "@qt/ui";
 import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
@@ -13,6 +12,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
+import Image from "next/image";
 import { LayoutGrid, Package2Icon, PackagePlusIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
@@ -21,7 +21,6 @@ import Sidebar, {
   SidebarBody,
   SidebarBottomContent,
   SidebarItem,
-  SidebarLabel,
 } from "@qt/ui/sidebar";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
@@ -54,23 +53,42 @@ export const viewport: Viewport = {
   ],
 };
 
+const PoppinsFont = Poppins({
+  weight: ["100", "200", "300", "400"],
+  variable: "--font-poppins",
+  subsets: ["devanagari"],
+});
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "h-screen min-h-screen bg-secondary font-sans text-foreground antialiased dark:bg-background",
-          GeistSans.variable,
-          GeistMono.variable,
+          "h-screen min-h-screen gap-0 bg-secondary font-sans text-foreground dark:bg-background",
+          PoppinsFont.variable,
+          PoppinsFont.variable,
         )}
       >
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TRPCReactProvider>
-              <div className="flex h-full w-full">
+              <div className="flex h-full w-full gap-0">
                 <div className="h-full w-72">
                   <div className="fixed flex h-full border-r ">
-                    <Sidebar>
+                    <Sidebar
+                      iconItem={
+                        <HStack className="w-full items-center justify-between gap-1">
+                          <Image
+                            src={"/qt-logo.png"}
+                            height={40}
+                            width={40}
+                            alt="QT Logo"
+                          />
+                          <Text styles={"p_ui_medium"}>Quick Transitt</Text>
+                          <ThemeToggle />
+                        </HStack>
+                      }
+                    >
                       <SidebarBody>
                         <SidebarItem isActive>
                           <LayoutGrid /> Dashboard
