@@ -1,9 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-
-import Requests, { RequestBody, RequestButton, RequestImage, RequestLabel, RequestTimeLabel, RequestWeightLabel } from "@qt/ui/request";
 import { CalendarDays } from "lucide-react";
+
 import { Button } from "@qt/ui/button";
+import Requests, {
+  RequestBody,
+  RequestButton,
+  RequestImage,
+  RequestLabel,
+  RequestTimeLabel,
+  RequestWeightLabel,
+} from "@qt/ui/request";
 import { HStack, VStack } from "@qt/ui/stack";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -12,19 +19,22 @@ const meta = {
   component: (props) => (
     <Requests {...props}>
       <RequestBody>
-      <HStack className="py-[7px]">
-        <RequestImage ></RequestImage>
-      </HStack>
+        <HStack className="py-[7px]">
+          <RequestImage />
+        </HStack>
         <VStack className="gap-1">
           <RequestLabel>Question Papers</RequestLabel>
           <HStack>
             <RequestWeightLabel>25x20x25</RequestWeightLabel>
             <RequestWeightLabel>2Kg</RequestWeightLabel>
           </HStack>
-          <RequestTimeLabel><CalendarDays height={16} width={16} className="mr-1"/> Requested 5 hours ago...</RequestTimeLabel>
+          <RequestTimeLabel>
+            <CalendarDays height={16} width={16} className="mr-1" /> Requested 5
+            hours ago...
+          </RequestTimeLabel>
         </VStack>
       </RequestBody>
-        <RequestButton/>
+      <RequestButton />
     </Requests>
   ),
   parameters: {
@@ -47,13 +57,12 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default: Story = {
   args: {
-    variant:"default"
+    variant: "default",
   },
 };
 
 export const Vertical: Story = {
   args: {
-    variant:"vertical"
+    variant: "vertical",
   },
 };
-

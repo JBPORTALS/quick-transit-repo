@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { BellIcon } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
 import {
@@ -11,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@qt/ui/dialog";
-import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
 import { Input } from "@qt/ui/input";
 import { Label } from "@qt/ui/label";
 
