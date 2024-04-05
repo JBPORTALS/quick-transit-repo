@@ -19,7 +19,7 @@ const statusItemVariants = cva(
       },
       size: {
         default: "border-4 px-3 py-4 shadow-sm",
-        sm: "border-2 px-3 py-1 shadow-none ",
+        sm: "border-2 px-3 py-1 shadow-none",
       },
       intent: {
         ghost: "",
