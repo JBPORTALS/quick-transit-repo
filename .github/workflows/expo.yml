@@ -40,7 +40,7 @@ jobs:
 
       - name: Install dependencies
         shell: bash
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Publish update
         shell: bash
