@@ -1,4 +1,3 @@
-
 "use client";
 
 import { cn } from "../lib/utils";
@@ -17,7 +16,7 @@ export default function Sidebar({
         className,
       )}
     >
-      <header className="flex justify-center">
+      <header className="flex justify-center py-1">
         <h1 className="text-lg font-bold text-primary">Quick Transit</h1>
       </header>
       {children}
@@ -56,7 +55,21 @@ export const SidebarBody = ({
   );
 };
 
+interface SidebarBottomContentProps
+  extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const SidebarBottomContent = ({
+  children,
+  className,
+  ...props
+}: SidebarBottomContentProps) => {
+  return (
+    <div className={cn("flex h-fit flex-col gap-8 ", className)} {...props}>
+      {children}
+    </div>
+  );
+};
+
 interface SidebarItemProps extends NavItemProps {}
 
 export const SidebarItem = (props: SidebarItemProps) => <NavItem {...props} />;
-

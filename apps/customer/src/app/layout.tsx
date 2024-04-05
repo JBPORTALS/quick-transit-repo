@@ -4,7 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
 import { cn } from "@qt/ui";
-import Header from "@qt/ui/header";
+import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
 import { ThemeProvider, ThemeToggle } from "@qt/ui/theme";
 import { Toaster } from "@qt/ui/toast";
 
@@ -13,13 +13,18 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
-import { LayoutGrid, Package2Icon } from "lucide-react";
+import { LayoutGrid, Package2Icon, PackagePlusIcon } from "lucide-react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
+import { Button } from "@qt/ui/button";
 import Sidebar, {
   SidebarBody,
+  SidebarBottomContent,
   SidebarItem,
   SidebarLabel,
 } from "@qt/ui/sidebar";
+import { HStack, VStack } from "@qt/ui/stack";
+import { Text } from "@qt/ui/text";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -66,7 +71,6 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                 <div className="h-full w-72">
                   <div className="fixed flex h-full border-r ">
                     <Sidebar>
-                      <SidebarLabel>Manager</SidebarLabel>
                       <SidebarBody>
                         <SidebarItem isActive>
                           <LayoutGrid /> Dashboard
@@ -75,11 +79,31 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                           <Package2Icon /> Packages
                         </SidebarItem>
                       </SidebarBody>
+                      <SidebarBottomContent>
+                        <Button>
+                          <PackagePlusIcon /> New Request
+                        </Button>
+                        <HStack className="items-center">
+                          <Avatar className="h-10 w-10">
+                            <AvatarImage
+                              src="https://github.com/shadcn.png"
+                              alt="@shadcn"
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
+                          <VStack className="gap-1">
+                            <Text styles={"p_ui_medium"}>IG Institution</Text>
+                            <Text styles={"body"}>ig@gmail.com</Text>
+                          </VStack>
+                        </HStack>
+                      </SidebarBottomContent>
                     </Sidebar>
                   </div>
                 </div>
                 <div className="w-full ">
-                  <Header />
+                  <Header>
+                    <HeaderTitle>Dashboard</HeaderTitle>
+                  </Header>
                   {props.children}
                 </div>
               </div>
