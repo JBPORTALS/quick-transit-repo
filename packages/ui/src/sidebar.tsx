@@ -12,7 +12,7 @@ export default function Sidebar({
   return (
     <div
       className={cn(
-        "flex h-full w-60 flex-col justify-between gap-6 px-3 py-8",
+        "flex h-full w-60 flex-col justify-between gap-6 bg-background px-3 py-8",
         className,
       )}
     >

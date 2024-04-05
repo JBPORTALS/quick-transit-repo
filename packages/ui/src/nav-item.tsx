@@ -5,8 +5,12 @@ const navItemVariants = cva(
   {
     variants: {
       isActive: {
-        true: "bg-primary/20 text-black",
+        true: "bg-primary/10 text-foreground",
+        false: "text-accent-foreground",
       },
+    },
+    defaultVariants: {
+      isActive: false,
     },
   },
 );
