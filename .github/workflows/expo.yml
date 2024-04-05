@@ -44,4 +44,4 @@ jobs:
 
       - name: Publish update
         shell: bash
-        run: eas update -p android --paltform preview
+        run: eas build -p android --paltform preview
