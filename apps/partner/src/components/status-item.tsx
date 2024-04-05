@@ -33,7 +33,7 @@ const statusItemVariants = cva(
       {
         size: ["sm", "default"],
         intent: "ghost",
-        className: "border-0 bg-transparent dark:bg-transparent",
+        className: "border-0 bg-transparent dark:border-0 dark:bg-transparent",
       },
     ],
   },
