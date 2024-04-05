@@ -1,4 +1,4 @@
-name: expo update
+name: expo
 on:
   push:
     branches: ["development"]
