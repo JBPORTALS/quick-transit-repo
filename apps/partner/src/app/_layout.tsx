@@ -2,7 +2,6 @@ import { TRPCProvider } from "~/utils/api";
 
 import "../styles.css";
 
-import { useEffect } from "react";
 import { Slot } from "expo-router";
 // This is the main layout of the app
 // It wraps your pages with the providers they need

@@ -9,49 +9,45 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
-  splash: {
-    image: "./assets/splash-screen.png",
-    resizeMode: "contain",
-    backgroundColor: "#FFFFFF",
-    dark: {
-      backgroundColor: "#000000",
-      image: "./assets/splash-screen.png",
-      resizeMode: "contain",
-    },
-  },
   updates: {
     fallbackToCacheTimeout: 0,
   },
   assetBundlePatterns: ["**/*"],
   ios: {
-    bundleIdentifier: "your.bundle.identifier",
+    bundleIdentifier: "com.jbportalsblr.quicktransitt",
     supportsTablet: true,
   },
   android: {
-    package: "your.bundle.identifier",
+    package: "com.jbportalsblr.quicktransitt",
     adaptiveIcon: {
-      foregroundImage: "./assets/splash-screen.png",
+      foregroundImage: "./assets/icon.png",
       backgroundColor: "#FFFFFF",
+    },
+    icon: "./assets/icon.png",
+    userInterfaceStyle: "automatic",
+    splash: {
+      image: "./assets/splash-screen.png",
+      resizeMode: "contain",
+      backgroundColor: "#FFFFFF",
+      dark: {
+        image: "./assets/splash-screen.png",
+        resizeMode: "contain",
+        backgroundColor: "hsl(224 71.4% 4.1%)",
+      },
     },
   },
   extra: {
     eas: {
-      projectId: "b5c8bba1-5920-4163-b485-b0d5007004b0",
+      projectId: "2ed4fed3-b4e8-49b9-91ea-b0a8b9ec6a2f",
     },
   },
-  owner: "jbsolutionsblr",
+  owner: "jb_portals",
   experiments: {
     tsconfigPaths: true,
     typedRoutes: true,
   },
   plugins: [
     "expo-router",
-    [
-      "expo-font",
-      {
-        fonts: ["node_modules/@expo-google-fonts/poppins/Poppins_100Thin.ttf"],
-      },
-    ],
     [
       "expo-camera",
       {

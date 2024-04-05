@@ -1,6 +1,7 @@
+import type { VariantProps } from "class-variance-authority";
 import React from "react";
 import { Text, View } from "react-native";
-import { cva, VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { icons } from "lucide-react-native";
 import twcolors from "tailwindcss/colors";
 
@@ -19,13 +20,23 @@ const statusItemVariants = cva(
       },
       size: {
         default: "border-4 px-3 py-4 shadow-sm",
-        sm: "border-2 px-3 py-1 shadow-none ",
+        sm: "border-2 px-3 py-1 shadow-none",
+      },
+      intent: {
+        ghost: " ",
       },
     },
     defaultVariants: {
       size: "default",
       variant: "pick-up",
     },
+    compoundVariants: [
+      {
+        size: ["sm", "default"],
+        intent: "ghost",
+        className: "border-0 bg-transparent dark:border-0 dark:bg-transparent",
+      },
+    ],
   },
 );
 
@@ -55,6 +66,7 @@ export default function StatusItem({
   variant = "pick-up",
   className,
   size,
+  intent,
   ...props
 }: StatusItemProps) {
   const colors = useColorsTheme();
@@ -69,7 +81,7 @@ export default function StatusItem({
 
   return (
     <View
-      className={statusItemVariants({ variant, className, size })}
+      className={statusItemVariants({ intent, variant, className, size })}
       {...props}
     >
       <LucideIcon
