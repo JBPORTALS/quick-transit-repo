@@ -1,6 +1,7 @@
+import type { VariantProps } from "class-variance-authority";
 import React from "react";
 import { Text, View } from "react-native";
-import { cva, VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { icons } from "lucide-react-native";
 import twcolors from "tailwindcss/colors";
 
@@ -22,7 +23,7 @@ const statusItemVariants = cva(
         sm: "border-2 px-3 py-1 shadow-none",
       },
       intent: {
-        ghost: "",
+        ghost: " ",
       },
     },
     defaultVariants: {
