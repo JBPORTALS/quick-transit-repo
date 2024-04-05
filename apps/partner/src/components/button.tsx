@@ -1,9 +1,6 @@
 import React, { cloneElement } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { cva, cx, VariantProps } from "class-variance-authority";
-import { Loader2Icon } from "lucide-react-native";
-
-import { useColorsTheme } from "~/utils/constants";
 
 const buttonVariants = cva(
   "flex-row items-center justify-center gap-3 rounded-md px-5 py-3 disabled:opacity-60",
@@ -59,8 +56,6 @@ export default function Button({
   disabled = isLoading,
   ...props
 }: ButtonProps) {
-  const colors = useColorsTheme();
-
   return (
     <TouchableOpacity
       disabled={disabled}
