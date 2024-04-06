@@ -8,7 +8,7 @@ import { notification } from "./schema/notification";
 import { packages } from "./schema/packages";
 import { packages_images } from "./schema/packages_images";
 import { post } from "./schema/post";
-import { requests } from "./schema/request";
+import { requests } from "./schema/requests";
 import { reviews } from "./schema/reviews";
 import { users } from "./schema/users";
 

@@ -10,7 +10,7 @@ export const post = pgTable("post", {
   createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updatedAt"),
+  updatedAt: timestamp("updatedAt").notNull(), 
 });
 
 
