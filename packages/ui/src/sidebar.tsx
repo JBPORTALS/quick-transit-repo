@@ -15,11 +15,11 @@ export default function Sidebar({
   return (
     <div
       className={cn(
-        "flex h-full w-60 flex-col justify-between gap-6 bg-background px-3 py-8 dark:bg-secondary",
+        "flex h-full w-60 flex-col justify-between gap-6 bg-background dark:bg-secondary",
         className,
       )}
     >
-      <header className="flex justify-center py-1">{iconItem}</header>
+      <header className="flex justify-center p-3">{iconItem}</header>
       {children}
     </div>
   );
@@ -50,7 +50,13 @@ export const SidebarBody = ({
   ...props
 }: SidebarBodyProps) => {
   return (
-    <div className={cn("flex h-full flex-col gap-2 ", className)} {...props}>
+    <div
+      className={cn(
+        "flex h-full w-full flex-col gap-2 overflow-hidden px-3",
+        className,
+      )}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -65,7 +71,10 @@ export const SidebarBottomContent = ({
   ...props
 }: SidebarBottomContentProps) => {
   return (
-    <div className={cn("flex h-fit flex-col gap-8 ", className)} {...props}>
+    <div
+      className={cn("flex h-fit w-full flex-col gap-8 p-3", className)}
+      {...props}
+    >
       {children}
     </div>
   );

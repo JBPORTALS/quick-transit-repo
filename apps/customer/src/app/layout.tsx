@@ -72,53 +72,55 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TRPCReactProvider>
-              <div className="flex h-full w-full gap-0">
-                <div className="h-full w-72">
-                  <div className="fixed flex h-full border-r ">
-                    <Sidebar
-                      iconItem={
-                        <HStack className="w-full items-center justify-between gap-1">
-                          <Image
-                            src={"/qt-logo.png"}
-                            height={40}
-                            width={40}
-                            alt="QT Logo"
-                          />
-                          <Text styles={"p_ui_medium"}>Quick Transitt</Text>
-                          <ThemeToggle />
-                        </HStack>
-                      }
-                    >
-                      <SidebarBody>
-                        <SidebarItem isActive>
-                          <LayoutGrid /> Dashboard
-                        </SidebarItem>
-                        <SidebarItem>
-                          <Package2Icon /> Packages
-                        </SidebarItem>
-                      </SidebarBody>
-                      <SidebarBottomContent>
-                        <Button>
-                          <PackagePlusIcon /> New Request
-                        </Button>
-                        <HStack className="items-center">
-                          <Avatar className="h-10 w-10">
-                            <AvatarImage
-                              src="https://github.com/shadcn.png"
-                              alt="@shadcn"
-                            />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <VStack className="gap-1">
-                            <Text styles={"p_ui_medium"}>IG Institution</Text>
-                            <Text styles={"body"}>ig@gmail.com</Text>
-                          </VStack>
-                        </HStack>
-                      </SidebarBottomContent>
-                    </Sidebar>
-                  </div>
-                </div>
-                <div className="w-full ">
+              <div className="grid h-full w-full grid-cols-6 gap-0">
+                <Sidebar
+                  className="w-full border-r"
+                  iconItem={
+                    <HStack className="w-full items-center justify-between gap-1">
+                      <Image
+                        src={"/qt-logo.png"}
+                        height={40}
+                        width={40}
+                        alt="QT Logo"
+                      />
+                      <Text styles={"p_ui_medium"}>Quick Transitt</Text>
+                      <ThemeToggle />
+                    </HStack>
+                  }
+                >
+                  <SidebarBody>
+                    <SidebarItem isActive>
+                      <LayoutGrid /> Dashboard
+                    </SidebarItem>
+                    <SidebarItem>
+                      <Package2Icon /> Packages
+                    </SidebarItem>
+                  </SidebarBody>
+                  <SidebarBottomContent>
+                    <Button>
+                      <PackagePlusIcon /> New Request
+                    </Button>
+                    <HStack className="items-center">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage
+                          src="https://github.com/shadcn.png"
+                          alt="@shadcn"
+                        />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <VStack className="w-full gap-0 overflow-hidden">
+                        <Text styles={"p_ui_medium"}>IG Institution</Text>
+                        <Text
+                          styles={"body"}
+                          className="w-full text-muted-foreground"
+                        >
+                          iginstitutescontantme@gmail.com
+                        </Text>
+                      </VStack>
+                    </HStack>
+                  </SidebarBottomContent>
+                </Sidebar>
+                <div className="col-span-5">
                   <Header>
                     <HeaderTitle>Dashboard</HeaderTitle>
                   </Header>
