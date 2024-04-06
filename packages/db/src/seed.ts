@@ -117,10 +117,9 @@ async function main() {
   // Seed data into `requests` table
   console.log("Seeding into `requests` 🌱...");
   await Promise.all(
-    usersData.map(async (packages) => {
+    usersData.map(async (user) => {
       for (let i = 0; i < 5; i++) {
         await db.insert(requests).values({
-          package_id: packages.id,
           partner_id: faker.helpers.arrayElement(usersData).id,
           image_of_receipt: faker.image.url(),
           invoice_img: faker.image.url(),
