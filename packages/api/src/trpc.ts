@@ -11,11 +11,12 @@ import type {
   SignedOutAuthObject,
 } from "@clerk/nextjs/api";
 import { getAuth } from "@clerk/nextjs/server";
-import { db } from "@qt/db";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
+
+import { db } from "@qt/db";
 
 /**
  * Replace this with an object if you want to pass things to createContextInner
@@ -39,7 +40,7 @@ export const createContextInner = async ({ auth }: AuthContextProps) => {
 /**
  * 1. CONTEXT
  *
- * This section defines the "contexts" that are available in the backend API.
+ * This section defines the "conText" that are available in the backend API.
  *
  * These allow you to access things when processing a request, like the database, the session, etc.
  *

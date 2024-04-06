@@ -1,16 +1,6 @@
 import React, { cloneElement } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import Animated, {
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from "react-native-reanimated";
-import { cva, VariantProps } from "class-variance-authority";
-import { Loader2Icon } from "lucide-react-native";
-
-import { useColorsTheme } from "~/utils/constants";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { cva, cx, VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
   "flex-row items-center justify-center gap-3 rounded-md px-5 py-3 disabled:opacity-60",
@@ -66,22 +56,6 @@ export default function Button({
   disabled = isLoading,
   ...props
 }: ButtonProps) {
-  const colors = useColorsTheme();
-  const rotation = useSharedValue(0);
-
-  React.useEffect(() => {
-    rotation.value = withRepeat(
-      withTiming(360, { duration: 700, easing: Easing.linear }),
-      -1,
-    );
-  }, []);
-
-  const style = useAnimatedStyle(() => {
-    return {
-      transform: [{ rotate: `${rotation.value}deg` }],
-    };
-  });
-
   return (
     <TouchableOpacity
       disabled={disabled}
@@ -91,16 +65,14 @@ export default function Button({
       {leftIcon && !isLoading && <View>{cloneElement(leftIcon)}</View>}
 
       {isLoading ? (
-        <Animated.View style={[style]}>
-          <Loader2Icon
-            size={24}
-            color={
-              variant == "primary"
-                ? colors.primaryForeground
-                : colors.foreground
-            }
-          />
-        </Animated.View>
+        <ActivityIndicator
+          size={24}
+          className={cx([
+            variant === "primary"
+              ? "text-primary-foreground"
+              : "text-secondary-foreground",
+          ])}
+        />
       ) : (
         <Text
           className={buttonTextVariants({

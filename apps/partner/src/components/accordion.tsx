@@ -49,7 +49,7 @@ const AccordionContextProvider = ({
   const animatedValue = useSharedValue(0);
 
   React.useEffect(() => {
-    console.log(isOpened);
+    // console.log(isOpened);
     if (!isOpened) {
       animatedValue.value = 0;
     } else {

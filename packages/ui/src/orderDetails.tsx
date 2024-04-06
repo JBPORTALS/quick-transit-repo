@@ -40,7 +40,7 @@ export default function OrderDetails() {
 
     return (
         <div className='p-6'>
-            <div className=' flex justify-between'>
+            <div className=' flex justify-between '>
 
 
                 <img className='h-60 w-1/3 border rounded-lg' src='https://etimg.etb2bimg.com/photo/73580618.cms' />

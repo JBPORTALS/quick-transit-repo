@@ -2,6 +2,7 @@ import React from "react";
 import { BellRing } from "lucide-react";
 
 import { cn } from "../lib/utils";
+import { Text } from "./text";
 
 interface HeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -9,7 +10,7 @@ export const Header = ({ children, className, ...props }: HeaderProps) => {
   return (
     <div
       className={cn(
-        "h-15 flex w-full items-center justify-between border-b bg-background px-10 py-3 text-lg font-semibold",
+        "h-15 flex w-full items-center justify-between border-b bg-background px-10 py-4 text-lg font-semibold dark:bg-secondary",
         className,
       )}
     >
@@ -18,7 +19,7 @@ export const Header = ({ children, className, ...props }: HeaderProps) => {
   );
 };
 
-interface HeaderTitleProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface HeaderTitleProps extends React.ComponentProps<typeof Text> {}
 
 export const HeaderTitle = ({
   children,
@@ -26,9 +27,9 @@ export const HeaderTitle = ({
   ...props
 }: HeaderTitleProps) => {
   return (
-    <h2 className={cn("font-bold", className)} {...props}>
+    <Text styles={"body"} className={cn("font-medium", className)} {...props}>
       {children}
-    </h2>
+    </Text>
   );
 };
 

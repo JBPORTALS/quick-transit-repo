@@ -1,37 +1,25 @@
-
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-  Bike,
-  BoxIcon,
-  LayoutDashboardIcon,
-  Truck,
-  UsersIcon,
-  Wallet,
-} from "lucide-react";
-
 import { cn } from "../lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import NavItem, { NavItemProps } from "./nav-item";
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  iconItem: React.ReactNode;
+}
 export default function Sidebar({
   children,
   className,
+  iconItem,
   ...props
 }: SidebarProps) {
   return (
     <div
       className={cn(
-        "flex h-full w-60 flex-col justify-between gap-6 px-3 py-8",
+        "flex h-full w-60 flex-col justify-between gap-6 bg-background dark:bg-secondary",
         className,
       )}
     >
-      <header className="flex justify-center">
-        <h1 className="text-lg font-bold text-primary">Quick Transit</h1>
-      </header>
+      <header className="flex justify-center p-3">{iconItem}</header>
       {children}
     </div>
   );
@@ -62,7 +50,31 @@ export const SidebarBody = ({
   ...props
 }: SidebarBodyProps) => {
   return (
-    <div className={cn("flex h-full flex-col gap-2", className)} {...props}>
+    <div
+      className={cn(
+        "flex h-full w-full flex-col gap-2 overflow-hidden px-3",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
+
+interface SidebarBottomContentProps
+  extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const SidebarBottomContent = ({
+  children,
+  className,
+  ...props
+}: SidebarBottomContentProps) => {
+  return (
+    <div
+      className={cn("flex h-fit w-full flex-col gap-8 p-3", className)}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -71,4 +83,3 @@ export const SidebarBody = ({
 interface SidebarItemProps extends NavItemProps {}
 
 export const SidebarItem = (props: SidebarItemProps) => <NavItem {...props} />;
-
