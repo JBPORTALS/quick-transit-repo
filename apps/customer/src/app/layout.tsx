@@ -64,7 +64,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "h-screen min-h-screen gap-0 bg-secondary font-sans text-foreground dark:bg-background",
+          "h-screen min-h-screen gap-0 overflow-hidden bg-secondary font-sans text-foreground dark:bg-background",
           PoppinsFont.variable,
           PoppinsFont.variable,
         )}
@@ -72,9 +72,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TRPCReactProvider>
-              <div className="grid h-full w-full grid-cols-6 gap-0">
+              <div className="relative grid h-full w-full grid-cols-6 gap-0">
                 <Sidebar
-                  className="w-full border-r"
+                  className="h-screen w-full border-r"
                   iconItem={
                     <HStack className="w-full items-center justify-between gap-1">
                       <Image
@@ -120,11 +120,11 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                     </HStack>
                   </SidebarBottomContent>
                 </Sidebar>
-                <div className="col-span-5">
-                  <Header>
+                <div className="col-span-5 overflow-y-scroll">
+                  <Header className="sticky top-0">
                     <HeaderTitle>Dashboard</HeaderTitle>
                   </Header>
-                  {props.children}
+                  <div className="flex flex-col p-5">{props.children}</div>
                 </div>
               </div>
             </TRPCReactProvider>
