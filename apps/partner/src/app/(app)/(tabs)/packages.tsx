@@ -62,7 +62,7 @@ export default function Packages() {
             data={data}
             onPress={() =>
               router.navigate({
-                pathname: "/[packageId]",
+                pathname: "/package/[packageId]",
                 params: {
                   packageId: index,
                 },

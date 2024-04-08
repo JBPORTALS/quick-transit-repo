@@ -1,9 +1,7 @@
 import React from "react";
-import { Dimensions, Text, View } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
-import { Link, Tabs } from "expo-router";
-import { useUser } from "@clerk/clerk-expo";
+import { Link, Redirect, Tabs } from "expo-router";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import { BellIcon, HomeIcon, ListIcon, TruckIcon } from "lucide-react-native";
 
 import NavItem from "~/components/nav-item";
@@ -12,6 +10,9 @@ import { useColorsTheme } from "~/utils/constants";
 export default function TabLayout() {
   const { user } = useUser();
   const colors = useColorsTheme();
+  const { isSignedIn } = useAuth();
+
+  if (!isSignedIn) return <Redirect href={"/sign-in"} />;
 
   return (
     <Tabs
@@ -63,7 +64,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color, focused }) => (

@@ -11,7 +11,7 @@ const SignInWithGoogle = () => {
   useWarmUpBrowser();
 
   const redirectUrl = AuthSession.makeRedirectUri({
-    path: "/",
+    path: "/(auth)/(tabs)",
   });
 
   const { startOAuthFlow } = useOAuth({

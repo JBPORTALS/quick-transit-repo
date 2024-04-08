@@ -1,19 +1,9 @@
-import {
-  Dimensions,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { Image } from "expo-image";
-import { Link, useRouter } from "expo-router";
+import { ScrollView, Text, View } from "react-native";
+import { Redirect, useRouter } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import { FlashList } from "@shopify/flash-list";
-import { TruckIcon } from "lucide-react-native";
 
 import PackageItem from "~/components/package-item";
 import StatsCard from "~/components/stats-card";
-import { useColorsTheme } from "~/utils/constants";
 
 const data = [
   {
@@ -56,7 +46,9 @@ const data = [
 export default function Home() {
   const { user } = useUser();
   const router = useRouter();
-  const colors = useColorsTheme();
+  const { isSignedIn } = useAuth();
+
+  if (!isSignedIn) return <Redirect href={"/sign-in"} />;
 
   return (
     <ScrollView className="h-full">
@@ -81,7 +73,7 @@ export default function Home() {
               data={data}
               onPress={() =>
                 router.navigate({
-                  pathname: "/[packageId]",
+                  pathname: "/package/[packageId]",
                   params: {
                     packageId: index,
                   },

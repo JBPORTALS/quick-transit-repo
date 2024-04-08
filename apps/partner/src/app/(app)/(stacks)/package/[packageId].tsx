@@ -270,9 +270,7 @@ export default function Package() {
                 />
 
                 <Button
-                  onPress={() =>
-                    router.push("/(auth)/(stacks)/take-pic-reciept/camera")
-                  }
+                  onPress={() => router.push("/take-pic-reciept/camera")}
                   variant={"ghost"}
                   leftIcon={<CameraIcon size={24} color={colors.foreground} />}
                 >
