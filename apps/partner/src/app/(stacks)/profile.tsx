@@ -14,10 +14,7 @@ export default function Profile() {
       <View className="h-full w-full gap-5 border-t border-border px-4 py-3">
         <View className="items-center gap-3">
           <Image
-            source={
-              user?.imageUrl ??
-              require("../../../../assets/Sample_User_Icon.png")
-            }
+            source={user?.imageUrl ?? require("assets/Sample_User_Icon.png")}
             style={{
               height: 130,
               width: 130,

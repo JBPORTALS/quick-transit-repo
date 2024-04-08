@@ -79,7 +79,14 @@ export default function Home() {
             <PackageItem
               key={index}
               data={data}
-              onPress={() => router.push(`/(auth)/(stacks)/${index}`)}
+              onPress={() =>
+                router.navigate({
+                  pathname: "/[packageId]",
+                  params: {
+                    packageId: index,
+                  },
+                })
+              }
             />
           ))}
         </View>
