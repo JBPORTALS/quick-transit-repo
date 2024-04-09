@@ -4,10 +4,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Quick Transitt",
   slug: "quick-transitt",
+  scheme: "quick-transitt",
   version: "0.1.0",
-  sdkVersion: "50.0.0",
-  platforms: ["ios", "android"],
-  scheme: "quicktransitt",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
@@ -35,17 +33,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: "./assets/icon.png",
       backgroundColor: "#FFFFFF",
     },
-    permissions: [
-      "android.permission.CAMERA",
-      "android.permission.RECORD_AUDIO",
-    ],
   },
   extra: {
     eas: {
       projectId: "2ed4fed3-b4e8-49b9-91ea-b0a8b9ec6a2f",
-    },
-    router: {
-      origin: false,
     },
   },
   owner: "jb_portals",
