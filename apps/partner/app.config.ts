@@ -7,7 +7,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   version: "0.1.0",
   sdkVersion: "50.0.0",
   platforms: ["ios", "android"],
-  scheme: "quick-transitt",
+  scheme: "quicktransitt",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "automatic",
