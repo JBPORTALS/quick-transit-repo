@@ -3,11 +3,11 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "@clerk/clerk-expo";
 import { ChevronRight, LogOutIcon } from "lucide-react-native";
 
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
-export default function settings() {
+export default function Settings() {
   const { signOut } = useAuth();
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
   return (
     <View className="h-full w-full gap-3 border-t border-border px-4 py-3">
       <Text className="text-lg font-bold text-foreground">
@@ -32,8 +32,8 @@ export default function settings() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => {
-            signOut();
+          onPress={async () => {
+            await signOut();
           }}
           className="flex-row justify-between border-b border-border py-4"
         >

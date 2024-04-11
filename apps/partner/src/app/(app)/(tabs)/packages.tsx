@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { Settings2Icon } from "lucide-react-native";
 
 import PackageItem from "~/components/package-item";
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 const data = [
   {
@@ -45,7 +45,7 @@ const data = [
 ];
 
 export default function Packages() {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
   const router = useRouter();
   return (
     <ScrollView className="h-full gap-3 p-4">

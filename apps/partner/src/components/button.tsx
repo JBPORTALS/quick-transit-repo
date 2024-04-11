@@ -1,6 +1,7 @@
+import type { VariantProps } from "class-variance-authority";
 import React, { cloneElement } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import { cva, cx, VariantProps } from "class-variance-authority";
+import { cva, cx } from "class-variance-authority";
 
 const buttonVariants = cva(
   "flex-row items-center justify-center gap-3 rounded-md px-5 py-3 disabled:opacity-60",

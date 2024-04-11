@@ -5,26 +5,21 @@ import { cva } from "class-variance-authority";
 
 import { cn } from ".";
 
-const StatusVariants = cva(
-  "px-3 rounded-lg text-center",
-  {
-    variants: {
-      variant: {
-        pending:
-          "bg-yellow-300 text-md text-yellow-800 flex items-center justify-center",
-          success:
-          " bg-green-200 text-green-900",
-          error:
-          "bg-destructive/30 text-red-900",
-          primary:
-          "bg-primary/20 text-primary rounded-xl border-2 border-primary/60 "
-      },
-    },
-    defaultVariants: {
-      variant: "primary",
+const StatusVariants = cva("w-fit rounded-lg px-3 text-center", {
+  variants: {
+    variant: {
+      pending:
+        "text-md flex items-center justify-center bg-yellow-300 text-yellow-800",
+      success: " bg-green-200 text-green-900",
+      error: "bg-destructive text-destructive-foreground",
+      primary:
+        "rounded-xl border-2 border-primary/60 bg-primary/20 text-primary ",
     },
   },
-);
+  defaultVariants: {
+    variant: "primary",
+  },
+});
 
 interface StatusProps
   extends React.ButtonHTMLAttributes<HTMLDivElement>,
@@ -37,7 +32,7 @@ const Tags = React.forwardRef<HTMLDivElement, StatusProps>(
     const Comp = asChild ? Slot : "div";
     return (
       <Comp
-        className={cn(StatusVariants({ variant,  className }))}
+        className={cn(StatusVariants({ variant, className }))}
         ref={ref}
         {...props}
       />

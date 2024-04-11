@@ -1,25 +1,10 @@
 import React, { useRef, useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import {
-  Camera,
-  CameraCapturedPicture,
-  CameraProps,
-  CameraType,
-  ImageType,
-} from "expo-camera";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Camera, CameraType, ImageType } from "expo-camera";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { CameraIcon, CheckCheck, CrossIcon, XIcon } from "lucide-react-native";
-
-import Button from "~/components/button";
-import { useColorsTheme } from "~/utils/constants";
+import { CameraIcon, CheckCheck, XIcon } from "lucide-react-native";
 
 export default function CameraScreen() {
   const [type, setType] = useState(CameraType.back);

@@ -1,8 +1,8 @@
-import { Link, Redirect, Slot, Stack } from "expo-router";
+import { Link, Redirect, Stack } from "expo-router";
 import { useAuth } from "@clerk/clerk-expo";
 import { SettingsIcon } from "lucide-react-native";
 
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
@@ -10,7 +10,7 @@ export const unstable_settings = {
 
 export default function AuthLayout() {
   const { isSignedIn } = useAuth();
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
 
   if (!isSignedIn) return <Redirect href={"/sign-in"} />;
 
@@ -36,7 +36,7 @@ export default function AuthLayout() {
         options={{
           headerShown: true,
           title: "Profile Details",
-          headerRight(props) {
+          headerRight() {
             return (
               <Link href={"/settings"}>
                 <SettingsIcon size={24} color={colors.foreground} />

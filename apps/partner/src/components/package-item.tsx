@@ -1,9 +1,8 @@
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
-import { ArrowUpRightFromCircle, TruckIcon } from "lucide-react-native";
 
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 import StatusItem from "./status-item";
 
 interface PackageItemProps
@@ -12,7 +11,7 @@ interface PackageItemProps
 }
 
 export default function PackageItem({ data, ...props }: PackageItemProps) {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
 
   return (
     <TouchableOpacity

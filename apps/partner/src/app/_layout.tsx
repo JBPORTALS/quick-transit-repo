@@ -2,17 +2,16 @@ import { TRPCProvider } from "~/utils/api";
 
 import "../styles.css";
 
-import { Link, Redirect, Slot, Stack } from "expo-router";
+import { Slot } from "expo-router";
 // This is the main layout of the app
 // It wraps your pages with the providers they need
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { ClerkProvider, SignedIn, useAuth } from "@clerk/clerk-expo";
-import { SettingsIcon } from "lucide-react-native";
+import { ClerkProvider } from "@clerk/clerk-expo";
 
 import AuthProvider from "~/components/auth-provider";
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,15 +32,11 @@ const tokenCache = {
   },
 };
 
-export const unstable_settings = {
-  initialRouteName: "(auth)",
-};
-
 const CLERK_PUBLISHABLE_KEY =
   "pk_test_cHJldHR5LWhhd2stODkuY2xlcmsuYWNjb3VudHMuZGV2JA";
 
 export default function RootLayout() {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
 
   return (
     <ClerkProvider

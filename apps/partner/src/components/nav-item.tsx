@@ -1,5 +1,6 @@
-import { Text, View } from "react-native";
-import { cva, VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import { View } from "react-native";
+import { cva } from "class-variance-authority";
 
 const navItemVariants = cva("flex items-center justify-center rounded-md p-3", {
   variants: {

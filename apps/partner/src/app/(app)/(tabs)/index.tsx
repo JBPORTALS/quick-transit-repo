@@ -64,7 +64,7 @@ export default function Home() {
         </View>
 
         <Text className="text-xl font-semibold text-foreground">
-          Today's Packages
+          {"Today's Packages"}
         </Text>
         <View className="gap-2">
           {data.map((data, index) => (

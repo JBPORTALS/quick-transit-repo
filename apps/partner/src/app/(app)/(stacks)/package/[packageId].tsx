@@ -22,10 +22,10 @@ import { Accordion } from "~/components/accordion";
 import Button from "~/components/button";
 import Input from "~/components/input";
 import StatusItem from "~/components/status-item";
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 export default function Package() {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
   const router = useRouter();
   return (
     <ScrollView className="flex-1">

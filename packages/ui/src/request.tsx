@@ -6,17 +6,14 @@ import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "../lib/utils";
 import { Button } from "./button";
 
-const requestVariants = cva(
-  "flex h-fit w-[642px] gap-3 rounded-md  border p-[17px]",
-  {
-    variants: {
-      variant: {
-        default: "flex-row items-center justify-between",
-        vertical: "flex-col",
-      },
+const requestVariants = cva("flex h-fit w-full gap-3 rounded-md p-[17px]", {
+  variants: {
+    variant: {
+      default: "flex-row items-center justify-between",
+      vertical: "flex-col",
     },
   },
-);
+});
 
 type RequestContextType = VariantProps<typeof requestVariants>;
 

@@ -1,10 +1,10 @@
 import { ScrollView, Text, View } from "react-native";
 import { PackageCheckIcon } from "lucide-react-native";
 
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 export default function Notifications() {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
   return (
     <ScrollView className="h-full">
       <View className="gap-3 p-4">

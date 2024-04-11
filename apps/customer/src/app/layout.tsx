@@ -12,18 +12,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
-import Image from "next/image";
-import { LayoutGrid, Package2Icon, PackagePlusIcon } from "lucide-react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
-import { Button } from "@qt/ui/button";
-import Sidebar, {
-  SidebarBody,
-  SidebarBottomContent,
-  SidebarItem,
-} from "@qt/ui/sidebar";
-import { HStack, VStack } from "@qt/ui/stack";
-import { Text } from "@qt/ui/text";
+import SidebarClient from "./_components/SidebarClient";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -73,53 +62,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TRPCReactProvider>
               <div className="relative grid h-full w-full grid-cols-6 gap-0">
-                <Sidebar
-                  className="h-screen w-full border-r"
-                  iconItem={
-                    <HStack className="w-full items-center justify-between gap-1">
-                      <Image
-                        src={"/qt-logo.png"}
-                        height={40}
-                        width={40}
-                        alt="QT Logo"
-                      />
-                      <Text styles={"p_ui_medium"}>Quick Transitt</Text>
-                      <ThemeToggle />
-                    </HStack>
-                  }
-                >
-                  <SidebarBody>
-                    <SidebarItem isActive>
-                      <LayoutGrid /> Dashboard
-                    </SidebarItem>
-                    <SidebarItem>
-                      <Package2Icon /> Packages
-                    </SidebarItem>
-                  </SidebarBody>
-                  <SidebarBottomContent>
-                    <Button>
-                      <PackagePlusIcon /> New Request
-                    </Button>
-                    <HStack className="items-center">
-                      <Avatar className="h-10 w-10">
-                        <AvatarImage
-                          src="https://github.com/shadcn.png"
-                          alt="@shadcn"
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <VStack className="w-full gap-0 overflow-hidden">
-                        <Text styles={"p_ui_medium"}>IG Institution</Text>
-                        <Text
-                          styles={"body"}
-                          className="w-full text-muted-foreground"
-                        >
-                          iginstitutescontantme@gmail.com
-                        </Text>
-                      </VStack>
-                    </HStack>
-                  </SidebarBottomContent>
-                </Sidebar>
+                <SidebarClient />
                 <div className="col-span-5 overflow-y-scroll">
                   <Header className="sticky top-0">
                     <HeaderTitle>Dashboard</HeaderTitle>

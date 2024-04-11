@@ -2,14 +2,14 @@ import React from "react";
 import { Image } from "expo-image";
 import { Link, Redirect, Tabs } from "expo-router";
 import { useAuth, useUser } from "@clerk/clerk-expo";
-import { BellIcon, HomeIcon, ListIcon, TruckIcon } from "lucide-react-native";
+import { BellIcon, HomeIcon, ListIcon } from "lucide-react-native";
 
 import NavItem from "~/components/nav-item";
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 export default function TabLayout() {
   const { user } = useUser();
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
   const { isSignedIn } = useAuth();
 
   if (!isSignedIn) return <Redirect href={"/sign-in"} />;
@@ -37,7 +37,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.foreground,
         headerTitleStyle: { display: "none" },
-        headerLeft: (props) => {
+        headerLeft: () => {
           return (
             <Image
               source={require("assets/qt-logo.svg")}

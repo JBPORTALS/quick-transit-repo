@@ -1,13 +1,13 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { useUser } from "@clerk/clerk-expo";
 import { StarIcon } from "lucide-react-native";
 
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 export default function Profile() {
   const { user } = useUser();
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
 
   return (
     <ScrollView className="h-full w-full">
