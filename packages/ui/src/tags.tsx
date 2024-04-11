@@ -9,8 +9,9 @@ const StatusVariants = cva("w-fit rounded-lg px-3 text-center", {
   variants: {
     variant: {
       pending:
-        "text-md flex items-center justify-center bg-yellow-300 text-yellow-800",
-      success: " bg-green-200 text-green-900",
+        "text-md flex items-center justify-center bg-yellow-300 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-50",
+      success:
+        " bg-green-200 text-green-900 dark:bg-green-700 dark:text-green-50",
       error: "bg-destructive text-destructive-foreground",
       primary:
         "rounded-xl border-2 border-primary/60 bg-primary/20 text-primary ",

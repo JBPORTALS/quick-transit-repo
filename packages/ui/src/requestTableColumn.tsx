@@ -5,7 +5,6 @@ import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "./button";
 import { Tags } from "./tags";
-import { Text } from "./text";
 
 export type Payment = {
   id: string;
@@ -40,32 +39,28 @@ export const columns: ColumnDef<Payment>[] = [
 
   {
     accessorKey: "slno",
-    header: () => <Text styles={"table_head"}>SlNo</Text>,
+    header: () => <div>Sl No</div>,
   },
   {
     accessorKey: "requestid",
-    header: () => <Text styles={"table_head"}>RequestId</Text>,
+    header: () => <div>Request ID</div>,
   },
   {
     accessorKey: "package",
-    header: () => <Text styles={"table_head"}>Package</Text>,
+    header: () => <div>Package</div>,
   },
 
   {
     accessorKey: "dimension",
-    header: () => <Text styles={"table_head"}>Dimensions</Text>,
+    header: () => <div>Dimensions</div>,
   },
   {
     accessorKey: "weight",
-    header: () => <Text styles={"table_head"}>Weight</Text>,
+    header: () => <div>Weight</div>,
   },
   {
     accessorKey: "amount",
-    header: () => (
-      <div className="text-right">
-        <Text styles={"table_head"}>Amount</Text>
-      </div>
-    ),
+    header: () => <div className="text-right">Amount</div>,
     cell: ({ row }: any) => {
       const amount = parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -73,22 +68,23 @@ export const columns: ColumnDef<Payment>[] = [
         currency: "INR",
       }).format(amount);
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return <div className="text-right">{formatted}</div>;
     },
   },
   {
     accessorKey: "status",
     header: ({ column }: any) => {
       return (
-        <Text styles={"table_head"}>
+        <div className="text-center">
           <Button
             variant="ghost"
+            className="text-sm"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
-        </Text>
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -100,15 +96,14 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "requestedon",
     header: ({ column }: any) => {
       return (
-        <Text styles={"table_head"}>
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Requested On
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </Text>
+        <Button
+          variant="ghost"
+          className="text-sm"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Requested On
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
       );
     },
   },
