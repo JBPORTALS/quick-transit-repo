@@ -1,10 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
+import { Package, PackageBody, PackageThumbneil } from "@qt/ui/package";
+import { HStack } from "@qt/ui/stack";
 import { Tags } from "@qt/ui/tags";
+import { Text } from "@qt/ui/text";
 
 export type Payment = {
   id: string;
@@ -12,9 +16,6 @@ export type Payment = {
   status: "pending" | "success" | "failed";
   email: string;
   name: string;
-  slno: number;
-  requestid: string;
-  package: string;
   dimension: string;
   weight: string;
   requestedon: string;
@@ -35,28 +36,27 @@ const getStatusTag = (status: Payment["status"]): JSX.Element => {
 };
 
 export const columns: ColumnDef<Payment>[] = [
-  // ...
-
-  {
-    accessorKey: "slno",
-    header: () => <div>Sl No</div>,
-  },
-  {
-    accessorKey: "requestid",
-    header: () => <div>Request ID</div>,
-  },
   {
     accessorKey: "package",
     header: () => <div>Package</div>,
-  },
-
-  {
-    accessorKey: "dimension",
-    header: () => <div>Dimensions</div>,
-  },
-  {
-    accessorKey: "weight",
-    header: () => <div>Weight</div>,
+    cell({ row }) {
+      const { name, dimension, weight } = row.original as Payment;
+      return (
+        <Package>
+          <PackageThumbneil>
+            <Image src={"/package-1.jpg"} fill alt="Package Thumbnail" />
+          </PackageThumbneil>
+          <PackageBody className="flex flex-col gap-1">
+            <Text styles={"small"}>{name}</Text>
+            <HStack>
+              <Text styles={"details"} className="text-muted-foreground">
+                {dimension} • {weight}
+              </Text>
+            </HStack>
+          </PackageBody>
+        </Package>
+      );
+    },
   },
   {
     accessorKey: "amount",

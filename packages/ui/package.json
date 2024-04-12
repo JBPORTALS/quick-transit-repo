@@ -35,7 +35,8 @@
     "./scroll-area": "./src/scroll-area.tsx",
     "./radio-group": "./src/radio-group.tsx",
     "./customerPayment": "./src/customerPayment.tsx",
-    "./paymentSuccess": "./src/paymentSuccess.tsx"
+    "./paymentSuccess": "./src/paymentSuccess.tsx",
+    "./package": "./src/package.tsx"
   },
   "license": "MIT",
   "scripts": {
