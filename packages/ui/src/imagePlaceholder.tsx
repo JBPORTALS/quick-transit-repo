@@ -1,6 +1,7 @@
-"use client"
-import { Image } from 'lucide-react';
-import React, { useState, useRef } from 'react';
+"use client";
+
+import React, { useRef, useState } from "react";
+import { Image } from "lucide-react";
 
 const ImageUploader = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -11,7 +12,7 @@ const ImageUploader = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
+        if (typeof reader.result === "string") {
           setImage(reader.result);
         }
       };
@@ -25,7 +26,7 @@ const ImageUploader = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (typeof reader.result === 'string') {
+        if (typeof reader.result === "string") {
           setImage(reader.result);
         }
       };
@@ -44,25 +45,34 @@ const ImageUploader = () => {
   };
 
   return (
-      <div className="w-64 h-52 border-2 border-gray-300 border-dashed rounded-lg flex items-center justify-center" onClick={handleDivClick} onDrop={handleDrop} onDragOver={handleDragOver}>
-        {image ? (
-          <img src={image} alt="Uploaded" className="max-h-full max-w-full" />
-        ) : (
-          <div className='flex flex-col gap-7 items-center'>
-            <Image />
-            <div>
-              <h1 className="text-sm font-medium">Drop your image here or select </h1>
-              <span className="text-muted-foreground text-sm flex justify-center font-medium">click to browse</span>
-            </div>
+    <div
+      className="flex h-52 w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300"
+      onClick={handleDivClick}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
+    >
+      {image ? (
+        <img src={image} alt="Uploaded" className="max-h-full max-w-full" />
+      ) : (
+        <div className="flex flex-col items-center gap-7">
+          <Image />
+          <div>
+            <h1 className="text-sm font-medium">
+              Drop your image here or select{" "}
+            </h1>
+            <span className="flex justify-center text-sm font-medium text-muted-foreground">
+              click to browse
+            </span>
           </div>
-        )}
-        <input
-          ref={fileInputRef}
-          type="file"
-          className="hidden"
-          onChange={handleFileInputChange}
-        />
-      </div>
+        </div>
+      )}
+      <input
+        ref={fileInputRef}
+        type="file"
+        className="hidden"
+        onChange={handleFileInputChange}
+      />
+    </div>
   );
 };
 

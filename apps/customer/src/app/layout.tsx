@@ -53,24 +53,14 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "h-screen min-h-screen gap-0 overflow-hidden bg-secondary font-sans text-foreground dark:bg-background",
+          "h-screen min-h-screen gap-0 bg-secondary font-sans text-foreground dark:bg-background",
           PoppinsFont.variable,
           PoppinsFont.variable,
         )}
       >
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TRPCReactProvider>
-              <div className="relative grid h-full w-full grid-cols-6 gap-0">
-                <SidebarClient />
-                <div className="col-span-5 overflow-y-scroll">
-                  <Header className="sticky top-0">
-                    <HeaderTitle>Dashboard</HeaderTitle>
-                  </Header>
-                  <div className="flex flex-col p-5">{props.children}</div>
-                </div>
-              </div>
-            </TRPCReactProvider>
+            <TRPCReactProvider>{props.children}</TRPCReactProvider>
             <Toaster />
           </ThemeProvider>
         </ClerkProvider>

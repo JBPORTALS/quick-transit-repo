@@ -42,8 +42,10 @@ export default function SidebarClient() {
         </Link>
       </SidebarBody>
       <SidebarBottomContent>
-        <Button>
-          <PackagePlusIcon /> New Request
+        <Button asChild>
+          <Link href={"/new"}>
+            <PackagePlusIcon /> New Request
+          </Link>
         </Button>
         <HStack className="items-center">
           <Avatar className="h-10 w-10">
