@@ -97,19 +97,6 @@ async function main() {
     })
   }
 
-  // // Seed data into `requests` table
-  // console.log("Seeding into `requests` 🌱...");
-  // for (let i = 0; i < 5; i++) {
-  //   await db.insert(requests).values({
-  //     image_of_receipt: faker.image.url(),
-  //     invoice_img: faker.image.url(),
-  //     sub_status: faker.helpers.arrayElement(["pickup", "genrate invoice", "verify Payment", "delivery package", "complete request"]),
-  //     status: faker.helpers.arrayElement(["pending", "progress", "complete"]),
-  //     createdAt: faker.date.past(),
-  //   });
-  // }
-
-
 
   // Retrieve seeded package data
   const packagesData = await db.select().from(packages);
@@ -129,31 +116,6 @@ async function main() {
       }
     })
   );
-
-
-
-  // // Retrieve seeded package data
-  // const packagesData = await db.select().from(packages);
-
-  // // Seed data into `requests` table
-  // console.log("Seeding into `requests` 🌱...");
-  // await Promise.all(
-  //   usersData.map(async (users) => {
-  //     for (let i = 0; i < 5; i++) {
-  //       await db.insert(requests).values({
-  //         id: faker.helpers.arrayElement(packagesData).id,
-  //         partner_id: users.id,
-  //         image_of_receipt: faker.image.url(),
-  //         invoice_img: faker.image.url(),
-  //         sub_status: faker.helpers.arrayElement(["pickup", "genrate invoice", "verify Payment", "delivery package", "complete request"]),
-  //         status: faker.helpers.arrayElement(["pending", "progress", "complete"]),
-  //       });
-  //     }
-  //   })
-  // );
-
-
-
 
 
 
@@ -228,32 +190,6 @@ async function main() {
       }
     }),
   );
-
-
-
-   
-
-  // // Seed data into `packages_images` table
-  // console.log("Seeding into `packages_images` 🌱...");
-  // await Promise.all(
-  //   packagesData.map(async (packages) => {
-  //     for (let i = 0; i < 3; i++) {
-  //       await db.insert(packages_images).values({
-  //         package_id: faker.helpers.arrayElement(packagesData).id,
-  //         image_url: faker.image.url(),
-  //       });
-  //     }
-  //   })
-  // );
-
-
-
-
-
-
-
-
-
 
 }
 main()
