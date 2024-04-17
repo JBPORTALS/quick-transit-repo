@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "./button";
-import { Tags } from "./tags";
+import { Tags } from "./tag";
 
 export type Payment = {
   id: string;

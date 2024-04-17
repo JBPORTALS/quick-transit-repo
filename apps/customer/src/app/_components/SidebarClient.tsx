@@ -36,7 +36,7 @@ export default function SidebarClient() {
           </SidebarItem>
         </Link>
         <Link href={"/packages"} className="w-full">
-          <SidebarItem isActive={pathname === "/packages"}>
+          <SidebarItem isActive={pathname.startsWith("/packages")}>
             <Package2Icon /> Packages
           </SidebarItem>
         </Link>

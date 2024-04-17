@@ -20,7 +20,7 @@ import {
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 import { HStack, VStack } from "./stack";
-import { Tags } from "./tags";
+import { Tag } from "./tag";
 import { Text } from "./text";
 
 export default function PackageDetails() {
@@ -71,8 +71,8 @@ export default function PackageDetails() {
           </Text>
           <Text styles={"p_ui_medium"}>DSIT Questions Papers (Bundle A)</Text>
           <HStack>
-            <Tags variant={"primary"}>78x23x120 cm</Tags>
-            <Tags variant={"primary"}>200 g</Tags>
+            <Tag variant={"primary"}>78x23x120 cm</Tag>
+            <Tag variant={"primary"}>200 g</Tag>
           </HStack>
           <Text styles={"body_medium"}>Pick-up Address</Text>
           <Text styles={"subtle"}>

@@ -10,7 +10,7 @@ export const Header = ({ children, className, ...props }: HeaderProps) => {
   return (
     <div
       className={cn(
-        "h-15 z-30 flex w-full items-center justify-between border-b bg-background/60 px-10 py-4 text-lg font-semibold backdrop-blur-lg dark:bg-secondary",
+        "h-15 z-30 flex w-full items-center justify-between border-b bg-background/80 px-10 py-3 text-lg font-semibold backdrop-blur-lg dark:bg-secondary",
         className,
       )}
     >
@@ -27,7 +27,11 @@ export const HeaderTitle = ({
   ...props
 }: HeaderTitleProps) => {
   return (
-    <Text styles={"body"} className={cn("font-medium", className)} {...props}>
+    <Text
+      styles={"body_medium"}
+      className={cn("font-medium", className)}
+      {...props}
+    >
       {children}
     </Text>
   );

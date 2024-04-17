@@ -16,7 +16,7 @@ import { Label } from "./label";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 import { HStack, VStack } from "./stack";
-import { Tags } from "./tags";
+import { Tags } from "./tag";
 import { Text } from "./text";
 
 export default function PackagePriceDetails() {

@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
 import { Package, PackageBody, PackageThumbneil } from "@qt/ui/package";
 import { HStack } from "@qt/ui/stack";
-import { Tags } from "@qt/ui/tags";
+import { Tag } from "@qt/ui/tag";
 import { Text } from "@qt/ui/text";
 
 export type Payment = {
@@ -25,13 +26,13 @@ export type Payment = {
 const getStatusTag = (status: Payment["status"]): JSX.Element => {
   switch (status) {
     case "pending":
-      return <Tags variant="pending">Pending</Tags>;
+      return <Tag variant="pending">Pending</Tag>;
     case "success":
-      return <Tags variant="success">Success</Tags>;
+      return <Tag variant="success">Success</Tag>;
     case "failed":
-      return <Tags variant="error">Failed</Tags>;
+      return <Tag variant="error">Failed</Tag>;
     default:
-      return <Tags variant="error">Unknown</Tags>;
+      return <Tag variant="error">Unknown</Tag>;
   }
 };
 
@@ -40,21 +41,23 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "package",
     header: () => <div>Package</div>,
     cell({ row }) {
-      const { name, dimension, weight } = row.original as Payment;
+      const { name, dimension, weight, id } = row.original as Payment;
       return (
-        <Package>
-          <PackageThumbneil>
-            <Image src={"/package-1.jpg"} fill alt="Package Thumbnail" />
-          </PackageThumbneil>
-          <PackageBody className="flex flex-col gap-1">
-            <Text styles={"small"}>{name}</Text>
-            <HStack>
-              <Text styles={"details"} className="text-muted-foreground">
-                {dimension} • {weight}
-              </Text>
-            </HStack>
-          </PackageBody>
-        </Package>
+        <Link href={`/packages/v/${id}`}>
+          <Package>
+            <PackageThumbneil>
+              <Image src={"/package-1.jpg"} fill alt="Package Thumbnail" />
+            </PackageThumbneil>
+            <PackageBody className="flex flex-col gap-1">
+              <Text styles={"small"}>{name}</Text>
+              <HStack>
+                <Text styles={"details"} className="text-muted-foreground">
+                  {dimension} • {weight}
+                </Text>
+              </HStack>
+            </PackageBody>
+          </Package>
+        </Link>
       );
     },
   },

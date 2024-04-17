@@ -1,16 +1,30 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { BellIcon } from "lucide-react";
 
-import { Header, HeaderTitle } from "@qt/ui/header";
+import { Button } from "@qt/ui/button";
+import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
 
+const headerPathMap = [
+  { name: "Dashboard", path: "/", abosolute: true },
+  { name: "Packages", path: "/packages" },
+];
 export default function HeaderClient() {
-  const query = useSearchParams();
-  const name = query.get("name");
-  console.log("query", query.getAll("name"));
+  const pathname = usePathname();
   return (
     <Header className="sticky top-0">
-      <HeaderTitle>{name}</HeaderTitle>
+      <HeaderTitle>
+        {headerPathMap.map(({ name, path, abosolute }) => {
+          if (pathname === path) return name;
+          else return null;
+        })}
+      </HeaderTitle>
+      <HeaderRight>
+        <Button size={"icon"} variant={"ghost"}>
+          <BellIcon className="h-5 w-5" />
+        </Button>
+      </HeaderRight>
     </Header>
   );
 }

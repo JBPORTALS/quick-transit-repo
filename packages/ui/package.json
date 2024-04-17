@@ -26,7 +26,7 @@
     "./stack": "./src/stack.tsx",
     "./imagePlaceholder": "./src/imagePlaceholder.tsx",
     "./packageForm": "./src/packageForm.tsx",
-    "./tags": "./src/tags.tsx",
+    "./tag": "./src/tag.tsx",
     "./requestTable": "./src/requestTable.tsx",
     "./text": "./src/text.tsx",
     "./packageDetails": "./src/packageDetails.tsx",
@@ -36,7 +36,8 @@
     "./radio-group": "./src/radio-group.tsx",
     "./customerPayment": "./src/customerPayment.tsx",
     "./paymentSuccess": "./src/paymentSuccess.tsx",
-    "./package": "./src/package.tsx"
+    "./package": "./src/package.tsx",
+    "./card": "./src/card.tsx"
   },
   "license": "MIT",
   "scripts": {

@@ -38,7 +38,7 @@ const steps = [
   {
     name: "Package Images",
     // show: true,
-    fields: ["weight"],
+    fields: ["image1", "image2", "image3"],
   },
   {
     name: "Select Time Slot",
@@ -123,7 +123,7 @@ type Inputs = z.infer<typeof formSchema>;
 type FieldNames = keyof Inputs;
 
 export default function NewRequest() {
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState(0);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -136,6 +136,7 @@ export default function NewRequest() {
       pacakgeDescription: "",
       to: "",
       weight: "",
+      image1: null,
     },
   });
 
@@ -145,8 +146,11 @@ export default function NewRequest() {
       shouldFocus: true,
     });
 
-    if (!isValid) return;
-    setCurrent((current) => current + 1);
+    if (!isValid) return false;
+    else {
+      setCurrent((current) => current + 1);
+      return true;
+    }
   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -277,54 +281,17 @@ export default function NewRequest() {
                 <FormField
                   control={form.control}
                   name="image1"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>{"Picture 1"}</FormLabel>
-                      <FormControl>
-                        <ImageUploader />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => <ImageUploader {...field} />}
                 />
                 <FormField
                   control={form.control}
                   name="image2"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>{"Picture 2"}</FormLabel>
-                      <FormControl>
-                        <ImageUploader />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => <ImageUploader {...field} />}
                 />
                 <FormField
                   control={form.control}
                   name="image3"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>{"Picture 3 (optional)"}</FormLabel>
-                      <FormControl>
-                        <ImageUploader />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="image3"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>{"Picture 4 (optional)"}</FormLabel>
-                      <FormControl>
-                        <ImageUploader />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => <ImageUploader {...field} />}
                 />
               </div>
               <HStack className="justify-end">
@@ -348,6 +315,7 @@ export default function NewRequest() {
               </HStack>
             </>
           )}
+          <pre>{JSON.stringify(form.watch(), null, 4)}</pre>
         </form>
       </Form>
     </div>
