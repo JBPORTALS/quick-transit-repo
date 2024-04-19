@@ -12,7 +12,8 @@ const StatusVariants = cva(
       variant: {
         pending:
           " bg-yellow-300 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-50",
-        success: " bg-green-200 dark:bg-green-900 dark:text-green-50",
+        success:
+          " bg-green-200 text-green-950 dark:bg-green-900 dark:text-green-50",
         gray: "border-2 bg-card",
         error: "bg-destructive text-destructive-foreground",
         primary: "border-2 border-primary/60 bg-primary/10 text-primary",

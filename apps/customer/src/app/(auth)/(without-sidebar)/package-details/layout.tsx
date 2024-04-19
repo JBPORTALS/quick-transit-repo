@@ -13,7 +13,7 @@ export default function PackageDetailsLayout({
   return (
     <div className="w-full">
       <HeaderClient />
-      <VStack className="w-full p-5">{children}</VStack>
+      <VStack className="h-full max-h-fit w-full p-5">{children}</VStack>
     </div>
   );
 }
