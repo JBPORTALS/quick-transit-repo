@@ -1,5 +1,5 @@
-import HeaderClient from "../_components/headerClient";
-import SidebarClient from "../_components/SidebarClient";
+import HeaderClient from "../../_components/headerClient";
+import SidebarClient from "../../_components/SidebarClient";
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (

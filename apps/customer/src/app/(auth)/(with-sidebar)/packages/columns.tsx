@@ -43,7 +43,7 @@ export const columns: ColumnDef<Payment>[] = [
     cell({ row }) {
       const { name, dimension, weight, id } = row.original as Payment;
       return (
-        <Link href={`/packages/v/${id}`}>
+        <Link href={`/package-details/${id}`}>
           <Package>
             <PackageThumbneil>
               <Image src={"/package-1.jpg"} fill alt="Package Thumbnail" />

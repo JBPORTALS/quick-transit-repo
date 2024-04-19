@@ -37,7 +37,8 @@
     "./customerPayment": "./src/customerPayment.tsx",
     "./paymentSuccess": "./src/paymentSuccess.tsx",
     "./package": "./src/package.tsx",
-    "./card": "./src/card.tsx"
+    "./card": "./src/card.tsx",
+    "./seperator": "./src/seperator.tsx"
   },
   "license": "MIT",
   "scripts": {
