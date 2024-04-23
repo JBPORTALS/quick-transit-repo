@@ -46,7 +46,7 @@ export const darkColors = {
   radius: "0.3rem",
 };
 
-export const useColorsTheme = () => {
+export const ColorsTheme = () => {
   const scheme = useColorScheme();
 
   return scheme === "dark" ? darkColors : colors;

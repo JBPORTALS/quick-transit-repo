@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
+import { Poppins } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 
 import { cn } from "@qt/ui";
+import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
 import { ThemeProvider, ThemeToggle } from "@qt/ui/theme";
 import { Toaster } from "@qt/ui/toast";
 
@@ -11,6 +11,8 @@ import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
+
+import SidebarClient from "./_components/SidebarClient";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -40,22 +42,25 @@ export const viewport: Viewport = {
   ],
 };
 
+const PoppinsFont = Poppins({
+  weight: ["100", "200", "300", "400"],
+  variable: "--font-poppins",
+  subsets: ["devanagari"],
+});
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans text-foreground antialiased",
-          GeistSans.variable,
-          GeistMono.variable,
+          "h-screen min-h-screen gap-0 bg-secondary font-sans text-foreground dark:bg-background",
+          PoppinsFont.variable,
+          PoppinsFont.variable,
         )}
       >
         <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TRPCReactProvider>{props.children}</TRPCReactProvider>
-            <div className="absolute bottom-4 right-4">
-              <ThemeToggle />
-            </div>
             <Toaster />
           </ThemeProvider>
         </ClerkProvider>

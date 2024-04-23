@@ -1,12 +1,12 @@
 import { TextInput } from "react-native";
 import { cx } from "class-variance-authority";
 
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 interface InputProps extends React.ComponentProps<typeof TextInput> {}
 
 export default function Input({ className, ...props }: InputProps) {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
   return (
     <TextInput
       {...props}

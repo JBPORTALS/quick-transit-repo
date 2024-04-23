@@ -1,17 +1,9 @@
-import React, {
-  createContext,
-  forwardRef,
-  ReactComponentElement,
-  useContext,
-  useState,
-} from "react";
+import type { ReactComponentElement } from "react";
+import React, { createContext, forwardRef, useContext, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Animated, {
-  Easing,
-  interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 import { cx } from "class-variance-authority";
 import {
@@ -21,7 +13,7 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 //Animation Context
 const AccordionContext = createContext<{
@@ -123,7 +115,7 @@ Accordion.Header = ({
   disabled,
   ...props
 }: AccordionHeaderProps) => {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
   const { toggle, isOpened, setOpened } = useContext(AccordionContext);
 
   React.useEffect(() => {

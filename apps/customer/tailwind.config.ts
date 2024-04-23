@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
-import baseConfig from "@qt/tailwind-config/web";
 import { fontFamily } from "tailwindcss/defaultTheme";
+
+import baseConfig from "@qt/tailwind-config/web";
 
 export default {
   // We need to append the path to the UI package to the content array so that
@@ -10,8 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
-        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        sans: ["var(--font-poppins)", ...fontFamily.sans],
+        mono: ["var(--font-poppins)", ...fontFamily.mono],
       },
     },
   },

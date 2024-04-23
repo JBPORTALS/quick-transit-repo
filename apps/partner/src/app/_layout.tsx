@@ -8,10 +8,10 @@ import { Slot } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { ClerkProvider, SignedIn } from "@clerk/clerk-expo";
+import { ClerkProvider } from "@clerk/clerk-expo";
 
 import AuthProvider from "~/components/auth-provider";
-import { useColorsTheme } from "~/utils/constants";
+import { ColorsTheme } from "~/utils/constants";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -36,7 +36,7 @@ const CLERK_PUBLISHABLE_KEY =
   "pk_test_cHJldHR5LWhhd2stODkuY2xlcmsuYWNjb3VudHMuZGV2JA";
 
 export default function RootLayout() {
-  const colors = useColorsTheme();
+  const colors = ColorsTheme();
 
   return (
     <ClerkProvider
@@ -44,6 +44,7 @@ export default function RootLayout() {
       tokenCache={tokenCache}
     >
       <AuthProvider>
+        {/*Contains all navigation props based on auth */}
         <TRPCProvider>
           <StatusBar style="auto" backgroundColor={colors.background} />
           <Slot />

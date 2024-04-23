@@ -1,5 +1,6 @@
+import type { VariantProps } from "class-variance-authority";
 import { Text, View } from "react-native";
-import { cva, VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 
 import StatusItem from "./status-item";
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
 import * as AuthSession from "expo-auth-session";
 import { Image } from "expo-image";
 import { useOAuth } from "@clerk/clerk-expo";
@@ -11,7 +10,7 @@ const SignInWithGoogle = () => {
   useWarmUpBrowser();
 
   const redirectUrl = AuthSession.makeRedirectUri({
-    path: "/",
+    path: "/(auth)/(tabs)",
   });
 
   const { startOAuthFlow } = useOAuth({

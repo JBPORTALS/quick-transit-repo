@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
@@ -8,6 +8,7 @@ interface AuthProviderProps extends React.ComponentProps<typeof View> {}
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const { isLoaded } = useAuth();
+
   const onLayoutRootView = useCallback(async () => {
     if (isLoaded) {
       await SplashScreen.hideAsync();
