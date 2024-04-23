@@ -132,7 +132,7 @@ export default function PackageDetails() {
           </Card>
         </VStack>
 
-        <Card className="sticky top-0 h-full max-h-full w-full shadow-none">
+        <Card className="sticky top-0 h-fit max-h-full w-full shadow-none">
           <CardHeader>
             <HStack className="items-center justify-between">
               <CardTitle>Traking Details</CardTitle>
