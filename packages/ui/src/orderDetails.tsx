@@ -51,8 +51,8 @@ export default function OrderDetails() {
                         DSIT Question Papers (Bundle A)
                     </h1>
                     <div className='flex gap-2'>
-                        <Button className='rounded-3xl bg-primary/50 h-5  text-pink-600'>78x23x120 cm</Button>
-                        <Button className='rounded-3xl bg-primary/50 h-5  text-pink-600'>200 g</Button>
+                        <Button className='rounded-3xl bg-primary/50 h-5  text-primary'>78x23x120 cm</Button>
+                        <Button className='rounded-3xl bg-primary/50 h-5   text-primary'>200 g</Button>
                     </div>
                     <div className='flex flex-col gap-2 w-60'>
                         <span className='text-sm font-semibold'>
