@@ -1,10 +1,11 @@
 import React from "react";
 
-import { columns, Payment } from "./columns";
-import { DataTable } from "./dataTable";
 import { HStack } from "@qt/ui/stack";
 
-async function getData(): Promise<Payment[]> {
+import { columns, Partner } from "./columns";
+import { DataTable } from "./dataTable";
+
+async function getData(): Promise<Partner[]> {
   // Fetch data from your API here.
   return [
     {
@@ -31,16 +32,11 @@ async function getData(): Promise<Payment[]> {
       packagesDelivered: 20,
       rating: 4,
     },
-
   ];
 }
 
 export default async function DemoPage() {
   const data = await getData();
 
-  return(
-  
-    <DataTable columns={columns} data={data} />
- 
-  );
+  return <DataTable columns={columns} data={data} />;
 }

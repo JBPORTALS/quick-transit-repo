@@ -43,7 +43,8 @@
     "./accordion": "./src/accordion.tsx",
     "./trackingStatus": "./src/trackingStatus.tsx",
     "./header": "./src/header.tsx",
-    "./aspect-ratio": "./src/aspect-ratio.tsx"
+    "./aspect-ratio": "./src/aspect-ratio.tsx",
+    "./bread-crumbs": "./src/bread-crumbs.tsx"
   },
   "license": "MIT",
   "scripts": {

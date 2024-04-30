@@ -1,25 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import {
   ArrowLeft,
   CheckCircle2Icon,
   ClipboardEdit,
-  EllipsisVertical,
   FileDown,
   MoreHorizontalIcon,
-  PhoneCall,
+  PackageXIcon,
   Settings2,
   StarIcon,
   TruckIcon,
   User,
-  X,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Button } from "@qt/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@qt/ui/card";
 import {
@@ -43,19 +40,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@qt/ui/dropdown-menu";
-import Profile, {
-  ProfileContent,
-  ProfileLeft,
-  ProfileRight,
-} from "@qt/ui/profileCard";
 import Search from "@qt/ui/searchBar";
 import { Separator } from "@qt/ui/seperator";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Tag } from "@qt/ui/tag";
 import { Text } from "@qt/ui/text";
-import TrackingStatus, { AddStatus } from "@qt/ui/trackingStatus";
 
 export default function PackageDetails() {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false); // State for Assign Pick-up Partner dialog
 
@@ -74,11 +66,6 @@ export default function PackageDetails() {
             <CardHeader>
               <HStack className="items-center justify-between">
                 <CardTitle className="flex items-center gap-3">
-                  <Button asChild size={"icon"} variant={"ghost"}>
-                    <Link href={"/pickUp-partner"}>
-                      <ArrowLeft className="h-7 w-7" />
-                    </Link>
-                  </Button>
                   Request Details
                 </CardTitle>
                 <HStack>
@@ -89,152 +76,147 @@ export default function PackageDetails() {
                   >
                     <FileDown className="h-5 w-5" /> Invoice
                   </Button>
-                  <div className="h-20 ">
-                    <DropdownMenu
-                      open={isDropdownOpen}
-                      onOpenChange={setIsDropdownOpen}
-                    >
-                      <DropdownMenuTrigger>
-                        <div
-                          className="h-10 p-2"
-                          onClick={handleToggleDropdown}
-                        >
-                          <MoreHorizontalIcon color="#000000" />{" "}
+                  <DropdownMenu
+                    open={isDropdownOpen}
+                    onOpenChange={setIsDropdownOpen}
+                  >
+                    <DropdownMenuTrigger asChild>
+                      <Button variant={"ghost"} className="h-10 p-2">
+                        <MoreHorizontalIcon />{" "}
+                      </Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent className="mx-5">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleOpenAssignDialog}>
+                        <User className="mr-2 h-5 w-5" /> Assign Pick-up Partner
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem>
+                        <ClipboardEdit className="mr-2 h-5 w-5" /> Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600">
+                        <PackageXIcon className="mr-2 h-5 w-5" />
+                        Cancel Request
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <Dialog
+                    open={isAssignDialogOpen}
+                    onOpenChange={setIsAssignDialogOpen}
+                  >
+                    <DialogContent>
+                      <DialogHeader className="w-full border-b-2 border-black pb-2 font-bold">
+                        Assign Pick-up Partner
+                      </DialogHeader>
+                      <DialogDescription>
+                        <div className="flex items-center gap-5 px-4 py-2 pb-5">
+                          <Search placeholder="Search Pick-Up Partner here" />
+                          <Settings2 />
                         </div>
-                      </DropdownMenuTrigger>
+                        <span>
+                          Who are all free at currently selected package time
+                          slot will display in descending order.
+                        </span>
+                        <div className="flex justify-between px-4 pt-5">
+                          <div className="flex gap-3">
+                            <img
+                              src="https://github.com/shadcn.png"
+                              className="w-15 h-12 rounded-md"
+                            />
+                            <div className="flex flex-col gap-2">
+                              <h1 className="text-sm font-semibold text-black">
+                                Elizabeth Lopez
+                              </h1>
+                              <span className="flex">
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#A3A3A3" />
+                                <StarFilledIcon color="#A3A3A3" />
+                              </span>
+                            </div>
+                          </div>
+                          <div>
+                            <Button>Assign</Button>
+                          </div>
+                        </div>
 
-                      <DropdownMenuContent className="mx-5">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleOpenAssignDialog}>
-                          <User className="mr-2" /> Assign Pick-up Partner
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          {" "}
-                          <X className="mr-2" />
-                          Cancel Request
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <ClipboardEdit className="mr-2" /> Edit
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                    <Dialog
-                      open={isAssignDialogOpen}
-                      onOpenChange={setIsAssignDialogOpen}
-                    >
-                      <DialogContent>
-                        <DialogHeader className="w-full border-b-2 border-black pb-2 font-bold">
-                          Assign Pick-up Partner
-                        </DialogHeader>
-                        <DialogDescription>
-                          <div className="flex items-center gap-5 px-4 py-2 pb-5">
-                            <Search placeholder="Search Pick-Up Partner here" />
-                            <Settings2 />
-                          </div>
-                          <span>
-                            Who are all free at currently selected package time
-                            slot will display in descending order.
-                          </span>
-                          <div className="flex justify-between px-4 pt-5">
-                            <div className="flex gap-3">
-                              <img
-                                src="https://github.com/shadcn.png"
-                                className="w-15 h-12 rounded-md"
-                              />
-                              <div className="flex flex-col gap-2">
-                                <h1 className="text-sm font-semibold text-black">
-                                  Elizabeth Lopez
-                                </h1>
-                                <span className="flex">
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                </span>
-                              </div>
-                            </div>
-                            <div>
-                              <Button className="text-white">Assign</Button>
+                        <div className="flex justify-between px-4 pt-5">
+                          <div className="flex gap-3">
+                            <img
+                              src="https://github.com/shadcn.png"
+                              className="w-15 h-12 rounded-md"
+                            />
+                            <div className="flex flex-col gap-2">
+                              <h1 className="text-sm font-semibold text-black">
+                                Elizabeth Lopez
+                              </h1>
+                              <span className="flex">
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#A3A3A3" />
+                                <StarFilledIcon color="#A3A3A3" />
+                              </span>
                             </div>
                           </div>
+                          <div>
+                            <Button variant={"outline"}>Assign</Button>
+                          </div>
+                        </div>
 
-                          <div className="flex justify-between px-4 pt-5">
-                            <div className="flex gap-3">
-                              <img
-                                src="https://github.com/shadcn.png"
-                                className="w-15 h-12 rounded-md"
-                              />
-                              <div className="flex flex-col gap-2">
-                                <h1 className="text-sm font-semibold text-black">
-                                  Elizabeth Lopez
-                                </h1>
-                                <span className="flex">
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                </span>
-                              </div>
-                            </div>
-                            <div>
-                              <Button variant={"outline"}>Assign</Button>
+                        <div className="flex justify-between px-4 pt-5">
+                          <div className="flex gap-3">
+                            <img
+                              src="https://github.com/shadcn.png"
+                              className="w-15 h-12 rounded-md"
+                            />
+                            <div className="flex flex-col gap-2">
+                              <h1 className="text-sm font-semibold text-black">
+                                Elizabeth Lopez
+                              </h1>
+                              <span className="flex">
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#A3A3A3" />
+                                <StarFilledIcon color="#A3A3A3" />
+                              </span>
                             </div>
                           </div>
+                          <div>
+                            <Button variant={"outline"}>Assign</Button>
+                          </div>
+                        </div>
 
-                          <div className="flex justify-between px-4 pt-5">
-                            <div className="flex gap-3">
-                              <img
-                                src="https://github.com/shadcn.png"
-                                className="w-15 h-12 rounded-md"
-                              />
-                              <div className="flex flex-col gap-2">
-                                <h1 className="text-sm font-semibold text-black">
-                                  Elizabeth Lopez
-                                </h1>
-                                <span className="flex">
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                </span>
-                              </div>
-                            </div>
-                            <div>
-                              <Button variant={"outline"}>Assign</Button>
+                        <div className="flex justify-between px-4 pt-5">
+                          <div className="flex gap-3">
+                            <img
+                              src="https://github.com/shadcn.png"
+                              className="w-15 h-12 rounded-md"
+                            />
+                            <div className="flex flex-col gap-2">
+                              <h1 className="text-sm font-semibold text-black">
+                                Elizabeth Lopez
+                              </h1>
+                              <span className="flex">
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#eff226" />
+                                <StarFilledIcon color="#A3A3A3" />
+                                <StarFilledIcon color="#A3A3A3" />
+                              </span>
                             </div>
                           </div>
-
-                          <div className="flex justify-between px-4 pt-5">
-                            <div className="flex gap-3">
-                              <img
-                                src="https://github.com/shadcn.png"
-                                className="w-15 h-12 rounded-md"
-                              />
-                              <div className="flex flex-col gap-2">
-                                <h1 className="text-sm font-semibold text-black">
-                                  Elizabeth Lopez
-                                </h1>
-                                <span className="flex">
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#eff226" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                  <StarFilledIcon color="#A3A3A3" />
-                                </span>
-                              </div>
-                            </div>
-                            <div>
-                              <Button variant={"outline"}>Assign</Button>
-                            </div>
+                          <div>
+                            <Button variant={"outline"}>Assign</Button>
                           </div>
-                        </DialogDescription>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
+                        </div>
+                      </DialogDescription>
+                    </DialogContent>
+                  </Dialog>
                 </HStack>
               </HStack>
             </CardHeader>
@@ -419,9 +401,7 @@ export default function PackageDetails() {
                   </div>
                 </div>
                 <div>
-                  <Button variant={"outline"} className="text-white">
-                    Call
-                  </Button>
+                  <Button variant={"outline"}>Call</Button>
                 </div>
               </HStack>
             </VStack>
