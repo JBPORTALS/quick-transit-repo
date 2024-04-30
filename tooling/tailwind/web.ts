@@ -6,6 +6,7 @@ import base from "./base";
 export default {
   content: base.content,
   presets: [base],
+  darkMode: "class",
   theme: {
     container: {
       center: true,

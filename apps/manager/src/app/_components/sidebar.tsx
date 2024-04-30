@@ -119,8 +119,8 @@ export default function SidebarClient() {
           </SidebarItem>
         </Link>
 
-        <Link href={"/pickUp-partner"}>
-          <SidebarItem isActive={pathname === "/pickUp-partner"}>
+        <Link href={"/pickup-partner"}>
+          <SidebarItem isActive={pathname === "/pickup-partner"}>
             <Bike /> PickUp Partners
           </SidebarItem>
         </Link>

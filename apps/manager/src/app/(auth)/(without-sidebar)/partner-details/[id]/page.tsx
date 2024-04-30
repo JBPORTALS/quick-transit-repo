@@ -4,26 +4,46 @@ import Link from "next/link";
 import {
   ArrowLeft,
   FileDown,
+  FilesIcon,
   MoreHorizontalIcon,
+  PhoneCallIcon,
   Star,
   StarIcon,
 } from "lucide-react";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@qt/ui/accordion";
+import { AspectRatio } from "@qt/ui/aspect-ratio";
 import { Button } from "@qt/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@qt/ui/card";
+import { Carousel, CarouselContent, CarouselItem } from "@qt/ui/carousel";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@qt/ui/carousel";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@qt/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@qt/ui/dropdown-menu";
+import { Separator } from "@qt/ui/seperator";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Tag } from "@qt/ui/tag";
 import { Text } from "@qt/ui/text";
+
 import { columns, Payment } from "./columns";
 import { DataTable } from "./dataTable";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@qt/ui/dropdown-menu";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@qt/ui/accordion";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@qt/ui/dialog";
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
@@ -156,120 +176,77 @@ export default async function PackageDetails() {
   const data = await getData();
   return (
     <VStack className="h-full max-h-fit w-full gap-5">
-      <VStack className="h-full max-h-fit w-full gap-5">
-        <HStack className="relative grid h-full max-h-fit w-full grid-cols-4">
-          <VStack className="col-span-3">
-            <Card className="col-span-3 w-full shadow-none">
-              <CardHeader>
-                <HStack className="items-center justify-between">
-                  <CardTitle className="flex items-center gap-3">
-                    <Button asChild size={"icon"} variant={"ghost"}>
-                      <Link href={"/pickUp-partner"}>
-                        <ArrowLeft className="h-7 w-7" />
-                      </Link>
-                    </Button>
-                    Partner Details
-                  </CardTitle>
-                  <HStack>
-                    
-                          <Dialog>
-                            <DialogTrigger className="mt-2">Legal Documents</DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader className="flex flex-col gap-3">
-                                <DialogTitle >Legal Documents</DialogTitle>
-                                <DialogDescription>
-                                  <HStack>
-                                  <VStack className="gap-2 w-56 items-center">
-                                    <img src="/package-1.jpg" className="w-full h-36 border" />                                 
-                                    <Button
-                                        size={"md"}
-                                        className="text-primary hover:text-primary flex gap-1 "
-                                        variant={"ghost"}
-                                    ><FileDown className="h-4 w-4" /> 
-                                    <Text styles={"subtle_medium"} className="pt-1">ID Card</Text>
-                                    </Button>
-                                  </VStack>
-                                  <VStack className="gap-2 w-56 items-center">
-                                  <img src="/package-1.jpg" className="w-full h-36 border" />
-                                    <Button
-                                        size={"md"}
-                                        className="text-primary hover:text-primary flex gap-1 "
-                                        variant={"ghost"}
-                                    ><FileDown className="h-4 w-4" /> 
-                                    <Text styles={"subtle_medium"} className="pt-1">Driving Licence</Text>
-                                    </Button>
-                                  </VStack>
-                                  </HStack>
-                                </DialogDescription>
-                              </DialogHeader>
-                            </DialogContent>
-                          </Dialog>
+      <HStack className="w-full gap-8 px-32 py-5">
+        <div className="w-96">
+          <AspectRatio
+            ratio={1 / 1}
+            className="overflow-hidden rounded-full border-2 border-input bg-muted"
+          >
+            <Image
+              src={"https://github.com/shadcn.png"}
+              fill
+              alt="partner"
+              className="object-cover"
+            />
+          </AspectRatio>
+        </div>
 
-                    <div className='h-20 '>
-                      <DropdownMenu>
-
-                        <DropdownMenuTrigger> <div className=' h-10 p-2'><MoreHorizontalIcon size={20} color="#000000" /> </div></DropdownMenuTrigger>
-
-                        <DropdownMenuContent className='mx-5'>
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem>Remove Partner</DropdownMenuItem>
-                          <DropdownMenuItem>Edit Partner</DropdownMenuItem>
-
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </div>
-                  </HStack>
-                </HStack>
-              </CardHeader>
-              <CardContent>
-                <HStack className="gap-8">
-                  <div className="flex-3 h-fit max-h-[328px] w-full max-w-[389px] rounded-radius border">
-
-                    <div className="relative h-[320px] rounded-sm">
-                      <Image src={"/package-1.jpg"} fill alt="package" />
-                    </div>
-                  </div>
-
-                  <VStack className=" w-full">
-                    <Text styles={"h4"} >
-                      Elizabeth Lopez
-                    </Text>
-                    <Text styles={"lead"}>
-                      {"elopez@yahoo.com"}
-                    </Text>
-                    <Text styles={"lead"}>
-                      {"(719) 810-1058"}
-                    </Text>
-                    <Tag className="bg-gray-200 border-gray-300">
-                      <StarIcon color="gray" className="h-5" />
-                      <StarIcon color="gray" className="h-5" />
-                      <StarIcon color="gray" className="h-5" />
-                      <StarIcon color="gray" className="h-5" />
-                    </Tag>
-                  </VStack>
-                </HStack>
-              </CardContent>
-            </Card>
-            <Card className=" w-full shadow-none">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            Assigned Packages
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <DataTable columns={columns} data={data} />
-        </CardContent>
-      </Card>
+        <VStack className="h-full w-full gap-10">
+          <HStack className="gap-28">
+            <VStack className="gap-1">
+              <Text className="text-muted-foreground">Assigned</Text>
+              <Text styles={"p_ui_medium"}>28,256</Text>
+            </VStack>
+            <VStack className="gap-1">
+              <Text className="text-muted-foreground">Shipping</Text>
+              <Text styles={"p_ui_medium"}>23</Text>
+            </VStack>
+            <VStack className="gap-1">
+              <Text className="text-muted-foreground">Delivered</Text>
+              <Text styles={"p_ui_medium"}>28,333</Text>
+            </VStack>
+            <VStack className="gap-1">
+              <Text className="text-muted-foreground">
+                {"Average Ratings (4.0)"}
+              </Text>
+              <HStack className="gap-1">
+                <StarIcon className="h-5 w-5 text-yellow-600" />
+                <StarIcon className="h-5 w-5 text-yellow-600" />
+                <StarIcon className="h-5 w-5 text-yellow-600" />
+                <StarIcon className="h-5 w-5 text-yellow-600" />
+                <StarIcon className="h-5 w-5 text-muted-foreground" />
+              </HStack>
+            </VStack>
+            <Button size={"icon"} variant={"ghost"}>
+              <MoreHorizontalIcon />
+            </Button>
+          </HStack>
+          <VStack className="gap-2">
+            <Text styles={"h4"}>Elizabeth Lopez</Text>
+            <Text styles={"p_ui"} className="text-muted-foreground">
+              {"elopez@yahoo.com"}
+            </Text>
+            <Text styles={"subtle"} className="text-muted-foreground">
+              {"(719) 810-1058"}
+            </Text>
           </VStack>
-
-          <Card className="sticky top-0 h-full max-h-full w-full shadow-none">
-            
-
-          </Card>
-        </HStack>
+          <HStack>
+            <Button size={"lg"}>
+              <PhoneCallIcon className="h-5 w-5" />
+              Contact
+            </Button>
+            <Button variant={"outline"} size={"lg"}>
+              <FilesIcon className="h-5 w-5" />
+              Legal Documents
+            </Button>
+          </HStack>
+        </VStack>
+      </HStack>
+      <Separator />
+      <VStack className="w-full px-32">
+        <Text styles={"h3"}>Assigned Packages</Text>
+        <DataTable columns={columns} data={data} />
       </VStack>
-      
     </VStack>
   );
 }
