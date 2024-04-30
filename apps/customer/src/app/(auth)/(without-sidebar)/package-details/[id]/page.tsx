@@ -144,47 +144,71 @@ export default function PackageDetails() {
           </CardHeader>
           <CardContent>
             {/* Map */}
-            <VStack className="w-fit items-center justify-center gap-0">
-              <HStack className="relative items-center">
-                <div className="h-5 w-5 rounded-full bg-primary"></div>
-                <Text styles={"body"} className="absolute left-0 px-7">
-                  Requested
-                </Text>
-              </HStack>
-              <Separator orientation="vertical" className="h-12" />
-              <HStack className="relative items-center">
-                <div className="h-5 w-5 rounded-full bg-primary"></div>
-                <Text styles={"body"} className="absolute left-0 px-7">
-                  Confirmed
-                </Text>
-              </HStack>
-              <Separator orientation="vertical" className="h-12" />
-              <HStack className="relative items-center">
-                <div className="h-5 w-5 rounded-full bg-primary"></div>
-                <Text styles={"body"} className="absolute left-0 px-7">
-                  Picked Up
-                </Text>
-              </HStack>
-              <Separator orientation="vertical" className="h-12" />
-              <HStack className="relative items-center">
-                <div className="h-5 w-5 rounded-full bg-primary"></div>
-                <Text styles={"body"} className="absolute left-0 px-7">
-                  Shipping
-                </Text>
-              </HStack>
-              <Separator orientation="vertical" className="h-12" />
-              <HStack className="relative items-center">
-                <div className="h-5 w-5 rounded-full bg-primary"></div>
-                <VStack className="absolute left-0  top-0 gap-1 px-7">
-                  <Text styles={"body"}>Dilivered</Text>
-                  <Text styles={"details"} className="text-muted-foreground">
-                    Tracking ID: #2782833782828
+            <VStack className="w-full items-center justify-center gap-0">
+              <HStack className="h-fit w-full items-start gap-0 ">
+                <VStack className="h-full flex-1 items-center gap-0">
+                  <div className="h-5 w-5 rounded-full bg-primary"></div>
+                  <Separator className="h-12" orientation="vertical" />
+                </VStack>
+                <VStack className="w-full gap-1 px-3">
+                  <Text styles={"body"} className="left-0">
+                    Requested
                   </Text>
-                  <Button
-                    size={"sm"}
-                    className="px-0 text-primary hover:text-primary"
-                    variant={"link"}
-                  >
+                  <Text styles={"details"} className="w-full"></Text>
+                </VStack>
+              </HStack>
+              <HStack className="h-fit w-full items-start gap-0 ">
+                <VStack className="h-full flex-1 items-center gap-0">
+                  <div className="h-5 w-5 rounded-full bg-primary"></div>
+                  <Separator className="h-12" orientation="vertical" />
+                </VStack>
+                <VStack className="w-full gap-1 px-3">
+                  <Text styles={"body"} className="left-0">
+                    Confirmed
+                  </Text>
+                  <Text styles={"details"} className="w-full"></Text>
+                </VStack>
+              </HStack>
+              <HStack className="h-fit w-full items-start gap-0 ">
+                <VStack className="h-full flex-1 items-center gap-0">
+                  <div className="h-5 w-5 rounded-full bg-primary"></div>
+                  <Separator className="h-12" orientation="vertical" />
+                </VStack>
+                <VStack className="w-full gap-1 px-3">
+                  <Text styles={"body"} className="left-0">
+                    Picking Up
+                  </Text>
+                  <Text styles={"details"} className="w-full"></Text>
+                </VStack>
+              </HStack>
+              <HStack className="h-fit w-full items-start gap-0 ">
+                <VStack className="h-full flex-1 items-center gap-0">
+                  <div className="h-5 w-5 rounded-full bg-primary"></div>
+                  <Separator className="h-12" orientation="vertical" />
+                </VStack>
+                <VStack className="w-full gap-1 px-3">
+                  <Text styles={"body"} className="left-0">
+                    Shipping
+                  </Text>
+                  <Text styles={"details"} className="w-full"></Text>
+                </VStack>
+              </HStack>
+              <HStack className="h-fit w-full items-start gap-0 ">
+                <VStack className="h-full flex-1 items-center gap-0">
+                  <div className="h-5 w-5 rounded-full bg-primary"></div>
+                  {/* <Separator className="h-12" orientation="vertical" /> */}
+                </VStack>
+                <VStack className="w-full gap-1 px-3">
+                  <Text styles={"body"} className="left-0">
+                    Delivered
+                  </Text>
+                  <Text styles={"details"} className="w-full">
+                    Your package is delivered. ✅
+                  </Text>
+                  <Text styles={"details"} className="w-full">
+                    Tracking ID: #2828337383
+                  </Text>
+                  <Button size={"sm"} variant={"link"} className="px-0">
                     <FileDown className="h-4 w-4" /> Download Service Bill
                   </Button>
                 </VStack>

@@ -2,8 +2,10 @@
 
 import type { SubmitHandler } from "react-hook-form";
 import { useState } from "react";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { easeIn, motion } from "framer-motion";
+import { XCircleIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -19,7 +21,8 @@ import {
 } from "@qt/ui/form";
 import ImageUploader from "@qt/ui/imagePlaceholder";
 import { Input } from "@qt/ui/input";
-import { HStack } from "@qt/ui/stack";
+import { HStack, VStack } from "@qt/ui/stack";
+import { Text } from "@qt/ui/text";
 
 const steps = [
   {
@@ -41,12 +44,7 @@ const steps = [
     fields: ["image1", "image2", "image3"],
   },
   {
-    name: "Select Time Slot",
-    // show: true,
-    fields: ["weight"],
-  },
-  {
-    name: "Select Addresses",
+    name: "Time Slot & Addresses",
     // show: true,
     fields: ["weight"],
   },
@@ -93,29 +91,9 @@ const formSchema = z.object({
   date: z.date(),
   from: z.string(),
   to: z.string(),
-  image1: z
-    .any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported.",
-    ),
-  image2: z
-    .any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported.",
-    )
-    .optional(),
-  image3: z
-    .any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported.",
-    )
-    .optional(),
+  image1: z.any(),
+  image2: z.any().optional(),
+  image3: z.any().optional(),
 });
 
 type Inputs = z.infer<typeof formSchema>;
@@ -138,6 +116,7 @@ export default function NewRequest() {
       weight: "",
       image1: null,
     },
+    mode: "onChange",
   });
 
   async function preCheck() {
@@ -161,7 +140,14 @@ export default function NewRequest() {
   }
 
   return (
-    <div className="flex h-fit min-h-full w-full flex-col items-center gap-8 p-10">
+    <div className="flex h-fit min-h-full w-full flex-col items-center gap-5 p-10">
+      <HStack className="w-full justify-between py-0">
+        <div></div>
+        <Text styles={"h4"}>New Request</Text>
+        <Link href={"/"}>
+          <XCircleIcon className="text-foreground" />
+        </Link>
+      </HStack>
       <div className="flex w-fit gap-5 pb-12 pt-8">
         {steps.map((s, i) => (
           <Step key={s.name} aria-label={s.name} aria-hidden={i > current} />
@@ -315,7 +301,47 @@ export default function NewRequest() {
               </HStack>
             </>
           )}
-          <pre>{JSON.stringify(form.watch(), null, 4)}</pre>
+
+          {current === 2 && (
+            <>
+              <FormField
+                control={form.control}
+                name="image1"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>{"Date & Time Of Delivery"}</FormLabel>
+                    <FormControl>
+                      <Input type="datetime-local" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <VStack>
+                <Text styles={"body"}>Pick-Up Address</Text>
+              </VStack>
+              <HStack className="justify-end">
+                <Button
+                  variant={"secondary"}
+                  type="button"
+                  size={"lg"}
+                  onClick={() => setCurrent((current) => current - 1)}
+                  className="w-1/3"
+                >
+                  Previous
+                </Button>
+                <Button
+                  size={"lg"}
+                  type="button"
+                  onClick={() => preCheck()}
+                  className="w-1/3"
+                >
+                  Continue
+                </Button>
+              </HStack>
+            </>
+          )}
+          {/* <pre>{JSON.stringify(form.watch(), null, 4)}</pre> */}
         </form>
       </Form>
     </div>
