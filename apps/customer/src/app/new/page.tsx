@@ -1,14 +1,17 @@
 "use client";
 
-import type { SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { easeIn, motion } from "framer-motion";
-import { XCircleIcon } from "lucide-react";
+import { motion } from "framer-motion";
+import { Images, XCircleIcon } from "lucide-react";
+import { cn } from "node_modules/@qt/ui/lib/utils";
+import Dropzone from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { AspectRatio } from "@qt/ui/aspect-ratio";
 import { Button } from "@qt/ui/button";
 import {
   Form,
@@ -18,6 +21,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  useFieldArray,
 } from "@qt/ui/form";
 import ImageUploader from "@qt/ui/imagePlaceholder";
 import { Input } from "@qt/ui/input";
@@ -41,7 +45,7 @@ const steps = [
   {
     name: "Package Images",
     // show: true,
-    fields: ["image1", "image2", "image3"],
+    fields: ["images"],
   },
   {
     name: "Time Slot & Addresses",
@@ -91,9 +95,12 @@ const formSchema = z.object({
   date: z.date(),
   from: z.string(),
   to: z.string(),
-  image1: z.any(),
-  image2: z.any().optional(),
-  image3: z.any().optional(),
+  images: z
+    .array(z.object({ file: z.any(), preview: z.string() }))
+    .max(4, "Not more than 4 images")
+    .nonempty({ message: "Package images are required" }),
+  datetime: z.string().min(1, "Select a time"),
+  pickUpAddress: z.string().optional(),
 });
 
 type Inputs = z.infer<typeof formSchema>;
@@ -114,12 +121,24 @@ export default function NewRequest() {
       pacakgeDescription: "",
       to: "",
       weight: "",
-      image1: null,
+      images: [],
     },
     mode: "onChange",
   });
+  const { fields, append } = useFieldArray({
+    name: "images",
+    control: form.control,
+  });
 
-  async function preCheck() {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+
+    console.log(values);
+  }
+
+  const onSubmitWithPrecheck: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
     const fields = steps[current]?.fields;
     const isValid = await form.trigger(fields as FieldNames[], {
       shouldFocus: true,
@@ -130,14 +149,7 @@ export default function NewRequest() {
       setCurrent((current) => current + 1);
       return true;
     }
-  }
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-
-    console.log(values);
-  }
+  };
 
   return (
     <div className="flex h-fit min-h-full w-full flex-col items-center gap-5 p-10">
@@ -154,7 +166,10 @@ export default function NewRequest() {
         ))}
       </div>
       <Form {...form}>
-        <form className="w-2/4 space-y-6 rounded-radius border bg-background p-10 shadow-sm dark:bg-secondary">
+        <form
+          onSubmit={onSubmitWithPrecheck}
+          className="w-2/4 space-y-6 rounded-radius border bg-background p-10 shadow-sm dark:bg-secondary"
+        >
           {/* Step 1 */}
           {current === 0 && (
             <>
@@ -248,57 +263,80 @@ export default function NewRequest() {
                   )}
                 />
               </HStack>
-              <HStack className="justify-end">
-                <Button
-                  size={"lg"}
-                  type="button"
-                  onClick={() => preCheck()}
-                  className="w-1/3"
-                >
-                  Continue
-                </Button>
-              </HStack>
             </>
           )}
           {/* Step 2 */}
           {current === 1 && (
             <>
-              <div className="grid grid-cols-2 gap-3">
-                <FormField
-                  control={form.control}
-                  name="image1"
-                  render={({ field }) => <ImageUploader {...field} />}
-                />
-                <FormField
-                  control={form.control}
-                  name="image2"
-                  render={({ field }) => <ImageUploader {...field} />}
-                />
-                <FormField
-                  control={form.control}
-                  name="image3"
-                  render={({ field }) => <ImageUploader {...field} />}
-                />
-              </div>
-              <HStack className="justify-end">
-                <Button
-                  variant={"secondary"}
-                  type="button"
-                  size={"lg"}
-                  onClick={() => setCurrent((current) => current - 1)}
-                  className="w-1/3"
-                >
-                  Previous
-                </Button>
-                <Button
-                  size={"lg"}
-                  type="button"
-                  onClick={() => preCheck()}
-                  className="w-1/3"
-                >
-                  Continue
-                </Button>
-              </HStack>
+              <FormField
+                control={form.control}
+                name="images"
+                render={() => (
+                  <FormItem>
+                    <Dropzone
+                      accept={{
+                        "image/*": [".jpg", ".jpeg", ".png"],
+                      }}
+                      multiple={true}
+                      maxSize={5000000}
+                      maxFiles={3}
+                      onDropAccepted={(acceptedFiles) => {
+                        acceptedFiles.map((acceptedFile) => {
+                          return append({
+                            file: acceptedFile,
+                            preview: URL.createObjectURL(acceptedFile),
+                          });
+                        });
+                      }}
+                    >
+                      {({ getRootProps, getInputProps, acceptedFiles }) => (
+                        <div
+                          {...getRootProps({
+                            className: cn(
+                              "flex h-[480px] w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-input p-3 py-0",
+                              form.formState.errors.images &&
+                                "border-destructive",
+                            ),
+                          })}
+                        >
+                          <div className="flex h-full w-full items-center gap-x-3">
+                            {fields.length > 0 ? (
+                              <div className="grid w-full grid-cols-2 gap-3">
+                                {fields.map((file) => {
+                                  return (
+                                    <AspectRatio
+                                      ratio={16 / 12}
+                                      className="relative border"
+                                    >
+                                      <Image
+                                        src={file.preview}
+                                        fill
+                                        alt="Image"
+                                        className="rounded-md object-cover"
+                                      />
+                                    </AspectRatio>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              <VStack className="h-full w-full items-center justify-center">
+                                <Images className="h-10 w-10" />
+                                <Text styles={"details"}>
+                                  Drag & Drop Package Images or click to upload.
+                                </Text>
+                              </VStack>
+                            )}
+                            <FormControl>
+                              <input {...getInputProps()} />
+                            </FormControl>
+                          </div>
+                        </div>
+                      )}
+                    </Dropzone>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </>
           )}
 
@@ -306,7 +344,7 @@ export default function NewRequest() {
             <>
               <FormField
                 control={form.control}
-                name="image1"
+                name="datetime"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>{"Date & Time Of Delivery"}</FormLabel>
@@ -320,27 +358,23 @@ export default function NewRequest() {
               <VStack>
                 <Text styles={"body"}>Pick-Up Address</Text>
               </VStack>
-              <HStack className="justify-end">
-                <Button
-                  variant={"secondary"}
-                  type="button"
-                  size={"lg"}
-                  onClick={() => setCurrent((current) => current - 1)}
-                  className="w-1/3"
-                >
-                  Previous
-                </Button>
-                <Button
-                  size={"lg"}
-                  type="button"
-                  onClick={() => preCheck()}
-                  className="w-1/3"
-                >
-                  Continue
-                </Button>
-              </HStack>
             </>
           )}
+
+          <HStack className="justify-end">
+            <Button
+              variant={"secondary"}
+              type="button"
+              size={"lg"}
+              onClick={() => setCurrent((current) => current - 1)}
+              className="w-1/3"
+            >
+              Previous
+            </Button>
+            <Button size={"lg"} type="submit" className="w-1/3">
+              Continue
+            </Button>
+          </HStack>
           {/* <pre>{JSON.stringify(form.watch(), null, 4)}</pre> */}
         </form>
       </Form>

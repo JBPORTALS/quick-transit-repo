@@ -42,7 +42,8 @@
     "./package": "./src/package.tsx",
     "./accordion": "./src/accordion.tsx",
     "./trackingStatus": "./src/trackingStatus.tsx",
-    "./header": "./src/header.tsx"
+    "./header": "./src/header.tsx",
+    "./aspect-ratio": "./src/aspect-ratio.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -54,13 +55,14 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-radio-group": "^1.1.3",
-    "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
