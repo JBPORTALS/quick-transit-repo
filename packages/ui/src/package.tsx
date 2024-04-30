@@ -6,7 +6,7 @@ interface PackageProps extends React.ComponentProps<typeof Button> {}
 export function Package({ children, ...props }: PackageProps) {
   return (
     <Button
-      className="h-fit w-full justify-start p-3"
+      className="h-fit w-full justify-start p-3 gap-2"
       variant={"ghost"}
       {...props}
     >
