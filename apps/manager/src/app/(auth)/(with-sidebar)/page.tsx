@@ -1,10 +1,11 @@
-import { IndianRupee, SlidersVertical } from "lucide-react";
-
-import Rightbar from "@qt/ui/rightbar";
 
 import { api } from "~/trpc/server";
+  import Rightbar from "@qt/ui/rightbar"
+  import { IndianRupee, SlidersVertical } from "lucide-react";
 
 export default async function HomePage() {
+  
+
   return (
     <main className="flex h-full">
       <div className="h-full w-full p-8">
