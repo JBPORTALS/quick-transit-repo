@@ -42,7 +42,7 @@ export default function page() {
             </Requests>
           </div>
 
-          <div className=" py-3.5">
+          <div className="py-3.5">
             <Requests variant={"default"} className=" border">
               <RequestBody>
                 <HStack className="py-[7px]">

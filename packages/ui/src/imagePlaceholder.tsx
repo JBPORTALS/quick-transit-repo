@@ -28,33 +28,32 @@ const ImageUploader = ({
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
           setImage(reader.result);
         }
       };
-      reader.readAsDataURL(file);
-      console.log(file);
     }
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          setImage(reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  //   const file = e.dataTransfer.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       if (typeof reader.result === "string") {
+  //         setImage(reader.result);
+  //       }
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
+  // const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  // };
 
   const handleDivClick = () => {
     if (fileInputRef.current) {
@@ -67,10 +66,10 @@ const ImageUploader = ({
       <FormLabel>{"Picture 3 (optional)"}</FormLabel>
       <FormControl>
         <div
-          className="flex h-52 w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300"
+          className="flex h-52 w-full items-center justify-center rounded-lg border-2 border-dashed border-border"
           onClick={handleDivClick}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
+          // onDrop={handleDrop}
+          // onDragOver={handleDragOver}
         >
           {props.value ? (
             <img
@@ -82,9 +81,9 @@ const ImageUploader = ({
             <div className="flex flex-col items-center gap-7">
               <Image />
               <div>
-                <h1 className="text-sm font-medium">
+                {/* <h1 className="text-sm font-medium">
                   Drop your image here or select
-                </h1>
+                </h1> */}
                 <span className="flex justify-center text-sm font-medium text-muted-foreground">
                   click to browse
                 </span>

@@ -7,9 +7,9 @@ import { api } from "~/trpc/server";
 export default async function HomePage() {
   return (
     <main className="flex h-full">
-      <div className="h-full w-full p-8">
+      <div className="h-full w-full p-8 ">
         <h1 className="text-3xl font-bold">Good Morning</h1>
-        <div className="mt-10 rounded-lg border">
+        <div className="mt-10 rounded-lg border bg-background dark:bg-secondary">
           <div className="flex h-16 items-center justify-between px-10">
             <h1 className="text-xl font-semibold ">Requests</h1>
             <span>
@@ -22,7 +22,7 @@ export default async function HomePage() {
           <div className="mx-6 mb-8 h-72 border"></div>
         </div>
 
-        <div className="mt-10 rounded-lg border">
+        <div className="mt-10 rounded-lg border bg-background dark:bg-secondary">
           <div className="flex h-16 items-center justify-between px-10">
             <h1 className="text-xl font-semibold ">Payments</h1>
             <span>
