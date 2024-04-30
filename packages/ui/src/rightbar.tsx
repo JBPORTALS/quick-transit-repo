@@ -10,7 +10,7 @@ export default function Rightbar() {
         <Text styles={"p_ui_medium"}>Ongoing Deliveries</Text>
         <Text styles={"p_ui"}>Today</Text>
       </div>
-      <div className="h-14 p-2"></div>
+      <div className="h-14 p-2">Current tracking details goes here...</div>
       {/* <div>
         <div className="py-3.5">
           <OrderStatus />

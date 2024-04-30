@@ -27,7 +27,7 @@ export default async function HomePage() {
   return (
     <main className="flex h-full">
       <div className="flex h-full w-full flex-col gap-8 p-8">
-        <h1 className="text-3xl font-bold">Good Morning</h1>
+        <Text styles={"h3"}>👋 Hey, Good Morning</Text>
         <div className="flex flex-col gap-4 rounded-lg border bg-background p-5 dark:bg-secondary">
           <div className="flex items-center justify-between">
             <Text styles={"p_ui_medium"}>Requests</Text>
