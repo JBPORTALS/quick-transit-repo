@@ -6,6 +6,7 @@ import {
   CheckCircle2Icon,
   FileDown,
   MoreHorizontalIcon,
+  StarIcon,
   TruckIcon,
 } from "lucide-react";
 
@@ -125,97 +126,139 @@ export default function PackageDetails() {
           <Card className=" w-full shadow-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                Assigned Packages
+                Other Details
               </CardTitle>
             </CardHeader>
-            <CardContent>Content goes here...</CardContent>
+            <CardContent>
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
+              nulla nostrum laudantium deserunt facilis sint obcaecati nam, odio
+              perferendis quis perspiciatis, est, provident ullam. Doloremque
+              aspernatur ipsam molestiae consequatur nam? Lorem ipsum dolor, sit
+              amet consectetur adipisicing elit. Maxime repellendus, dolores ex
+              voluptate saepe ratione, atque accusantium aut iste quidem eius
+              reiciendis adipisci dolor quia veritatis eligendi fugit earum
+              assumenda?
+            </CardContent>
           </Card>
         </VStack>
 
-        <Card className="sticky top-0 h-fit max-h-full w-full shadow-none">
-          <CardHeader>
-            <HStack className="items-center justify-between">
-              <CardTitle>Traking Details</CardTitle>
-              <Tag variant={"gray"} className="py-2">
-                <TruckIcon className="h-5 w-5" />
-                <Text styles={"body_medium"}>Picking Up</Text>
-              </Tag>
-            </HStack>
-          </CardHeader>
-          <CardContent>
-            {/* Map */}
-            <VStack className="w-full items-center justify-center gap-0">
-              <HStack className="h-fit w-full items-start gap-0 ">
-                <VStack className="h-full flex-1 items-center gap-0">
-                  <div className="h-5 w-5 rounded-full bg-primary"></div>
-                  <Separator className="h-12" orientation="vertical" />
-                </VStack>
-                <VStack className="w-full gap-1 px-3">
-                  <Text styles={"body"} className="left-0">
-                    Requested
-                  </Text>
-                  <Text styles={"details"} className="w-full"></Text>
-                </VStack>
+        <div className="sticky top-20">
+          <Card className="h-fit max-h-full w-full shadow-none">
+            <CardHeader>
+              <HStack className="items-center justify-between">
+                <CardTitle>Traking Details</CardTitle>
+                <Tag variant={"gray"} className="py-2">
+                  <TruckIcon className="h-5 w-5" />
+                  <Text styles={"body_medium"}>Picking Up</Text>
+                </Tag>
               </HStack>
-              <HStack className="h-fit w-full items-start gap-0 ">
-                <VStack className="h-full flex-1 items-center gap-0">
-                  <div className="h-5 w-5 rounded-full bg-primary"></div>
-                  <Separator className="h-12" orientation="vertical" />
+            </CardHeader>
+            <CardContent>
+              <VStack className="w-full">
+                {/* Map */}
+                <VStack className="w-full items-center justify-center gap-0">
+                  <HStack className="h-fit w-full items-start gap-0 ">
+                    <VStack className="h-full flex-1 items-center gap-0">
+                      <div className="h-5 w-5 rounded-full bg-primary"></div>
+                      <Separator className="h-12" orientation="vertical" />
+                    </VStack>
+                    <VStack className="w-full gap-1 px-3">
+                      <Text styles={"body"} className="left-0">
+                        Requested
+                      </Text>
+                      <Text styles={"details"} className="w-full"></Text>
+                    </VStack>
+                  </HStack>
+                  <HStack className="h-fit w-full items-start gap-0 ">
+                    <VStack className="h-full flex-1 items-center gap-0">
+                      <div className="h-5 w-5 rounded-full bg-primary"></div>
+                      <Separator className="h-12" orientation="vertical" />
+                    </VStack>
+                    <VStack className="w-full gap-1 px-3">
+                      <Text styles={"body"} className="left-0">
+                        Confirmed
+                      </Text>
+                      <Text styles={"details"} className="w-full"></Text>
+                    </VStack>
+                  </HStack>
+                  <HStack className="h-fit w-full items-start gap-0 ">
+                    <VStack className="h-full flex-1 items-center gap-0">
+                      <div className="h-5 w-5 rounded-full bg-primary"></div>
+                      <Separator className="h-12" orientation="vertical" />
+                    </VStack>
+                    <VStack className="w-full gap-1 px-3">
+                      <Text styles={"body"} className="left-0">
+                        Picking Up
+                      </Text>
+                      <Text styles={"details"} className="w-full"></Text>
+                    </VStack>
+                  </HStack>
+                  <HStack className="h-fit w-full items-start gap-0 ">
+                    <VStack className="h-full flex-1 items-center gap-0">
+                      <div className="h-5 w-5 rounded-full bg-primary"></div>
+                      <Separator className="h-12" orientation="vertical" />
+                    </VStack>
+                    <VStack className="w-full gap-1 px-3">
+                      <Text styles={"body"} className="left-0">
+                        Shipping
+                      </Text>
+                      <Text styles={"details"} className="w-full"></Text>
+                    </VStack>
+                  </HStack>
+                  <HStack className="h-fit w-full items-start gap-0 ">
+                    <VStack className="h-full flex-1 items-center gap-0">
+                      <div className="h-5 w-5 rounded-full bg-primary"></div>
+                      {/* <Separator className="h-12" orientation="vertical" /> */}
+                    </VStack>
+                    <VStack className="w-full gap-1 px-3">
+                      <Text styles={"body"} className="left-0">
+                        Delivered
+                      </Text>
+                      <Text
+                        styles={"details"}
+                        className="w-full text-muted-foreground"
+                      >
+                        Your package is delivered. ✅
+                      </Text>
+                      <Text
+                        styles={"details"}
+                        className="w-full text-muted-foreground"
+                      >
+                        Tracking ID: #2828337383
+                      </Text>
+                      <Button size={"sm"} variant={"link"} className="px-0">
+                        <FileDown className="mr-2 h-4 w-4" /> Download Service
+                        Bill
+                      </Button>
+                    </VStack>
+                  </HStack>
                 </VStack>
-                <VStack className="w-full gap-1 px-3">
-                  <Text styles={"body"} className="left-0">
-                    Confirmed
-                  </Text>
-                  <Text styles={"details"} className="w-full"></Text>
-                </VStack>
-              </HStack>
-              <HStack className="h-fit w-full items-start gap-0 ">
-                <VStack className="h-full flex-1 items-center gap-0">
-                  <div className="h-5 w-5 rounded-full bg-primary"></div>
-                  <Separator className="h-12" orientation="vertical" />
-                </VStack>
-                <VStack className="w-full gap-1 px-3">
-                  <Text styles={"body"} className="left-0">
-                    Picking Up
-                  </Text>
-                  <Text styles={"details"} className="w-full"></Text>
-                </VStack>
-              </HStack>
-              <HStack className="h-fit w-full items-start gap-0 ">
-                <VStack className="h-full flex-1 items-center gap-0">
-                  <div className="h-5 w-5 rounded-full bg-primary"></div>
-                  <Separator className="h-12" orientation="vertical" />
-                </VStack>
-                <VStack className="w-full gap-1 px-3">
-                  <Text styles={"body"} className="left-0">
-                    Shipping
-                  </Text>
-                  <Text styles={"details"} className="w-full"></Text>
-                </VStack>
-              </HStack>
-              <HStack className="h-fit w-full items-start gap-0 ">
-                <VStack className="h-full flex-1 items-center gap-0">
-                  <div className="h-5 w-5 rounded-full bg-primary"></div>
-                  {/* <Separator className="h-12" orientation="vertical" /> */}
-                </VStack>
-                <VStack className="w-full gap-1 px-3">
-                  <Text styles={"body"} className="left-0">
-                    Delivered
-                  </Text>
-                  <Text styles={"details"} className="w-full">
-                    Your package is delivered. ✅
-                  </Text>
-                  <Text styles={"details"} className="w-full">
-                    Tracking ID: #2828337383
-                  </Text>
-                  <Button size={"sm"} variant={"link"} className="px-0">
-                    <FileDown className="h-4 w-4" /> Download Service Bill
-                  </Button>
-                </VStack>
-              </HStack>
-            </VStack>
-          </CardContent>
-        </Card>
+                <Separator />
+                <HStack className="flex w-full items-center justify-between">
+                  <div className="flex gap-3">
+                    <img
+                      src="https://github.com/shadcn.png"
+                      className="w-15 h-12 rounded-md"
+                    />
+                    <div className="flex flex-col gap-2">
+                      <h1 className="text-sm font-semibold text-card-foreground">
+                        Elizabeth Lopez
+                      </h1>
+                      <HStack className="gap-1">
+                        <StarIcon className="h-4 w-4" color="#eff226" />
+                        <StarIcon className="h-4 w-4" color="#eff226" />
+                        <StarIcon className="h-4 w-4" color="#eff226" />
+                        <StarIcon className="h-4 w-4" color="#A3A3A3" />
+                        <StarIcon className="h-4 w-4" color="#A3A3A3" />
+                      </HStack>
+                    </div>
+                  </div>
+                  <Button variant={"outline"}>Call</Button>
+                </HStack>
+              </VStack>
+            </CardContent>
+          </Card>
+        </div>
       </HStack>
     </VStack>
   );
