@@ -227,8 +227,7 @@ export default function PackageDetails() {
                         Tracking ID: #2828337383
                       </Text>
                       <Button size={"sm"} variant={"link"} className="px-0">
-                        <FileDown className="mr-2 h-4 w-4" /> Download Service
-                        Bill
+                        <FileDown className="h-4 w-4" /> Download Service Bill
                       </Button>
                     </VStack>
                   </HStack>
