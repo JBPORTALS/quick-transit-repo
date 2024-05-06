@@ -10,9 +10,6 @@ import { ColorsTheme } from "~/utils/constants";
 export default function TabLayout() {
   const { user } = useUser();
   const colors = ColorsTheme();
-  const { isSignedIn } = useAuth();
-
-  if (!isSignedIn) return <Redirect href={"/sign-in"} />;
 
   return (
     <Tabs
@@ -25,7 +22,7 @@ export default function TabLayout() {
         tabBarStyle: {
           height: 72,
           backgroundColor: colors.background,
-          paddingBottom: 14,
+          paddingBottom: 10,
           borderColor: colors.border,
         },
         headerShadowVisible: false,
@@ -49,7 +46,7 @@ export default function TabLayout() {
           return (
             <Link href={"/profile"}>
               <Image
-                source={user?.imageUrl}
+                source={{ uri: "https://github.com/shadcn.png" }}
                 style={{
                   height: 32,
                   width: 32,
@@ -67,9 +64,10 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: ({ color, focused }) => (
+
+          tabBarIcon: ({ color, focused, size }) => (
             <NavItem {...{ focused }}>
-              <HomeIcon size={24} {...{ color }} />
+              <HomeIcon size={size} {...{ color }} />
             </NavItem>
           ),
         }}
@@ -78,9 +76,9 @@ export default function TabLayout() {
         name="packages"
         options={{
           title: "Packages",
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <NavItem {...{ focused }}>
-              <ListIcon size={24} {...{ color }} />
+              <ListIcon size={size} {...{ color }} />
             </NavItem>
           ),
         }}
@@ -91,11 +89,11 @@ export default function TabLayout() {
           title: "Notifications",
           tabBarBadge: "9+",
           tabBarBadgeStyle: { backgroundColor: colors.primary },
-          tabBarIcon: ({ color, focused }) => (
+          tabBarIcon: ({ color, focused, size }) => (
             <NavItem {...{ focused }}>
               <BellIcon
                 className="bg-primary/30 p-3"
-                size={24}
+                size={size}
                 {...{ color }}
               />
             </NavItem>

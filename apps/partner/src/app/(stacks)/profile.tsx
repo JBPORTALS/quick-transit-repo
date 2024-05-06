@@ -14,7 +14,7 @@ export default function Profile() {
       <View className="h-full w-full gap-5 border-t border-border px-4 py-3">
         <View className="items-center gap-3">
           <Image
-            source={user?.imageUrl ?? require("assets/Sample_User_Icon.png")}
+            source={{ uri: "https://github.com/shadcn.png" }}
             style={{
               height: 130,
               width: 130,
@@ -25,7 +25,7 @@ export default function Profile() {
           />
           <View className="items-center gap-2">
             <Text className="text-2xl font-semibold text-foreground">
-              {user?.firstName} {user?.lastName ?? ""}
+              {user?.firstName} {user?.lastName ?? "Shadcn"}
             </Text>
             <Text className="text-muted-foreground">Pick-Up Partner</Text>
             <View className="flex-row gap-3">

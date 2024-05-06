@@ -20,12 +20,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
   },
   updates: {
+    enabled: true,
     fallbackToCacheTimeout: 0,
+    checkAutomatically:"ON_LOAD"
   },
   assetBundlePatterns: ["**/*"],
   ios: {
     bundleIdentifier: "com.jbportalsblr.quicktransitt",
     supportsTablet: true,
+    buildNumber:"1"
   },
   android: {
     package: "com.jbportalsblr.quicktransitt",
@@ -33,6 +36,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: "./assets/icon.png",
       backgroundColor: "#FFFFFF",
     },
+    versionCode:1
   },
   extra: {
     eas: {
