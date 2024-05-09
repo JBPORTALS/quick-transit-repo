@@ -1,14 +1,12 @@
 import React from "react";
 import { Image } from "expo-image";
 import { Link, Redirect, Tabs } from "expo-router";
-import { useAuth, useUser } from "@clerk/clerk-expo";
 import { BellIcon, HomeIcon, ListIcon } from "lucide-react-native";
 
 import NavItem from "~/components/nav-item";
 import { ColorsTheme } from "~/utils/constants";
 
 export default function TabLayout() {
-  const { user } = useUser();
   const colors = ColorsTheme();
 
   return (
@@ -16,6 +14,7 @@ export default function TabLayout() {
       sceneContainerStyle={{
         backgroundColor: colors.secondary,
       }}
+      initialRouteName="home"
       screenOptions={{
         tabBarShowLabel: false,
         headerTintColor: colors.primary,
@@ -61,7 +60,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: "Home",
 

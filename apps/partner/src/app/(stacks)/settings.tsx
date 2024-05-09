@@ -6,7 +6,6 @@ import { ChevronRight, LogOutIcon } from "lucide-react-native";
 import { ColorsTheme } from "~/utils/constants";
 
 export default function Settings() {
-  const { signOut } = useAuth();
   const colors = ColorsTheme();
   return (
     <View className="h-full w-full gap-3 border-t border-border px-4 py-3">
@@ -32,9 +31,7 @@ export default function Settings() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={async () => {
-            await signOut();
-          }}
+          onPress={async () => {}}
           className="flex-row justify-between border-b border-border py-4"
         >
           <Text className="text-lg text-red-600">Logout</Text>

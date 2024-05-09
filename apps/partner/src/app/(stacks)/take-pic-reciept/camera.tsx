@@ -1,46 +1,39 @@
+import type { ImageType } from "expo-camera";
 import React, { useRef, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Camera, CameraType, ImageType } from "expo-camera";
+import {
+  Camera,
+  CameraOrientation,
+  CameraType,
+  CameraView,
+  useCameraPermissions,
+} from "expo-camera";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { CameraIcon, CheckCheck, XIcon } from "lucide-react-native";
 
 export default function CameraScreen() {
-  const [type, setType] = useState(CameraType.back);
+  const [type, setType] = useState<CameraType>("back");
   const [isCameraReady, setCameraReady] = useState(false);
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [permission, requestPermission] = useCameraPermissions();
   const router = useRouter();
-  const camera = useRef<Camera>(null);
-  const [ratio, setRatio] = useState<string[] | undefined>(undefined);
+  const camera = useRef<CameraView>(null);
   const [data, setData] = useState<string | null>(null);
 
   if (!permission?.granted) requestPermission();
-
-  function toggleCameraType() {
-    setType((current) =>
-      current === CameraType.back ? CameraType.front : CameraType.back,
-    );
-  }
-
-  React.useEffect(() => {
-    (async () => {
-      if (isCameraReady) {
-        setRatio(await camera.current?.getSupportedRatiosAsync());
-      }
-    })();
-    console.log(ratio);
-  }, [isCameraReady]);
 
   async function takePicture() {
     try {
       if (isCameraReady) {
         camera.current?.takePictureAsync({
-          imageType: ImageType.png,
+          imageType: "png",
           onPictureSaved: (pic) => {
             console.log(pic);
             setData(pic.uri);
           },
+          quality: 1,
+          skipProcessing: true,
         });
       }
     } catch (e) {}
@@ -70,12 +63,11 @@ export default function CameraScreen() {
           </View>
         </View>
       ) : (
-        <Camera
+        <CameraView
           onCameraReady={() => setCameraReady(true)}
-          ratio={ratio?.[ratio?.length - 1]} // Default to the highest resolution
           style={styles.camera}
-          type={type}
           ref={camera}
+          facing={type}
         >
           <View className="h-full w-fit items-center justify-between p-6">
             <TouchableOpacity
@@ -92,7 +84,7 @@ export default function CameraScreen() {
               </View>
             </TouchableOpacity>
           </View>
-        </Camera>
+        </CameraView>
       )}
     </View>
   );

@@ -40,8 +40,8 @@ interface ButtonProps
   extends React.ComponentProps<typeof TouchableOpacity>,
     VariantProps<typeof buttonVariants> {
   textClassName?: string;
-  leftIcon?: React.ReactComponentElement<any>;
-  rightIcon?: React.ReactComponentElement<any>;
+  leftIcon?: React.ReactElement<any>;
+  rightIcon?: React.ReactElement<any>;
   isLoading?: boolean;
 }
 

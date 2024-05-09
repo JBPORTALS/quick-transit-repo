@@ -6,7 +6,6 @@ import { StarIcon } from "lucide-react-native";
 import { ColorsTheme } from "~/utils/constants";
 
 export default function Profile() {
-  const { user } = useUser();
   const colors = ColorsTheme();
 
   return (
@@ -25,7 +24,7 @@ export default function Profile() {
           />
           <View className="items-center gap-2">
             <Text className="text-2xl font-semibold text-foreground">
-              {user?.firstName} {user?.lastName ?? "Shadcn"}
+              {""} {"Shadcn"}
             </Text>
             <Text className="text-muted-foreground">Pick-Up Partner</Text>
             <View className="flex-row gap-3">

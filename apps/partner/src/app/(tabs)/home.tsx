@@ -44,15 +44,13 @@ const data = [
   },
 ];
 export default function Home() {
-  const { user } = useUser();
   const router = useRouter();
 
   return (
     <ScrollView className="h-full">
       <View className="flex h-full gap-5 p-4">
         <Text className="text-xl font-bold text-foreground">
-          Good Evening,{" "}
-          {`${user?.firstName ?? "Shadcn"} ${user?.lastName ?? ""}`}
+          Good Evening, {`${"Shadcn"} ${""}`}
         </Text>
 
         <View className="flex flex-row justify-between gap-2">

@@ -80,12 +80,12 @@
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tailwind-config": "workspace:^0.1.0",
     "@qt/tsconfig": "workspace:^0.1.0",
-    "@types/react": "^18.2.57",
+    "@types/react": "~18.2.79",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "react": "18.2.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3",
+    "typescript": "~5.3.3",
     "zod": "^3.22.4"
   },
   "peerDependencies": {

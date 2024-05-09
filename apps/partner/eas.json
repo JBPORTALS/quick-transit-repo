@@ -24,8 +24,7 @@
       },
       "android": {
         "image": "latest",
-        "buildType": "apk",
-        "autoIncrement": "version"
+        "buildType": "apk"
       },
       "channel": "preview"
     },

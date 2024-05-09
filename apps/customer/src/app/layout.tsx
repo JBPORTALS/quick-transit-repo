@@ -45,7 +45,7 @@ export const viewport: Viewport = {
 const PoppinsFont = Poppins({
   weight: ["100", "200", "300", "400"],
   variable: "--font-poppins",
-  subsets: ["devanagari"],
+  subsets: ["latin"],
 });
 
 export default function RootLayout(props: { children: React.ReactNode }) {
