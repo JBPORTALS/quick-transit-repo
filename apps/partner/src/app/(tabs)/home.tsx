@@ -1,8 +1,7 @@
 import { ScrollView, Text, View } from "react-native";
-import { Redirect, useRouter } from "expo-router";
-import { useAuth, useUser } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
 
-import PackageItem from "~/components/package-item";
+import { PackageItem } from "~/components/package-item";
 import StatsCard from "~/components/stats-card";
 
 const data = [

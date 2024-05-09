@@ -35,6 +35,7 @@ export default function RootLayout() {
           },
           animation: "ios",
           headerBackTitleVisible: false,
+          animationTypeForReplace: "pop",
         }}
         initialRouteName="(tabs)"
       >

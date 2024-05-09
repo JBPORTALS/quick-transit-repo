@@ -10,7 +10,7 @@ export default function Home() {
       <View className="w-fit items-center  gap-3">
         <View className="h-fit w-fit flex-row items-center justify-center rounded-full border border-border px-4 py-2">
           <Image
-            source={require("../../assets/qt-logo.svg")}
+            source={require("assets/qt-logo.svg")}
             style={{
               height: 32,
               width: 32,
