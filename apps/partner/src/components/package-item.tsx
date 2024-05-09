@@ -1,9 +1,10 @@
-import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 
 import { ColorsTheme } from "~/utils/constants";
 import StatusItem from "./status-item";
+
+import React = require("react");
 
 interface PackageItemProps
   extends React.ComponentProps<typeof TouchableOpacity> {

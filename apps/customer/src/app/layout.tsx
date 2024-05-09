@@ -58,12 +58,10 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           PoppinsFont.variable,
         )}
       >
-        <ClerkProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <TRPCReactProvider>{props.children}</TRPCReactProvider>
             <Toaster />
           </ThemeProvider>
-        </ClerkProvider>
       </body>
     </html>
   );

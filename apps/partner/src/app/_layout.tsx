@@ -1,13 +1,7 @@
-import { TRPCProvider } from "~/utils/api";
-
 import "../styles.css";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Link, Slot, Stack } from "expo-router";
-// This is the main layout of the app
-// It wraps your pages with the providers they need
-import * as SecureStore from "expo-secure-store";
-import * as SplashScreen from "expo-splash-screen";
+import { Link, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SettingsIcon } from "lucide-react-native";
 

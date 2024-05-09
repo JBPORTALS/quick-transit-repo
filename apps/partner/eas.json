@@ -1,7 +1,6 @@
 {
   "cli": {
-    "version": ">= 4.1.2",
-    "appVersionSource": "local"
+    "version": ">= 4.1.2"
   },
   "build": {
     "base": {
@@ -25,8 +24,7 @@
       "android": {
         "image": "latest",
         "buildType": "apk"
-      },
-      "channel": "preview"
+      }
     },
     "production": {
       "extends": "base",
