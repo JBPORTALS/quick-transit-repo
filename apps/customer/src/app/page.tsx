@@ -21,7 +21,10 @@ export default function Page() {
       <Text styles={"h1"} className="w-1/2 text-center">
         Your Fast and Reliable Package Transfer Solution
       </Text>
-      <Text styles={"lead"} className="w-1/2 text-center text-muted-foreground">
+      <Text
+        styles={"h4"}
+        className="w-1/2 text-center font-normal text-muted-foreground"
+      >
         Effortlessly manage package transportation between customers and
         transport agencies with our user-friendly app.
       </Text>
