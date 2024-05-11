@@ -11,7 +11,10 @@ import AuthButton from "./_components/AuthButton";
 
 export default async function Page() {
   const supabase = createClient();
-  const user = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <main className="flex h-full flex-col items-center justify-center gap-5 bg-background">
       <HStack className="items-center rounded-full border-2 px-5 py-2 shadow-sm">

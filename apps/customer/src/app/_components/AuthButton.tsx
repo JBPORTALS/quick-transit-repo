@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { Button } from "@qt/ui/button";
 
-import { SigninWithGoogle } from "~/app/actions/auth";
+import { SigninWithGoogle } from "~/utils/actions/auth";
 
 export default function AuthButton() {
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {

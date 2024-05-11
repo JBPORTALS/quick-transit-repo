@@ -1,11 +1,11 @@
 import { cva, VariantProps } from "class-variance-authority";
 
 const navItemVariants = cva(
-  "flex w-full items-center gap-3 rounded-radius px-3 py-2 text-sm text-accent-foreground ", //flex items-center gap-3 rounded-sm px-3 py-2 text-base text-accent-foreground"
+  "flex w-full items-center gap-3 px-5 py-2 text-sm text-accent-foreground ", //flex items-center gap-3 rounded-sm px-3 py-2 text-base text-accent-foreground"
   {
     variants: {
       isActive: {
-        true: "bg-primary/10 text-foreground",
+        true: "border-l-4 border-primary text-primary",
         false: "text-accent-foreground",
       },
     },
