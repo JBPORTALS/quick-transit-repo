@@ -11,8 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-poppins)", ...fontFamily.sans],
-        mono: ["var(--font-poppins)", ...fontFamily.mono],
+        sans: ["var(--font-opensans)", ...fontFamily.sans],
+        mono: ["var(--font-opensans)", ...fontFamily.mono],
       },
     },
   },

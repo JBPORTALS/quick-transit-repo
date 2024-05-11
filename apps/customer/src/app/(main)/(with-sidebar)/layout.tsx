@@ -18,19 +18,19 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <div className="col-span-5">
         <VStack className="relative border-b">
           <HeaderClient />
-          <HStack className=" px-44">
+          <HStack className="gap-8 px-44">
             <Button
               asChild
               size={"lg"}
               variant={"ghost"}
               className={cn(
-                "rounded-none  hover:bg-transparent",
+                "justify-start rounded-none px-0 py-6 pr-6 text-lg font-normal  hover:bg-transparent",
                 pathname === "/dashboard" &&
-                  "border-b-2 border-primary font-bold text-primary hover:text-primary",
+                  "border-b-2 border-primary text-primary hover:text-primary",
               )}
             >
               <Link href={"/dashboard"}>
-                <HomeIcon className="h-4 w-4" />
+                <HomeIcon className="h-5 w-5" />
                 Home
               </Link>
             </Button>
@@ -39,13 +39,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               size={"lg"}
               variant={"ghost"}
               className={cn(
-                "rounded-none  hover:bg-transparent",
+                "rounded-none px-0 py-6 pr-6 text-lg font-normal  hover:bg-transparent",
                 pathname === "/packages" &&
-                  "border-b-2 border-primary font-bold text-primary hover:text-primary",
+                  "border-b-2 border-primary text-primary hover:text-primary",
               )}
             >
               <Link href={"/packages"}>
-                <Package className="h-4 w-4" />
+                <Package className="h-5 w-5" />
                 Packages
               </Link>
             </Button>

@@ -21,7 +21,7 @@ export default function AvatarButton() {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
     });
-  }, [user]);
+  }, [supabase]);
 
   return (
     <Popover>

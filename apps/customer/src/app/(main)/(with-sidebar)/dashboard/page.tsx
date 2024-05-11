@@ -15,7 +15,7 @@ export default async function page() {
           Your Recent Requests - {data}
         </Text>
       </div>
-      <Rightbar />
+      {/* <Rightbar /> */}
     </div>
   );
 }

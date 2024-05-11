@@ -1,5 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import {
+  Alegreya,
+  Cinzel,
+  Lato,
+  Open_Sans,
+  Oswald,
+  Poppins,
+  Rokkitt,
+} from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { cn } from "@qt/ui";
@@ -42,9 +50,9 @@ export const viewport: Viewport = {
   ],
 };
 
-const PoppinsFont = Poppins({
-  weight: ["100", "200", "300", "400"],
-  variable: "--font-poppins",
+const OpenSans = Open_Sans({
+  weight: ["300", "400", "700", "500", "600", "800"],
+  variable: "--font-opensans",
   subsets: ["latin"],
 });
 
@@ -54,8 +62,8 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body
         className={cn(
           "h-screen min-h-screen gap-0 bg-background font-sans text-foreground",
-          PoppinsFont.variable,
-          PoppinsFont.variable,
+          OpenSans.variable,
+          OpenSans.variable,
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
