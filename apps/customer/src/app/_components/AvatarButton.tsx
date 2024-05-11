@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
+import { ChevronDown } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { HStack, VStack } from "@qt/ui/stack";
@@ -18,17 +19,18 @@ export default function AvatarButton() {
   }, [user]);
 
   return (
-    <HStack className="items-center">
-      <VStack className="items-end gap-0">
-        <Text styles={"body"}>{user?.user_metadata?.full_name}</Text>
+    <HStack className="items-center gap-1">
+      {/* <VStack className="items-end gap-0">
         <Text styles={"details"} className="text-muted-foreground">
           {user?.user_metadata?.email}
         </Text>
-      </VStack>
+        <Text styles={"body"}>{user?.user_metadata?.full_name}</Text>
+      </VStack> */}
       <Avatar className="size-10 border">
         <AvatarImage src={user?.user_metadata?.picture} />
         <AvatarFallback>U</AvatarFallback>
       </Avatar>
+      <ChevronDown className="h-4 w-4" />
     </HStack>
   );
 }

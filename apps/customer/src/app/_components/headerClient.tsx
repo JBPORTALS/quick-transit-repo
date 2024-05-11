@@ -1,34 +1,42 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { Acme } from "next/font/google";
+import Image from "next/image";
 import { BellIcon } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
 import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
 import { HStack } from "@qt/ui/stack";
+import { Text } from "@qt/ui/text";
 
 import AvatarButton from "./AvatarButton";
 
-const headerPathMap = [
-  { name: "Dashboard", path: "/", abosolute: true },
-  { name: "Packages", path: "/packages" },
-];
+const AcmeFont = Acme({
+  variable: "--acme-font",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 export default function HeaderClient() {
-  const pathname = usePathname();
   return (
-    <Header className="sticky top-0">
+    <Header className="px-40">
       <HeaderTitle>
-        {headerPathMap.map(({ name, path }) => {
-          if (pathname === path) return name;
-          else return null;
-        })}
+        <HStack className="w-full items-center justify-center gap-0">
+          <Image src={"/qt-logo.png"} height={40} width={40} alt="QT Logo" />
+          <Text
+            styles={"h3"}
+            className={`font-sans font-extrabold ${AcmeFont.className}`}
+          >
+            Quick Transitt
+          </Text>
+        </HStack>
       </HeaderTitle>
       <HeaderRight>
         <HStack>
-          <AvatarButton />
           <Button size={"icon"} variant={"outline"} className="rounded-full">
-            <BellIcon className="h-5 w-5" />
+            <BellIcon className="h-5 w-5 text-muted-foreground" />
           </Button>
+          <AvatarButton />
         </HStack>
       </HeaderRight>
     </Header>

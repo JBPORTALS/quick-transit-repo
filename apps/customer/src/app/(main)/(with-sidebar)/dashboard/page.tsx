@@ -15,7 +15,7 @@ import { Text } from "@qt/ui/text";
 export default function page() {
   return (
     <div className="grid grid-cols-3 gap-5">
-      <div className="col-span-2 flex-1  rounded-radius border bg-card p-6 py-6 shadow-sm  dark:bg-secondary">
+      <div className="col-span-2 flex-1  rounded-radius border bg-card p-6 py-6 shadow-sm">
         <Text styles={"large"} className=" text-secondary-foreground ">
           Your Recent Requests
         </Text>

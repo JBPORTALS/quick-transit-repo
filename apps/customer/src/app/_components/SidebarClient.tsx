@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutGrid,
   LogOutIcon,
@@ -26,13 +26,16 @@ import { createClient } from "~/utils/client";
 export default function SidebarClient() {
   const pathname = usePathname();
   const supabase = createClient();
+  const router = useRouter();
   return (
     <Sidebar
       className="h-screen w-full"
       iconItem={
-        <HStack className="w-full items-center justify-center gap-1">
+        <HStack className="w-full items-center justify-center gap-0">
           <Image src={"/qt-logo.png"} height={40} width={40} alt="QT Logo" />
-          <Text styles={"lead"}>Quick Transitt</Text>
+          <Text styles={"h3"} className="font-serif">
+            Quick Transitt
+          </Text>
         </HStack>
       }
     >
@@ -50,9 +53,9 @@ export default function SidebarClient() {
       </SidebarBody>
       <SidebarBottomContent>
         <SidebarItem
-          onClick={() =>
-            supabase.auth.signOut().then(() => console.log("logged out"))
-          }
+          onClick={() => {
+            supabase.auth.signOut().then(() => router.refresh());
+          }}
         >
           <LogOutIcon /> Logout
         </SidebarItem>
