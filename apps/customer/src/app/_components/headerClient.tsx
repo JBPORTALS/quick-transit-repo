@@ -19,13 +19,13 @@ const AcmeFont = Acme({
 
 export default function HeaderClient() {
   return (
-    <Header className="px-40">
+    <Header className="px-44">
       <HeaderTitle>
         <HStack className="w-full items-center justify-center gap-0">
           <Image src={"/qt-logo.png"} height={40} width={40} alt="QT Logo" />
           <Text
             styles={"h3"}
-            className={`font-sans font-extrabold ${AcmeFont.className}`}
+            className={`font-sans font-extrabold text-gray-700 dark:text-gray-300 ${AcmeFont.className}`}
           >
             Quick Transitt
           </Text>

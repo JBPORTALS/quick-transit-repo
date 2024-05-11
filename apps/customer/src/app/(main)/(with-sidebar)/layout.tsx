@@ -18,7 +18,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <div className="col-span-5">
         <VStack className="relative border-b">
           <HeaderClient />
-          <HStack className=" px-40">
+          <HStack className=" px-44">
             <Button
               asChild
               size={"lg"}
@@ -51,7 +51,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             </Button>
           </HStack>
         </VStack>
-        <div className="flex flex-col px-40 py-5">{props.children}</div>
+        <div className="flex flex-col px-44 py-5">{props.children}</div>
       </div>
     </div>
   );
