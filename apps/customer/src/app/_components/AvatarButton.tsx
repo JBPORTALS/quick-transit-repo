@@ -46,7 +46,7 @@ export default function AvatarButton() {
             <AvatarImage src={user?.user_metadata?.picture} />
             <AvatarFallback>U</AvatarFallback>
           </Avatar>
-          <VStack className="gap-0">
+          <VStack className="gap-1">
             <Text styles={"body_medium"}>{user?.user_metadata.full_name}</Text>
             <Text styles={"body"}>{user?.user_metadata.email}</Text>
           </VStack>

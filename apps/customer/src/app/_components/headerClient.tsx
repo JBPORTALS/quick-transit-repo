@@ -2,7 +2,7 @@
 
 import { Acme } from "next/font/google";
 import Image from "next/image";
-import { BellIcon } from "lucide-react";
+import { BellIcon, PackagePlus } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
 import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
@@ -33,8 +33,11 @@ export default function HeaderClient() {
       </HeaderTitle>
       <HeaderRight>
         <HStack>
+          <Button variant={"outline"} size={"icon"} className="rounded-full">
+            <PackagePlus className="h-5 w-5" />
+          </Button>
           <Button size={"icon"} variant={"outline"} className="rounded-full">
-            <BellIcon className="h-5 w-5 text-muted-foreground" />
+            <BellIcon className="h-5 w-5" />
           </Button>
           <AvatarButton />
         </HStack>
