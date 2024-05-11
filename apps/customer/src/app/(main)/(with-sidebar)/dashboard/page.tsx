@@ -1,18 +1,10 @@
-import { CalendarDays } from "lucide-react";
-
-import Requests, {
-  RequestBody,
-  RequestButton,
-  RequestImage,
-  RequestLabel,
-  RequestTimeLabel,
-  RequestWeightLabel,
-} from "@qt/ui/request";
 import Rightbar from "@qt/ui/rightbar";
-import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
-export default function page() {
+import { api } from "~/trpc/server";
+
+export default async function page() {
+  const data = await api.auth.getSecretMessage();
   return (
     <div className="grid grid-cols-3 gap-5">
       <div className="col-span-2">
@@ -20,7 +12,7 @@ export default function page() {
           styles={"p_ui_medium"}
           className="font-medium text-muted-foreground "
         >
-          Your Recent Requests
+          Your Recent Requests - {data}
         </Text>
       </div>
       <Rightbar />

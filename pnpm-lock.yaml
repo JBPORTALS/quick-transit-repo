@@ -487,6 +487,12 @@ importers:
       '@qt/validators':
         specifier: workspace:^0.1.0
         version: link:../validators
+      '@supabase/ssr':
+        specifier: ^0.3.0
+        version: 0.3.0(@supabase/supabase-js@2.43.1)
+      '@supabase/supabase-js':
+        specifier: ^2.43.1
+        version: 2.43.1
       '@trpc/server':
         specifier: 11.0.0-next-beta.294
         version: 11.0.0-next-beta.294

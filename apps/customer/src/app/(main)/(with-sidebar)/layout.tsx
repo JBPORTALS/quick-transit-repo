@@ -26,7 +26,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               className={cn(
                 "rounded-none  hover:bg-transparent",
                 pathname === "/dashboard" &&
-                  "border-b-2 border-primary text-primary hover:text-primary",
+                  "border-b-2 border-primary font-bold text-primary hover:text-primary",
               )}
             >
               <Link href={"/dashboard"}>
@@ -41,7 +41,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               className={cn(
                 "rounded-none  hover:bg-transparent",
                 pathname === "/packages" &&
-                  "border-b-2 border-primary text-primary hover:text-primary",
+                  "border-b-2 border-primary font-bold text-primary hover:text-primary",
               )}
             >
               <Link href={"/packages"}>
