@@ -77,7 +77,6 @@ export function DataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn("package")?.setFilterValue(event.target.value)
           }
-          className="w-full max-w-sm bg-card dark:bg-secondary"
         />
       </div>
       <div className="overflow-hidden rounded-radius border">

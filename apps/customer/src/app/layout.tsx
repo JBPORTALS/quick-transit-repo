@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import {
+  Acme,
   Alegreya,
   Cinzel,
   Lato,
@@ -28,18 +29,13 @@ export const metadata: Metadata = {
       ? "https://turbo.t3.gg"
       : "http://localhost:3000",
   ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Quick Transitt",
+  description: "Your Fast and Reliable Package Transfer Solution",
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
+    title: "Quick Transitt",
+    description: "Your Fast and Reliable Package Transfer Solution",
     url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    siteName: "Quick Transitt",
   },
 };
 
@@ -56,6 +52,12 @@ const OpenSans = Open_Sans({
   subsets: ["latin"],
 });
 
+const AcmeFont = Acme({
+  variable: "--font-acme",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -63,7 +65,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         className={cn(
           "h-screen min-h-screen gap-0 bg-background font-sans text-foreground",
           OpenSans.variable,
-          OpenSans.variable,
+          AcmeFont.variable,
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

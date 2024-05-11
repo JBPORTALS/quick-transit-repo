@@ -17,14 +17,14 @@ export default async function Page() {
 
   return (
     <main className="flex h-full flex-col items-center justify-center gap-5 bg-background">
-      <HStack className="items-center rounded-full border-2 px-5 py-2 shadow-sm">
+      <HStack className="items-center gap-0 rounded-full border-2 px-5 py-2 shadow-sm">
         <Image
           src={"/qt-logo.png"}
           width={32}
           height={32}
           alt="Quick Transitt Logo"
         />
-        <span className="text-lg">Quick Transitt</span>
+        <span className="font-acme text-lg">Quick Transitt</span>
       </HStack>
       <Text styles={"h1"} className="w-1/2 text-center">
         Your Fast and Reliable Package Transfer Solution

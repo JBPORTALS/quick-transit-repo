@@ -13,6 +13,7 @@ export default {
       fontFamily: {
         sans: ["var(--font-opensans)", ...fontFamily.sans],
         mono: ["var(--font-opensans)", ...fontFamily.mono],
+        acme: ["var(--font-acme)"],
       },
     },
   },

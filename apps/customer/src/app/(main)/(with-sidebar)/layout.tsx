@@ -24,7 +24,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               size={"lg"}
               variant={"ghost"}
               className={cn(
-                "justify-start rounded-none px-0 py-6 pr-6 text-lg font-normal  hover:bg-transparent",
+                "justify-start rounded-none px-0 py-6 pr-6 font-normal  hover:bg-transparent",
                 pathname === "/dashboard" &&
                   "border-b-2 border-primary text-primary hover:text-primary",
               )}
@@ -39,7 +39,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
               size={"lg"}
               variant={"ghost"}
               className={cn(
-                "rounded-none px-0 py-6 pr-6 text-lg font-normal  hover:bg-transparent",
+                "rounded-none px-0 py-6 pr-6 font-normal  hover:bg-transparent",
                 pathname === "/packages" &&
                   "border-b-2 border-primary text-primary hover:text-primary",
               )}
