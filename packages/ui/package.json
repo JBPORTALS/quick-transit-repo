@@ -46,7 +46,8 @@
     "./aspect-ratio": "./src/aspect-ratio.tsx",
     "./bread-crumbs": "./src/bread-crumbs.tsx",
     "./popover": "./src/popover.tsx",
-    "./switch": "./src/switch.tsx"
+    "./switch": "./src/switch.tsx",
+    "./textarea": "./src/textarea.tsx"
   },
   "license": "MIT",
   "scripts": {

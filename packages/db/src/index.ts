@@ -10,5 +10,5 @@ const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) throw new Error("No DB connnection string ❌");
 
-const client = postgres(connectionString);
+const client = postgres(connectionString, { max: 10 });
 export const db = drizzle(client, { schema, logger: true });

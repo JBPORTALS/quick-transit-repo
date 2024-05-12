@@ -1,10 +1,8 @@
 {
-  "id": "19940cff-e166-47e1-bb1b-dd60d5ef84ca",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -43,20 +41,23 @@
     }
   },
   "enums": {
-    "userRoleEnum": {
+    "public.userRoleEnum": {
       "name": "userRoleEnum",
-      "values": {
-        "customer": "customer",
-        "manager": "manager",
-        "partner": "partner",
-        "user": "user"
-      }
+      "schema": "public",
+      "values": [
+        "customer",
+        "manager",
+        "partner",
+        "user"
+      ]
     }
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "19940cff-e166-47e1-bb1b-dd60d5ef84ca",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }
