@@ -10,6 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
+import { packages } from "./packages";
 import { user } from "./users";
 
 export const addressTypeEnum = pgEnum("addressTypeEnum", [
@@ -34,9 +35,10 @@ export const address = pgTable("address", {
 
 export const addressInsertSchema = createInsertSchema(address);
 
-export const addressRealations = relations(address, ({ one }) => ({
+export const addressRealations = relations(address, ({ one, many }) => ({
   customer: one(user, {
     fields: [address.customerId],
     references: [user.id],
   }),
+  packages: many(packages),
 }));
