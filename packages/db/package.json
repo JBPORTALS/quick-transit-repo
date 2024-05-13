@@ -12,6 +12,7 @@
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
     "push": "pnpm with-env drizzle-kit push",
+    "seed": "pnpm with-env dotenv -v SEED_MODE=true tsx src/seed.ts",
     "up": "pnpm with-env drizzle-kit up",
     "drop": "pnpm with-env drizzle-kit drop",
     "generate": "pnpm with-env drizzle-kit generate",
@@ -28,6 +29,7 @@
     "postgres": "^3.4.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@qt/eslint-config": "workspace:^0.2.0",
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tsconfig": "workspace:^0.1.0",
@@ -35,6 +37,7 @@
     "drizzle-kit": "^0.21.1",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
+    "tsx": "^4.10.1",
     "typescript": "~5.3.3"
   },
   "eslintConfig": {

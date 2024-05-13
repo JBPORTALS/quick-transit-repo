@@ -10,5 +10,10 @@ const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) throw new Error("No DB connnection string ❌");
 
-const client = postgres(connectionString);
-export const db = drizzle(client, { schema, logger: true });
+const client = postgres(connectionString, {
+  max: process.env.SEED_MODE ? 1 : undefined,
+  onnotice: process.env.SEED_MODE ? () => {} : undefined, // suppress notices in seed
+});
+export const db = drizzle(client, { schema, logger: !process.env.SEED_MODE });
+
+export type db = typeof db;
