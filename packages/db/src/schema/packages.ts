@@ -19,7 +19,7 @@ import { user } from "./users";
 
 export const packages = pgTable("packages", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
-  customerId: uuid("customerId")
+  customer_id: uuid("customer_id")
     .notNull()
     .references(() => user.id),
   title: text("title").notNull(),
