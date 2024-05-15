@@ -11,7 +11,7 @@ import { api } from "~/trpc/server";
 export default async function page() {
   const data = await api.packages.getRecentPackages();
   return (
-    <div className="grid grid-cols-3 gap-6">
+    <div className="relative grid grid-cols-3 gap-6">
       <VStack className="col-span-2 gap-6">
         <Text styles={"lead"} className="font-medium">
           Your Recent Requests
@@ -22,8 +22,8 @@ export default async function page() {
             <div className="col-span-6 grid  w-full grid-flow-col gap-8 rounded-radius border bg-card p-4 hover:cursor-pointer">
               <HStack className="col-span-2 w-full overflow-hidden ">
                 <div>
-                  <div className="flex size-16 items-center justify-center rounded-radius bg-muted">
-                    <Package className="h-10 w-10 text-muted-foreground" />
+                  <div className="flex size-16 items-center justify-center rounded-radius border bg-muted">
+                    <Package className="h-10 w-10 text-accent-foreground/15" />
                   </div>
                 </div>
                 <VStack className="w-full gap-0 truncate">
