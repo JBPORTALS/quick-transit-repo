@@ -37,12 +37,12 @@ const textVariants = cva("flex-nowrap text-start font-normal text-foreground", {
 });
 
 interface TextProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof textVariants> {
   asChild?: boolean;
 }
 
-const Text = React.forwardRef<HTMLButtonElement, TextProps>(
+const Text = React.forwardRef<HTMLSpanElement, TextProps>(
   ({ className, styles, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "span";
     return (

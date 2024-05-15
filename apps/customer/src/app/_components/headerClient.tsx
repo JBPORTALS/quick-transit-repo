@@ -2,6 +2,7 @@
 
 import { Acme } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 import { BellIcon, PackagePlus } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
@@ -10,6 +11,7 @@ import { HStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
 import AvatarButton from "./AvatarButton";
+import { NewPackage } from "./new-package";
 
 const AcmeFont = Acme({
   variable: "--acme-font",
@@ -33,9 +35,11 @@ export default function HeaderClient() {
       </HeaderTitle>
       <HeaderRight>
         <HStack>
-          <Button variant={"outline"} size={"icon"} className="rounded-full">
-            <PackagePlus className="h-5 w-5" />
-          </Button>
+          <NewPackage>
+            <Button variant={"outline"} size={"icon"} className="rounded-full">
+              <PackagePlus className="h-5 w-5" />
+            </Button>
+          </NewPackage>
           <Button size={"icon"} variant={"outline"} className="rounded-full">
             <BellIcon className="h-5 w-5" />
           </Button>

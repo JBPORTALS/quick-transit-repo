@@ -26,4 +26,14 @@ export const addressRouter = createTRPCRouter({
         ),
       });
     }),
+  getAllByType: protectedProcedure
+    .input(addressInsertSchema.pick({ type: true }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.address.findMany({
+        where: and(
+          eq(address.customerId, ctx.session.user.id),
+          eq(address.type, input.type),
+        ),
+      });
+    }),
 });

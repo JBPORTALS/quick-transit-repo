@@ -30,7 +30,9 @@ export const packages = pgTable("packages", {
   bill_id: uuid("bill_id")
     .notNull()
     .references(() => bill_details.id),
-  dimenstions: text("dimensions").default("Banglore"),
+  height: integer("height").notNull(),
+  width: integer("width").notNull(),
+  breadth: integer("breadth").notNull(),
   weight: integer("weight").notNull(),
   category_id: uuid("category_id")
     .notNull()

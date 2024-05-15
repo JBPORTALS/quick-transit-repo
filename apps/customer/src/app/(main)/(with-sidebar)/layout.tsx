@@ -51,7 +51,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             </Button>
           </HStack>
         </VStack>
-        <div className="flex flex-col px-44 py-5">{props.children}</div>
+        <div className="flex flex-col px-44 py-6">{props.children}</div>
       </div>
     </div>
   );

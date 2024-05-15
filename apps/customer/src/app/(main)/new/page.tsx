@@ -3,9 +3,10 @@
 import { FormEventHandler, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { Images, XCircleIcon } from "lucide-react";
+import { Images, XCircleIcon, XIcon } from "lucide-react";
 import { cn } from "node_modules/@qt/ui/lib/utils";
 import Dropzone from "react-dropzone";
 import { useForm } from "react-hook-form";
@@ -27,6 +28,7 @@ import ImageUploader from "@qt/ui/imagePlaceholder";
 import { Input } from "@qt/ui/input";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
+import { Textarea } from "@qt/ui/textarea";
 
 const steps = [
   {
@@ -109,6 +111,7 @@ type FieldNames = keyof Inputs;
 
 export default function NewRequest() {
   const [current, setCurrent] = useState(0);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -156,9 +159,14 @@ export default function NewRequest() {
       <HStack className="w-full justify-between py-0">
         <div></div>
         <Text styles={"h4"}>New Request</Text>
-        <Link href={"/"}>
-          <XCircleIcon className="text-foreground" />
-        </Link>
+        <Button
+          onClick={() => router.back()}
+          className="rounded-full"
+          size={"icon"}
+          variant={"outline"}
+        >
+          <XIcon className="text-foreground" />
+        </Button>
       </HStack>
       <div className="flex w-fit gap-5 pb-12 pt-8">
         {steps.map((s, i) => (
@@ -168,7 +176,7 @@ export default function NewRequest() {
       <Form {...form}>
         <form
           onSubmit={onSubmitWithPrecheck}
-          className="w-2/4 space-y-6 rounded-radius border bg-background p-10 shadow-sm dark:bg-secondary"
+          className="w-2/4 space-y-6 rounded-radius border bg-card p-10 shadow-sm"
         >
           {/* Step 1 */}
           {current === 0 && (
@@ -194,7 +202,7 @@ export default function NewRequest() {
                   <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
-                      <Input
+                      <Textarea
                         className="h-20"
                         placeholder="This package contains ..."
                         {...field}
@@ -362,15 +370,17 @@ export default function NewRequest() {
           )}
 
           <HStack className="justify-end">
-            <Button
-              variant={"secondary"}
-              type="button"
-              size={"lg"}
-              onClick={() => setCurrent((current) => current - 1)}
-              className="w-1/3"
-            >
-              Previous
-            </Button>
+            {current > 0 && (
+              <Button
+                variant={"secondary"}
+                type="button"
+                size={"lg"}
+                onClick={() => setCurrent((current) => current - 1)}
+                className="w-1/3"
+              >
+                Previous
+              </Button>
+            )}
             <Button size={"lg"} type="submit" className="w-1/3">
               Continue
             </Button>
