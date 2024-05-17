@@ -50,7 +50,8 @@
     "./textarea": "./src/textarea.tsx",
     "./sheet": "./src/sheet.tsx",
     "./select": "./src/select.tsx",
-    "./calendar": "./src/calendar.tsx"
+    "./calendar": "./src/calendar.tsx",
+    "./badge": "./src/badge.tsx"
   },
   "license": "MIT",
   "scripts": {

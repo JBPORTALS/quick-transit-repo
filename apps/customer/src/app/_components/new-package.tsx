@@ -150,11 +150,16 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
   const formValues = form.getValues();
 
   const { data: bill_summary_detail, isLoading: is_bill_summury_loading } =
-    api.bills.getSummaryDetails.useQuery({
-      weight: parseInt(formValues.weight),
-      insurance_required:
-        formValues.is_insurance_required === "Yes" ? true : false,
-    });
+    api.bills.getSummaryDetails.useQuery(
+      {
+        weight: parseInt(formValues.weight),
+        insurance_required:
+          formValues.is_insurance_required === "Yes" ? true : false,
+      },
+      {
+        enabled: current === 2,
+      },
+    );
 
   const { data: couriers } = api.couriers.getCouriers.useQuery(undefined, {
     enabled: isOpen,
@@ -192,7 +197,7 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
 
   const router = useRouter();
 
-  async function onSumbmit(values: z.infer<typeof packageFormShema>) {
+  async function onSubmit(values: z.infer<typeof packageFormShema>) {
     if (bill_summary_detail) {
       const generated_bill_id = await billMutation.mutateAsync({
         service_charge: bill_summary_detail.service_charge
@@ -210,7 +215,6 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
           weight: parseInt(values.weight),
           category_id: values.category,
           courier_id: values.courier,
-          bill_id: generated_bill_id,
           breadth: parseInt(values.breadth),
           width: parseInt(values.width),
           height: parseInt(values.height),
@@ -234,7 +238,7 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
       shouldFocus: true,
     });
 
-    if (current === 2) form.handleSubmit(onSumbmit)(e);
+    if (current === 2) form.handleSubmit(onSubmit)(e);
     else if (current < 2 && !isValid) return false;
     else {
       setCurrent((current) => current + 1);

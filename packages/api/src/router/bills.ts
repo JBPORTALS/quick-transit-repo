@@ -9,7 +9,7 @@ import {
   eq,
 } from "@qt/db";
 
-import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, t } from "../trpc";
 
 export const billsRouter = createTRPCRouter({
   createBill: protectedProcedure
@@ -26,16 +26,18 @@ export const billsRouter = createTRPCRouter({
     .input(z.object({ weight: z.number(), insurance_required: z.boolean() }))
     .query(({ input }) => {
       const service_charge = input.weight * 65;
-      const gst = (service_charge / 100) * 18;
+      const gst = Math.floor((service_charge / 100) * 18);
       const insurance_charge = input.insurance_required
-        ? input.weight * 100
+        ? Math.floor(input.weight * 100)
         : undefined;
 
       return {
         service_charge,
         gst,
-        total: service_charge + gst + (insurance_charge ?? 0),
+        total: Math.floor(service_charge + gst + (insurance_charge ?? 0)),
         insurance_charge,
       };
     }),
 });
+
+export const billsRouterCaller = t.createCallerFactory(billsRouter);

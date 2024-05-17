@@ -9,6 +9,7 @@ import {
   getTableName,
   package_image,
   packages,
+  requests,
   sql,
   Table,
 } from "./index";
@@ -100,15 +101,9 @@ async function main() {
           const bill_details_data = await db
             .insert(bill_details)
             .values({
-              service_charge: parseInt(
-                faker.commerce.price({ min: 500, max: 1000 }),
-              ),
-              insurance_charge: parseInt(
-                faker.commerce.price({ min: 200, max: 600 }),
-              ),
-              gst_charges: parseInt(
-                faker.commerce.price({ min: 10, max: 100 }),
-              ),
+              service_charge: faker.commerce.price({ min: 500, max: 1000 }),
+              insurance_charge: faker.commerce.price({ min: 200, max: 600 }),
+              gst_charges: faker.commerce.price({ min: 10, max: 100 }),
             })
             .returning();
 
@@ -134,7 +129,25 @@ async function main() {
               bill_id: faker.helpers.arrayElement(bill_details_data).id,
             })
             .returning();
-
+          //create request
+          await db.insert(requests).values({
+            package_id: faker.helpers.arrayElement(package_detail).id,
+            current_status: faker.helpers.arrayElement([
+              "requested",
+              "confirmed",
+              "picking",
+              "shipping",
+              "delivered",
+              "cancelled",
+              "rejected",
+            ]),
+            tracking_number: faker.number
+              .int({
+                min: 111111111111,
+                max: 999999999999,
+              })
+              .toString(),
+          });
           //inserting 3 images minimum
           await Promise.all(
             Array.from({ length: 3 }).map(() =>

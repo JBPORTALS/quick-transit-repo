@@ -502,6 +502,9 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.294
         version: 11.0.0-next-beta.294
+      order-id:
+        specifier: ^2.1.2
+        version: 2.1.2
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -13786,6 +13789,11 @@ packages:
     engines: {node: '>= 6.13.0'}
     dev: false
 
+  /node-fpe@2.0.3:
+    resolution: {integrity: sha512-Eq9q97viavWtyHPQtwQA4vuGMS+MMxrDAt1zmqd4vk6dIsAjUzVCYMuJetb2eRL+sl/guNT3mtgnWBwkkKIlHg==}
+    engines: {node: '>=10.0.0'}
+    dev: false
+
   /node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
     dev: false
@@ -14117,6 +14125,13 @@ packages:
       log-symbols: 4.1.0
       strip-ansi: 6.0.1
       wcwidth: 1.0.1
+
+  /order-id@2.1.2:
+    resolution: {integrity: sha512-XCeZ1zjUt0khezGcALhWv0WpY/6ZDcaYAudJeu0TneN9FtxeUOsG+J84UHP5l/Lhx35b4frbKbNExpHEy0DQIA==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      node-fpe: 2.0.3
+    dev: false
 
   /os-browserify@0.3.0:
     resolution: {integrity: sha512-gjcpUc3clBf9+210TRaDWbf+rZZZEshZ+DlXMRCeAjp0xhTrnQsKHypIy1J3d5hKdUzj69t708EHtU8P6bUn0A==}

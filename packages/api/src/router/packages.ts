@@ -1,6 +1,11 @@
-import { desc, eq, packageInsertSchema, packages } from "@qt/db";
+import { TRPCError } from "@trpc/server";
+import OrderId from "order-id";
+import { z } from "zod";
+
+import { and, desc, eq, packageInsertSchema, packages, requests } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { billsRouterCaller } from "./bills";
 
 export const packagesRouter = createTRPCRouter({
   getRecentPackages: protectedProcedure.query(async ({ ctx }) => {
@@ -9,12 +14,82 @@ export const packagesRouter = createTRPCRouter({
       orderBy: desc(packages.created_at),
     });
   }),
-  addPackage: protectedProcedure
-    .input(packageInsertSchema.omit({ customer_id: true }))
-    .mutation(async ({ ctx, input }) => {
-      return await ctx.db.insert(packages).values({
-        customer_id: ctx.session.user.id,
-        ...input,
+  getById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.packages.findFirst({
+        where: and(
+          eq(packages.customer_id, ctx.session.user.id),
+          eq(packages.id, input.id),
+        ),
+
+        with: {
+          request: true,
+          pick_up_address: true,
+          franchise_address: true,
+          destination_address: true,
+          category: true,
+          courier: true,
+          bill: {
+            extras(fields, operators) {
+              return {
+                total:
+                  operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
+                    "total",
+                  ),
+              };
+            },
+          },
+        },
       });
+    }),
+  addPackage: protectedProcedure
+    .input(packageInsertSchema.omit({ customer_id: true, bill_id: true }))
+    .mutation(async ({ ctx, input }) => {
+      //create bill
+      const { gst, service_charge, insurance_charge } = await billsRouterCaller(
+        ctx,
+      ).getSummaryDetails({
+        weight: input.weight,
+        insurance_required: input.is_insurance_required ?? false,
+      });
+      const bill = await billsRouterCaller(ctx).createBill({
+        gst_charges: gst.toString(),
+        service_charge: service_charge.toString(),
+        insurance_charge: insurance_charge?.toString() ?? "0",
+      });
+
+      if (!bill)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Bill parse error!",
+        });
+
+      const package_details = await ctx.db
+        .insert(packages)
+        .values({
+          ...input,
+          customer_id: ctx.session.user.id,
+          bill_id: bill,
+        })
+        .returning({ id: packages.id })
+        .then((res) => res[0]);
+
+      if (!package_details)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Package couldn't able to create!",
+        });
+
+      //Create a request
+      const oi = OrderId("my-super-secrete");
+      const tracking_number = oi.generate();
+
+      const request = await ctx.db.insert(requests).values({
+        package_id: package_details.id,
+        tracking_number,
+      });
+
+      if (request) return { code: "Created", message: "Created successfully" };
     }),
 });

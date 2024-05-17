@@ -15,6 +15,7 @@ import { bill_details } from "./bill_details";
 import { categories } from "./categories";
 import { couriers } from "./couriers";
 import { package_image } from "./package_images";
+import { requests } from "./requests";
 import { user } from "./users";
 
 export const packages = pgTable("packages", {
@@ -59,29 +60,33 @@ export const packageSelectSchema = createSelectSchema(packages);
 
 export const packageRealations = relations(packages, ({ one, many }) => ({
   packageImages: many(package_image),
-  category_id_fk: one(categories, {
+  request: one(requests, {
+    fields: [packages.id],
+    references: [requests.package_id],
+  }),
+  category: one(categories, {
     fields: [packages.category_id],
     references: [categories.id],
   }),
-  courier_id_fk: one(couriers, {
+  courier: one(couriers, {
     fields: [packages.courier_id],
     references: [couriers.id],
   }),
-  bill_id_fk: one(bill_details, {
+  bill: one(bill_details, {
     fields: [packages.bill_id],
     references: [bill_details.id],
   }),
-  pick_up_address_fk: one(address, {
+  pick_up_address: one(address, {
     fields: [packages.pick_up_address_id],
     references: [address.id],
     relationName: "pick_up_address_fk",
   }),
-  franchise_address_fk: one(address, {
+  franchise_address: one(address, {
     fields: [packages.franchise_address_id],
     references: [address.id],
     relationName: "franchise_address_fk",
   }),
-  destination_address_fk: one(address, {
+  destination_address: one(address, {
     fields: [packages.destination_address_id],
     references: [address.id],
     relationName: "destination_address_fk",

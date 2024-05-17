@@ -57,6 +57,13 @@
       "when": 1715796457893,
       "tag": "0007_wet_texas_twister",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1715852101974,
+      "tag": "0008_jittery_chronomancer",
+      "breakpoints": true
     }
   ]
 }
