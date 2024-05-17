@@ -92,4 +92,11 @@ export const packagesRouter = createTRPCRouter({
 
       if (request) return { code: "Created", message: "Created successfully" };
     }),
+  getTrackingDetails: protectedProcedure
+    .input(z.object({ package_id: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.query.requests.findFirst({
+        where: eq(requests.package_id, input.package_id),
+      });
+    }),
 });

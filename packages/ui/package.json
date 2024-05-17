@@ -51,7 +51,8 @@
     "./sheet": "./src/sheet.tsx",
     "./select": "./src/select.tsx",
     "./calendar": "./src/calendar.tsx",
-    "./badge": "./src/badge.tsx"
+    "./badge": "./src/badge.tsx",
+    "./skeleton": "./src/skeleton.tsx"
   },
   "license": "MIT",
   "scripts": {

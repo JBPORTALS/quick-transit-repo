@@ -147,6 +147,11 @@ async function main() {
                 max: 999999999999,
               })
               .toString(),
+            requested_at: faker.date.recent({ days: 4 }),
+            confirmed_at: faker.date.recent({ days: 3 }),
+            picking_at: faker.date.recent({ days: 2 }),
+            delivered_at: faker.date.recent(),
+            cacelled_at: faker.date.recent(),
           });
           //inserting 3 images minimum
           await Promise.all(
