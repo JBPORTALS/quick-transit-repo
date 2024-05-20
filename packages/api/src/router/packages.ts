@@ -99,4 +99,13 @@ export const packagesRouter = createTRPCRouter({
         where: eq(requests.package_id, input.package_id),
       });
     }),
+  cancelRequest: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db
+        .update(requests)
+        .set({ current_status: "cancelled", cacelled_at: new Date(Date.now()) })
+        .where(eq(requests.package_id, input.id))
+        .returning();
+    }),
 });

@@ -23,7 +23,7 @@ const textVariants = cva("flex-nowrap text-start font-normal text-foreground", {
       subtle: "text-sm leading-5",
       subtle_medium: "text-sm font-medium leading-5",
       subtle_semibold: "text-sm font-semibold leading-5",
-      small: "text-sm font-medium leading-4",
+      small: "text-xs font-medium leading-4",
       details: "text-xs font-medium leading-5",
       blockquote: "text-base italic leading-6",
       inline_code: "text-sm font-bold leading-5",

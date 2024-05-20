@@ -6,6 +6,7 @@ import dynamicIconImports from "lucide-react/dynamicIconImports";
 
 import { cn } from "@qt/ui";
 import { Separator } from "@qt/ui/seperator";
+import { Skeleton } from "@qt/ui/skeleton";
 import { VStack } from "@qt/ui/stack";
 
 interface VStackProps extends React.ComponentProps<typeof VStack> {}
@@ -18,7 +19,9 @@ const TarckingContext = React.createContext<{ isActive: boolean }>({
   isActive: false,
 });
 
-const fallback = <Circle className="size-4" />;
+const fallback = (
+  <Skeleton className="size-5 rounded-full border-2 border-current" />
+);
 
 interface IconProps extends Omit<LucideProps, "ref"> {
   name: keyof typeof dynamicIconImports;
@@ -69,7 +72,7 @@ export function TrackingBarIndicator({
     <VStack
       {...props}
       className={cn(
-        "track-indi group col-span-1 h-full items-center gap-0  pt-1 text-muted-foreground/40 transition-colors duration-300",
+        "track-indi group col-span-1 h-full items-center gap-0 text-muted-foreground/40 transition-colors duration-300",
         isActive && "isActive text-primary",
         className,
       )}

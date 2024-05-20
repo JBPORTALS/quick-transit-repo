@@ -6,7 +6,6 @@ import {
   CalendarIcon,
   ClockIcon,
   FileDown,
-  MoreHorizontalIcon,
   MoveHorizontalIcon,
   PackageIcon,
   ReceiptIndianRupeeIcon,
@@ -32,10 +31,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@qt/ui/card";
+import { Separator } from "@qt/ui/seperator";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Table, TableBody, TableCell, TableRow } from "@qt/ui/table";
 import { Text } from "@qt/ui/text";
 
+import PackageMoreDropdown from "~/app/_components/package-more-dropdown";
 import { api } from "~/trpc/server";
 
 function convertTo12HourFormat(time24: string) {
@@ -47,6 +48,8 @@ function convertTo12HourFormat(time24: string) {
 
   return formattedTime;
 }
+
+export const dynamic = "force-dynamic";
 
 export default async function PackageDetails({
   params,
@@ -86,33 +89,24 @@ export default async function PackageDetails({
                 {packageDetail?.title}
               </CardTitle>
               <CardDescription className="text-xs">
-                Tracking Number: #{packageDetail?.request.tracking_number}
+                Tracking Number: {packageDetail?.request.tracking_number}
               </CardDescription>
             </VStack>
             <HStack className="items-center">
               <Button size={"sm"} variant={"outline"}>
                 <FileDown className="h-5 w-5" /> Invoice
               </Button>
-              <Button size={"icon"} variant={"ghost"}>
-                <MoreHorizontalIcon />
-              </Button>
+              <PackageMoreDropdown />
             </HStack>
           </HStack>
         </CardHeader>
         <CardContent className="px-0">
           <HStack className="gap-8">
             <VStack className=" w-full">
-              {/* <HStack>
-                    <Tag>
-                      {packageDetail?.height}x{packageDetail?.breadth}x
-                      {packageDetail?.width} cm
-                    </Tag>
-                    <Tag>{packageDetail?.weight}kg</Tag>
-                  </HStack> */}
               <Table className="border-spacing-5">
                 <TableBody>
                   <TableRow>
-                    <TableCell>
+                    <TableCell className="align-top">
                       <Text
                         styles={"small"}
                         className="col-span-1 flex items-center gap-2 text-muted-foreground"
@@ -297,23 +291,68 @@ export default async function PackageDetails({
         </CardContent>
       </Card>
 
-      {/* <Card className=" w-full shadow-none">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                Other Details
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat
-              nulla nostrum laudantium deserunt facilis sint obcaecati nam, odio
-              perferendis quis perspiciatis, est, provident ullam. Doloremque
-              aspernatur ipsam molestiae consequatur nam? Lorem ipsum dolor, sit
-              amet consectetur adipisicing elit. Maxime repellendus, dolores ex
-              voluptate saepe ratione, atque accusantium aut iste quidem eius
-              reiciendis adipisci dolor quia veritatis eligendi fugit earum
-              assumenda?
-            </CardContent>
-          </Card> */}
+      <Card className="w-full border-none bg-background shadow-none">
+        <CardHeader className="px-0">
+          <CardTitle className="flex items-center gap-3">
+            Address Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="px-0">
+          <HStack className="h-full items-center gap-0">
+            <Card className="h-full w-fit max-w-[17rem] flex-1">
+              <CardHeader>
+                <CardTitle className="text-sm">Pickup Address</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <VStack className="gap-2">
+                  <Text styles={"subtle_medium"}>
+                    +91 {packageDetail.pick_up_address.phone}
+                  </Text>
+                  <Text styles={"small"} className="text-muted-foreground">
+                    {packageDetail.pick_up_address.street} -{" "}
+                    {packageDetail.pick_up_address.pincode}
+                  </Text>
+                </VStack>
+              </CardContent>
+            </Card>
+            <Separator className="flex-[.2]" />
+            <div className="flex size-10 items-center justify-center rounded-full border">
+              <RocketIcon size={23} />
+            </div>
+            <Separator className="flex-[.2]" />
+            {/* <Card>
+              <CardHeader>
+                <CardTitle>Franchise Address</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <VStack className="gap-2">
+                  <Text>+91 {packageDetail.franchise_address.phone}</Text>
+                  <Text styles={"subtle"} className="text-muted-foreground">
+                    {packageDetail.franchise_address.street} -{" "}
+                    {packageDetail.franchise_address.pincode}
+                  </Text>
+                </VStack>
+              </CardContent>
+            </Card> */}
+            <Card className="h-full w-[17rem] max-w-[17rem] flex-1">
+              <CardHeader>
+                <CardTitle className="text-sm">Delivery Address</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <VStack className="gap-2">
+                  <Text styles={"subtle_medium"}>
+                    +91 {packageDetail.destination_address.phone}
+                  </Text>
+                  <Text styles={"small"} className="text-muted-foreground">
+                    {packageDetail.destination_address.street} -{" "}
+                    {packageDetail.destination_address.pincode}
+                  </Text>
+                </VStack>
+              </CardContent>
+            </Card>
+          </HStack>
+        </CardContent>
+      </Card>
     </VStack>
   );
 }
