@@ -1,27 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Acme,
-  Alegreya,
-  Cinzel,
-  Lato,
-  Open_Sans,
-  Oswald,
-  Poppins,
-  Rokkitt,
-} from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Acme, Open_Sans } from "next/font/google";
 
 import { cn } from "@qt/ui";
-import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
-import { ThemeProvider, ThemeToggle } from "@qt/ui/theme";
+import { ThemeProvider } from "@qt/ui/theme";
 import { Toaster } from "@qt/ui/toast";
 
 import { env } from "~/env";
 import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
-
-import SidebarClient from "./_components/SidebarClient";
 
 export const metadata: Metadata = {
   metadataBase: new URL(

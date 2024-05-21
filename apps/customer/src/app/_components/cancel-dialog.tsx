@@ -23,11 +23,14 @@ export default function CancelDialog({
   children: React.ReactNode;
 }) {
   const params = useParams();
-  const packageId = params.id as string | undefined;
+  const packageId = params.id as string;
+
   const utils = api.useUtils();
+
   const cancelRequest = api.packages.cancelRequest.useMutation({
     onSuccess() {
       utils.packages.getTrackingDetails.refetch();
+      utils.packages.getById.refetch();
     },
   });
   const [open, onOpenChange] = useState(false);

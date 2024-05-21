@@ -2,7 +2,17 @@ import { TRPCError } from "@trpc/server";
 import OrderId from "order-id";
 import { z } from "zod";
 
-import { and, desc, eq, packageInsertSchema, packages, requests } from "@qt/db";
+import {
+  and,
+  count,
+  db,
+  desc,
+  eq,
+  packageInsertSchema,
+  packages,
+  requests,
+  sql,
+} from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { billsRouterCaller } from "./bills";
@@ -107,5 +117,26 @@ export const packagesRouter = createTRPCRouter({
         .set({ current_status: "cancelled", cacelled_at: new Date(Date.now()) })
         .where(eq(requests.package_id, input.id))
         .returning();
+    }),
+  getAllTrackingDetails: protectedProcedure
+    .input(z.object({ offset: z.number() }))
+    .query(async ({ ctx, input: { offset } }) => {
+      const res = await ctx.db
+        .select({ totalRecords: count(packages.id) })
+        .from(packages)
+        .where(eq(packages.customer_id, ctx.session.user.id));
+
+      const packageDetails = await ctx.db.query.packages.findFirst({
+        with: {
+          request: true,
+        },
+        where: ({ customer_id }) => eq(customer_id, ctx.session.user.id),
+        orderBy: ({ created_at }) => desc(created_at),
+        offset,
+      });
+      return {
+        packageDetails,
+        totalRecords: res[0]?.totalRecords ?? 0,
+      };
     }),
 });

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { format, parse } from "date-fns";
@@ -32,12 +34,14 @@ import {
   CardTitle,
 } from "@qt/ui/card";
 import { Separator } from "@qt/ui/seperator";
+import { Skeleton } from "@qt/ui/skeleton";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Table, TableBody, TableCell, TableRow } from "@qt/ui/table";
 import { Text } from "@qt/ui/text";
 
 import PackageMoreDropdown from "~/app/_components/package-more-dropdown";
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
+import { PackageDetailsSkeleton } from "./skeleton";
 
 function convertTo12HourFormat(time24: string) {
   // Parse the time string into a Date object
@@ -49,19 +53,15 @@ function convertTo12HourFormat(time24: string) {
   return formattedTime;
 }
 
-export const dynamic = "force-dynamic";
-
-export default async function PackageDetails({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function PackageDetails({ params }: { params: { id: string } }) {
   const formatToINR = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "INR",
   });
-  const packageDetail = await api.packages.getById({ id: params.id });
-  if (!packageDetail) return null;
+  const { data: packageDetail, isLoading } = api.packages.getById.useQuery({
+    id: params.id,
+  });
+  if (isLoading || !packageDetail) return <PackageDetailsSkeleton />;
   return (
     <VStack className="col-span-7">
       <Breadcrumb>
@@ -92,12 +92,14 @@ export default async function PackageDetails({
                 Tracking Number: {packageDetail?.request.tracking_number}
               </CardDescription>
             </VStack>
-            <HStack className="items-center">
-              <Button size={"sm"} variant={"outline"}>
-                <FileDown className="h-5 w-5" /> Invoice
-              </Button>
-              <PackageMoreDropdown />
-            </HStack>
+            {packageDetail.request.current_status !== "cancelled" && (
+              <HStack className="items-center">
+                <Button size={"sm"} variant={"outline"}>
+                  <FileDown className="h-5 w-5" /> Invoice
+                </Button>
+                <PackageMoreDropdown />
+              </HStack>
+            )}
           </HStack>
         </CardHeader>
         <CardContent className="px-0">

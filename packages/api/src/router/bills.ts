@@ -1,13 +1,6 @@
 import { z } from "zod";
 
-import {
-  address,
-  addressInsertSchema,
-  and,
-  bill_details,
-  billDetialsInsertSchema,
-  eq,
-} from "@qt/db";
+import { bill_details, billDetialsInsertSchema } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure, t } from "../trpc";
 

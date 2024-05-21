@@ -50,7 +50,6 @@ export function TrackingBarItem({
         className,
         isActive && "trackbar-active",
       )}
-      data-isActive={isActive}
       {...props}
     >
       <TarckingContext.Provider value={{ isActive }}>
