@@ -266,7 +266,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
               </Table>
             </VStack>
             <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-muted">
-              <PackageIcon className="size-32 text-muted-foreground/30" />
+              <PackageIcon className="size-32 text-muted-foreground/60" />
             </div>
             {/* <Carousel className="relative w-full max-w-xs">
                   <CarouselContent>

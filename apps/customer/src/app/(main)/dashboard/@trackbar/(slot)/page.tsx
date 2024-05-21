@@ -52,7 +52,7 @@ export default function page() {
           <VStack className="w-full">
             <HStack>
               <div className="rounded-radius border bg-accent p-3">
-                <Package2Icon />
+                <Package2Icon className="text-accent-foreground/60" />
               </div>
               <VStack className="gap-1">
                 <Text styles={"subtle"}>{packageDetails.title}</Text>

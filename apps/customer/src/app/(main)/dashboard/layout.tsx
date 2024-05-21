@@ -10,11 +10,9 @@ export default function layout({
   trackbar: React.ReactNode;
 }) {
   return (
-    <VStack className="h-full max-h-fit w-full gap-5">
-      <HStack className="relative grid grid-cols-6 gap-6">
-        {children}
-        {trackbar}
-      </HStack>
-    </VStack>
+    <HStack className="relative grid w-full grid-cols-6 gap-6">
+      {children}
+      {trackbar}
+    </HStack>
   );
 }

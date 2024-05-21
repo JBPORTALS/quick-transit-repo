@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { MoreVerticalIcon, Package } from "lucide-react";
+import { MoreVerticalIcon, Package2Icon } from "lucide-react";
 import moment from "moment";
 
 import { Button } from "@qt/ui/button";
-import Rightbar from "@qt/ui/rightbar";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
@@ -17,22 +16,22 @@ export default async function page() {
         Your Recent Requests
       </Text>
       <VStack className="w-full">
-        {data.map(({ id, title, description, created_at }) => (
+        {data.map(({ id, title, created_at, request }) => (
           <Link href={`/package-details/${id}`} className="w-full">
             <div className="col-span-6 grid  w-full grid-flow-col gap-8 rounded-radius border bg-card p-4 hover:cursor-pointer">
-              <HStack className="col-span-2 w-full overflow-hidden ">
+              <HStack className="col-span-3 w-full overflow-hidden ">
                 <div>
                   <div className="flex size-16 items-center justify-center rounded-radius border bg-muted">
-                    <Package className="h-10 w-10 text-accent-foreground/15" />
+                    <Package2Icon className="size-10 text-accent-foreground/60" />
                   </div>
                 </div>
                 <VStack className="w-full gap-0 truncate">
                   <Text styles={"subtle_medium"}>{title}</Text>
                   <Text
-                    styles={"small"}
+                    styles={"subtle"}
                     className="w-full truncate py-2 font-thin text-muted-foreground"
                   >
-                    {description}
+                    Tracking Number: {request.tracking_number}
                   </Text>
                   <Text
                     styles={"details"}

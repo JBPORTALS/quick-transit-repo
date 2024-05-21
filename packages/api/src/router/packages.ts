@@ -22,6 +22,13 @@ export const packagesRouter = createTRPCRouter({
     return await ctx.db.query.packages.findMany({
       where: eq(packages.customer_id, ctx.session.user.id),
       orderBy: desc(packages.created_at),
+      with: {
+        request: {
+          columns: {
+            tracking_number: true,
+          },
+        },
+      },
     });
   }),
   getById: protectedProcedure
