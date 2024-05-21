@@ -9,28 +9,14 @@ import moment from "moment";
 import { Button } from "@qt/ui/button";
 import { Package, PackageBody, PackageThumbneil } from "@qt/ui/package";
 import { HStack } from "@qt/ui/stack";
-import { Tag } from "@qt/ui/tag";
 import { Text } from "@qt/ui/text";
 
+import { StatusTag } from "~/app/_components/status-tag";
 import { api } from "~/trpc/server";
 
 export type Package = Awaited<
   ReturnType<typeof api.packages.getRecentPackages>
 >[0];
-
-// Function to return JSX tag based on status
-// const getStatusTag = (status): JSX.Element => {
-//   switch (status) {
-//     case "pending":
-//       return <Tag variant="pending">Pending</Tag>;
-//     case "success":
-//       return <Tag variant="success">Success</Tag>;
-//     case "failed":
-//       return <Tag variant="error">Failed</Tag>;
-//     default:
-//       return <Tag variant="error">Unknown</Tag>;
-//   }
-// };
 
 export const columns: ColumnDef<Package>[] = [
   {
@@ -60,8 +46,8 @@ export const columns: ColumnDef<Package>[] = [
   {
     accessorKey: "amount",
     header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }: any) => {
-      const amount = 100;
+    cell: ({ row }) => {
+      const amount = row.original.bill.totalAmount;
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "INR",
@@ -71,7 +57,7 @@ export const columns: ColumnDef<Package>[] = [
     },
   },
   {
-    accessorKey: "status",
+    accessorKey: "request.current_status",
     header: ({ column }: any) => {
       return (
         <div className="text-center">
@@ -87,7 +73,12 @@ export const columns: ColumnDef<Package>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="flex justify-center">{"Success"}</div>;
+      const value = row.original;
+      return (
+        <HStack className="items-center justify-center">
+          <StatusTag status={value.request.current_status} />
+        </HStack>
+      );
     },
   },
   {

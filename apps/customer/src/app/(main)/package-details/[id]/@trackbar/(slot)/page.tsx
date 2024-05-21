@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { FileDownIcon, TruckIcon } from "lucide-react";
+import { FileDownIcon } from "lucide-react";
 import moment from "moment";
 
 import { Button } from "@qt/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@qt/ui/card";
 import { HStack } from "@qt/ui/stack";
-import { Tag } from "@qt/ui/tag";
 import { Text } from "@qt/ui/text";
 
+import { StatusTag } from "~/app/_components/status-tag";
 import {
   TrackingBar,
   TrackingBarContent,
@@ -26,17 +26,14 @@ export default function page({ params }: { params: { id: string } }) {
   const { data: trackingDetails, isLoading } =
     api.packages.getTrackingDetails.useQuery({ package_id });
 
-  if (isLoading) return <TrackBarSkeleton />;
+  if (isLoading || !trackingDetails) return <TrackBarSkeleton />;
   return (
     <div className="sticky top-20 col-span-3 w-full">
       <Card className="max-h-fit min-h-fit w-full shadow-none">
         <CardHeader>
           <HStack className="items-center justify-between">
             <CardTitle>Traking Details</CardTitle>
-            <Tag variant={"gray"} className="py-2">
-              <TruckIcon className="h-5 w-5" />
-              <Text styles={"body_medium"}>Picking Up</Text>
-            </Tag>
+            <StatusTag status={trackingDetails.current_status} />
           </HStack>
         </CardHeader>
         <CardContent>

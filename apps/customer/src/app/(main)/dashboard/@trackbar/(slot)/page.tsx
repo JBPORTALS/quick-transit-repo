@@ -17,6 +17,7 @@ import { HStack, VStack } from "@qt/ui/stack";
 import { Tag } from "@qt/ui/tag";
 import { Text } from "@qt/ui/text";
 
+import { StatusTag } from "~/app/_components/status-tag";
 import {
   TrackingBar,
   TrackingBarContent,
@@ -42,10 +43,7 @@ export default function page() {
         <CardHeader>
           <HStack className="items-center justify-between">
             <CardTitle>Traking Details</CardTitle>
-            <Tag variant={"gray"} className="py-2">
-              <TruckIcon className="h-5 w-5" />
-              <Text styles={"body_medium"}>Picking Up</Text>
-            </Tag>
+            <StatusTag status={packageDetails.request.current_status} />
           </HStack>
         </CardHeader>
         <CardContent>

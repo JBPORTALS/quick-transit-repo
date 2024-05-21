@@ -26,6 +26,17 @@ export const packagesRouter = createTRPCRouter({
         request: {
           columns: {
             tracking_number: true,
+            current_status: true,
+          },
+        },
+        bill: {
+          extras(fields, operators) {
+            return {
+              totalAmount:
+                operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
+                  "totalAmount",
+                ),
+            };
           },
         },
       },

@@ -5,6 +5,7 @@ import moment from "moment";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
+import { StatusTag } from "~/app/_components/status-tag";
 import { api } from "~/trpc/server";
 
 export default async function page() {
@@ -37,9 +38,7 @@ export default async function page() {
               </VStack>
             </HStack>
             <HStack className="col-span-3 flex items-center justify-end">
-              <HStack className="rounded-full bg-orange-600/30 px-6 py-2 text-sm">
-                Pending
-              </HStack>
+              <StatusTag status={request.current_status} />
               {/* <PackageMoreDropdown packageId={id} /> */}
             </HStack>
           </div>
