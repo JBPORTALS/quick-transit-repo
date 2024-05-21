@@ -19,12 +19,11 @@ import { api } from "~/trpc/react";
 
 export default function CancelDialog({
   children,
+  packageId,
 }: {
   children: React.ReactNode;
+  packageId: string;
 }) {
-  const params = useParams();
-  const packageId = params.id as string;
-
   const utils = api.useUtils();
 
   const cancelRequest = api.packages.cancelRequest.useMutation({

@@ -37,7 +37,7 @@ export default function page() {
   const { packageDetails, totalRecords } = data;
 
   return (
-    <div className="sticky top-20 col-span-2 w-full">
+    <div className="sticky top-5 col-span-2 w-full">
       <Card className="max-h-fit min-h-fit w-full shadow-none">
         <CardHeader>
           <HStack className="items-center justify-between">

@@ -16,11 +16,19 @@ import {
 
 import CancelDialog from "./cancel-dialog";
 
-export default function PackageMoreDropdown() {
+export default function PackageMoreDropdown({
+  packageId,
+}: {
+  packageId: string;
+}) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size={"icon"} variant={"ghost"}>
+        <Button
+          onClick={(e) => e.preventDefault()}
+          size={"icon"}
+          variant={"ghost"}
+        >
           <MoreHorizontalIcon className="size-4" />
         </Button>
       </DropdownMenuTrigger>
@@ -31,7 +39,7 @@ export default function PackageMoreDropdown() {
           <DropdownMenuItem className="py-2">
             <Edit3Icon className="mr-2 size-4" /> Edit Package
           </DropdownMenuItem>
-          <CancelDialog>
+          <CancelDialog {...{ packageId }}>
             <DropdownMenuItem
               onSelect={(e) => e.preventDefault()}
               className="py-2 text-destructive hover:text-destructive"

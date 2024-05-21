@@ -189,7 +189,8 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
   const addPackage = api.packages.addPackage.useMutation({
     onSuccess() {
       router.refresh();
-      utils.packages.invalidate();
+      utils.packages.getRecentPackages.invalidate();
+      utils.packages.getAllTrackingDetails.invalidate();
       setOpen(false);
       form.reset();
     },

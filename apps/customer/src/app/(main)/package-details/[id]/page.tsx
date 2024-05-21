@@ -97,7 +97,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                 <Button size={"sm"} variant={"outline"}>
                   <FileDown className="h-5 w-5" /> Invoice
                 </Button>
-                <PackageMoreDropdown />
+                <PackageMoreDropdown packageId={params.id} />
               </HStack>
             )}
           </HStack>

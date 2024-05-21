@@ -12,6 +12,7 @@ import { Text } from "@qt/ui/text";
 
 import AvatarButton from "./AvatarButton";
 import { NewPackage } from "./new-package";
+import NotificationsPopover from "./notifications-popover";
 
 const AcmeFont = Acme({
   variable: "--acme-font",
@@ -35,14 +36,11 @@ export default function HeaderClient() {
       </HeaderTitle>
       <HeaderRight>
         <HStack>
-          <NewPackage>
-            <Button variant={"outline"} size={"icon"} className="rounded-full">
-              <PackagePlus className="h-5 w-5" />
+          <NotificationsPopover>
+            <Button size={"icon"} variant={"outline"} className="rounded-full">
+              <BellIcon className="h-5 w-5" />
             </Button>
-          </NewPackage>
-          <Button size={"icon"} variant={"outline"} className="rounded-full">
-            <BellIcon className="h-5 w-5" />
-          </Button>
+          </NotificationsPopover>
           <AvatarButton />
         </HStack>
       </HeaderRight>

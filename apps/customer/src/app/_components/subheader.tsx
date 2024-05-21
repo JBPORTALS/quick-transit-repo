@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HomeIcon, PackageIcon } from "lucide-react";
+import { BoxesIcon, HomeIcon } from "lucide-react";
 
 import { cn } from "@qt/ui";
 import { Button } from "@qt/ui/button";
@@ -38,7 +38,7 @@ export default function Subheader() {
         )}
       >
         <Link href={"/packages"}>
-          <PackageIcon className="h-5 w-5" />
+          <BoxesIcon className="h-5 w-5" />
           Packages
         </Link>
       </Button>
