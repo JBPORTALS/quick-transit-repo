@@ -1,3 +1,4 @@
+import type { ReactComponentElement } from "react";
 import React, { createContext, forwardRef, useContext, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Animated, {
@@ -102,7 +103,7 @@ Accordion.List = ({ children, className, ...props }: AccordionListProps) => {
 
 interface AccordionHeaderProps
   extends React.ComponentProps<typeof TouchableOpacity> {
-  Icon: React.ReactElement<LucideIcon>;
+  Icon: ReactComponentElement<LucideIcon>;
   title: string;
   done?: boolean;
 }

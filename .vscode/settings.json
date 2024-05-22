@@ -1,14 +1,7 @@
 {
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "deno.enablePaths": ["supabase/functions"],
-  "deno.lint": true,
-  "deno.unstable": true,
   "eslint.workingDirectories": [
     {
       "mode": "auto"
     }
-  ],
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  ]
 }

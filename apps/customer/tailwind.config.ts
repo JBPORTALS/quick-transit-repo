@@ -11,9 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-opensans)", ...fontFamily.sans],
-        mono: ["var(--font-opensans)", ...fontFamily.mono],
-        acme: ["var(--font-acme)"],
+        sans: ["var(--font-poppins)", ...fontFamily.sans],
+        mono: ["var(--font-poppins)", ...fontFamily.mono],
       },
     },
   },

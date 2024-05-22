@@ -2,13 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  LayoutGrid,
-  LogOutIcon,
-  Package2Icon,
-  PackagePlusIcon,
-} from "lucide-react";
+import { usePathname } from "next/navigation";
+import { LayoutGrid, Package2Icon, PackagePlusIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Button } from "@qt/ui/button";
@@ -21,27 +16,22 @@ import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 import { ThemeToggle } from "@qt/ui/theme";
 
-import { createClient } from "~/utils/client";
-
 export default function SidebarClient() {
   const pathname = usePathname();
-  const supabase = createClient();
-  const router = useRouter();
   return (
     <Sidebar
-      className="h-screen w-full"
+      className="h-screen w-full border-r"
       iconItem={
-        <HStack className="w-full items-center justify-center gap-0">
+        <HStack className="w-full items-center justify-between gap-1">
           <Image src={"/qt-logo.png"} height={40} width={40} alt="QT Logo" />
-          <Text styles={"h3"} className="font-serif">
-            Quick Transitt
-          </Text>
+          <Text styles={"p_ui_medium"}>Quick Transitt</Text>
+          <ThemeToggle />
         </HStack>
       }
     >
       <SidebarBody>
-        <Link href={"/dashboard"} className="w-full">
-          <SidebarItem isActive={pathname === "/dashboard"}>
+        <Link href={"/"} className="w-full">
+          <SidebarItem isActive={pathname === "/"}>
             <LayoutGrid /> Dashboard
           </SidebarItem>
         </Link>
@@ -52,15 +42,24 @@ export default function SidebarClient() {
         </Link>
       </SidebarBody>
       <SidebarBottomContent>
-        <SidebarItem
-          onClick={() => {
-            supabase.auth.signOut().then(() => router.refresh());
-          }}
-        >
-          <LogOutIcon /> Logout
-        </SidebarItem>
+        <Button asChild>
+          <Link href={"/new"}>
+            <PackagePlusIcon /> New Request
+          </Link>
+        </Button>
+        <HStack className="items-center">
+          <Avatar className="h-10 w-10">
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          <VStack className="w-full gap-0 overflow-hidden">
+            <Text styles={"p_ui_medium"}>IG Institution</Text>
+            <Text styles={"body"} className="w-full text-muted-foreground">
+              iginstitutescontantme@gmail.com
+            </Text>
+          </VStack>
+        </HStack>
       </SidebarBottomContent>
-      <ThemeToggle />
     </Sidebar>
   );
 }

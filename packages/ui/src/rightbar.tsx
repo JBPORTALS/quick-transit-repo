@@ -5,7 +5,7 @@ import { Text } from "./text";
 
 export default function Rightbar() {
   return (
-    <div className="sticky top-6 flex h-[600px] flex-col gap-2 rounded-md border bg-card px-6 pt-6">
+    <div className="flex h-full flex-col gap-2 rounded-md border bg-background px-6 pt-6 dark:bg-secondary">
       <div className=" flex flex-col  gap-2 border-b pb-2">
         <Text styles={"p_ui_medium"}>Ongoing Deliveries</Text>
         <Text styles={"p_ui"}>Today</Text>
