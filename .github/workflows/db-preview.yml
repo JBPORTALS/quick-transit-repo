@@ -14,7 +14,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.15.4
       - name: migrating
         run: pnpm db:migrate
 
@@ -25,6 +25,6 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.15.4
       - name: seeding
         run: pnpm db:seed
