@@ -1,8 +1,8 @@
 import { ScrollView, Text, View } from "react-native";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Settings2Icon } from "lucide-react-native";
 
-import PackageItem from "~/components/package-item";
+import { PackageItem } from "~/components/package-item";
 import { ColorsTheme } from "~/utils/constants";
 
 const data = [
@@ -57,18 +57,9 @@ export default function Packages() {
       </View>
       <View className="gap-2 py-8">
         {data.map((data, index) => (
-          <PackageItem
-            key={index}
-            data={data}
-            onPress={() =>
-              router.navigate({
-                pathname: "/package/[packageId]",
-                params: {
-                  packageId: index,
-                },
-              })
-            }
-          />
+          <Link asChild href={`/package/${index}`}>
+            <PackageItem key={index} data={data} />
+          </Link>
         ))}
       </View>
     </ScrollView>

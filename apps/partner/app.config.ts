@@ -3,7 +3,7 @@ import type { ConfigContext, ExpoConfig } from "expo/config";
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Quick Transitt",
-  slug: "quick-transitt",
+  slug: "qt-partner-app",
   scheme: "quick-transitt",
   version: "0.1.0",
   orientation: "portrait",
@@ -20,9 +20,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
   },
   updates: {
+    url: "https://u.expo.dev/eb31288b-ff70-4587-bb68-75ef694528c1",
     enabled: true,
     fallbackToCacheTimeout: 0,
     checkAutomatically:"ON_LOAD"
+  },
+  runtimeVersion: {
+    policy: "appVersion"
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -33,14 +37,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     package: "com.jbportalsblr.quicktransitt",
     adaptiveIcon: {
-      foregroundImage: "./assets/icon.png",
+      foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#FFFFFF",
     },
-    versionCode:1
   },
   extra: {
     eas: {
-      projectId: "2ed4fed3-b4e8-49b9-91ea-b0a8b9ec6a2f",
+      projectId: "eb31288b-ff70-4587-bb68-75ef694528c1",
     },
   },
   owner: "jb_portals",

@@ -1,7 +1,9 @@
 import type { VariantProps } from "class-variance-authority";
-import React, { cloneElement } from "react";
+import { cloneElement } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { cva, cx } from "class-variance-authority";
+
+import React = require("react");
 
 const buttonVariants = cva(
   "flex-row items-center justify-center gap-3 rounded-md px-5 py-3 disabled:opacity-60",
@@ -40,52 +42,59 @@ interface ButtonProps
   extends React.ComponentProps<typeof TouchableOpacity>,
     VariantProps<typeof buttonVariants> {
   textClassName?: string;
-  leftIcon?: React.ReactComponentElement<any>;
-  rightIcon?: React.ReactComponentElement<any>;
+  leftIcon?: React.ReactElement<any>;
+  rightIcon?: React.ReactElement<any>;
   isLoading?: boolean;
 }
 
-export default function Button({
-  children,
-  className,
-  variant,
-  textClassName,
-  size,
-  leftIcon,
-  rightIcon,
-  isLoading,
-  disabled = isLoading,
-  ...props
-}: ButtonProps) {
-  return (
-    <TouchableOpacity
-      disabled={disabled}
-      className={buttonVariants({ className, variant, size })}
-      {...props}
-    >
-      {leftIcon && !isLoading && <View>{cloneElement(leftIcon)}</View>}
+const Button = React.forwardRef<TouchableOpacity, ButtonProps>(
+  (
+    {
+      children,
+      className,
+      variant,
+      textClassName,
+      size,
+      leftIcon,
+      rightIcon,
+      isLoading,
+      disabled = isLoading,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <TouchableOpacity
+        disabled={disabled}
+        className={buttonVariants({ className, variant, size })}
+        ref={ref}
+        {...props}
+      >
+        {leftIcon && !isLoading && <View>{cloneElement(leftIcon)}</View>}
 
-      {isLoading ? (
-        <ActivityIndicator
-          size={24}
-          className={cx([
-            variant === "primary"
-              ? "text-primary-foreground"
-              : "text-secondary-foreground",
-          ])}
-        />
-      ) : (
-        <Text
-          className={buttonTextVariants({
-            variant,
-            className: textClassName,
-            size,
-          })}
-        >
-          {children}
-        </Text>
-      )}
-      {rightIcon && !isLoading && <View>{cloneElement(rightIcon)}</View>}
-    </TouchableOpacity>
-  );
-}
+        {isLoading ? (
+          <ActivityIndicator
+            size={24}
+            className={cx([
+              variant === "primary"
+                ? "text-primary-foreground"
+                : "text-secondary-foreground",
+            ])}
+          />
+        ) : (
+          <Text
+            className={buttonTextVariants({
+              variant,
+              className: textClassName,
+              size,
+            })}
+          >
+            {children}
+          </Text>
+        )}
+        {rightIcon && !isLoading && <View>{cloneElement(rightIcon)}</View>}
+      </TouchableOpacity>
+    );
+  },
+);
+export default Button;

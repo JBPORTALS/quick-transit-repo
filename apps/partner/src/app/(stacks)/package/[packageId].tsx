@@ -1,5 +1,5 @@
 import { ScrollView, Text, View } from "react-native";
-import MapView from "react-native-maps";
+// import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import PagerView from "react-native-pager-view";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
@@ -144,7 +144,8 @@ export default function Package() {
                   #678, Magadi Road, Chintamani, Banglore 512 076
                 </Text>
                 <View className="relative overflow-hidden rounded-xl border border-border">
-                  <MapView
+                  {/* <MapView
+                    provider={PROVIDER_GOOGLE}
                     initialRegion={{
                       latitude: 12,
                       latitudeDelta: 12,
@@ -153,7 +154,7 @@ export default function Package() {
                     }}
                     loadingEnabled
                     style={{ height: 250, borderRadius: 10 }}
-                  />
+                  /> */}
                   <View className="absolute right-0 top-0 h-full w-full items-end bg-muted-foreground/30 p-3">
                     <ExpandIcon size={24} color={colors.background} />
                   </View>
@@ -246,7 +247,7 @@ export default function Package() {
                   #678, Magadi Road, Chintamani, Banglore 512 076
                 </Text>
                 <View className="relative overflow-hidden rounded-xl border border-border">
-                  <MapView
+                  {/* <MapView
                     initialRegion={{
                       latitude: 12,
                       latitudeDelta: 12,
@@ -255,7 +256,7 @@ export default function Package() {
                     }}
                     loadingEnabled
                     style={{ height: 250, borderRadius: 10 }}
-                  />
+                  /> */}
                   <View className="absolute right-0 top-0 h-full w-full items-end bg-muted-foreground/30 p-3">
                     <ExpandIcon size={24} color={colors.background} />
                   </View>
