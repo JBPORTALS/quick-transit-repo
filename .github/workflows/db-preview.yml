@@ -1,4 +1,4 @@
-name: CI
+name: Database Preview Migrate & Seed
 
 on:
   pull_request:
