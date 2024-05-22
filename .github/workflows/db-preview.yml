@@ -10,13 +10,13 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: migrating
         run: pnpm db:migrate
 
   seed:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: seeding
         run: pnpm db:seed
