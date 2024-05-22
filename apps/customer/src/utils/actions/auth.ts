@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { api } from "~/trpc/server";
@@ -11,7 +12,7 @@ export async function SigninWithGoogle() {
   const origin =
     process.env.NODE_ENV === "development"
       ? `http://localhost:${process.env.PORT}`
-      : process.env.VERCEL_URL;
+      : headers().get("origin");
   const redirectUrl = `${origin}/auth/callback?next=/dashboard`;
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
@@ -20,7 +21,7 @@ export async function SigninWithGoogle() {
     },
   });
   console.log("Auth Error", error, "URL", data.url);
-  redirect(data.url);
+  if (data.url) redirect(data.url);
 }
 
 export async function cancelRequest({ id }: { id: string }) {
