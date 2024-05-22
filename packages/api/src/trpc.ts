@@ -6,11 +6,8 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
-import type {
-  SignedInAuthObject,
-  SignedOutAuthObject,
-} from "@clerk/nextjs/api";
-import { getAuth } from "@clerk/nextjs/server";
+import { createServerClient } from "@supabase/ssr";
+import { type SupabaseClient } from "@supabase/supabase-js";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
@@ -22,7 +19,7 @@ import { db } from "@qt/db";
  * Replace this with an object if you want to pass things to createContextInner
  */
 type AuthContextProps = {
-  auth: SignedInAuthObject | SignedOutAuthObject;
+  supabase: SupabaseClient;
 };
 
 /** Use this helper for:
@@ -30,9 +27,10 @@ type AuthContextProps = {
  *  - trpc's `createSSGHelpers` where we don't have req/res
  * @see https://beta.create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
-export const createContextInner = async ({ auth }: AuthContextProps) => {
+
+export const createContextInner = async ({ supabase }: AuthContextProps) => {
   return {
-    auth,
+    supabase,
     db,
   };
 };
@@ -50,7 +48,15 @@ export const createContextInner = async ({ auth }: AuthContextProps) => {
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  return await createContextInner({ auth: getAuth(opts.req) });
+  return await createContextInner({
+    supabase: createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: opts.req.cookies,
+      },
+    ),
+  });
 };
 
 /**
@@ -59,7 +65,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  * This is where the trpc api is initialized, connecting the context and
  * transformer
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
+export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter: ({ shape, error }) => ({
     ...shape,
@@ -106,14 +112,17 @@ export const publicProcedure = t.procedure;
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.auth.userId) {
+export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
+  const {
+    data: { user },
+  } = await ctx.supabase.auth.getUser();
+  if (!user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.auth.session, user: ctx.auth.user },
+      session: { user },
     },
   });
 });

@@ -8,6 +8,8 @@ import SuperJSON from "superjson";
 
 import type { AppRouter } from "@qt/api";
 
+import { createClient } from "~/utils/client";
+
 const createQueryClient = () => new QueryClient();
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;

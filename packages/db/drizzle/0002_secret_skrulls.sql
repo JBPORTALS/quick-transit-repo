@@ -1,0 +1,1 @@
+ALTER TABLE "address" ADD COLUMN "phone" varchar(10);

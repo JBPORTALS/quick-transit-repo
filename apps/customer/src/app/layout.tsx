@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Acme, Open_Sans } from "next/font/google";
 
 import { cn } from "@qt/ui";
-import { Header, HeaderRight, HeaderTitle } from "@qt/ui/header";
-import { ThemeProvider, ThemeToggle } from "@qt/ui/theme";
+import { ThemeProvider } from "@qt/ui/theme";
 import { Toaster } from "@qt/ui/toast";
 
 import { env } from "~/env";
@@ -12,26 +10,19 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
-import SidebarClient from "./_components/SidebarClient";
-
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.VERCEL_ENV === "production"
       ? "https://turbo.t3.gg"
       : "http://localhost:3000",
   ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Quick Transitt",
+  description: "Your Fast and Reliable Package Transfer Solution",
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
+    title: "Quick Transitt",
+    description: "Your Fast and Reliable Package Transfer Solution",
     url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    siteName: "Quick Transitt",
   },
 };
 
@@ -42,10 +33,16 @@ export const viewport: Viewport = {
   ],
 };
 
-const PoppinsFont = Poppins({
-  weight: ["100", "200", "300", "400"],
-  variable: "--font-poppins",
-  subsets: ["devanagari"],
+const OpenSans = Open_Sans({
+  weight: ["300", "400", "700", "500", "600", "800"],
+  variable: "--font-opensans",
+  subsets: ["latin"],
+});
+
+const AcmeFont = Acme({
+  variable: "--font-acme",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -53,17 +50,15 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "h-screen min-h-screen gap-0 bg-secondary font-sans text-foreground dark:bg-background",
-          PoppinsFont.variable,
-          PoppinsFont.variable,
+          "h-screen min-h-screen gap-0 bg-background font-sans text-foreground",
+          OpenSans.variable,
+          AcmeFont.variable,
         )}
       >
-        <ClerkProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TRPCReactProvider>{props.children}</TRPCReactProvider>
-            <Toaster />
-          </ThemeProvider>
-        </ClerkProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <TRPCReactProvider>{props.children}</TRPCReactProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

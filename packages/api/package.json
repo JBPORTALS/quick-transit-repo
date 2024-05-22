@@ -16,7 +16,10 @@
   "dependencies": {
     "@qt/db": "workspace:^0.1.0",
     "@qt/validators": "workspace:^0.1.0",
+    "@supabase/ssr": "^0.3.0",
+    "@supabase/supabase-js": "^2.43.1",
     "@trpc/server": "11.0.0-next-beta.294",
+    "order-id": "^2.1.2",
     "superjson": "2.2.1",
     "zod": "^3.22.4"
   },
@@ -26,7 +29,7 @@
     "@qt/tsconfig": "workspace:^0.1.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3"
+    "typescript": "~5.3.3"
   },
   "eslintConfig": {
     "root": true,
