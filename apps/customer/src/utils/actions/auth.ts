@@ -20,7 +20,7 @@ export async function SigninWithGoogle() {
     },
   });
   console.log("Auth Error", error, "URL", data.url);
-  if (data.url) redirect(data.url);
+  redirect(data.url);
 }
 
 export async function cancelRequest({ id }: { id: string }) {
