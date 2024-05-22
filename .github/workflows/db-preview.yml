@@ -15,16 +15,18 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 8.15.4
+      - name: Install dependencies
+        run: pnpm install
       - name: migrating
         run: pnpm db:migrate
 
-  seed:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  # seed:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 8.15.4
-      - name: seeding
-        run: pnpm db:seed
+  #     - uses: pnpm/action-setup@v4
+  #       with:
+  #         version: 8.15.4
+  #     - name: seeding
+  #       run: pnpm db:seed
