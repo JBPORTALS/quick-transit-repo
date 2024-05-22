@@ -35,7 +35,9 @@ export default function AvatarButton() {
     </VStack> */}
           <Avatar className="size-10 border">
             <AvatarImage src={user?.user_metadata?.picture} />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback className="font-bold">
+              {user?.user_metadata.full_name.charAt(0)}
+            </AvatarFallback>
           </Avatar>
           <ChevronDown className="h-4 w-4" />
         </HStack>

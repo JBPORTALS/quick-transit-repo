@@ -8,8 +8,15 @@ import { createClient } from "~/utils/server";
 
 export async function SigninWithGoogle() {
   const supabase = createClient();
+  const redirectDomain =
+    process.env.NODE_ENV === "development"
+      ? `http://localhost:${process.env.PORT}`
+      : process.env.VERCEL_URL;
   const { data } = await supabase.auth.signInWithOAuth({
     provider: "google",
+    options: {
+      redirectTo: `${redirectDomain}/auth/callback?next=/dashboard`,
+    },
   });
   if (data.url) redirect(data.url);
 }
