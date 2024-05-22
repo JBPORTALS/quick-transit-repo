@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/checkout@v4
-
       - name: migrating
         run: pnpm db:migrate
 
@@ -19,6 +16,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: seeding
-        uses: pnpm db:seed
+        run: pnpm db:seed
