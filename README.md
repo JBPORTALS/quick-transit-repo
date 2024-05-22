@@ -245,3 +245,6 @@ Deploying your Expo application works slightly differently compared to Next.js o
 The stack originates from [create-t3-app](https://github.com/t3-oss/create-t3-app).
 
 A [blog post](https://jumr.dev/blog/t3-turbo) where I wrote how to migrate a T3 app into this.
+
+redirect_uri=https://ovrjsxxhoevipcbzbtgy.supabase.co/auth/v1/callback state=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTYzODY5NTcsInNpdGVfdXJsIjoiaHR0cHM6Ly9xdWljay10cmFuc2l0LXJlcG8tY3VzdG9tZXItYngzZWkyOTN4LWpiLXBvcnRhbHNzLXByb2plY3RzLnZlcmNlbC5hcHAvIiwiaWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJmdW5jdGlvbl9ob29rcyI6bnVsbCwicHJvdmlkZXIiOiJnb29nbGUiLCJyZWZlcnJlciI6Imh0dHBzOi8vcXVpY2stdHJhbnNpdC1yZXBvLWN1c3RvbWVyLWJ4M2VpMjkzeC1qYi1wb3J0YWxzcy1wcm9qZWN0cy52ZXJjZWwuYXBwLyIsImZsb3dfc3RhdGVfaWQiOiIxYzE3NDg0Zi1iNDI4LTQ3OGItODcxNC1kZTU0M2EwNjI4ZjYifQ.eSjqLdM_wq2ug-Hk2lR4fdesR2iu7zDzGGprz7--uL4 client_id=938138120879-qmjt2qm00oc0l0385rhlkss07geq7s3l.apps.googleusercontent.com
+redirect_to=quick-transit-repo-customer-34qmn3qg3-jb-portalss-projects.vercel.app/auth/callback?next=/dashboard access_type=online scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid
