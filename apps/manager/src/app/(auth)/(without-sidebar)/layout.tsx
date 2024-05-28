@@ -12,12 +12,10 @@ import HeaderClient from "~/app/_components/headerClient";
 export default function PackageDetailsLayout({
   children,
   title,
-  ...props
 }: {
   children: React.ReactNode;
   title: React.ReactNode;
 }) {
-  console.log(props);
   return (
     <div className="w-full">
       <Header className="sticky top-0">
