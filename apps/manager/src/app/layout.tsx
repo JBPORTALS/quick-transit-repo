@@ -14,7 +14,7 @@ import "~/app/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.VERCEL_ENV === "production"
-      ? process.env.VERCEL_URL
+      ? `${process.env.VERCEL_URL}`
       : `http://localhost:${process.env.PORT}`,
   ),
   title: "Quick Transitt | Manager",
