@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Acme, Open_Sans } from "next/font/google";
+import { Acme } from "next/font/google";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 
 import { cn } from "@qt/ui";
 import { ThemeProvider } from "@qt/ui/theme";
@@ -33,12 +35,6 @@ export const viewport: Viewport = {
   ],
 };
 
-const OpenSans = Open_Sans({
-  weight: ["300", "400", "700", "500", "600", "800"],
-  variable: "--font-opensans",
-  subsets: ["latin"],
-});
-
 const AcmeFont = Acme({
   variable: "--font-acme",
   subsets: ["latin"],
@@ -51,7 +47,8 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body
         className={cn(
           "h-screen min-h-screen gap-0 bg-background font-sans text-foreground",
-          OpenSans.variable,
+          GeistSans.variable,
+          GeistMono.variable,
           AcmeFont.variable,
         )}
       >
