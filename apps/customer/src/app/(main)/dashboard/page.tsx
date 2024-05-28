@@ -25,13 +25,13 @@ export default async function page() {
                 <Text styles={"subtle_medium"}>{title}</Text>
                 <Text
                   styles={"subtle"}
-                  className="w-full truncate py-2 font-thin text-muted-foreground"
+                  className="w-full truncate py-2 font-normal text-card-foreground/80"
                 >
                   Tracking Number: {request.tracking_number}
                 </Text>
                 <Text
                   styles={"details"}
-                  className="text-wrap font-thin text-muted-foreground"
+                  className="text-wrap text-card-foreground/35"
                 >
                   Requested {moment(created_at).fromNow()}
                 </Text>
