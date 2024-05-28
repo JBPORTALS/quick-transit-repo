@@ -7,6 +7,7 @@ export const env = createEnv({
       .enum(["development", "production", "test"])
       .default("development"),
     VERCEL_ENV: z.enum(["development", "preview", "production"]).optional(),
+    VERCEL_URL: z.string().optional(),
   },
   /**
    * Specify your server-side environment variables schema here.
@@ -28,6 +29,7 @@ export const env = createEnv({
    */
   experimental__runtimeEnv: {
     VERCEL_ENV: process.env.VERCEL_ENV,
+    VERCEL_URL: process.env.VERCEL_URL,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
