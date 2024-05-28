@@ -14,21 +14,18 @@ import "~/app/globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
-      : "http://localhost:3000",
+      ? process.env.VERCEL_URL
+      : `http://localhost:${process.env.PORT}`,
   ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Quick Transitt | Manager",
+  description:
+    "Efficiently Manage and Streamline Your Package Transportation Requests and Delivery Processes with Ease",
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
+    title: "Quick Transitt | Manager",
+    description:
+      "Efficiently Manage and Streamline Your Package Transportation Requests and Delivery Processes with Ease",
     url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    siteName: "Quick Transitt | Manager",
   },
 };
 
