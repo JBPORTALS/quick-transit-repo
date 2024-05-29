@@ -11,10 +11,12 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
+import { headers } from "next/headers";
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.NODE_ENV === "production"
-      ? `${window.origin}`
+      ? `${headers().get("origin")}`
       : `http://localhost:${process.env.PORT}`,
   ),
   title: "Quick Transitt | Manager",
