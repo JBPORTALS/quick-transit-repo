@@ -23,7 +23,7 @@ export default async function Page() {
           height={32}
           alt="Quick Transitt Logo"
         />
-        <span className="font-acme text-lg">Quick Transitt</span>
+        <span className="font-acme text-lg">Console</span>
       </HStack>
       <Text styles={"h1"} className="w-1/2 text-center">
         Quick Transit Manager Portal

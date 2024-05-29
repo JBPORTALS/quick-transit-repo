@@ -11,7 +11,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import "~/app/globals.css";
 
 export const metadata: Metadata = {
-  title: "Quick Transitt | Manager",
+  title: "Quick Transitt | Console",
   description:
     "Efficiently Manage and Streamline Your Package Transportation Requests and Delivery Processes with Ease",
   openGraph: {
@@ -35,7 +35,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "h-screen min-h-screen bg-secondary font-sans text-foreground antialiased dark:bg-background",
+          "h-screen min-h-screen bg-background font-sans text-foreground antialiased",
           GeistSans.variable,
           GeistMono.variable,
         )}
