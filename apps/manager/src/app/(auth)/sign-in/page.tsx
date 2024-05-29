@@ -1,5 +1,11 @@
-import React from "react";
+"use client";
+
+import { VStack } from "@qt/ui/stack";
 
 export default function page() {
-  return <div>page</div>;
+  return (
+    <VStack>
+      <form></form>
+    </VStack>
+  );
 }
