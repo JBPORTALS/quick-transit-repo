@@ -64,6 +64,13 @@
       "when": 1715852101974,
       "tag": "0008_jittery_chronomancer",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1716973766865,
+      "tag": "0009_early_thanos",
+      "breakpoints": true
     }
   ]
 }

@@ -29,7 +29,7 @@ export default function HeaderClient() {
             styles={"h3"}
             className={`font-sans font-extrabold text-gray-700 dark:text-gray-300 ${AcmeFont.className}`}
           >
-            Console
+            QT <span className="text-primary ">●</span> Console
           </Text>
         </HStack>
       </HeaderTitle>

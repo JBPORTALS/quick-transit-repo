@@ -16,14 +16,16 @@ export default async function Page() {
 
   return (
     <main className="flex h-full flex-col items-center justify-center gap-5 bg-background">
-      <HStack className="items-center gap-0 rounded-full border-2 px-5 py-2 shadow-sm">
+      <HStack className="items-center gap-0 rounded-full border px-5 py-2">
         <Image
           src={"/qt-logo.png"}
-          width={32}
-          height={32}
+          width={28}
+          height={28}
           alt="Quick Transitt Logo"
         />
-        <span className="font-acme text-lg">Console</span>
+        <span className="font-acme text-lg font-semibold text-accent-foreground/70">
+          QT <span className="text-xs text-primary">●</span> Console
+        </span>
       </HStack>
       <Text styles={"h1"} className="w-1/2 text-center">
         Quick Transit Manager Portal
