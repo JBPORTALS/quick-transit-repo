@@ -1,14 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { z } from "zod";
 
 import { Button } from "@qt/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,34 +16,25 @@ import {
 import { Input } from "@qt/ui/input";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
+import { signInFormSchema } from "@qt/validators";
 
-import { createClient } from "~/utils/client";
-
-const signInFormSchema = z.object({
-  email: z
-    .string({ required_error: "This field is required" })
-    .email("Not a valid email")
-    .min(1, "Not a valid email"),
-  // otp: z.string({ required_error: "OTP is required" }).min(6).max(6),
-});
+import { SigninWithPassword } from "~/utils/actions/auth";
 
 export default function page() {
   const form = useForm({
     schema: signInFormSchema,
+    mode: "onChange",
   });
-  const supabase = createClient();
-  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
-    const { data, error } = await supabase.auth.signInWithOtp({
-      email: values.email,
-      options: {
-        emailRedirectTo: "http://localhost:3000/auth/callback",
-      },
-    });
-
-    if (error) console.log(error);
-    // if (data) router.push("/auth/callback");
+    try {
+      await SigninWithPassword(values);
+    } catch (e) {
+      const error = e as Error;
+      form.setError("global_error", {
+        message: error.message,
+      });
+    }
   }
 
   return (
@@ -67,14 +56,24 @@ export default function page() {
                 QT <span className="text-xs text-primary">●</span> Console
               </span>
             </HStack>
-            <Text styles={"h4"}>Confirm Your Email</Text>
-            <Text styles={"details"} className="text-muted-foreground">
-              to get an verification token
+            <Text styles={"h3"}>Signin to continue</Text>
+            <Text styles={"list"} className="text-muted-foreground">
+              to get latest updates on packages
             </Text>
           </VStack>
           <FormField
+            name="global_error"
+            disabled={form.formState.isSubmitting}
+            control={form.control}
+            render={() => (
+              <FormItem className="w-full text-center">
+                <FormMessage className="text-sm" />
+              </FormItem>
+            )}
+          />
+          <FormField
             name="email"
-            disabled={form.formState.isLoading}
+            disabled={form.formState.isSubmitting}
             control={form.control}
             render={({ field }) => (
               <FormItem className="w-full">
@@ -82,36 +81,33 @@ export default function page() {
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  You will get an OTP to this email.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {/* <FormField
-            name="otp"
+
+          <FormField
+            name="password"
             control={form.control}
+            disabled={form.formState.isSubmitting}
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>{"Verification Token (OTP)"}</FormLabel>
+                <FormLabel htmlFor="password">{"Password"}</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="password" {...field} />
                 </FormControl>
-                <FormDescription>
-                  Open your email inbox to get six digit code.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
+
           <Button
             disabled={form.formState.isSubmitting}
             isLoading={form.formState.isSubmitting}
             size={"lg"}
             className="w-full"
           >
-            Continue
+            Submit
           </Button>
         </form>
       </Form>
