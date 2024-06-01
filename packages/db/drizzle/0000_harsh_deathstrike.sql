@@ -169,15 +169,27 @@ END $$;
 
 -- This trigger automatically creates a profile entry when a new user signs up via Supabase Auth.
 -- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
-create or replace function public.handle_new_oauth_user()
+create or replace function public.handle_user_data()
 returns trigger as $$
 begin
   insert into public.user (id, name,email)
-  values (new.id, new.raw_user_meta_data->>'full_name',new.email);
+  values (new.id, new.raw_user_meta_data->>'full_name',new.email) on conflict (id) do update set name=new.raw_user_meta_data->>'full_name',email=new.email;
   return new;
 end;
 $$ language plpgsql security definer;
 
-create trigger on_oauth_user_created
+create or replace function public.handle_update_user_data()
+returns trigger as $$
+begin
+  update public.user set name=new.raw_user_meta_data->>'full_name',email=new.email where id=new.id;
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_user_created
   after insert on auth.users
-  for each row execute procedure public.handle_new_oauth_user();
+  for each row execute procedure public.handle_user_data();
+
+create trigger on_user_updated
+  after update on auth.users
+  for each row execute procedure public.handle_user_data();

@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 
 import { eq, user, userInsertSchema } from "@qt/db";
+import { profileInformationSchema } from "@qt/validators";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 

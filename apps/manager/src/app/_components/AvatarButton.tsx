@@ -37,7 +37,7 @@ export default function AvatarButton() {
             <AvatarImage src={user?.user_metadata?.picture} />
             <AvatarFallback className="font-bold">
               {user?.user_metadata.full_name
-                ? user.user_metadata.full_name
+                ? user.user_metadata.full_name.charAt(0)
                 : ""}
             </AvatarFallback>
           </Avatar>
@@ -49,12 +49,12 @@ export default function AvatarButton() {
           <Avatar className="size-10 border">
             <AvatarImage src={user?.user_metadata?.picture} />
             <AvatarFallback>
-              {user ? user.user_metadata.full_name : ""}
+              {user ? user.user_metadata.full_name.charAt(0) : ""}
             </AvatarFallback>
           </Avatar>
           <VStack className="gap-1">
             <Text styles={"body_medium"}>{user?.user_metadata.full_name}</Text>
-            <Text styles={"body"}>{user?.user_metadata.email}</Text>
+            <Text styles={"body"}>{user?.email}</Text>
           </VStack>
         </HStack>
         <VStack className="gap-0 py-3">

@@ -11,3 +11,10 @@ export const signInFormSchema = z.object({
     .min(1, "Email shouldn't be empty"),
   global_error: z.string().optional(),
 });
+
+export const profileInformationSchema = z.object({
+  name: z
+    .string({ required_error: "This field is required" })
+    .min(3, "Name must be atlease 3 charcters long"),
+  global_error: z.string().optional(),
+});

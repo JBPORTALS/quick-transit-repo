@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { and, db, eq, user } from "@qt/db";
-import { signInFormSchema } from "@qt/validators";
+import { profileInformationSchema, signInFormSchema } from "@qt/validators";
 
+import { api } from "~/trpc/server";
 import { createClient } from "~/utils/server";
 
 export async function SigninWithPassword({
@@ -28,4 +29,22 @@ export async function SigninWithPassword({
   if (error) throw new Error(error.message);
 
   redirect("/auth/confirm-email-sent");
+}
+
+export async function updateProfile({
+  name,
+}: z.infer<typeof profileInformationSchema>) {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.updateUser({
+    data: {
+      full_name: name,
+    },
+  });
+  console.log("Auth Error", error);
+  if (error) throw new Error(error.message);
+
+  await api.auth.updateUserRole({ role: "manager" });
+
+  redirect("/dashboard");
 }
