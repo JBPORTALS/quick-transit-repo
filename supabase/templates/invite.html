@@ -306,7 +306,7 @@
                                 >
                                   <div>
                                     <div>
-                                      Click on the below button to accept your
+                                      Hi {{.Email}}. You have been invited to Quick Transitt Console Portal as a Manager. Click on the below button to accept your
                                       invitation 👇
                                     </div>
                                   </div>
@@ -351,7 +351,7 @@
                                 <div align="center">
                                   <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:44px; v-text-anchor:middle; width:480px;" arcsize="13.5%"  stroke="f" fillcolor="#8655c5"><w:anchorlock/><center style="color:#FFFFFF;font-family: 'Open Sans',sans-serif; "><![endif]-->
                                   <a
-                                    href="{{ .ConfirmationURL }}"
+                                    href="{{ .SiteURL }}/confirm/callback?token_hash={{ .TokenHash }}&type=invite&next=/dashboard"
                                     target="_blank"
                                     class="v-button"
                                     style="
