@@ -11,7 +11,7 @@ import { HStack } from "@qt/ui/stack";
 export default function Subheader() {
   const pathname = usePathname();
   return (
-    <HStack className="gap-6 px-44">
+    <HStack className="gap-2 px-44">
       <Button
         asChild
         size={"lg"}
