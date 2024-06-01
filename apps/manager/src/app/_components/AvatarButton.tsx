@@ -36,7 +36,9 @@ export default function AvatarButton() {
           <Avatar className="size-10 border">
             <AvatarImage src={user?.user_metadata?.picture} />
             <AvatarFallback className="font-bold">
-              {user?.user_metadata.full_name.charAt(0)}
+              {user?.user_metadata.full_name
+                ? user.user_metadata.full_name
+                : ""}
             </AvatarFallback>
           </Avatar>
           <ChevronDown className="h-4 w-4" />
@@ -47,7 +49,7 @@ export default function AvatarButton() {
           <Avatar className="size-10 border">
             <AvatarImage src={user?.user_metadata?.picture} />
             <AvatarFallback>
-              {user?.user_metadata.full_name.charAt(0)}
+              {user ? user.user_metadata.full_name : ""}
             </AvatarFallback>
           </Avatar>
           <VStack className="gap-1">

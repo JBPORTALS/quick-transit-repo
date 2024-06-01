@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Link2OffIcon, MailWarningIcon } from "lucide-react";
+import { MailWarningIcon } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
 import { VStack } from "@qt/ui/stack";

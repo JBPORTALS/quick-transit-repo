@@ -7,6 +7,7 @@ import { Button } from "@qt/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -42,7 +43,7 @@ export default function page() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-[380px] flex-col items-center space-y-4 rounded-radius border bg-card px-10 py-14 shadow-sm"
+          className="flex w-[380px] flex-col items-center space-y-4 px-10 py-14"
         >
           <VStack className="w-full items-center gap-2">
             <HStack className="items-center gap-0 rounded-full border px-5 py-1">
@@ -56,10 +57,7 @@ export default function page() {
                 QT <span className="text-xs text-primary">●</span> Console
               </span>
             </HStack>
-            <Text styles={"h3"}>Signin to continue</Text>
-            <Text styles={"list"} className="text-muted-foreground">
-              to get latest updates on packages
-            </Text>
+            <Text styles={"h3"}>Confirm Email</Text>
           </VStack>
           <FormField
             name="global_error"
@@ -81,21 +79,9 @@ export default function page() {
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            name="password"
-            control={form.control}
-            disabled={form.formState.isSubmitting}
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel htmlFor="password">{"Password"}</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
+                <FormDescription>
+                  Confirmation link will be sent to your mail
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -107,7 +93,7 @@ export default function page() {
             size={"lg"}
             className="w-full"
           >
-            Submit
+            Confirm
           </Button>
         </form>
       </Form>
