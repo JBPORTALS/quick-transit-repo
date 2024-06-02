@@ -16,7 +16,7 @@ export const user = pgTable("user", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   name: text("name"),
   email: text("email"),
-  role: userRoleEnum("role").default("user").notNull(),
+  role: userRoleEnum("role").default("user"),
   created_at: timestamp("created_at").defaultNow().notNull(),
 });
 

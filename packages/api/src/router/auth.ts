@@ -15,12 +15,11 @@ export const authRouter = createTRPCRouter({
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))
     .mutation(({ ctx, input }) => {
-      return ctx.db
-        .update(user)
-        .set({
-          role: input.role,
-        })
-        .where(eq(user.id, ctx.session.user.id));
+      return ctx.supabase.auth.updateUser({
+        data: {
+          user_role: input.role,
+        },
+      });
     }),
   getSecretMessage: protectedProcedure.query(() => {
     // testing type validation of overridden next-auth Session in @qt/auth package

@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.16.0",
+    "@supabase/supabase-js": "^2.43.1",
     "drizzle-orm": "^0.30.10",
     "drizzle-zod": "^0.5.1",
     "postgres": "^3.4.3"

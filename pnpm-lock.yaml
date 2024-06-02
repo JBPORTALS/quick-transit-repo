@@ -539,6 +539,9 @@ importers:
       '@planetscale/database':
         specifier: ^1.16.0
         version: 1.18.0
+      '@supabase/supabase-js':
+        specifier: ^2.43.1
+        version: 2.43.1
       drizzle-orm:
         specifier: ^0.30.10
         version: 0.30.10(@planetscale/database@1.18.0)(postgres@3.4.4)(react@18.2.0)

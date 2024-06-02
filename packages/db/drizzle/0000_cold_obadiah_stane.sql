@@ -95,15 +95,12 @@ CREATE TABLE IF NOT EXISTS "requests" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" uuid REFERENCES auth.users ON DELETE cascade NOT NULL PRIMARY KEY,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text,
 	"email" text,
-	"role" "userRoleEnum" DEFAULT 'user' NOT NULL,
+	"role" "userRoleEnum" DEFAULT 'user',
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
-
-
-
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "address" ADD CONSTRAINT "address_customerId_user_id_fk" FOREIGN KEY ("customerId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
@@ -171,25 +168,31 @@ END $$;
 -- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
 create or replace function public.handle_user_data()
 returns trigger as $$
+declare
+  user_role "public"."userRoleEnum";
 begin
-  insert into public.user (id, name,email)
-  values (new.id, new.raw_user_meta_data->>'full_name',new.email) on conflict (id) do update set name=new.raw_user_meta_data->>'full_name',email=new.email;
+  -- Extract the user role from the JSONB raw_user_meta_data
+  user_role := coalesce((new.raw_user_meta_data->>'user_role')::"public"."userRoleEnum", 'user');
+
+  -- Insert the new user into the public.user table
+  insert into public.user (id, name, email, role)
+  values (new.id, new.raw_user_meta_data->>'full_name', new.email, user_role) on conflict(id) 
+  do update set email=new.email,name=new.raw_user_meta_data->>'full_name',role=user_role;
+
   return new;
+exception
+  when others then
+    -- Log or handle the error appropriately
+    raise warning 'Error in handle_user_data function: %', sqlerrm;
+    return null; -- Return NULL to indicate failure
 end;
 $$ language plpgsql security definer;
 
-create or replace function public.handle_update_user_data()
-returns trigger as $$
-begin
-  update public.user set name=new.raw_user_meta_data->>'full_name',email=new.email where id=new.id;
-  return new;
-end;
-$$ language plpgsql security definer;
 
-create trigger on_user_created
+create or replace trigger on_user_created
   after insert on auth.users
   for each row execute procedure public.handle_user_data();
 
-create trigger on_user_updated
+create or replace trigger on_user_updated
   after update on auth.users
   for each row execute procedure public.handle_user_data();

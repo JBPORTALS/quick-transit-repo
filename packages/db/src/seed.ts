@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { createClient } from "@supabase/supabase-js";
 
 import {
   address,
@@ -12,10 +13,28 @@ import {
   requests,
   sql,
   Table,
+  user,
 } from "./index";
 
 if (!process.env.SEED_MODE)
   throw new Error("Not in a SEED MODE, set a SEED_MODE env variable ❌");
+
+if (
+  !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+  !process.env.SUPABASE_SERVICE_ROLE_KEY
+)
+  throw new Error("set a SUPABASE env variable ❌");
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  },
+);
 
 async function reset(db: db, table: Table) {
   const query = `TRUNCATE TABLE ${getTableName(table)} RESTART IDENTITY CASCADE`;
@@ -36,13 +55,26 @@ async function main() {
   }
 
   // Insert fake data into the database
-  console.log("Checking for existing users 🌱");
+  console.log("Creating fake users via supabase admin 🌱");
+  const data = await Promise.all(
+    Array.from({ length: 10 }).map(() => {
+      const full_name = faker.internet.displayName();
+      return supabase.auth.admin.createUser({
+        email: faker.internet.email({ firstName: full_name }),
+        email_confirm: true,
+        user_metadata: {
+          full_name,
+          user_role: faker.helpers.arrayElement<typeof user.$inferInsert.role>([
+            "partner",
+            "customer",
+          ]),
+        },
+      });
+    }),
+  );
+
+  console.log(data);
   const users = await db.query.user.findMany();
-  if (!users) {
-    throw new Error(
-      "Please create a user data by signing in with Customer, Manager or Partner App ❌",
-    );
-  }
 
   console.log("Seeding into address 🌱");
 

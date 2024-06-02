@@ -1,5 +1,5 @@
 {
-  "id": "9d695e88-c144-4059-bfc6-8b73811d21c9",
+  "id": "add6ed1c-9c4f-4a1d-b513-afc5321dfb7d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "6",
   "dialect": "postgresql",
@@ -601,7 +601,7 @@
           "type": "userRoleEnum",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "'user'"
         },
         "created_at": {
