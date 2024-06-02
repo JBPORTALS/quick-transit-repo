@@ -23,7 +23,7 @@ export const address = pgTable("address", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   customerId: uuid("customerId")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   phone: varchar("phone", { length: 10 }).notNull(),
   street: text("street").notNull(),
   city: text("city").default("Banglore"),

@@ -22,35 +22,38 @@ export const packages = pgTable("packages", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   customer_id: uuid("customer_id")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   description: text("description").notNull(),
   courier_id: uuid("courier_id")
     .notNull()
-    .references(() => couriers.id),
+    .references(() => couriers.id, { onDelete: "set null" }),
   bill_id: uuid("bill_id")
     .notNull()
-    .references(() => bill_details.id),
+    .references(() => bill_details.id, { onDelete: "set null" }),
   height: integer("height").notNull(),
   width: integer("width").notNull(),
   breadth: integer("breadth").notNull(),
   weight: integer("weight").notNull(),
   category_id: uuid("category_id")
     .notNull()
-    .references(() => categories.id),
+    .references(() => categories.id, { onDelete: "set null" }),
   delivery_date: timestamp("delivery_date").notNull(),
   from_time: time("from_time").notNull(),
   to_time: time("to_time").notNull(),
   is_insurance_required: boolean("is_insurance_required").default(false),
-  pick_up_address_id: uuid("pick_up_address_id")
-    .notNull()
-    .references(() => address.id),
-  franchise_address_id: uuid("franchise_address_id")
-    .notNull()
-    .references(() => address.id),
-  destination_address_id: uuid("destination_address_id")
-    .notNull()
-    .references(() => address.id),
+  pick_up_address_id: uuid("pick_up_address_id").references(() => address.id, {
+    onDelete: "set null",
+    onUpdate: "cascade",
+  }),
+  franchise_address_id: uuid("franchise_address_id").references(
+    () => address.id,
+    { onDelete: "set null", onUpdate: "cascade" },
+  ),
+  destination_address_id: uuid("destination_address_id").references(
+    () => address.id,
+    { onDelete: "set null", onUpdate: "cascade" },
+  ),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 });

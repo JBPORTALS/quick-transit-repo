@@ -8,7 +8,7 @@ export const package_image = pgTable("package_image", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   package_id: uuid("package_id")
     .notNull()
-    .references(() => packages.id),
+    .references(() => packages.id, { onDelete: "cascade" }),
   image_url: text("image_url").notNull(),
   created_at: timestamp("created_at").defaultNow(),
 });

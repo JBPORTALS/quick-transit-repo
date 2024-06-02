@@ -18,7 +18,7 @@ export const requests = pgTable("requests", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
   package_id: uuid("package_id")
     .notNull()
-    .references(() => packages.id),
+    .references(() => packages.id, { onDelete: "cascade" }),
   tracking_number: varchar("tracking_number", { length: 50 }).notNull(),
   current_status: statusEnum("current_status").notNull().default("requested"),
   requested_at: timestamp("requested_at").defaultNow(),

@@ -71,9 +71,9 @@ CREATE TABLE IF NOT EXISTS "packages" (
 	"from_time" time NOT NULL,
 	"to_time" time NOT NULL,
 	"is_insurance_required" boolean DEFAULT false,
-	"pick_up_address_id" uuid NOT NULL,
-	"franchise_address_id" uuid NOT NULL,
-	"destination_address_id" uuid NOT NULL,
+	"pick_up_address_id" uuid,
+	"franchise_address_id" uuid,
+	"destination_address_id" uuid,
 	"created_at" timestamp DEFAULT now(),
 	"updated_at" timestamp DEFAULT now()
 );
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS "requests" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"id" uuid REFERENCES auth.users ON DELETE cascade PRIMARY KEY NOT NULL,
 	"name" text,
 	"email" text,
 	"role" "userRoleEnum" DEFAULT 'user',
@@ -103,61 +103,61 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "address" ADD CONSTRAINT "address_customerId_user_id_fk" FOREIGN KEY ("customerId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "address" ADD CONSTRAINT "address_customerId_user_id_fk" FOREIGN KEY ("customerId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "package_image" ADD CONSTRAINT "package_image_package_id_packages_id_fk" FOREIGN KEY ("package_id") REFERENCES "public"."packages"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "package_image" ADD CONSTRAINT "package_image_package_id_packages_id_fk" FOREIGN KEY ("package_id") REFERENCES "public"."packages"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "packages" ADD CONSTRAINT "packages_customer_id_user_id_fk" FOREIGN KEY ("customer_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "packages" ADD CONSTRAINT "packages_customer_id_user_id_fk" FOREIGN KEY ("customer_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "packages" ADD CONSTRAINT "packages_courier_id_couriers_id_fk" FOREIGN KEY ("courier_id") REFERENCES "public"."couriers"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "packages" ADD CONSTRAINT "packages_courier_id_couriers_id_fk" FOREIGN KEY ("courier_id") REFERENCES "public"."couriers"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "packages" ADD CONSTRAINT "packages_bill_id_bill_details_id_fk" FOREIGN KEY ("bill_id") REFERENCES "public"."bill_details"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "packages" ADD CONSTRAINT "packages_bill_id_bill_details_id_fk" FOREIGN KEY ("bill_id") REFERENCES "public"."bill_details"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "packages" ADD CONSTRAINT "packages_category_id_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "packages" ADD CONSTRAINT "packages_category_id_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "packages" ADD CONSTRAINT "packages_pick_up_address_id_address_id_fk" FOREIGN KEY ("pick_up_address_id") REFERENCES "public"."address"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "packages" ADD CONSTRAINT "packages_pick_up_address_id_address_id_fk" FOREIGN KEY ("pick_up_address_id") REFERENCES "public"."address"("id") ON DELETE set null ON UPDATE cascade;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "packages" ADD CONSTRAINT "packages_franchise_address_id_address_id_fk" FOREIGN KEY ("franchise_address_id") REFERENCES "public"."address"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "packages" ADD CONSTRAINT "packages_franchise_address_id_address_id_fk" FOREIGN KEY ("franchise_address_id") REFERENCES "public"."address"("id") ON DELETE set null ON UPDATE cascade;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "packages" ADD CONSTRAINT "packages_destination_address_id_address_id_fk" FOREIGN KEY ("destination_address_id") REFERENCES "public"."address"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "packages" ADD CONSTRAINT "packages_destination_address_id_address_id_fk" FOREIGN KEY ("destination_address_id") REFERENCES "public"."address"("id") ON DELETE set null ON UPDATE cascade;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "requests" ADD CONSTRAINT "requests_package_id_packages_id_fk" FOREIGN KEY ("package_id") REFERENCES "public"."packages"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "requests" ADD CONSTRAINT "requests_package_id_packages_id_fk" FOREIGN KEY ("package_id") REFERENCES "public"."packages"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -54,6 +54,15 @@ async function main() {
     await reset(db, table);
   }
 
+  console.log("Clear the users 🧹");
+  const supaUsers = await supabase.auth.admin.listUsers();
+
+  await Promise.all(
+    supaUsers.data.users.map((user) =>
+      supabase.auth.admin.deleteUser(user.id, false),
+    ),
+  );
+
   // Insert fake data into the database
   console.log("Creating fake users via supabase admin 🌱");
   const data = await Promise.all(
@@ -73,7 +82,7 @@ async function main() {
     }),
   );
 
-  console.log(data);
+  console.log(data.map((v) => v.data.user?.email));
   const users = await db.query.user.findMany();
 
   console.log("Seeding into address 🌱");
