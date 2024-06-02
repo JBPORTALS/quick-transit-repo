@@ -77,6 +77,7 @@ async function main() {
             "partner",
             "customer",
           ]),
+          picture: faker.image.avatarLegacy(),
         },
       });
     }),

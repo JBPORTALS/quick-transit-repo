@@ -4,6 +4,7 @@ export {
   userInsertSchema,
   userSelectSchema,
   userRoleEnum,
+  handle_user_data,
 } from "./users";
 export {
   address,

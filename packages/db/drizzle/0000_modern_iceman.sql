@@ -95,9 +95,10 @@ CREATE TABLE IF NOT EXISTS "requests" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" uuid REFERENCES auth.users ON DELETE cascade PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY NOT NULL,
 	"name" text,
 	"email" text,
+	"picture" text,
 	"role" "userRoleEnum" DEFAULT 'user',
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
@@ -161,38 +162,9 @@ DO $$ BEGIN
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
-
--- Let's have connection between supabase auth schema to manage the user table
-
--- This trigger automatically creates a profile entry when a new user signs up via Supabase Auth.
--- See https://supabase.com/docs/guides/auth/managing-user-data#using-triggers for more details.
-create or replace function public.handle_user_data()
-returns trigger as $$
-declare
-  user_role "public"."userRoleEnum";
-begin
-  -- Extract the user role from the JSONB raw_user_meta_data
-  user_role := coalesce((new.raw_user_meta_data->>'user_role')::"public"."userRoleEnum", 'user');
-
-  -- Insert the new user into the public.user table
-  insert into public.user (id, name, email, role)
-  values (new.id, new.raw_user_meta_data->>'full_name', new.email, user_role) on conflict(id) 
-  do update set email=new.email,name=new.raw_user_meta_data->>'full_name',role=user_role;
-
-  return new;
-exception
-  when others then
-    -- Log or handle the error appropriately
-    raise warning 'Error in handle_user_data function: %', sqlerrm;
-    return null; -- Return NULL to indicate failure
-end;
-$$ language plpgsql security definer;
-
-
-create or replace trigger on_user_created
-  after insert on auth.users
-  for each row execute procedure public.handle_user_data();
-
-create or replace trigger on_user_updated
-  after update on auth.users
-  for each row execute procedure public.handle_user_data();
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user" ADD CONSTRAINT "user_id_users_id_fk" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON DELETE cascade ON UPDATE cascade;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;

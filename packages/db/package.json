@@ -17,7 +17,7 @@
     "drop": "pnpm with-env drizzle-kit drop",
     "generate": "pnpm with-env drizzle-kit generate",
     "introspect": "pnpm with-env drizzle-kit introspect",
-    "migrate": "pnpm with-env drizzle-kit migrate",
+    "migrate": "pnpm with-env dotenv tsx src/migrate.ts",
     "studio": "pnpm with-env drizzle-kit studio",
     "typecheck": "tsc --noEmit",
     "with-env": "dotenv -e ../../.env --"
