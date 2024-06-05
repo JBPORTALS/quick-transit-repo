@@ -13,28 +13,13 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
     steps:
-      - name: Check for 'seed' label
-        id: check_label
-        run: |
-          labels=$(jq -r '.pull_request.labels[].name' $GITHUB_EVENT_PATH)
-          echo "Labels: $labels"
-          if echo "$labels" | grep -qw "seed"; then
-            echo "Seed label found"
-            echo "label-found=true" >> $GITHUB_ENV
-          else
-            echo "Seed label not found"
-            echo "label-found=false" >> $GITHUB_ENV
-          fi
-
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
           version: 8.15.4
 
       - name: Install dependencies
-        if: env.label-found == 'true'
         run: pnpm install
 
       - name: Seed
-        if: env.label-found == 'true'
         run: pnpm db:seed
