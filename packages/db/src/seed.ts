@@ -19,11 +19,11 @@ import {
 if (!process.env.SEED_MODE)
   throw new Error("Not in a SEED MODE, set a SEED_MODE env variable ❌");
 
-if (
-  !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  !process.env.SUPABASE_SERVICE_ROLE_KEY
-)
-  throw new Error("set a SUPABASE env variable ❌");
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL)
+  throw new Error("set a SHALLOW_SUPABASE_URL env variable ❌");
+
+if (!process.env.SUPABASE_SERVICE_ROLE_KEY)
+  throw new Error("set a SHALLOW_SUPABASE_SERVICE_ROLE_KEY env variable ❌");
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
