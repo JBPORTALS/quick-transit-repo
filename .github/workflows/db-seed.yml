@@ -1,8 +1,6 @@
 name: Database Seed
 
 on:
-  pull_request:
-    branches-ignore: ["main"]
   workflow_dispatch:
 
 env:
@@ -10,7 +8,7 @@ env:
   SUPABASE_SERVICE_ROLE_KEY: ${{secrets.SHALLOW_SUPABASE_SERVICE_ROLE_KEY}}
 
 jobs:
-  migrate:
+  seed:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
