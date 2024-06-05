@@ -18,7 +18,8 @@ export async function SigninWithPassword({
     where: and(eq(user.role, "manager"), eq(user.email, email)),
   });
 
-  if (!isManager) throw new Error("Invalid email address, check once.");
+  if (!isManager) return new Error("Invalid credentials");
+
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
@@ -26,7 +27,7 @@ export async function SigninWithPassword({
     },
   });
   console.log("Auth Error", error);
-  if (error) throw new Error(error.message);
+  if (error) return new Error(error.message);
 
   redirect("/auth/confirm-email-sent");
 }
