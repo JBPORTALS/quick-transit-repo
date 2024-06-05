@@ -1,0 +1,24 @@
+name: Database Migration
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["*"]
+
+env:
+  DATABASE_URL: ${{secrets.SHALLOW_DATABASE_URL}}
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.4
+      - name: Install dependencies
+        run: pnpm install
+      - name: Migration
+        run: pnpm db:migrate
