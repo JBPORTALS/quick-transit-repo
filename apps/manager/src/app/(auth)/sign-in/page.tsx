@@ -28,14 +28,11 @@ export default function page() {
   });
 
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
-    try {
-      await SigninWithPassword(values);
-    } catch (e) {
-      const error = e as Error;
+    const { error } = await SigninWithPassword(values);
+    if (error)
       form.setError("global_error", {
-        message: error.message,
+        message: error,
       });
-    }
   }
 
   return (

@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { AuthError } from "@supabase/supabase-js";
 import { z } from "zod";
 
 import { and, db, eq, user } from "@qt/db";
@@ -11,14 +12,14 @@ import { createClient } from "~/utils/server";
 
 export async function SigninWithPassword({
   email,
-}: z.infer<typeof signInFormSchema>) {
+}: z.infer<typeof signInFormSchema>): Promise<{ error: string | null }> {
   const supabase = createClient();
 
   const isManager = await db.query.user.findFirst({
     where: and(eq(user.role, "manager"), eq(user.email, email)),
   });
 
-  if (!isManager) return new Error("Invalid credentials");
+  if (!isManager) return { error: "Invalid credentials. Check once!" };
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
@@ -26,8 +27,8 @@ export async function SigninWithPassword({
       shouldCreateUser: false,
     },
   });
-  console.log("Auth Error", error);
-  if (error) return new Error(error.message);
+
+  if (error) return { error: error.message };
 
   redirect("/auth/confirm-email-sent");
 }
