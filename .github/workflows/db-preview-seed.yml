@@ -8,6 +8,8 @@ on:
   push:
     branches:
       - "*"
+    branches-ignore:
+      - "main"
 
 env:
   DATABASE_URL: ${{secrets.SHALLOW_DATABASE_URL}}
