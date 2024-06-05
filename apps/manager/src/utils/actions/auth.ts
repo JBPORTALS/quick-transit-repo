@@ -27,7 +27,7 @@ export async function SigninWithPassword({
       shouldCreateUser: false,
     },
   });
-
+  console.error("Supabase Auth erro:", error);
   if (error) return { error: error.message };
 
   redirect("/auth/confirm-email-sent");
