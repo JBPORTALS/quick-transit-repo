@@ -2,14 +2,10 @@ name: Database Seed
 
 on:
   pull_request:
-    types:
-      - labeled #only seed when specific tag allocated to pull request
-      - edited
-  push:
-    branches:
-      - "*"
     branches-ignore:
       - "main"
+    branches:
+      - "*"
 
 env:
   DATABASE_URL: ${{secrets.SHALLOW_DATABASE_URL}}
