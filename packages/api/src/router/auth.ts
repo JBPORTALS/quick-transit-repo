@@ -1,7 +1,16 @@
 import { TRPCError } from "@trpc/server";
 
-import { eq, user, userInsertSchema } from "@qt/db";
-import { profileInformationSchema } from "@qt/validators";
+import {
+  and,
+  count,
+  eq,
+  not,
+  packages,
+  requests,
+  sql,
+  user,
+  userInsertSchema,
+} from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
@@ -11,6 +20,28 @@ export const authRouter = createTRPCRouter({
       data: { user },
     } = await ctx.supabase.auth.getUser();
     return user;
+  }),
+  getCustomers: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.db
+      .select({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        picture: user.picture,
+        created_at: user.created_at,
+        total_requests: sql<number>`(select count(${packages.id}))`,
+        pending: sql<number>`(select count(${requests.id}) where ${not(eq(requests.current_status, "delivered"))})`,
+      })
+      .from(user)
+      .where(
+        and(
+          eq(user.role, "customer"),
+          not(eq(requests.current_status, "delivered")),
+        ),
+      )
+      .leftJoin(packages, eq(user.id, packages.customer_id))
+      .leftJoin(requests, eq(packages.id, requests.package_id))
+      .groupBy(user.id, requests.current_status);
   }),
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))

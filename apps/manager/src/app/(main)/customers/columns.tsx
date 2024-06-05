@@ -3,19 +3,17 @@
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 
+import { user } from "@qt/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
-export type Customer = {
-  id: string;
-  name: string;
-  email: string;
+export type UserSelect = Omit<typeof user.$inferSelect, "role">;
+
+export interface Customer extends UserSelect {
   total_requests: number;
   pending: number;
-  delivered: number;
-  created_at: string;
-};
+}
 
 export const columns: ColumnDef<Customer>[] = [
   {
@@ -23,13 +21,21 @@ export const columns: ColumnDef<Customer>[] = [
     cell(props) {
       return (
         <HStack className="items-center">
-          <Avatar className="size-10">
-            <AvatarImage />
-            <AvatarFallback>{props.row.original.name.charAt(0)}</AvatarFallback>
+          <Avatar className="size-12 border-2">
+            <AvatarImage src={props.row.original.picture ?? undefined} />
+            <AvatarFallback>
+              {props.row.original.name
+                ? props.row.original.name.charAt(0)
+                : "C"}
+            </AvatarFallback>
           </Avatar>
           <VStack className="gap-0">
-            <Text styles={"subtle_medium"}>{props.row.original.name}</Text>
-            <Text styles={"subtle"}>{props.row.original.email}</Text>
+            <Text styles={"subtle_medium"}>
+              {props.row.original.name ?? "Customer"}
+            </Text>
+            <Text styles={"subtle"} className="text-accent-foreground/50">
+              {props.row.original.email}
+            </Text>
           </VStack>
         </HStack>
       );

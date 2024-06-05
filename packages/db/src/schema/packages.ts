@@ -63,6 +63,10 @@ export const packageSelectSchema = createSelectSchema(packages);
 
 export const packageRealations = relations(packages, ({ one, many }) => ({
   packageImages: many(package_image),
+  customer: one(user, {
+    fields: [packages.customer_id],
+    references: [user.id],
+  }),
   request: one(requests, {
     fields: [packages.id],
     references: [requests.package_id],
