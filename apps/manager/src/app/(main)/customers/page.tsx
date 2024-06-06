@@ -6,7 +6,7 @@ import { DataTable } from "./data-table";
 
 async function getData(): Promise<Customer[]> {
   // Fetch data from your API here.
-  return api.auth.getCustomers();
+  return [];
 }
 export default async function Page() {
   const data = await getData();
