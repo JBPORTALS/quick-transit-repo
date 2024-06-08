@@ -6,13 +6,10 @@ import { Button } from "@qt/ui/button";
 import { HStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
-import { createClient } from "~/utils/server";
+import { api } from "~/trpc/server";
 
 export default async function Page() {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await api.auth.getUser();
 
   return (
     <main className="flex h-full flex-col items-center justify-center gap-5 bg-background">

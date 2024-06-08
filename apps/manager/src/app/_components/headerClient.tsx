@@ -27,9 +27,9 @@ export default function HeaderClient() {
           <Image src={"/qt-logo.png"} height={40} width={40} alt="QT Logo" />
           <Text
             styles={"h3"}
-            className={`font-sans font-extrabold text-gray-700 dark:text-gray-300 ${AcmeFont.className}`}
+            className={`align-middle font-sans font-extrabold text-gray-700 dark:text-gray-300 ${AcmeFont.className}`}
           >
-            QT <span className="text-primary ">●</span> Console
+            QT <span className="text-base text-primary">●</span> Console
           </Text>
         </HStack>
       </HeaderTitle>
