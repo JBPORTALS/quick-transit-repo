@@ -18,36 +18,42 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { billsRouterCaller } from "./bills";
 
 export const packagesRouter = createTRPCRouter({
-  getRecentPackages: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.query.packages.findMany({
-      where: eq(packages.customer_id, ctx.session.user.id),
-      orderBy: desc(packages.created_at),
-      with: {
-        request: {
-          columns: {
-            tracking_number: true,
-            current_status: true,
+  getRecentPackages: protectedProcedure
+    .input(z.object({ requireAll: z.boolean().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.packages.findMany({
+        where: input?.requireAll
+          ? undefined
+          : eq(packages.customer_id, ctx.session.user.id),
+        orderBy: desc(packages.created_at),
+        with: {
+          request: {
+            columns: {
+              tracking_number: true,
+              current_status: true,
+            },
+          },
+          bill: {
+            extras(fields, operators) {
+              return {
+                totalAmount:
+                  operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
+                    "totalAmount",
+                  ),
+              };
+            },
           },
         },
-        bill: {
-          extras(fields, operators) {
-            return {
-              totalAmount:
-                operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
-                  "totalAmount",
-                ),
-            };
-          },
-        },
-      },
-    });
-  }),
+      });
+    }),
   getById: protectedProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.string(), isAdmin: z.boolean().optional() }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.packages.findFirst({
         where: and(
-          eq(packages.customer_id, ctx.session.user.id),
+          input.isAdmin
+            ? undefined
+            : eq(packages.customer_id, ctx.session.user.id),
           eq(packages.id, input.id),
         ),
 

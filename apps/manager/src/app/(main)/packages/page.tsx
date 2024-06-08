@@ -1,5 +1,16 @@
 import React from "react";
 
-export default function Page() {
-  return <div>Page</div>;
+import { api } from "~/trpc/server";
+import { columns } from "./columns";
+import { DataTable } from "./dataTable";
+
+async function getData() {
+  // Fetch data from your API here.
+  return api.packages.getRecentPackages({ requireAll: true });
+}
+
+export default async function DemoPage() {
+  const data = await getData();
+
+  return <DataTable columns={columns} data={data} />;
 }
