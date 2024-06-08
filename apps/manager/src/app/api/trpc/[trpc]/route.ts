@@ -1,7 +1,8 @@
-import { auth } from "@clerk/nextjs/server";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { appRouter, createContextInner, createTRPCContext } from "@qt/api";
+import { appRouter, createContextInner } from "@qt/api";
+
+import { createClient } from "~/utils/server";
 
 /**
  * Configure basic CORS headers
@@ -29,7 +30,7 @@ const handler = async (req: Request) => {
     req,
     createContext: async () =>
       await createContextInner({
-        auth: auth(),
+        supabase: createClient(),
       }),
     onError({ error, path }) {
       console.error(`>>> tRPC Error on '${path}'`, error);

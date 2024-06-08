@@ -1,0 +1,14 @@
+import { Suspense } from "react";
+
+import { TrackBarSkeleton } from "./skeleton";
+import { TrackingBarSlot } from "./trackingbar-slot";
+
+export default function page() {
+  return (
+    <div className="sticky top-5 col-span-2 w-full">
+      <Suspense fallback={<TrackBarSkeleton />}>
+        <TrackingBarSlot />
+      </Suspense>
+    </div>
+  );
+}
