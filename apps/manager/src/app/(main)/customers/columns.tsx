@@ -3,21 +3,23 @@
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 
-import { user } from "@qt/db";
+import { RouterOutputs } from "@qt/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
-export type UserSelect = Omit<typeof user.$inferSelect, "role">;
+export type Customer = Awaited<RouterOutputs["auth"]["getCustomers"][0]>;
 
-export interface Customer extends UserSelect {
-  total_requests: number;
-  pending: number;
-}
+// total_requests: number;
+// id: string;
+// email: string | null;
+// name: string | null;
+// picture: string | null;
+// created_at: Date;
 
 export const columns: ColumnDef<Customer>[] = [
   {
-    header: "Custoemr",
+    header: "Customer",
     cell(props) {
       return (
         <HStack className="items-center">
@@ -43,15 +45,13 @@ export const columns: ColumnDef<Customer>[] = [
   },
   {
     header: "Total Requests",
-    accessorKey: "total_requests",
-  },
-  {
-    header: "Pending Requests",
-    accessorKey: "pending",
-  },
-  {
-    header: "Delivered Requests",
-    accessorKey: "delivered",
+    cell(props) {
+      return (
+        <Text styles={"body_medium"} className="text-right">
+          {props.row.original.total_requests}
+        </Text>
+      );
+    },
   },
   {
     header: "Joined At",
