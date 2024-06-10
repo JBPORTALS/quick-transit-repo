@@ -22,26 +22,36 @@ export const authRouter = createTRPCRouter({
     return user;
   }),
   getCustomers: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.db
-      .select({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        picture: user.picture,
-        created_at: user.created_at,
-        total_requests: sql<number>`(select count(${packages.id}))`,
-        pending: sql<number>`(select count(${requests.id}) where ${not(eq(requests.current_status, "delivered"))})`,
-      })
-      .from(user)
-      .where(
-        and(
-          eq(user.role, "customer"),
-          not(eq(requests.current_status, "delivered")),
-        ),
-      )
-      .leftJoin(packages, eq(user.id, packages.customer_id))
-      .leftJoin(requests, eq(packages.id, requests.package_id))
-      .groupBy(user.id, requests.current_status);
+    const customers = await ctx.db.query.user.findMany({
+      columns: {
+        role: false,
+      },
+      where: eq(user.role, "customer"),
+    });
+
+    const finalResult = await Promise.all(
+      customers.map(async (customer) => {
+        //for each customer calculate the total packages raised by them
+        const data = await ctx.db.query.packages.findFirst({
+          columns: {},
+          where: eq(packages.customer_id, customer.id),
+          extras() {
+            return {
+              total_requests: sql<number>`COUNT(${packages.id})`.as(
+                "total_requests",
+              ),
+            };
+          },
+        });
+        //finally merge the data together
+        return {
+          ...customer,
+          total_requests: data?.total_requests ?? 0,
+        };
+      }),
+    );
+
+    return finalResult;
   }),
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))

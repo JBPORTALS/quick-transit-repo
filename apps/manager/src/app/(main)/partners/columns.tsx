@@ -19,7 +19,7 @@ export type Customer = Awaited<RouterOutputs["auth"]["getCustomers"][0]>;
 
 export const columns: ColumnDef<Customer>[] = [
   {
-    header: "Customer",
+    header: "Partner",
     cell(props) {
       return (
         <HStack className="items-center">

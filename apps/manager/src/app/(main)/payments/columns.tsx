@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 
 import { RouterOutputs } from "@qt/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
+import { Package, PackageBody, PackageThumbneil } from "@qt/ui/package";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
@@ -44,17 +46,37 @@ export const columns: ColumnDef<Customer>[] = [
     },
   },
   {
-    header: "Total Requests",
+    header: "Request",
+    cell(props) {
+      return (
+        <Package>
+          <PackageThumbneil>
+            <Image src={"/package-1.jpg"} fill alt="Package Thumbnail" />
+          </PackageThumbneil>
+          <PackageBody className="flex flex-col gap-1">
+            <Text styles={"small"}>{"Package Title"}</Text>
+            <HStack>
+              <Text styles={"details"} className="text-muted-foreground">
+                {12}x{23}x{12} • {2}
+              </Text>
+            </HStack>
+          </PackageBody>
+        </Package>
+      );
+    },
+  },
+  {
+    header: "Amount",
     cell(props) {
       return (
         <Text styles={"body_medium"} className="text-right">
-          {props.row.original.total_requests}
+          2,000
         </Text>
       );
     },
   },
   {
-    header: "Joined At",
+    header: "Paid on",
     cell({ row }) {
       return <div>{moment(row.original.created_at).fromNow()}</div>;
     },
