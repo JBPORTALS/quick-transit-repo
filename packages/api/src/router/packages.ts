@@ -58,6 +58,7 @@ export const packagesRouter = createTRPCRouter({
         ),
 
         with: {
+          customer: input.isAdmin ? true : undefined,
           request: true,
           pick_up_address: true,
           franchise_address: true,
