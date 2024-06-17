@@ -70,6 +70,7 @@ export const packageRealations = relations(packages, ({ one, many }) => ({
   request: one(requests, {
     fields: [packages.id],
     references: [requests.package_id],
+    relationName: "request",
   }),
   category: one(categories, {
     fields: [packages.category_id],

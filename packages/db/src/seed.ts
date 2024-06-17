@@ -134,6 +134,9 @@ async function main() {
   const addresses = await db.query.address.findMany();
   const categories_data = await db.query.categories.findMany();
   const couriers_data = await db.query.couriers.findMany();
+  const partners = await db.query.user.findMany({
+    where: (col, opt) => opt.eq(col.role, "partner"),
+  });
 
   await Promise.all(
     users.map(async (user) => {
@@ -148,6 +151,17 @@ async function main() {
               gst_charges: faker.commerce.price({ min: 10, max: 100 }),
             })
             .returning();
+
+          const status = faker.helpers.arrayElement<
+            typeof requests.$inferInsert.current_status
+          >([
+            "requested",
+            "confirmed",
+            "picking",
+            "shipping",
+            "delivered",
+            "cancelled",
+          ]);
 
           const package_detail = await db
             .insert(packages)
@@ -174,15 +188,12 @@ async function main() {
           //create request
           await db.insert(requests).values({
             package_id: faker.helpers.arrayElement(package_detail).id,
-            current_status: faker.helpers.arrayElement([
-              "requested",
-              "confirmed",
-              "picking",
-              "shipping",
-              "delivered",
-              "cancelled",
-              "rejected",
-            ]),
+            current_status: status,
+            partner_id:
+              status !== "requested"
+                ? faker.helpers.arrayElement(partners).id
+                : null,
+
             tracking_number: faker.number
               .int({
                 min: 111111111111,

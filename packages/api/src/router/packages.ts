@@ -5,13 +5,11 @@ import { z } from "zod";
 import {
   and,
   count,
-  db,
   desc,
   eq,
   packageInsertSchema,
   packages,
   requests,
-  sql,
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -31,6 +29,9 @@ export const packagesRouter = createTRPCRouter({
             columns: {
               tracking_number: true,
               current_status: true,
+            },
+            with: {
+              partner: true,
             },
           },
           bill: {
@@ -59,7 +60,11 @@ export const packagesRouter = createTRPCRouter({
 
         with: {
           customer: input.isAdmin ? true : undefined,
-          request: true,
+          request: {
+            with: {
+              partner: true,
+            },
+          },
           pick_up_address: true,
           franchise_address: true,
           destination_address: true,
@@ -132,6 +137,9 @@ export const packagesRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.query.requests.findFirst({
         where: eq(requests.package_id, input.package_id),
+        with: {
+          partner: true,
+        },
       });
     }),
   cancelRequest: protectedProcedure
@@ -153,7 +161,11 @@ export const packagesRouter = createTRPCRouter({
 
       const packageDetails = await ctx.db.query.packages.findFirst({
         with: {
-          request: true,
+          request: {
+            with: {
+              partner: true,
+            },
+          },
         },
         where: ({ customer_id }) => eq(customer_id, ctx.session.user.id),
         orderBy: ({ created_at }) => desc(created_at),
@@ -173,7 +185,11 @@ export const packagesRouter = createTRPCRouter({
 
       const packageDetails = await ctx.db.query.packages.findFirst({
         with: {
-          request: true,
+          request: {
+            with: {
+              partner: true,
+            },
+          },
         },
         orderBy: ({ created_at }) => desc(created_at),
         offset,
@@ -186,18 +202,9 @@ export const packagesRouter = createTRPCRouter({
   assignPartner: protectedProcedure
     .input(z.object({ partnerId: z.string(), packageId: z.string() }))
     .query(async ({ ctx, input: { packageId, partnerId } }) => {
-      const res = await ctx.db.update(packages).set();
-
-      const packageDetails = await ctx.db.query.packages.findFirst({
-        with: {
-          request: true,
-        },
-        orderBy: ({ created_at }) => desc(created_at),
-        offset,
-      });
-      return {
-        packageDetails,
-        totalRecords: res[0]?.totalRecords ?? 0,
-      };
+      return ctx.db
+        .update(requests)
+        .set({ partner_id: partnerId })
+        .where(eq(requests.package_id, packageId));
     }),
 });

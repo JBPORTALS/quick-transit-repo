@@ -47,5 +47,6 @@ export const requestsRelations = relations(requests, ({ one }) => ({
   partner: one(user, {
     fields: [requests.partner_id],
     references: [user.id],
+    relationName: "partner",
   }),
 }));
