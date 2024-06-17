@@ -117,10 +117,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       </Text>
                     </TableCell>
                     <TableCell>
-                      <Text
-                        styles={"small"}
-                        className="col-span-2 w-full font-thin"
-                      >
+                      <Text styles={"small"} className="col-span-2 w-full ">
                         {packageDetail?.description}
                       </Text>
                     </TableCell>
@@ -135,10 +132,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       </Text>
                     </TableCell>
                     <TableCell>
-                      <Text
-                        styles={"small"}
-                        className="col-span-2 w-full font-thin"
-                      >
+                      <Text styles={"small"} className="col-span-2 w-full ">
                         {packageDetail?.height}x{packageDetail?.breadth}x
                         {packageDetail?.width}
                       </Text>
@@ -154,10 +148,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       </Text>
                     </TableCell>
                     <TableCell>
-                      <Text
-                        styles={"small"}
-                        className="col-span-2 w-full font-thin"
-                      >
+                      <Text styles={"small"} className="col-span-2 w-full ">
                         {packageDetail?.weight}kg
                       </Text>
                     </TableCell>
@@ -172,10 +163,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       </Text>
                     </TableCell>
                     <TableCell>
-                      <Text
-                        styles={"small"}
-                        className="col-span-2 w-full font-thin"
-                      >
+                      <Text styles={"small"} className="col-span-2 w-full ">
                         {packageDetail?.category.name}
                       </Text>
                     </TableCell>
@@ -190,10 +178,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       </Text>
                     </TableCell>
                     <TableCell>
-                      <Text
-                        styles={"small"}
-                        className="col-span-2 w-full font-thin"
-                      >
+                      <Text styles={"small"} className="col-span-2 w-full ">
                         {packageDetail?.courier.name}
                       </Text>
                     </TableCell>
@@ -208,10 +193,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       </Text>
                     </TableCell>
                     <TableCell>
-                      <Text
-                        styles={"small"}
-                        className="col-span-2 w-full font-thin"
-                      >
+                      <Text styles={"small"} className="col-span-2 w-full ">
                         {packageDetail?.delivery_date &&
                           format(packageDetail.delivery_date, "do MMM yyyy")}
                       </Text>
@@ -229,7 +211,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                     <TableCell>
                       <Text
                         styles={"small"}
-                        className="col-span-2 flex  w-full items-center gap-1 font-thin"
+                        className="col-span-2 flex  w-full items-center gap-1 "
                       >
                         <Badge variant={"secondary"}>
                           {packageDetail?.from_time &&
@@ -256,7 +238,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                     <TableCell>
                       <Text
                         styles={"lead"}
-                        className="col-span-2 flex  w-full items-center gap-1 font-thin"
+                        className="col-span-2 flex  w-full items-center gap-1 "
                       >
                         {formatToINR.format(packageDetail.bill.total)}
                       </Text>
@@ -308,11 +290,11 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
               <CardContent>
                 <VStack className="gap-2">
                   <Text styles={"subtle_medium"}>
-                    +91 {packageDetail.pick_up_address.phone}
+                    +91 {packageDetail?.pick_up_address?.phone}
                   </Text>
                   <Text styles={"small"} className="text-muted-foreground">
-                    {packageDetail.pick_up_address.street} -{" "}
-                    {packageDetail.pick_up_address.pincode}
+                    {packageDetail?.pick_up_address?.street} -{" "}
+                    {packageDetail?.pick_up_address?.pincode}
                   </Text>
                 </VStack>
               </CardContent>
@@ -343,11 +325,11 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
               <CardContent>
                 <VStack className="gap-2">
                   <Text styles={"subtle_medium"}>
-                    +91 {packageDetail.destination_address.phone}
+                    +91 {packageDetail?.destination_address?.phone}
                   </Text>
                   <Text styles={"small"} className="text-muted-foreground">
-                    {packageDetail.destination_address.street} -{" "}
-                    {packageDetail.destination_address.pincode}
+                    {packageDetail?.destination_address?.street} -{" "}
+                    {packageDetail?.destination_address?.pincode}
                   </Text>
                 </VStack>
               </CardContent>
