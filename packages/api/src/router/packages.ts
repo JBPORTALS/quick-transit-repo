@@ -183,4 +183,21 @@ export const packagesRouter = createTRPCRouter({
         totalRecords: res[0]?.totalRecords ?? 0,
       };
     }),
+  assignPartner: protectedProcedure
+    .input(z.object({ partnerId: z.string(), packageId: z.string() }))
+    .query(async ({ ctx, input: { packageId, partnerId } }) => {
+      const res = await ctx.db.update(packages).set();
+
+      const packageDetails = await ctx.db.query.packages.findFirst({
+        with: {
+          request: true,
+        },
+        orderBy: ({ created_at }) => desc(created_at),
+        offset,
+      });
+      return {
+        packageDetails,
+        totalRecords: res[0]?.totalRecords ?? 0,
+      };
+    }),
 });

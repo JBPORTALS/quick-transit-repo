@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
-export type Customer = Awaited<RouterOutputs["auth"]["getCustomers"][0]>;
+export type Customer = Awaited<RouterOutputs["auth"]["getPartners"][0]>;
 
 // total_requests: number;
 // id: string;
@@ -40,16 +40,6 @@ export const columns: ColumnDef<Customer>[] = [
             </Text>
           </VStack>
         </HStack>
-      );
-    },
-  },
-  {
-    header: "Total Requests",
-    cell(props) {
-      return (
-        <Text styles={"body_medium"} className="text-right">
-          {props.row.original.total_requests}
-        </Text>
       );
     },
   },

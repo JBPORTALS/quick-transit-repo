@@ -53,6 +53,16 @@ export const authRouter = createTRPCRouter({
 
     return finalResult;
   }),
+  getPartners: publicProcedure.query(async ({ ctx }) => {
+    const customers = await ctx.db.query.user.findMany({
+      columns: {
+        role: false,
+      },
+      where: eq(user.role, "partner"),
+    });
+
+    return customers;
+  }),
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))
     .mutation(({ ctx, input }) => {

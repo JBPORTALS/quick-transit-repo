@@ -32,6 +32,8 @@ export default function AssignDialog({
 }) {
   const utils = api.useUtils();
 
+  const partners = api.auth.getPartners.useQuery();
+
   const [open, onOpenChange] = useState(false);
 
   async function onCancelRequest() {
@@ -51,16 +53,16 @@ export default function AssignDialog({
         </DialogHeader>
         <VStack className="h-full">
           <Input placeholder="Search partner..." />
-          <VStack className="h-[400px] w-full overflow-y-scroll py-5">
-            {Array.from({ length: 10 }).map(() => (
+          <VStack className="h-[400px] w-full overflow-y-auto py-5">
+            {partners?.data?.map((partner) => (
               <HStack className="w-full items-center justify-between pr-3">
                 <HStack>
                   <Avatar>
-                    <AvatarImage />
+                    <AvatarImage src={partner.picture ?? undefined} />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
                   <VStack className="gap-0">
-                    <Text>Partner Name</Text>
+                    <Text>{partner.name}</Text>
                     <Text styles={"small"}>4.3</Text>
                   </VStack>
                 </HStack>
