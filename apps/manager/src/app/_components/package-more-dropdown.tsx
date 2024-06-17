@@ -1,7 +1,12 @@
 "use client";
 
 import React from "react";
-import { Edit3Icon, MoreHorizontalIcon, PackageXIcon } from "lucide-react";
+import {
+  BikeIcon,
+  Edit3Icon,
+  MoreHorizontalIcon,
+  PackageXIcon,
+} from "lucide-react";
 
 import { Button } from "@qt/ui/button";
 import {
@@ -37,7 +42,7 @@ export default function PackageMoreDropdown({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="py-2">
-            <Edit3Icon className="mr-2 size-4" /> Edit Package
+            <BikeIcon className="mr-2 size-4" /> Assign a Partner
           </DropdownMenuItem>
           <CancelDialog {...{ packageId }}>
             <DropdownMenuItem

@@ -4,7 +4,14 @@ import { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
-import { CalendarIcon, Circle, RocketIcon, TruckIcon } from "lucide-react";
+import { isUndefined } from "lodash";
+import {
+  CalendarIcon,
+  Circle,
+  PlusIcon,
+  RocketIcon,
+  TruckIcon,
+} from "lucide-react";
 import { z } from "zod";
 
 import { cn } from "@qt/ui";
@@ -48,6 +55,7 @@ import { Text } from "@qt/ui/text";
 import { Textarea } from "@qt/ui/textarea";
 
 import { api } from "~/trpc/react";
+import { AddressCardDialog } from "./add-address-form";
 
 const steps = [
   {
@@ -112,9 +120,11 @@ const packageFormShema = z.object({
   breadth: z.string().min(1, "Required"),
   courier: z.string().min(1, "Required"),
   category: z.string().min(1, "Required"),
-  pick_up_address: z.string().min(1, "Required"),
-  franchise_address: z.string().min(1, "Required"),
-  delivery_address: z.string().min(1, "Required"),
+  pick_up_address: z.string().min(1, "Add new address Or Select existing one"),
+  franchise_address: z
+    .string()
+    .min(1, "Add new address Or Select existing one"),
+  delivery_address: z.string().min(1, "Add new address Or Select existing one"),
   is_insurance_required: z.enum(["Yes", "No"], { required_error: "Required" }),
   delivery_date: z.date({ required_error: "Required" }),
   from_time: z.string().min(1, "Required"),
@@ -131,14 +141,7 @@ type FieldNames = keyof z.infer<typeof packageFormShema>;
 export function NewPackage({ children }: { children: React.ReactNode }) {
   const [isOpen, setOpen] = useState(false);
   const [current, setCurrent] = useState(0);
-  const form = useForm({
-    schema: packageFormShema,
-    mode: "onChange",
-    reValidateMode: "onChange",
-    defaultValues: {
-      is_insurance_required: "No",
-    },
-  });
+
   const { data: categories } = api.category.getCategories.useQuery(undefined, {
     enabled: isOpen,
   });
@@ -146,20 +149,6 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
   const utils = api.useUtils();
 
   const billMutation = api.bills.createBill.useMutation({});
-
-  const formValues = form.getValues();
-
-  const { data: bill_summary_detail, isLoading: is_bill_summury_loading } =
-    api.bills.getSummaryDetails.useQuery(
-      {
-        weight: parseInt(formValues.weight),
-        insurance_required:
-          formValues.is_insurance_required === "Yes" ? true : false,
-      },
-      {
-        enabled: current === 2,
-      },
-    );
 
   const { data: couriers } = api.couriers.getCouriers.useQuery(undefined, {
     enabled: isOpen,
@@ -185,6 +174,42 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
       enabled: isOpen,
     },
   );
+
+  const firstDeliveryAddress = deliveryAddresses?.at(0);
+  const firstPickUpAddress = pickUpAddresses?.at(0);
+  const firstfranchiseUpAddress = franchiseAddresses?.at(0);
+
+  const form = useForm({
+    schema: packageFormShema,
+    mode: "onChange",
+    reValidateMode: "onChange",
+    defaultValues: {
+      is_insurance_required: "No",
+      delivery_address: !isUndefined(firstDeliveryAddress)
+        ? firstDeliveryAddress.id
+        : "",
+      pick_up_address: !isUndefined(firstPickUpAddress)
+        ? firstPickUpAddress.id
+        : "",
+      franchise_address: !isUndefined(firstfranchiseUpAddress)
+        ? firstfranchiseUpAddress.id
+        : "",
+    },
+  });
+
+  const formValues = form.getValues();
+
+  const { data: bill_summary_detail, isLoading: is_bill_summury_loading } =
+    api.bills.getSummaryDetails.useQuery(
+      {
+        weight: parseInt(formValues.weight),
+        insurance_required:
+          formValues.is_insurance_required === "Yes" ? true : false,
+      },
+      {
+        enabled: current === 2,
+      },
+    );
 
   const addPackage = api.packages.addPackage.useMutation({
     onSuccess() {
@@ -561,10 +586,21 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                       <FormDescription>
                         Where we have to pick up your package
                       </FormDescription>
+
+                      <AddressCardDialog
+                        title="New Pickup Address"
+                        description="Where we have to pick up your package"
+                        type="pickup"
+                      >
+                        <Button className="w-full" variant={"outline"}>
+                          Add New <PlusIcon />
+                        </Button>
+                      </AddressCardDialog>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          value={field.value}
                         >
                           {pickUpAddresses?.map(
                             ({ phone, street, pincode, id }) => (
@@ -612,10 +648,20 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                       <FormDescription>
                         Where we have to deliver your package
                       </FormDescription>
+                      <AddressCardDialog
+                        title="New Franchise Address"
+                        description="Where we have to deliver your package"
+                        type="franchise"
+                      >
+                        <Button variant={"outline"} className="w-full">
+                          Add New <PlusIcon />
+                        </Button>
+                      </AddressCardDialog>
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          value={field.value}
                         >
                           {franchiseAddresses?.map(
                             ({ phone, street, pincode, id }) => (
@@ -662,10 +708,21 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                       <FormDescription>
                         Where franchise has to deliver your package
                       </FormDescription>
+                      <AddressCardDialog
+                        title="New Delivery Address"
+                        description="Where franchise has to deliver your package"
+                        type="delivery"
+                      >
+                        <Button variant={"outline"} className="w-full">
+                          Add New <PlusIcon />
+                        </Button>
+                      </AddressCardDialog>
+
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          value={field.value}
                         >
                           {deliveryAddresses?.map(
                             ({ phone, street, pincode, id }) => (

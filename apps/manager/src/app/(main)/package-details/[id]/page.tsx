@@ -16,8 +16,10 @@ import {
   ScaleIcon,
   TagIcon,
   TextQuoteIcon,
+  UserCircle2Icon,
 } from "lucide-react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Badge } from "@qt/ui/badge";
 import {
   Breadcrumb,
@@ -108,7 +110,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                   <Button size={"sm"} variant={"outline"}>
                     <FileDown className="h-5 w-5" /> Invoice
                   </Button>
-                  <PackageMoreDropdown packageId={params.id} />
+                  {/* <PackageMoreDropdown packageId={params.id} /> */}
                 </HStack>
               )}
             </HStack>
@@ -128,10 +130,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                         </Text>
                       </TableCell>
                       <TableCell>
-                        <Text
-                          styles={"small"}
-                          className="col-span-2 w-full font-thin"
-                        >
+                        <Text styles={"small"} className="col-span-2 w-full ">
                           {packageDetail?.description}
                         </Text>
                       </TableCell>
@@ -146,10 +145,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                         </Text>
                       </TableCell>
                       <TableCell>
-                        <Text
-                          styles={"small"}
-                          className="col-span-2 w-full font-thin"
-                        >
+                        <Text styles={"small"} className="col-span-2 w-full ">
                           {packageDetail?.height}x{packageDetail?.breadth}x
                           {packageDetail?.width}
                         </Text>
@@ -165,10 +161,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                         </Text>
                       </TableCell>
                       <TableCell>
-                        <Text
-                          styles={"small"}
-                          className="col-span-2 w-full font-thin"
-                        >
+                        <Text styles={"small"} className="col-span-2 w-full ">
                           {packageDetail?.weight}kg
                         </Text>
                       </TableCell>
@@ -183,10 +176,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                         </Text>
                       </TableCell>
                       <TableCell>
-                        <Text
-                          styles={"small"}
-                          className="col-span-2 w-full font-thin"
-                        >
+                        <Text styles={"small"} className="col-span-2 w-full ">
                           {packageDetail?.category.name}
                         </Text>
                       </TableCell>
@@ -201,10 +191,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                         </Text>
                       </TableCell>
                       <TableCell>
-                        <Text
-                          styles={"small"}
-                          className="col-span-2 w-full font-thin"
-                        >
+                        <Text styles={"small"} className="col-span-2 w-full ">
                           {packageDetail?.courier.name}
                         </Text>
                       </TableCell>
@@ -219,10 +206,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                         </Text>
                       </TableCell>
                       <TableCell>
-                        <Text
-                          styles={"small"}
-                          className="col-span-2 w-full font-thin"
-                        >
+                        <Text styles={"small"} className="col-span-2 w-full ">
                           {packageDetail?.delivery_date &&
                             format(packageDetail.delivery_date, "do MMM yyyy")}
                         </Text>
@@ -240,7 +224,7 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       <TableCell>
                         <Text
                           styles={"small"}
-                          className="col-span-2 flex  w-full items-center gap-1 font-thin"
+                          className="col-span-2 flex  w-full items-center gap-1 "
                         >
                           <Badge variant={"secondary"}>
                             {packageDetail?.from_time &&
@@ -267,10 +251,38 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                       <TableCell>
                         <Text
                           styles={"lead"}
-                          className="col-span-2 flex  w-full items-center gap-1 font-thin"
+                          className="col-span-2 flex  w-full items-center gap-1 "
                         >
                           {formatToINR.format(packageDetail.bill.total)}
                         </Text>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <Text
+                          styles={"small"}
+                          className=" flex items-center gap-2 text-nowrap text-muted-foreground"
+                        >
+                          <UserCircle2Icon className="size-5" /> Raised By{" "}
+                        </Text>
+                      </TableCell>
+                      <TableCell>
+                        <HStack className="items-center gap-1">
+                          <Avatar className="size-6 border">
+                            <AvatarImage
+                              src={packageDetail.customer.picture ?? undefined}
+                            />
+                            <AvatarFallback>
+                              {packageDetail.customer.name?.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <Text
+                            styles={"subtle_medium"}
+                            className="col-span-2 flex  w-full items-center gap-1 "
+                          >
+                            {packageDetail.customer.name}
+                          </Text>
+                        </HStack>
                       </TableCell>
                     </TableRow>
                   </TableBody>
