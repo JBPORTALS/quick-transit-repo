@@ -64,10 +64,11 @@ export const AddressCardDialog = ({
     mode: "onChange",
   });
 
-  const router = useRouter();
+  const utils = api.useUtils();
   const addAddress = api.address.postAddress.useMutation({
     onSuccess() {
-      router.refresh();
+      utils.address.getAllByType.invalidate();
+      utils.address.getAddressByUser.invalidate();
       setIsOpen(false);
       form.reset();
     },

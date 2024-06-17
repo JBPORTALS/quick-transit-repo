@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import { pgEnum, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
+import { user } from ".";
 import { packages } from "./packages";
 
 export const statusEnum = pgEnum("statusEnum", [
@@ -19,6 +20,7 @@ export const requests = pgTable("requests", {
   package_id: uuid("package_id")
     .notNull()
     .references(() => packages.id, { onDelete: "cascade" }),
+  partner_id: uuid("partner_id").references(() => user.id),
   tracking_number: varchar("tracking_number", { length: 50 }).notNull(),
   current_status: statusEnum("current_status").notNull().default("requested"),
   requested_at: timestamp("requested_at").defaultNow(),
@@ -38,8 +40,13 @@ export const requestsInsertSchema = createInsertSchema(requests);
 export const requestsSelectSchema = createInsertSchema(requests);
 
 export const requestsRelations = relations(requests, ({ one }) => ({
-  packages: one(packages, {
+  package: one(packages, {
     fields: [requests.package_id],
     references: [packages.id],
+  }),
+  partner: one(user, {
+    fields: [requests.partner_id],
+    references: [user.id],
+    relationName: "partner",
   }),
 }));

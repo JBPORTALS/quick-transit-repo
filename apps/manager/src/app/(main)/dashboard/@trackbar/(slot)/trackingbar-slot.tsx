@@ -3,19 +3,23 @@
 import { useState } from "react";
 import { isEmpty, isUndefined } from "lodash";
 import {
+  BikeIcon,
   ChevronLeft,
   ChevronRight,
   FileDownIcon,
   Package2Icon,
+  StarIcon,
 } from "lucide-react";
 import moment from "moment";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Button } from "@qt/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@qt/ui/card";
 import { Separator } from "@qt/ui/seperator";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
+import AssignDialog from "~/app/_components/assign-dialog";
 import { StatusTag } from "~/app/_components/status-tag";
 import {
   TrackingBar,
@@ -188,6 +192,39 @@ export function TrackingBarSlot() {
                 </>
               )}
             </TrackingBar>
+            {packageDetails.request.current_status == "requested" ? (
+              <AssignDialog packageId={packageDetails.id}>
+                <Button className="w-full" size={"lg"} variant={"outline"}>
+                  <BikeIcon /> Assign Partner
+                </Button>
+              </AssignDialog>
+            ) : (
+              <HStack className="w-full items-center justify-between rounded-radius border p-3">
+                <HStack>
+                  <Avatar className="size-11 border">
+                    <AvatarImage
+                      src={packageDetails.request.partner?.picture ?? undefined}
+                    />
+                    <AvatarFallback />
+                  </Avatar>
+                  <VStack className="gap-1">
+                    <Text styles={"subtle_medium"}>
+                      {packageDetails.request.partner?.name}
+                    </Text>
+                    <HStack className="items-center gap-1">
+                      <StarIcon className="size-3 text-muted-foreground" />
+                      <Text
+                        styles={"small"}
+                        className="leading-none text-muted-foreground"
+                      >
+                        4.3 {"·"} Ratings
+                      </Text>
+                    </HStack>
+                  </VStack>
+                </HStack>
+                <BikeIcon className="text-muted-foreground" />
+              </HStack>
+            )}
             <Separator />
             <HStack className="w-full items-center justify-between">
               <Button
