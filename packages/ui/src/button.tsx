@@ -69,7 +69,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           isLoading ? (
             <>
               <Loader className="size-5 animate-spin duration-700" />
-              {loadingText}
+              {loadingText ?? children}
             </>
           ) : (
             children

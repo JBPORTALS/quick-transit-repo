@@ -201,10 +201,11 @@ export const packagesRouter = createTRPCRouter({
     }),
   assignPartner: protectedProcedure
     .input(z.object({ partnerId: z.string(), packageId: z.string() }))
-    .query(async ({ ctx, input: { packageId, partnerId } }) => {
-      return ctx.db
+    .mutation(async ({ ctx, input: { packageId, partnerId } }) => {
+      return await ctx.db
         .update(requests)
-        .set({ partner_id: partnerId })
-        .where(eq(requests.package_id, packageId));
+        .set({ partner_id: partnerId, current_status: "confirmed" })
+        .where(eq(requests.package_id, packageId))
+        .returning();
     }),
 });

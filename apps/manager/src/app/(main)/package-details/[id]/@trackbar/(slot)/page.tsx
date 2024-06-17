@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { BikeIcon, FileDownIcon } from "lucide-react";
+import { BikeIcon, FileDownIcon, StarIcon } from "lucide-react";
 import moment from "moment";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Button } from "@qt/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@qt/ui/card";
 import { HStack, VStack } from "@qt/ui/stack";
@@ -152,11 +153,39 @@ export default function page({ params }: { params: { id: string } }) {
                 </>
               )}
             </TrackingBar>
-            <AssignDialog packageId={package_id}>
-              <Button className="w-full" size={"lg"} variant={"outline"}>
-                <BikeIcon /> Assign Partner
-              </Button>
-            </AssignDialog>
+            {trackingDetails.current_status == "requested" ? (
+              <AssignDialog packageId={package_id}>
+                <Button className="w-full" size={"lg"} variant={"outline"}>
+                  <BikeIcon /> Assign Partner
+                </Button>
+              </AssignDialog>
+            ) : (
+              <HStack className="w-full items-center justify-between rounded-radius border p-3">
+                <HStack>
+                  <Avatar className="size-11 border">
+                    <AvatarImage
+                      src={trackingDetails.partner?.picture ?? undefined}
+                    />
+                    <AvatarFallback />
+                  </Avatar>
+                  <VStack className="gap-1">
+                    <Text styles={"subtle_medium"}>
+                      {trackingDetails.partner?.name}
+                    </Text>
+                    <HStack className="items-center gap-1">
+                      <StarIcon className="size-3 text-muted-foreground" />
+                      <Text
+                        styles={"small"}
+                        className="leading-none text-muted-foreground"
+                      >
+                        4.3 {"·"} Ratings
+                      </Text>
+                    </HStack>
+                  </VStack>
+                </HStack>
+                <BikeIcon className="text-muted-foreground" />
+              </HStack>
+            )}
           </VStack>
         </CardContent>
       </Card>
