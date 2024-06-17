@@ -204,7 +204,11 @@ export const packagesRouter = createTRPCRouter({
     .mutation(async ({ ctx, input: { packageId, partnerId } }) => {
       return await ctx.db
         .update(requests)
-        .set({ partner_id: partnerId, current_status: "confirmed" })
+        .set({
+          partner_id: partnerId,
+          current_status: "confirmed",
+          confirmed_at: new Date(Date.now()),
+        })
         .where(eq(requests.package_id, packageId))
         .returning();
     }),

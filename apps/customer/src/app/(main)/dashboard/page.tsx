@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { isEmpty } from "lodash";
 import { Package2Icon } from "lucide-react";
@@ -8,10 +10,10 @@ import { Text } from "@qt/ui/text";
 
 import { DashboardEmptyState } from "~/app/_components/dashboard-empty-state";
 import { StatusTag } from "~/app/_components/status-tag";
-import { api } from "~/trpc/server";
+import { api } from "~/trpc/react";
 
-async function RecentPackagesList() {
-  const data = await api.packages.getRecentPackages();
+function RecentPackagesList() {
+  const [data, query] = api.packages.getRecentPackages.useSuspenseQuery();
 
   if (isEmpty(data)) return <DashboardEmptyState />;
   else
@@ -53,7 +55,7 @@ async function RecentPackagesList() {
     );
 }
 
-export default async function page() {
+export default function page() {
   return (
     <VStack className="col-span-4 w-full">
       <RecentPackagesList />
