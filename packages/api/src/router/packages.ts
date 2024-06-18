@@ -4,12 +4,14 @@ import { z } from "zod";
 
 import {
   and,
+  between,
   count,
   desc,
   eq,
   packageInsertSchema,
   packages,
   requests,
+  sql,
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -211,5 +213,56 @@ export const packagesRouter = createTRPCRouter({
         })
         .where(eq(requests.package_id, packageId))
         .returning();
+    }),
+  getPackagesAnalytics: protectedProcedure
+    .input(z.object({ by: z.enum(["week", "month", "all"]) }))
+    .query(async ({ input, ctx }) => {
+      function getWeekRange() {
+        const now = new Date();
+        const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); // Set to the beginning of the week
+        startOfWeek.setHours(0, 0, 0, 0); // Set to midnight
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+        endOfWeek.setHours(23, 59, 59, 999); // End of the day
+
+        return {
+          start: startOfWeek,
+          end: endOfWeek,
+        };
+      }
+
+      function getMonthRange() {
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        startOfMonth.setHours(0, 0, 0, 0);
+
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        endOfMonth.setHours(23, 59, 59, 999);
+
+        return {
+          start: startOfMonth,
+          end: endOfMonth,
+        };
+      }
+
+      const weekrage = getWeekRange();
+      const monthrange = getMonthRange();
+
+      const modifiedBetween =
+        input.by === "week"
+          ? between(packages.created_at, weekrage.start, weekrage.end)
+          : input.by === "month"
+            ? between(packages.created_at, monthrange.start, monthrange.end)
+            : undefined;
+
+      return ctx.db
+        .select({
+          count: sql<number>`COUNT(*)`.as("count"),
+          date: sql`DATE(${packages.created_at})`.as("date"),
+        })
+        .from(packages)
+        .where(modifiedBetween)
+        .groupBy(sql`date`);
     }),
 });
