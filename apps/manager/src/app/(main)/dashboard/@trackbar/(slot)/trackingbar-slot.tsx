@@ -44,7 +44,7 @@ export function TrackingBarSlot() {
       <Card className="max-h-fit min-h-fit w-full shadow-none">
         <CardHeader>
           <HStack className="items-center justify-between">
-            <CardTitle>Traking Details</CardTitle>
+            <CardTitle>Ongoing Delivery</CardTitle>
             <StatusTag status={packageDetails.request.current_status} />
           </HStack>
         </CardHeader>
