@@ -183,6 +183,10 @@ async function main() {
               from_time: faker.date.anytime().toLocaleTimeString(),
               weight: faker.number.int({ min: 20, max: 40 }),
               bill_id: faker.helpers.arrayElement(bill_details_data).id,
+              created_at: faker.date.between({
+                from: "2024-06-01T00:00:00.000Z",
+                to: "2024-06-30T00:00:00.000Z",
+              }),
             })
             .returning();
           //create request

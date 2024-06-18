@@ -1,16 +1,8 @@
 "use client";
 
-import { isEmpty } from "lodash";
-
-import { HStack, VStack } from "@qt/ui/stack";
-import { Text } from "@qt/ui/text";
-
-import { DashboardEmptyState } from "~/app/_components/dashboard-empty-state";
-import { api } from "~/trpc/server";
-
-import "recharts";
-
+import { useState } from "react";
 import { Calendar } from "lucide-react";
+import moment from "moment";
 import {
   Area,
   AreaChart,
@@ -21,6 +13,7 @@ import {
   YAxis,
 } from "recharts";
 
+import { RouterInputs, RouterOutputs } from "@qt/api";
 import {
   Card,
   CardContent,
@@ -31,12 +24,16 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@qt/ui/select";
+import { HStack, VStack } from "@qt/ui/stack";
+import { Text } from "@qt/ui/text";
+
+import { api } from "~/trpc/react";
+
+type ByType = RouterInputs["packages"]["getPackagesAnalytics"]["by"];
 
 const data = [
   {
@@ -80,7 +77,7 @@ let INR = new Intl.NumberFormat("en-US", {
 let NumberFormat = new Intl.NumberFormat("en-US", {
   notation: "compact",
   compactDisplay: "short",
-  maximumFractionDigits: 2,
+  maximumFractionDigits: 1,
 });
 
 let INRWithoutNotation = new Intl.NumberFormat("en-US", {
@@ -144,7 +141,7 @@ function PaymentsAnalyticsCard() {
   );
 }
 
-function PackagesAnalyticsCard() {
+function PackagesAnalyticsCard({ data }: { data: any }) {
   return (
     <ResponsiveContainer width="100%" height={400}>
       <AreaChart data={data}>
@@ -157,7 +154,7 @@ function PackagesAnalyticsCard() {
         <Area
           strokeWidth={2}
           stroke="#6B36B0"
-          dataKey={"amt"}
+          dataKey={"count"}
           fill="url(#brandGradient)"
         />
         <XAxis
@@ -166,28 +163,31 @@ function PackagesAnalyticsCard() {
           tickLine={false}
           axisLine={false}
           tickFormatter={(value, index) => {
-            if (index === 0) return "";
-            else return value;
+            if (index % 2 === 0 && index !== 0)
+              return moment(value).format("MMM DD");
+            else return "";
           }}
         />
         <YAxis
           tickLine={false}
           axisLine={false}
-          tickCount={8}
           tickFormatter={(value) => {
-            return NumberFormat.format(value);
+            if (Number.isInteger(value)) return NumberFormat.format(value);
+            else return "";
           }}
           className="text-xs"
-          dataKey="amt"
+          dataKey="count"
         />
         <Tooltip
           content={({ payload, active, label }) => {
             if (active)
               return (
                 <VStack className="w-32 gap-1 rounded-radius border bg-card px-4 py-2 shadow-sm">
-                  <Text styles={"subtle_medium"}>{label}</Text>
+                  <Text styles={"subtle_medium"}>
+                    {moment(label).format("MMM DD")}
+                  </Text>
                   <Text styles={"small"} className="text-accent-foreground/80">
-                    {NumberFormat.format(payload?.at(0)?.payload.amt)}
+                    {NumberFormat.format(payload?.at(0)?.payload.count)}
                   </Text>
                 </VStack>
               );
@@ -199,7 +199,10 @@ function PackagesAnalyticsCard() {
   );
 }
 
-export default async function page() {
+export default function page() {
+  const [by, setBy] = useState<ByType>("all");
+
+  const { data } = api.packages.getPackagesAnalytics.useQuery({ by });
   return (
     <VStack className="col-span-4 w-full gap-5">
       <Card className="w-full shadow-none">
@@ -211,7 +214,7 @@ export default async function page() {
                 Track and analyze the number of packages raised over time.
               </CardDescription>
             </div>
-            <Select defaultValue="week">
+            <Select onValueChange={(value: ByType) => setBy(value)} value={by}>
               <SelectTrigger className="w-[145px]">
                 <HStack className="items-center gap-2">
                   <Calendar className="size-4 text-muted-foreground" />
@@ -221,14 +224,13 @@ export default async function page() {
               <SelectContent>
                 <SelectItem value="week">This Week</SelectItem>
                 <SelectItem value="month">This Month</SelectItem>
-                <SelectItem value="three_month">3 Months</SelectItem>
                 <SelectItem value="all">All</SelectItem>
               </SelectContent>
             </Select>
           </HStack>
         </CardHeader>
         <CardContent>
-          <PackagesAnalyticsCard />
+          <PackagesAnalyticsCard data={data} />
         </CardContent>
       </Card>
       <Card className="w-full shadow-none">
@@ -250,7 +252,6 @@ export default async function page() {
               <SelectContent>
                 <SelectItem value="week">This Week</SelectItem>
                 <SelectItem value="month">This Month</SelectItem>
-                <SelectItem value="three_month">3 Months</SelectItem>
                 <SelectItem value="all">All</SelectItem>
               </SelectContent>
             </Select>
