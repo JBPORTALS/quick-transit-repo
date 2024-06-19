@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { faker } from "@faker-js/faker";
 import { Calendar } from "lucide-react";
 import moment from "moment";
 import {
@@ -35,36 +36,21 @@ import { api } from "~/trpc/react";
 
 type ByType = RouterInputs["packages"]["getPackagesAnalytics"]["by"];
 
-const data = [
-  {
-    date: "12th May",
-    amt: 0,
-  },
-  {
-    date: "13th May",
-    amt: 700,
-  },
-  {
-    date: "14th May",
-    amt: 1000,
-  },
-  {
-    date: "15th May",
-    amt: 600,
-  },
-  {
-    date: "16th May",
-    amt: 800,
-  },
-  {
-    date: "17th May",
-    amt: 1200,
-  },
-  {
-    date: "18th May",
-    amt: 2100,
-  },
-];
+const data = Array.from({ length: 54 }).map(() => ({
+  date: faker.date.between({
+    from: "2024-06-01T00:00:00.000Z",
+    to: "2024-06-30T00:00:00.000Z",
+  }),
+  count: faker.number.int({ min: 0, max: 100 }),
+}));
+
+const paymentsData = Array.from({ length: 54 }).map(() => ({
+  date: faker.date.between({
+    from: "2023-06-01T00:00:00.000Z",
+    to: "2024-06-30T00:00:00.000Z",
+  }),
+  amt: faker.number.int({ min: 600, max: 50000 }),
+}));
 
 let INR = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -89,7 +75,7 @@ let INRWithoutNotation = new Intl.NumberFormat("en-US", {
 function PaymentsAnalyticsCard() {
   return (
     <ResponsiveContainer width="100%" height={400}>
-      <AreaChart data={data}>
+      <AreaChart data={paymentsData}>
         <defs>
           <linearGradient id="brandGradient" x1={0} y1={0} x2={0} y2={1}>
             <stop offset={"0%"} stopColor="#6B36B0" stopOpacity={0.5} />
@@ -108,8 +94,9 @@ function PaymentsAnalyticsCard() {
           tickLine={false}
           axisLine={false}
           tickFormatter={(value, index) => {
-            if (index === 0) return "";
-            else return value;
+            if (index % 2 === 0 && index !== 0)
+              return moment(value).format("MMM DD");
+            else return "";
           }}
         />
         <YAxis
@@ -127,7 +114,9 @@ function PaymentsAnalyticsCard() {
             if (active)
               return (
                 <VStack className="w-32 gap-1 rounded-radius border bg-card px-4 py-2 shadow-sm">
-                  <Text styles={"subtle_medium"}>{label}</Text>
+                  <Text styles={"subtle_medium"}>
+                    {moment(label).format("MMM DD")}
+                  </Text>
                   <Text styles={"small"} className="text-accent-foreground/80">
                     {INRWithoutNotation.format(payload?.at(0)?.payload.amt)}
                   </Text>
@@ -202,7 +191,7 @@ function PackagesAnalyticsCard({ data }: { data: any }) {
 export default function page() {
   const [by, setBy] = useState<ByType>("all");
 
-  const { data } = api.packages.getPackagesAnalytics.useQuery({ by });
+  // const { data } = api.packages.getPackagesAnalytics.useQuery({ by });
   return (
     <VStack className="col-span-4 w-full gap-5">
       <Card className="w-full shadow-none">

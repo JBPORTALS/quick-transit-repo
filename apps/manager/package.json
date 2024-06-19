@@ -29,6 +29,7 @@
     "lodash": "^4.17.21",
     "lucide-react": "^0.363.0",
     "next": "^14.1.0",
+    "nextjs-toploader": "^1.6.12",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "recharts": "^2.12.6",
@@ -36,6 +37,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@qt/eslint-config": "workspace:^0.2.0",
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tailwind-config": "workspace:^0.1.0",
