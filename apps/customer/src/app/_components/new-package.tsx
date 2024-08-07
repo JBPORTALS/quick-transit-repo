@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { isUndefined } from "lodash";
-import {
-  CalendarIcon,
-  Circle,
-  PlusIcon,
-  RocketIcon,
-  TruckIcon,
-} from "lucide-react";
+import { CalendarIcon, Circle, PlusIcon, RocketIcon } from "lucide-react";
 import { z } from "zod";
 
 import { cn } from "@qt/ui";
@@ -30,7 +24,6 @@ import { Input } from "@qt/ui/input";
 import { Label } from "@qt/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@qt/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@qt/ui/radio-group";
-import { ScrollArea } from "@qt/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -44,7 +37,6 @@ import { Separator } from "@qt/ui/seperator";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -333,12 +325,13 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                         <FormControl>
                           <Input type="number" {...field} />
                         </FormControl>
+                        <FormDescription>in kilo grams</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                   <FormItem>
-                    <Label>Dimensions</Label>
+                    <Label>{"Dimensions (HxBxW in .cm)"}</Label>
                     <HStack className="items-start">
                       <FormField
                         control={form.control}
