@@ -23,16 +23,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     url: "https://u.expo.dev/eb31288b-ff70-4587-bb68-75ef694528c1",
     enabled: true,
     fallbackToCacheTimeout: 0,
-    checkAutomatically:"ON_LOAD"
+    checkAutomatically: "ON_LOAD",
   },
   runtimeVersion: {
-    policy: "appVersion"
+    policy: "appVersion",
   },
   assetBundlePatterns: ["**/*"],
   ios: {
     bundleIdentifier: "com.jbportalsblr.quicktransitt",
     supportsTablet: true,
-    buildNumber:"1"
+    buildNumber: "1",
   },
   android: {
     package: "com.jbportalsblr.quicktransitt",
@@ -60,5 +60,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         recordAudioAndroid: false,
       },
     ],
+    "expo-secure-store",
   ],
 });

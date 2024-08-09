@@ -1,9 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
-import { cloneElement } from "react";
+import React, { cloneElement } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { cva, cx } from "class-variance-authority";
-
-import React = require("react");
 
 const buttonVariants = cva(
   "flex-row items-center justify-center gap-3 rounded-md px-5 py-3 disabled:opacity-60",
@@ -12,6 +10,7 @@ const buttonVariants = cva(
       variant: {
         primary: "bg-primary",
         ghost: "border border-border bg-transparent",
+        outline: "border-2 border-border bg-transparent",
       },
       size: {
         sm: "px-4 py-2",
@@ -28,6 +27,7 @@ const buttonTextVariants = cva("text-xl", {
     variant: {
       primary: "text-primary-foreground",
       ghost: "text-secondary-foreground",
+      outline: "text-secondary-foreground",
     },
     size: {
       sm: "text-lg",

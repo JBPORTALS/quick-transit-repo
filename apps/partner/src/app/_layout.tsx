@@ -1,86 +1,78 @@
 import "../styles.css";
 
+import React from "react";
+import { Platform } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Link, Stack } from "expo-router";
+import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { SettingsIcon } from "lucide-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Theme, ThemeProvider } from "@react-navigation/native";
 
-import { ColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
+import { useColorScheme } from "~/lib/useColorScheme";
+import { useColorsTheme } from "~/utils/constants";
 
-// SplashScreen.preventAutoHideAsync();
+const LIGHT_THEME: Theme = {
+  dark: false,
+  colors: NAV_THEME.light,
+};
+const DARK_THEME: Theme = {
+  dark: true,
+  colors: NAV_THEME.dark,
+};
+
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from "expo-router";
+
+// Prevent the splash screen from auto-hiding before getting the color scheme.
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colors = ColorsTheme();
+  const colors = useColorsTheme();
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+  const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    (async () => {
+      const theme = await AsyncStorage.getItem("theme");
+      if (Platform.OS === "web") {
+        // Adds the background color to the html element to prevent white background on overscroll.
+        document.documentElement.classList.add("bg-background");
+      }
+      if (!theme) {
+        AsyncStorage.setItem("theme", colorScheme);
+        setIsColorSchemeLoaded(true);
+        return;
+      }
+      const colorTheme = theme === "dark" ? "dark" : "light";
+      if (colorTheme !== colorScheme) {
+        setColorScheme(colorTheme);
+
+        setIsColorSchemeLoaded(true);
+        return;
+      }
+      setIsColorSchemeLoaded(true);
+    })().finally(() => {
+      SplashScreen.hideAsync();
+    });
+  }, []);
+
+  if (!isColorSchemeLoaded) {
+    return null;
+  }
 
   return (
-    <SafeAreaProvider>
-      {/*Contains all navigation props based on auth */}
-      {/* <TRPCProvider> */}
-      <StatusBar style="auto" backgroundColor={colors.background} />
-      <Stack
-        screenOptions={{
-          headerShadowVisible: false,
-          headerTitleAlign: "center",
-          headerShown: false,
-          headerStyle: { backgroundColor: colors.card },
-          headerTintColor: colors.foreground,
-          contentStyle: {
-            backgroundColor: colors.secondary,
-          },
-          animation: "ios",
-          headerBackTitleVisible: false,
-          animationTypeForReplace: "pop",
-        }}
-        initialRouteName="(tabs)"
-      >
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen
-          name="(stacks)/profile"
-          options={{
-            headerShown: true,
-            title: "Profile Details",
-            headerRight() {
-              return (
-                <Link href={"/settings"}>
-                  <SettingsIcon size={24} color={colors.foreground} />
-                </Link>
-              );
-            },
-          }}
-        />
-        <Stack.Screen
-          name="(stacks)/settings"
-          options={{
-            headerShown: true,
-            title: "Profile Settings",
-          }}
-        />
-
-        <Stack.Screen
-          name="(stacks)/package/[packageId]"
-          options={{
-            headerShown: true,
-            title: "Package Details",
-          }}
-        />
-
-        <Stack.Screen
-          name="(stacks)/invoices/new"
-          options={{
-            headerShown: true,
-            title: "Invoice",
-          }}
-        />
-
-        <Stack.Screen
-          name="(stacks)/take-pic-reciept/camera"
-          options={{
-            headerShown: false,
-            title: "Camera",
-          }}
-        />
-      </Stack>
-      {/* </TRPCProvider> */}
-    </SafeAreaProvider>
+    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+      <SafeAreaProvider>
+        {/*Contains all navigation props based on auth */}
+        {/* <TRPCProvider> */}
+        <StatusBar style="auto" backgroundColor={colors.background} />
+        <Slot />
+        {/* </TRPCProvider> */}
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
