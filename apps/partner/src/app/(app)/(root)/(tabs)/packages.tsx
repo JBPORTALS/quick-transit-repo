@@ -56,7 +56,7 @@ export default function Packages() {
       </View>
       <View className="gap-2 py-8">
         {data.map((data, index) => (
-          <Link asChild href={`/package/${index}`}>
+          <Link asChild key={index} href={`/package/${index}`}>
             <PackageItem key={index} data={data} />
           </Link>
         ))}
