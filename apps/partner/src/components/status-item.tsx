@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority";
 import { icons } from "lucide-react-native";
 import twcolors from "tailwindcss/colors";
 
-import { ColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
 
 const statusItemVariants = cva(
   "flex-row items-center justify-center gap-2 rounded-full ",
@@ -69,7 +69,7 @@ export default function StatusItem({
   intent,
   ...props
 }: StatusItemProps) {
-  const colors = ColorsTheme();
+  const colors = NAV_THEME.light;
   const LucideIcon =
     icons[
       variant === "pick-up"
@@ -88,7 +88,7 @@ export default function StatusItem({
         size={size === "sm" ? 14 : 22}
         color={
           variant === "pick-up"
-            ? colors.mutedForeground
+            ? colors.border
             : variant === "shipping"
               ? twcolors.orange[400]
               : variant === "delivered"

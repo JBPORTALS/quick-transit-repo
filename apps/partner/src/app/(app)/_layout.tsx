@@ -1,12 +1,16 @@
 import { Link, Stack } from "expo-router";
 import { SettingsIcon } from "lucide-react-native";
 
-import { useColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
 
 // SplashScreen.preventAutoHideAsync();
 
+export const unstable_settings = {
+  initialRouteName: "(tabs)", // Assuming your main app flow starts here
+};
+
 export default function RootLayout() {
-  const colors = useColorsTheme();
+  const colors = NAV_THEME.light;
 
   return (
     <Stack
@@ -14,35 +18,33 @@ export default function RootLayout() {
         headerShadowVisible: false,
         headerTitleAlign: "center",
         headerShown: false,
-        headerStyle: { backgroundColor: colors.card },
-        headerTintColor: colors.foreground,
-        contentStyle: {
-          backgroundColor: colors.secondary,
-        },
+        // headerStyle: { backgroundColor: colors.card },
+        // headerTintColor: colors.foreground,
+        // contentStyle: {
+        //   backgroundColor: colors.secondary,
+        // },
         animation: "ios",
         headerBackTitleVisible: false,
         animationTypeForReplace: "pop",
       }}
-      initialRouteName="(auth)"
     >
-      <Stack.Screen name="(auth)" />
       <Stack.Screen name="(tabs)" />
       <Stack.Screen
-        name="(stacks)/profile"
+        name="profile"
         options={{
           headerShown: true,
           title: "Profile Details",
           headerRight() {
             return (
               <Link href={"/settings"}>
-                <SettingsIcon size={24} color={colors.foreground} />
+                <SettingsIcon size={24} color={colors.text} />
               </Link>
             );
           },
         }}
       />
       <Stack.Screen
-        name="(stacks)/settings"
+        name="settings"
         options={{
           headerShown: true,
           title: "Profile Settings",
@@ -50,7 +52,7 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
-        name="(stacks)/package/[packageId]"
+        name="package/[packageId]"
         options={{
           headerShown: true,
           title: "Package Details",
@@ -58,7 +60,7 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
-        name="(stacks)/invoices/new"
+        name="invoices/new"
         options={{
           headerShown: true,
           title: "Invoice",
@@ -66,7 +68,7 @@ export default function RootLayout() {
       />
 
       <Stack.Screen
-        name="(stacks)/take-pic-reciept/camera"
+        name="take-pic-reciept/camera"
         options={{
           headerShown: false,
           title: "Camera",

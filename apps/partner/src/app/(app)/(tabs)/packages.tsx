@@ -3,7 +3,7 @@ import { Link, useRouter } from "expo-router";
 import { Settings2Icon } from "lucide-react-native";
 
 import { PackageItem } from "~/components/package-item";
-import { ColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
 
 const data = [
   {
@@ -45,15 +45,14 @@ const data = [
 ];
 
 export default function Packages() {
-  const colors = ColorsTheme();
-  const router = useRouter();
+  const colors = NAV_THEME.light;
   return (
     <ScrollView className="h-full gap-3 p-4">
       <View className="flex-row justify-between py-2">
         <Text className="text-xl font-medium text-foreground">
           Packages History
         </Text>
-        <Settings2Icon size={24} color={colors.foreground} />
+        <Settings2Icon size={24} color={colors.text} />
       </View>
       <View className="gap-2 py-8">
         {data.map((data, index) => (

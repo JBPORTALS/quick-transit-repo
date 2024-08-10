@@ -4,15 +4,19 @@ import { Link, Redirect, Tabs } from "expo-router";
 import { BellIcon, HomeIcon, ListIcon } from "lucide-react-native";
 
 import NavItem from "~/components/nav-item";
-import { useColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
+
+export const unstable_settings = {
+  initialRouteName: "home", // Assuming your main app flow starts here
+};
 
 export default function TabLayout() {
-  const colors = useColorsTheme();
+  const colors = NAV_THEME.light;
 
   return (
     <Tabs
       sceneContainerStyle={{
-        backgroundColor: colors.secondary,
+        backgroundColor: colors.background,
       }}
       initialRouteName="home"
       screenOptions={{
@@ -31,7 +35,7 @@ export default function TabLayout() {
           backgroundColor: colors.background,
         },
         tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.foreground,
+        tabBarInactiveTintColor: colors.text,
         headerTitleStyle: { display: "none" },
         headerLeft: () => {
           return (

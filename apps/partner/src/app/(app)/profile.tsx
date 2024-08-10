@@ -3,10 +3,10 @@ import { Image } from "expo-image";
 import { useUser } from "@clerk/clerk-expo";
 import { StarIcon } from "lucide-react-native";
 
-import { ColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
 
 export default function Profile() {
-  const colors = ColorsTheme();
+  const colors = NAV_THEME.light;
 
   return (
     <ScrollView className="h-full w-full">

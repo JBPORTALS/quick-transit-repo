@@ -1,8 +1,14 @@
-import { useColorScheme as useNativewindColorScheme } from "nativewind";
+import { Appearance } from "react-native";
 
 export function useColorScheme() {
-  const { colorScheme, setColorScheme, toggleColorScheme } =
-    useNativewindColorScheme();
+  const { setColorScheme, getColorScheme } = Appearance;
+  const colorScheme = getColorScheme();
+
+  function toggleColorScheme() {
+    if (colorScheme === "dark") setColorScheme("light");
+    else setColorScheme("dark");
+  }
+
   return {
     colorScheme: colorScheme ?? "dark",
     isDarkColorScheme: colorScheme === "dark",

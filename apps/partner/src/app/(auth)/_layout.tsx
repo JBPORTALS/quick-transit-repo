@@ -11,8 +11,6 @@ import {
 } from "@react-navigation/material-top-tabs";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
 
-import { useColorsTheme } from "~/utils/constants";
-
 const { Navigator } = createMaterialTopTabNavigator();
 
 export const MaterialTopTabs = withLayoutContext<
@@ -22,13 +20,16 @@ export const MaterialTopTabs = withLayoutContext<
   MaterialTopTabNavigationEventMap
 >(Navigator);
 
+export const unstable_settings = {
+  initialRouteName: "sign-in", // Assuming your main app flow starts here
+};
+
 export default function Layout() {
   const { width } = Dimensions.get("screen");
-  const theme = useColorsTheme();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor="#fff" />
-      <View className="w-fit  items-center gap-3 bg-white p-8">
+      <StatusBar />
+      <View className="w-fit  items-center gap-3 bg-background p-8">
         <View className="h-fit w-fit flex-row items-center justify-center rounded-full border border-border px-4 py-1">
           <Image
             source={require("assets/qt-logo.svg")}
@@ -51,8 +52,9 @@ export default function Layout() {
         screenOptions={{
           tabBarLabelStyle: { fontSize: 16, textTransform: "capitalize" },
           tabBarItemStyle: { width: width / 2 },
-          tabBarIndicatorStyle: {
-            backgroundColor: theme.primary,
+          tabBarIndicatorStyle: {},
+          tabBarStyle: {
+            borderBottomWidth: 1,
           },
         }}
         initialRouteName="sign-in"

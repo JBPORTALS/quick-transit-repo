@@ -12,7 +12,7 @@ import {
   LucideIcon,
 } from "lucide-react-native";
 
-import { ColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
 
 //Animation Context
 const AccordionContext = createContext<{
@@ -114,7 +114,7 @@ Accordion.Header = ({
   disabled,
   ...props
 }: AccordionHeaderProps) => {
-  const colors = ColorsTheme();
+  const colors = NAV_THEME.light;
   const { toggle, isOpened, setOpened } = useContext(AccordionContext);
 
   React.useEffect(() => {
@@ -143,9 +143,9 @@ Accordion.Header = ({
         ) : (
           <View className="items-center justify-center rounded-full border border-border p-1">
             {isOpened ? (
-              <ChevronUp size={24} color={colors.accentForeground} />
+              <ChevronUp size={24} color={colors.text} />
             ) : (
-              <ChevronDown size={24} color={colors.accentForeground} />
+              <ChevronDown size={24} color={colors.text} />
             )}
           </View>
         )}

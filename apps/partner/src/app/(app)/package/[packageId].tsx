@@ -20,12 +20,12 @@ import {
 
 import { Accordion } from "~/components/accordion";
 import Button from "~/components/button";
-import Input from "~/components/input";
 import StatusItem from "~/components/status-item";
-import { ColorsTheme } from "~/utils/constants";
+import { Input } from "~/components/ui/input";
+import { NAV_THEME } from "~/lib/constants";
 
 export default function Package() {
-  const colors = ColorsTheme();
+  const colors = NAV_THEME.light;
   const router = useRouter();
   return (
     <ScrollView className="flex-1">
@@ -120,7 +120,7 @@ export default function Package() {
           <Button
             size={"sm"}
             variant={"ghost"}
-            rightIcon={<PhoneCallIcon size={16} color={colors.foreground} />}
+            rightIcon={<PhoneCallIcon size={16} color={colors.text} />}
           >
             Call
           </Button>
@@ -190,10 +190,7 @@ export default function Package() {
                 <Button
                   onPress={() => router.push("/invoices/new")}
                   leftIcon={
-                    <LucideScrollText
-                      size={24}
-                      color={colors.primaryForeground}
-                    />
+                    <LucideScrollText size={24} color={colors.background} />
                   }
                 >
                   Create Invoice
@@ -216,15 +213,13 @@ export default function Package() {
                 </Text>
                 <Button
                   variant={"ghost"}
-                  leftIcon={<QrCodeIcon size={24} color={colors.foreground} />}
+                  leftIcon={<QrCodeIcon size={24} color={colors.text} />}
                 >
                   Generate
                 </Button>
                 <View className="h-[1px] bg-border" />
                 <Button
-                  leftIcon={
-                    <Wallet size={24} color={colors.primaryForeground} />
-                  }
+                  leftIcon={<Wallet size={24} color={colors.background} />}
                 >
                   On Cash
                 </Button>
@@ -273,7 +268,7 @@ export default function Package() {
                 <Button
                   onPress={() => router.push("/take-pic-reciept/camera")}
                   variant={"ghost"}
-                  leftIcon={<CameraIcon size={24} color={colors.foreground} />}
+                  leftIcon={<CameraIcon size={24} color={colors.text} />}
                 >
                   Take Pictures Of Reciept
                 </Button>
@@ -296,9 +291,7 @@ export default function Package() {
                 </Text>
                 <View className="h-[1px] bg-border" />
                 <Button
-                  rightIcon={
-                    <CheckIcon size={24} color={colors.primaryForeground} />
-                  }
+                  rightIcon={<CheckIcon size={24} color={colors.background} />}
                 >
                   Done
                 </Button>

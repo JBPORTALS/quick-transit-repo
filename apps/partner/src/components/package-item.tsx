@@ -1,10 +1,9 @@
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 
-import { ColorsTheme } from "~/utils/constants";
+import { NAV_THEME } from "~/lib/constants";
 import StatusItem from "./status-item";
-
-import React = require("react");
 
 interface PackageItemProps
   extends React.ComponentProps<typeof TouchableOpacity> {
@@ -13,7 +12,7 @@ interface PackageItemProps
 
 export const PackageItem = React.forwardRef<TouchableOpacity, PackageItemProps>(
   ({ data, ...props }, ref) => {
-    const colors = ColorsTheme();
+    const colors = NAV_THEME.light;
 
     return (
       <TouchableOpacity
