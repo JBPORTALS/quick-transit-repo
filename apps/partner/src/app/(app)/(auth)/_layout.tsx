@@ -21,7 +21,7 @@ export const MaterialTopTabs = withLayoutContext<
 >(Navigator);
 
 export const unstable_settings = {
-  initialRouteName: "sign-in", // Assuming your main app flow starts here
+  initialRouteName: "index", // Assuming your main app flow starts here
 };
 
 export default function Layout() {
@@ -57,9 +57,9 @@ export default function Layout() {
             borderBottomWidth: 1,
           },
         }}
-        initialRouteName="sign-in"
+        initialRouteName="index"
       >
-        <MaterialTopTabs.Screen name="sign-in" options={{ title: "Sign In" }} />
+        <MaterialTopTabs.Screen name="index" options={{ title: "Sign In" }} />
         <MaterialTopTabs.Screen name="sign-up" options={{ title: "Sign Up" }} />
       </MaterialTopTabs>
     </SafeAreaView>
