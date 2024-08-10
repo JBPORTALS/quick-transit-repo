@@ -11,6 +11,8 @@ import {
 } from "@react-navigation/material-top-tabs";
 import { ParamListBase, TabNavigationState } from "@react-navigation/native";
 
+import { NAV_THEME } from "~/lib/constants";
+
 const { Navigator } = createMaterialTopTabNavigator();
 
 export const MaterialTopTabs = withLayoutContext<
@@ -26,6 +28,7 @@ export const unstable_settings = {
 
 export default function Layout() {
   const { width } = Dimensions.get("screen");
+  const colors = NAV_THEME.light;
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar />
@@ -55,6 +58,8 @@ export default function Layout() {
           tabBarIndicatorStyle: {},
           tabBarStyle: {
             borderBottomWidth: 1,
+            borderColor: colors.border,
+            elevation: 0,
           },
         }}
         initialRouteName="index"
