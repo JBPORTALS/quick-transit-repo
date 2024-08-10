@@ -2,13 +2,13 @@ import "~/global.css";
 
 import * as React from "react";
 import { Platform } from "react-native";
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 
-import { ThemeToggle } from "~/components/ThemeToggle";
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 
@@ -30,16 +30,18 @@ export {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [loaded, error] = useFonts({
+    GeistBlack: require("../assets/fonts/Geist-Black.otf"),
+  });
+
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
   React.useEffect(() => {
     (async () => {
       const theme = await AsyncStorage.getItem("theme");
-      if (Platform.OS === "web") {
-        // Adds the background color to the html element to prevent white background on overscroll.
-        document.documentElement.classList.add("bg-background");
-      }
+
       if (!theme) {
         AsyncStorage.setItem("theme", colorScheme);
         setIsColorSchemeLoaded(true);
@@ -54,17 +56,30 @@ export default function RootLayout() {
       }
       setIsColorSchemeLoaded(true);
     })().finally(() => {
-      SplashScreen.hideAsync();
+      if (loaded || error) {
+        SplashScreen.hideAsync();
+      }
     });
-  }, []);
+  }, [loaded, error]);
 
   if (!isColorSchemeLoaded) {
     return null;
   }
 
+  if (!loaded && !error) {
+    return null;
+  }
+
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+      <StatusBar
+        backgroundColor={
+          isDarkColorScheme
+            ? DARK_THEME.colors.background
+            : LIGHT_THEME.colors.background
+        }
+        style={isDarkColorScheme ? "light" : "dark"}
+      />
       <Slot />
       <PortalHost />
     </ThemeProvider>
