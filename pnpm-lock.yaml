@@ -19,7 +19,7 @@ importers:
         specifier: ^1.12.4
         version: 1.13.4(@types/node@20.14.14)(typescript@5.3.3)
       prettier:
-        specifier: ^3.2.5
+        specifier: ^3.3.3
         version: 3.3.3
       turbo:
         specifier: ^1.12.4
@@ -311,6 +311,9 @@ importers:
       expo-constants:
         specifier: ~16.0.2
         version: 16.0.2(expo@51.0.26)
+      expo-crypto:
+        specifier: ~13.0.2
+        version: 13.0.2(expo@51.0.26)
       expo-font:
         specifier: ~12.0.9
         version: 12.0.9(expo@51.0.26)
@@ -335,6 +338,9 @@ importers:
       expo-status-bar:
         specifier: ~1.12.1
         version: 1.12.1
+      expo-system-ui:
+        specifier: ~3.0.7
+        version: 3.0.7(expo@51.0.26)
       lucide-react-native:
         specifier: ^0.426.0
         version: 0.426.0(react-native-svg@15.2.0)(react-native@0.74.5)(react@18.2.0)
@@ -8934,6 +8940,18 @@ packages:
 
   /expo-status-bar@1.12.1:
     resolution: {integrity: sha512-/t3xdbS8KB0prj5KG5w7z+wZPFlPtkgs95BsmrP/E7Q0xHXTcDcQ6Cu2FkFuRM+PKTb17cJDnLkawyS5vDLxMA==}
+    dev: false
+
+  /expo-system-ui@3.0.7(expo@51.0.26):
+    resolution: {integrity: sha512-KAs72F5JKhdIfPR9ZNVlRubTPK9uUuevPy5oYEp12xNEzSQcjZKvypH5NpwJuNWkXzrp3n3vZ+3pXsudA7J3KA==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      '@react-native/normalize-colors': 0.74.85
+      debug: 4.3.6
+      expo: 51.0.26(@babel/core@7.25.2)(@babel/preset-env@7.25.3)
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /expo-web-browser@13.0.3(expo@51.0.26):

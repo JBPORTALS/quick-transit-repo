@@ -4,7 +4,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Quick Transitt",
   slug: "qt-partner-app",
-  scheme: "quick-transitt",
+  scheme: "com.jbportalsblr.quicktransitt",
   version: "0.1.0",
   orientation: "portrait",
   icon: "./assets/icon.png",
