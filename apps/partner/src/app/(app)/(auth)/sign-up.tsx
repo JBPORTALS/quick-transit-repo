@@ -1,5 +1,7 @@
 import React from "react";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Loader } from "lucide-react-native";
 import { z } from "zod";
 
 import {
@@ -15,6 +17,8 @@ import {
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
+import { NAV_THEME } from "~/lib/constants";
+import { supabase } from "~/utils/supabase";
 
 const SignUpSchema = z.object({
   fullName: z.string().min(3, "Invalid name"),
@@ -28,9 +32,25 @@ export default function SignUp() {
     mode: "onChange",
   });
 
+  const router = useRouter();
+  const colors = NAV_THEME.light;
+
   async function onSubmit(values: z.infer<typeof SignUpSchema>) {
-    //logic goes here...
-    // console.log(values);
+    try {
+      const user = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            fullName: values.fullName,
+          },
+        },
+      });
+
+      router.replace("/(tabs)");
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   return (
@@ -98,9 +118,11 @@ export default function SignUp() {
           )}
         />
         <Button
+          isLoading
           onPress={form.handleSubmit(onSubmit)}
           size={"lg"}
-          className="w-full"
+          loadingText={<Text>Creating...</Text>}
+          className="w-full gap-2"
         >
           <Text>Create Account</Text>
         </Button>
