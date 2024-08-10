@@ -13,10 +13,8 @@ const statusItemVariants = cva(
     variants: {
       variant: {
         "pick-up": "border-muted-foreground/20",
-        shipping:
-          "border-orange-300 bg-orange-50 dark:border-orange-700 dark:bg-orange-950",
-        delivered:
-          "border-green-500 bg-green-50 dark:border-green-700 dark:bg-green-950",
+        shipping: "border-orange-300 bg-orange-50",
+        delivered: "border-green-500 bg-green-50",
       },
       size: {
         default: "border-4 px-3 py-4 shadow-sm",

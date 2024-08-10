@@ -18,7 +18,7 @@ const NAV_THEME_LIGHT: Theme = {
   dark: false,
   colors: NAV_THEME.light,
 };
-export default function RootLayout() {
+export default function MainAppLayout() {
   return (
     <ThemeProvider value={NAV_THEME_LIGHT}>
       <Slot />

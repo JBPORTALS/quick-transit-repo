@@ -9,7 +9,7 @@ export const unstable_settings = {
 };
 
 export default function AppLayout() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
   const colors = NAV_THEME.light;
   return (
     <SafeAreaProvider>

@@ -5,7 +5,7 @@ import { cva } from "class-variance-authority";
 import StatusItem from "./status-item";
 
 const statsVariants = cva(
-  "flex h-auto flex-1 items-center justify-center gap-3 rounded-md border-2  border-slate-300 bg-card p-6 shadow-md dark:border-slate-800",
+  "flex h-auto flex-1 items-center justify-center gap-3 rounded-md border-2 border-border bg-card p-6 shadow-md",
   {
     variants: {
       variant: {
