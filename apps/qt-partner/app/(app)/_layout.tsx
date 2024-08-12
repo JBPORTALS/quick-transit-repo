@@ -2,7 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 
 export default function AppLayout() {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack screenOptions={{ headerShown: false }}>
