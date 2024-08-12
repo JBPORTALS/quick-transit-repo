@@ -50,6 +50,7 @@ export default function SignUp() {
                 <FormControl>
                   <Input
                     {...field}
+                    autoFocus
                     className="native:h-14"
                     keyboardType="email-address"
                     placeholder="joe@gmail.com"
@@ -64,6 +65,8 @@ export default function SignUp() {
             )}
           />
           <Button
+            isLoading
+            loadingText="Loading..."
             onPress={form.handleSubmit(onSubmit)}
             size={"lg"}
             className="w-full"
