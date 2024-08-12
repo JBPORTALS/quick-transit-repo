@@ -2,10 +2,10 @@ import { View } from "react-native";
 
 import { Text } from "~/components/ui/text";
 
-export default function HomeScreen() {
+export default function Profile() {
   return (
     <View className="flex-1 items-center justify-center">
-      <Text>RootScreen</Text>
+      <Text>Profile</Text>
     </View>
   );
 }
