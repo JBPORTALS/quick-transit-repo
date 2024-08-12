@@ -10,9 +10,9 @@ export default function IndexScreen() {
   return (
     <View className="flex-1 items-center justify-between px-4 py-10">
       <Stack.Screen options={{ headerShown: false }} />
-      <View className="size-10">
+      {/* <View className="size-10">
         <ThemeToggle />
-      </View>
+      </View> */}
       <View className="flex-1 items-center justify-end gap-1 ">
         <Image
           source={require("assets/images/qt-logo.png")}

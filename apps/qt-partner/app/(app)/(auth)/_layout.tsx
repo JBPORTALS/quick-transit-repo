@@ -1,4 +1,5 @@
 import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 
 export const unstable_settings = {
@@ -8,9 +9,11 @@ export const unstable_settings = {
 
 export default function AuthLayout() {
   return (
-    <Stack
-      initialRouteName="index"
-      screenOptions={{ headerShadowVisible: false }}
-    />
+    <SafeAreaProvider>
+      <Stack
+        initialRouteName="index"
+        screenOptions={{ headerShadowVisible: false }}
+      />
+    </SafeAreaProvider>
   );
 }
