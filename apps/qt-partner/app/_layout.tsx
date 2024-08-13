@@ -1,6 +1,7 @@
 import "~/global.css";
 
 import * as React from "react";
+import { AppState } from "react-native";
 import { useFonts } from "expo-font";
 import { Slot, SplashScreen } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -10,6 +11,7 @@ import { PortalHost } from "@rn-primitives/portal";
 
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
+import { supabase } from "~/lib/supabase";
 import { useColorScheme } from "~/lib/useColorScheme";
 
 const LIGHT_THEME: Theme = {
@@ -28,6 +30,14 @@ export {
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
+
+AppState.addEventListener("change", (state) => {
+  if (state === "active") {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+});
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({

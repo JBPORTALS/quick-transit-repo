@@ -1,8 +1,11 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 
+import { useSupabase } from "~/lib/useSupabase";
+
 export default function AppLayout() {
-  const isAuthenticated = false;
+  const { isLoggedin: isAuthenticated } = useSupabase();
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Stack screenOptions={{ headerShown: false }}>

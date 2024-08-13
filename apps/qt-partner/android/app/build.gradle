@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.jb_portals.qtpartner'
+    namespace 'com.jbportals.qtpartner'
     defaultConfig {
-        applicationId 'com.jb_portals.qtpartner'
+        applicationId 'com.jbportals.qtpartner'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

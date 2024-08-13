@@ -1,4 +1,4 @@
-package com.jb_portals.qtpartner
+package com.jbportals.qtpartner
 
 import android.app.Application
 import android.content.res.Configuration

@@ -74,11 +74,13 @@ enabled = true
 enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
-site_url = "http://localhost:3000"
+site_url = "http://192.168.126.111:8081"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
-    "http://localhost:3000/invite/callback",
-    "http://localhost:300/dashboard",
+    "http://192.168.126.111:3000/invite/callback",
+    "http://192.168.126.111:3000/dashboard",
+    "qtpartner://**",
+    "com.jbportals.qtpartner://**",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
@@ -105,18 +107,18 @@ enable_confirmations = true
 # Controls the minimum amount of time that must pass before sending another signup confirmation or password reset email.
 max_frequency = "1s"
 
-# Uncomment to customize email template
-[auth.email.template.invite]
-subject = "You have been invited"
-content_path = "./supabase/templates/invite.html"
+# # Uncomment to customize email template
+# [auth.email.template.invite]
+# subject = "You have been invited"
+# content_path = "./supabase/templates/invite.html"
 
-[auth.email.template.confirmation]
-subject = "Confirm Your Email"
-content_path = "./supabase/templates/confirm.html"
+# [auth.email.template.confirmation]
+# subject = "Confirm Your Email"
+# content_path = "./supabase/templates/confirm.html"
 
-[auth.email.template.magic_link]
-subject = "Confirm Your Email"
-content_path = "./supabase/templates/confirm.html"
+# [auth.email.template.magic_link]
+# subject = "Confirm Your Email"
+# content_path = "./supabase/templates/confirm.html"
 
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
