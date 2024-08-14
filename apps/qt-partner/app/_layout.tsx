@@ -11,8 +11,9 @@ import { PortalHost } from "@rn-primitives/portal";
 
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
-import { supabase } from "~/lib/supabase";
+import { supabase, SupabaseProvider } from "~/lib/supabase";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { useSupabase } from "~/lib/useSupabase";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -39,14 +40,15 @@ AppState.addEventListener("change", (state) => {
   }
 });
 
-export default function RootLayout() {
+function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
   const [loaded, error] = useFonts({
     GeistBlack: require("../assets/fonts/Geist-Black.otf"),
   });
 
-  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme } = useColorScheme();
 
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const { isLoaded: isSessionLoaded } = useSupabase();
 
   React.useEffect(() => {
     (async () => {
@@ -65,9 +67,10 @@ export default function RootLayout() {
       }
 
       await setAndroidNavigationBar(colorScheme); //set the theme for Android bottom NavigationBar
+
       setIsColorSchemeLoaded(true);
     })().finally(() => {
-      if (loaded || error) {
+      if (loaded || error || isSessionLoaded) {
         SplashScreen.hideAsync();
       }
     });
@@ -81,18 +84,28 @@ export default function RootLayout() {
     return null;
   }
 
+  return <>{children}</>;
+}
+
+export default function RootLayout() {
+  const { isDarkColorScheme } = useColorScheme();
+
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar
-        backgroundColor={
-          isDarkColorScheme
-            ? DARK_THEME.colors.background
-            : LIGHT_THEME.colors.background
-        }
-        style={isDarkColorScheme ? "light" : "dark"}
-      />
-      <Slot />
-      <PortalHost />
+      <SupabaseProvider>
+        <WithSplashScreenHandle>
+          <StatusBar
+            backgroundColor={
+              isDarkColorScheme
+                ? DARK_THEME.colors.background
+                : LIGHT_THEME.colors.background
+            }
+            style={isDarkColorScheme ? "light" : "dark"}
+          />
+          <Slot />
+          <PortalHost />
+        </WithSplashScreenHandle>
+      </SupabaseProvider>
     </ThemeProvider>
   );
 }
