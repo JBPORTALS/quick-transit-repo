@@ -13,9 +13,7 @@ const createContext = cache(async () => {
   const heads = new Headers(headers());
   heads.set("x-trpc-source", "rsc");
 
-  return await createContextInner({
-    supabase: createClient(),
-  });
+  return await createContextInner({});
 });
 
 export const api = createCaller(createContext);

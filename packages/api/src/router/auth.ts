@@ -1,25 +1,13 @@
 import { TRPCError } from "@trpc/server";
 
-import {
-  and,
-  count,
-  eq,
-  not,
-  packages,
-  requests,
-  sql,
-  user,
-  userInsertSchema,
-} from "@qt/db";
+import { eq, packages, sql, user, userInsertSchema } from "@qt/db";
 
+import { getServiceSupabase, supabase } from "../supabase/supabaseClient";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
   getUser: publicProcedure.query(async ({ ctx }) => {
-    const {
-      data: { user },
-    } = await ctx.supabase.auth.getUser();
-    return user;
+    return ctx.user;
   }),
   getCustomers: publicProcedure.query(async ({ ctx }) => {
     const customers = await ctx.db.query.user.findMany({
@@ -65,21 +53,18 @@ export const authRouter = createTRPCRouter({
   }),
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))
-    .mutation(({ ctx, input }) => {
-      return ctx.supabase.auth.updateUser({
-        data: {
-          user_role: input.role,
-        },
-      });
+    .mutation(({ input, ctx }) => {
+      return ctx.db
+        .update(user)
+        .set({ role: input.role })
+        .where(eq(user.id, ctx.user.id));
     }),
   getSecretMessage: protectedProcedure.query(() => {
     // testing type validation of overridden next-auth Session in @qt/auth package
     return "you can see this secret message!";
   }),
   getUserRole: publicProcedure.query(async ({ ctx }) => {
-    const {
-      data: { user: session },
-    } = await ctx.supabase.auth.getUser();
+    const session = ctx.user;
     if (!session) return new TRPCError({ code: "UNAUTHORIZED" });
     const data = await ctx.db.query.user.findFirst({
       where: eq(user.id, session.id),

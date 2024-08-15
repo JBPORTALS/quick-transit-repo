@@ -12,6 +12,7 @@ import { PortalHost } from "@rn-primitives/portal";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { supabase, SupabaseProvider } from "~/lib/supabase";
+import { TRPCProvider } from "~/lib/trpc/api";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { useSupabase } from "~/lib/useSupabase";
 
@@ -91,21 +92,23 @@ export default function RootLayout() {
   const { isDarkColorScheme } = useColorScheme();
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <SupabaseProvider>
-        <WithSplashScreenHandle>
-          <StatusBar
-            backgroundColor={
-              isDarkColorScheme
-                ? DARK_THEME.colors.background
-                : LIGHT_THEME.colors.background
-            }
-            style={isDarkColorScheme ? "light" : "dark"}
-          />
-          <Slot />
-          <PortalHost />
-        </WithSplashScreenHandle>
-      </SupabaseProvider>
-    </ThemeProvider>
+    <TRPCProvider>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <SupabaseProvider>
+          <WithSplashScreenHandle>
+            <StatusBar
+              backgroundColor={
+                isDarkColorScheme
+                  ? DARK_THEME.colors.background
+                  : LIGHT_THEME.colors.background
+              }
+              style={isDarkColorScheme ? "light" : "dark"}
+            />
+            <Slot />
+            <PortalHost />
+          </WithSplashScreenHandle>
+        </SupabaseProvider>
+      </ThemeProvider>
+    </TRPCProvider>
   );
 }

@@ -1,11 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { PackageXIcon } from "lucide-react";
 
 import { RouterOutputs } from "@qt/api";
-import { user } from "@qt/db";
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Button } from "@qt/ui/button";
 import {

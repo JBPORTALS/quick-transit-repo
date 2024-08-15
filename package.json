@@ -32,8 +32,5 @@
     "turbo": "^1.12.4",
     "typescript": "~5.3.3"
   },
-  "prettier": "@qt/prettier-config",
-  "dependencies": {
-    "@clerk/nextjs": "^4.29.9"
-  }
+  "prettier": "@qt/prettier-config"
 }

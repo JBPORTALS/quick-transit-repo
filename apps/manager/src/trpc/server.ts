@@ -13,8 +13,16 @@ const createContext = cache(async () => {
   const heads = new Headers(headers());
   heads.set("x-trpc-source", "rsc");
 
+  heads.set("x-trpc-source", "rsc");
+
+  const {
+    data: { user },
+  } = await createClient().auth.getUser();
+
+  console.log("server", user);
+
   return await createContextInner({
-    supabase: createClient(),
+    user,
   });
 });
 

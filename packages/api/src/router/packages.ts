@@ -24,7 +24,7 @@ export const packagesRouter = createTRPCRouter({
       return await ctx.db.query.packages.findMany({
         where: input?.requireAll
           ? undefined
-          : eq(packages.customer_id, ctx.session.user.id),
+          : eq(packages.customer_id, ctx.user.id),
         orderBy: desc(packages.created_at),
         with: {
           request: {
@@ -54,9 +54,7 @@ export const packagesRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.packages.findFirst({
         where: and(
-          input.isAdmin
-            ? undefined
-            : eq(packages.customer_id, ctx.session.user.id),
+          input.isAdmin ? undefined : eq(packages.customer_id, ctx.user.id),
           eq(packages.id, input.id),
         ),
 
@@ -111,7 +109,7 @@ export const packagesRouter = createTRPCRouter({
         .insert(packages)
         .values({
           ...input,
-          customer_id: ctx.session.user.id,
+          customer_id: ctx.user.id,
           bill_id: bill,
         })
         .returning({ id: packages.id })
@@ -159,7 +157,7 @@ export const packagesRouter = createTRPCRouter({
       const res = await ctx.db
         .select({ totalRecords: count(packages.id) })
         .from(packages)
-        .where(eq(packages.customer_id, ctx.session.user.id));
+        .where(eq(packages.customer_id, ctx.user.id));
 
       const packageDetails = await ctx.db.query.packages.findFirst({
         with: {
@@ -169,7 +167,7 @@ export const packagesRouter = createTRPCRouter({
             },
           },
         },
-        where: ({ customer_id }) => eq(customer_id, ctx.session.user.id),
+        where: ({ customer_id }) => eq(customer_id, ctx.user.id),
         orderBy: ({ created_at }) => desc(created_at),
         offset,
       });

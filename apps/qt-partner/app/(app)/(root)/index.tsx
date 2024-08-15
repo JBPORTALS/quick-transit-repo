@@ -3,15 +3,16 @@ import { View } from "react-native";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { supabase } from "~/lib/supabase";
-import { useSupabase } from "~/lib/useSupabase";
+import { api } from "~/lib/trpc/api";
 
 export default function HomeScreen() {
-  const { session } = useSupabase();
+  const { data, refetch } = api.auth.getSecretMessage.useQuery();
+  // console.log(data);
   return (
     <View className="flex-1 items-center justify-center">
-      <Text className="text-3xl">{session?.user.email}</Text>
-      <Button onPress={() => supabase.auth.signOut()}>
-        <Text>Sign out</Text>
+      <Text className="text-3xl">{data}</Text>
+      <Button onPress={() => refetch()}>
+        <Text>Refetch</Text>
       </Button>
     </View>
   );
