@@ -14,7 +14,7 @@ export const getBaseUrl = () => {
    * baseUrl to your production API URL.
    */
   const debuggerHost = Constants.expoConfig?.hostUri;
-  const localhost = debuggerHost?.split(":")[0] || "192.168.126.111";
+  const localhost = debuggerHost?.split(":")[0] || "192.168.116.111";
 
   if (!localhost) {
     // return "https://turbo.t3.gg";

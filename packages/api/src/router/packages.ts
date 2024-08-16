@@ -263,4 +263,20 @@ export const packagesRouter = createTRPCRouter({
         .where(modifiedBetween)
         .groupBy(sql`date`);
     }),
+  getAllAssignedPackages: protectedProcedure
+    .input(z.object({ offset: z.number() }))
+    .query(async ({ ctx, input: { offset } }) => {
+      const packages = await ctx.db.query.requests.findMany({
+        with: {
+          package: true,
+        },
+        where: eq(requests.partner_id, ctx.user.id),
+        orderBy: ({ created_at }) => desc(created_at),
+        offset,
+      });
+
+      return {
+        packages,
+      };
+    }),
 });

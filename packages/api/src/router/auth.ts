@@ -61,7 +61,7 @@ export const authRouter = createTRPCRouter({
     }),
   getSecretMessage: protectedProcedure.query(() => {
     // testing type validation of overridden next-auth Session in @qt/auth package
-    return "you can see this secret message!";
+    return "you can see this secret message from TRPC!";
   }),
   getUserRole: publicProcedure.query(async ({ ctx }) => {
     const session = ctx.user;

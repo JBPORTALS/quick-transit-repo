@@ -34,7 +34,6 @@
     "moment": "^2.30.1",
     "next": "^14.1.0",
     "react": "18.2.0",
-    "react": "18.2.0",
     "react-dropzone": "^14.2.3",
     "superjson": "2.2.1",
     "zod": "^3.23.8"
@@ -44,6 +43,7 @@
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tailwind-config": "workspace:^0.1.0",
     "@qt/tsconfig": "workspace:^0.1.0",
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20.11.25",
     "@types/react": "~18.2.79",
     "@types/react-dom": "^18.2.19",

@@ -19,7 +19,7 @@ const createContext = cache(async () => {
     data: { user },
   } = await createClient().auth.getUser();
 
-  console.log("server", user);
+  // console.log("server", user);
 
   return await createContextInner({
     user,

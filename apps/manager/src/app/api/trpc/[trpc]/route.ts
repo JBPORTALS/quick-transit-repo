@@ -2,8 +2,6 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
 import { appRouter, createTRPCContext } from "@qt/api";
 
-import { createClient } from "~/utils/server";
-
 /**
  * Configure basic CORS headers
  * You should extend this to match your needs
@@ -29,7 +27,7 @@ const handler = async (req: Request, res: Response) => {
     router: appRouter,
     req,
     createContext: async () => {
-      console.log("Headers", req.headers);
+      // console.log("Headers", req.headers);
       return await createTRPCContext({
         headers: req.headers,
       });

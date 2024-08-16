@@ -108,6 +108,9 @@ importers:
       '@qt/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
+      '@types/lodash':
+        specifier: ^4.17.7
+        version: 4.17.7
       '@types/node':
         specifier: ^20.11.25
         version: 20.14.15
@@ -374,6 +377,9 @@ importers:
       '@qt/api':
         specifier: workspace:*
         version: link:../../packages/api
+      '@qt/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/typescript
       '@types/react':
         specifier: ~18.2.79
         version: 18.2.79
@@ -437,7 +443,7 @@ importers:
         version: 2.45.1
       drizzle-orm:
         specifier: ^0.30.10
-        version: 0.30.10(@planetscale/database@1.18.0)(postgres@3.4.4)(react@18.2.0)
+        version: 0.30.10(@planetscale/database@1.18.0)(postgres@3.4.4)
       drizzle-zod:
         specifier: ^0.5.1
         version: 0.5.1(drizzle-orm@0.30.10)(zod@3.23.8)
@@ -5856,6 +5862,10 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: false
 
+  /@types/lodash@4.17.7:
+    resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
+    dev: true
+
   /@types/minimatch@5.1.2:
     resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
     dev: true
@@ -7660,7 +7670,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.30.10(@planetscale/database@1.18.0)(postgres@3.4.4)(react@18.2.0):
+  /drizzle-orm@0.30.10(@planetscale/database@1.18.0)(postgres@3.4.4):
     resolution: {integrity: sha512-IRy/QmMWw9lAQHpwbUh1b8fcn27S/a9zMIzqea1WNOxK9/4EB8gIo+FZWLiPXzl2n9ixGSv8BhsLZiOppWEwBw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -7742,7 +7752,6 @@ packages:
     dependencies:
       '@planetscale/database': 1.18.0
       postgres: 3.4.4
-      react: 18.2.0
     dev: false
 
   /drizzle-zod@0.5.1(drizzle-orm@0.30.10)(zod@3.23.8):
@@ -7751,7 +7760,7 @@ packages:
       drizzle-orm: '>=0.23.13'
       zod: '*'
     dependencies:
-      drizzle-orm: 0.30.10(@planetscale/database@1.18.0)(postgres@3.4.4)(react@18.2.0)
+      drizzle-orm: 0.30.10(@planetscale/database@1.18.0)(postgres@3.4.4)
       zod: 3.23.8
     dev: false
 
