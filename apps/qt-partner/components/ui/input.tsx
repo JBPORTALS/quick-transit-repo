@@ -10,7 +10,9 @@ const Input = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof TextInput>
 >(({ className, placeholderClassName, ...props }, ref) => {
   const theme = useColorScheme();
-  const colors = theme.isDarkColorScheme ? NAV_THEME.dark : NAV_THEME.light;
+  const cursorColor = theme.isDarkColorScheme
+    ? NAV_THEME.dark.text
+    : NAV_THEME.light.primary;
   return (
     <TextInput
       ref={ref}
@@ -20,7 +22,7 @@ const Input = React.forwardRef<
         className,
       )}
       placeholderClassName={cn("text-muted-foreground", placeholderClassName)}
-      cursorColor={colors.primary}
+      {...{ cursorColor }}
       {...props}
     />
   );

@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 import { BoxesIcon, HomeIcon } from "lucide-react-native";
 
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -14,101 +14,105 @@ export default function RootLayout() {
   const { isDarkColorScheme } = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        headerRight: (props) => {
-          return (
-            <View className="flex-row items-center gap-3 px-4">
-              <View>
-                <ThemeToggle />
-              </View>
-              <View className="aspect-square p-2">
-                <Bell
-                  size={24}
-                  className="text-foreground"
-                  strokeWidth={1.25}
-                />
-              </View>
-            </View>
-          );
-        },
-        tabBarShowLabel: true,
-        tabBarStyle: {
-          height: 52,
-        },
-        tabBarActiveTintColor: isDarkColorScheme
-          ? NAV_THEME.dark.text
-          : NAV_THEME.light.primary,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          headerTitle() {
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <Tabs
+        screenOptions={{
+          headerRight: (props) => {
             return (
-              <Text
-                className={cn(
-                  "font-GeistBlack text-2xl tracking-wider",
-                  isDarkColorScheme
-                    ? "text-primary-foreground"
-                    : "text-primary",
-                )}
-              >
-                QT Partner
-              </Text>
+              <View className="flex-row items-center gap-3 px-4">
+                <View>
+                  <ThemeToggle />
+                </View>
+                <View className="aspect-square p-2">
+                  <Bell
+                    size={24}
+                    className="text-foreground"
+                    strokeWidth={1.25}
+                  />
+                </View>
+              </View>
             );
           },
-          tabBarIcon: (props) => (
-            <HomeIcon
-              size={props.size}
-              strokeWidth={props.focused ? 2.5 : 1}
-              color={props.color}
-            />
-          ),
+          tabBarShowLabel: true,
+          tabBarStyle: {
+            height: 52,
+          },
+          tabBarActiveTintColor: isDarkColorScheme
+            ? NAV_THEME.dark.text
+            : NAV_THEME.light.primary,
         }}
-      />
-      <Tabs.Screen
-        name="packages"
-        options={{
-          title: "Packages",
-          tabBarIcon: (props) => (
-            <BoxesIcon
-              strokeWidth={props.focused ? 2.5 : 1}
-              size={props.size}
-              color={props.color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: (props) => (
-            <View className="flex-row items-center gap-3 px-4">
-              <Avatar
-                alt="profile pic"
-                style={{
-                  width: 28,
-                  height: 28,
-                }}
-                className={cn(
-                  "border border-border",
-                  props.focused &&
-                    `border-2 ${isDarkColorScheme ? "border-primary-foreground" : "border-primary"}`,
-                )}
-              >
-                <AvatarImage
-                  source={{ uri: "https://github.com/shadcn.png" }}
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </View>
-          ),
-          // tabBarBadge: "9+", // triggle the notification badge
-        }}
-      />
-    </Tabs>
+        backBehavior="history"
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            headerTitle() {
+              return (
+                <Text
+                  className={cn(
+                    "font-GeistBlack text-2xl tracking-wider",
+                    isDarkColorScheme
+                      ? "text-primary-foreground"
+                      : "text-primary",
+                  )}
+                >
+                  QT Partner
+                </Text>
+              );
+            },
+            tabBarIcon: (props) => (
+              <HomeIcon
+                size={props.size}
+                strokeWidth={props.focused ? 2.5 : 1}
+                color={props.color}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="packages"
+          options={{
+            title: "Packages",
+            tabBarIcon: (props) => (
+              <BoxesIcon
+                strokeWidth={props.focused ? 2.5 : 1}
+                size={props.size}
+                color={props.color}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            tabBarIcon: (props) => (
+              <View className="flex-row items-center gap-3 px-4">
+                <Avatar
+                  alt="profile pic"
+                  style={{
+                    width: 28,
+                    height: 28,
+                  }}
+                  className={cn(
+                    "border border-border",
+                    props.focused &&
+                      `border-2 ${isDarkColorScheme ? "border-primary-foreground" : "border-primary"}`,
+                  )}
+                >
+                  <AvatarImage
+                    source={{ uri: "https://github.com/shadcn.png" }}
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </View>
+            ),
+            // tabBarBadge: "9+", // triggle the notification badge
+          }}
+        />
+      </Tabs>
+    </>
   );
 }

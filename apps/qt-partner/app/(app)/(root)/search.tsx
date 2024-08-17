@@ -1,8 +1,9 @@
-import React, { RefObject, useRef, useState } from "react";
-import { Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { View } from "react-native";
 import { Stack } from "expo-router";
 
 import { Input } from "~/components/ui/input";
+import { Text } from "~/components/ui/text";
 import { ArrowLeft } from "~/lib/icons/ArrowLeft";
 import { SearchIcon } from "~/lib/icons/Search";
 import { XIcon } from "~/lib/icons/X";
@@ -12,12 +13,14 @@ export default function SearchHere() {
   const [query, setQuery] = useState("");
 
   return (
-    <View>
+    <View className="p-4">
       <Stack.Screen
         options={{
+          presentation: "modal",
+          animation: "fade",
           header(props) {
             return (
-              <View className="h-fit w-full flex-row items-center gap-3 border-b border-b-border px-4 py-3">
+              <View className="h-fit w-full flex-row items-center gap-3 border-b border-b-border bg-background px-4 py-3">
                 <ArrowLeft
                   size={28}
                   className="text-foreground"

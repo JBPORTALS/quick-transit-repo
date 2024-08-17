@@ -1,9 +1,13 @@
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
+
+export const unstable_settings = {
+  initialRouteName: "(tabs)",
+};
 
 export default function RootLayout() {
   const { isDarkColorScheme } = useColorScheme();
@@ -15,7 +19,7 @@ export default function RootLayout() {
           isDarkColorScheme ? NAV_THEME.dark.card : NAV_THEME.light.card
         }
       />
-      <Slot initialRouteName="(tabs)" />
+      <Stack initialRouteName="(tabs)" />
     </SafeAreaProvider>
   );
 }
