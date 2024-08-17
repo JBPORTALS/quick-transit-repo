@@ -17,7 +17,7 @@ export default function SearchHere() {
         options={{
           header(props) {
             return (
-              <View className="h-fit w-full flex-row items-center gap-3 border-b border-b-border p-4">
+              <View className="h-fit w-full flex-row items-center gap-3 border-b border-b-border px-4 py-3">
                 <ArrowLeft
                   size={28}
                   className="text-foreground"
