@@ -2,7 +2,6 @@ import { TRPCError } from "@trpc/server";
 
 import { eq, packages, sql, user, userInsertSchema } from "@qt/db";
 
-import { getServiceSupabase, supabase } from "../supabase/supabaseClient";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
