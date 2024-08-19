@@ -6,7 +6,12 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const authRouter = createTRPCRouter({
   getUser: publicProcedure.query(async ({ ctx }) => {
-    return ctx.user;
+    if (!ctx.user) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+    const userProfileData = await ctx.db.query.user.findFirst({
+      where: eq(user.id, ctx.user.id),
+    });
+    return { ...ctx.user, ...userProfileData };
   }),
   getCustomers: publicProcedure.query(async ({ ctx }) => {
     const customers = await ctx.db.query.user.findMany({
