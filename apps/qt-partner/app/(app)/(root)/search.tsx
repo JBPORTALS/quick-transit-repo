@@ -13,7 +13,7 @@ export default function SearchHere() {
   const [query, setQuery] = useState("");
 
   return (
-    <View className="p-4">
+    <View className="p-6">
       <Stack.Screen
         options={{
           presentation: "modal",
@@ -35,11 +35,13 @@ export default function SearchHere() {
                     placeholder="Search ..."
                     className="native:h-10 w-full flex-shrink rounded-none border-0 bg-transparent"
                   />
-                  <XIcon
-                    onPress={() => setQuery("")}
-                    size={20}
-                    className={cn("hidden text-foreground", query && "flex")}
-                  />
+                  {query && (
+                    <XIcon
+                      onPress={() => setQuery("")}
+                      size={20}
+                      className={cn("hidden text-foreground", query && "flex")}
+                    />
+                  )}
                 </View>
               </View>
             );

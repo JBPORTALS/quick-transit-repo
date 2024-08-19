@@ -1,4 +1,10 @@
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import {
+  RefreshControl,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Link } from "expo-router";
 
 import { Input } from "~/components/ui/input";
@@ -13,12 +19,29 @@ export default function PackagesIndex() {
     api.packages.getAllAssignedPackages.useQuery({
       offset: 5,
     });
+  const [isFetching, setFetching] = useState(false);
+
+  async function refreshData() {
+    setFetching(true);
+    await refetch();
+    setFetching(false);
+  }
 
   if (isLoading)
     return <ActivityIndicator size={45} className="mt-4 text-primary" />;
   return (
-    <ScrollView>
-      <View className="flex-1 gap-5 p-4">
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          style={{
+            backgroundColor: "red",
+          }}
+          refreshing={isFetching}
+          onRefresh={() => refreshData()}
+        />
+      }
+    >
+      <View className="flex-1 gap-5 p-5">
         <View>
           <Link href={"/search"} asChild>
             <TouchableOpacity>
@@ -35,26 +58,31 @@ export default function PackagesIndex() {
         </View>
         <View className="gap-3">
           {data?.packages.map(({ id, package: packageDetails }) => (
-            <View
+            <Link
               key={id.toString()}
-              className="w-full flex-grow-0 flex-row gap-3"
+              asChild
+              href={`/package/${packageDetails.id}`}
             >
-              <View className="aspect-square min-w-24 max-w-24 items-center  justify-center rounded-md border border-border bg-muted/20">
-                <PackageIcon
-                  strokeWidth={1.25}
-                  size={32}
-                  className="text-muted-foreground "
-                />
-              </View>
-              <View className="w-full flex-shrink">
-                <Text className="font-bold">{packageDetails.title}</Text>
-                <Text className="text-sm text-muted-foreground">
-                  {packageDetails.description.length > 60
-                    ? packageDetails.description.slice(0, 60).concat("...")
-                    : packageDetails.description}
-                </Text>
-              </View>
-            </View>
+              <TouchableOpacity>
+                <View className="w-full flex-grow-0 flex-row gap-3">
+                  <View className="aspect-square min-w-24 max-w-24 items-center  justify-center rounded-md border border-border bg-muted/20">
+                    <PackageIcon
+                      strokeWidth={1.25}
+                      size={32}
+                      className="text-muted-foreground "
+                    />
+                  </View>
+                  <View className="w-full flex-shrink">
+                    <Text className="font-bold">{packageDetails.title}</Text>
+                    <Text className="text-sm text-muted-foreground">
+                      {packageDetails.description.length > 60
+                        ? packageDetails.description.slice(0, 60).concat("...")
+                        : packageDetails.description}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </Link>
           ))}
         </View>
       </View>

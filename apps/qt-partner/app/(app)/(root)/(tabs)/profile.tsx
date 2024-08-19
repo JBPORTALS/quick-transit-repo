@@ -8,7 +8,7 @@ import { useSupabase } from "~/lib/useSupabase";
 export default function Profile() {
   const { session } = useSupabase();
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="flex-1 items-center justify-center p-5">
       <Text>{session?.user.email}</Text>
       <Button onPress={() => supabase.auth.signOut()}>
         <Text>Sign Out</Text>

@@ -1,4 +1,5 @@
-import { ScrollView, View } from "react-native";
+import { useState } from "react";
+import { RefreshControl, ScrollView, View } from "react-native";
 
 import {
   Card,
@@ -20,11 +21,26 @@ export default function HomeScreen() {
       offset: 5,
     });
 
+  const [isFetching, setFetching] = useState(false);
+
+  async function refreshData() {
+    setFetching(true);
+    await refetch();
+    setFetching(false);
+  }
+
   if (isLoading)
     return <ActivityIndicator size={45} className="mt-4 text-primary" />;
   return (
-    <ScrollView alwaysBounceVertical showsVerticalScrollIndicator>
-      <View className="flex-1 p-4">
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          refreshing={isFetching}
+          onRefresh={() => refreshData()}
+        />
+      }
+    >
+      <View className="flex-1 p-5">
         <View className="w-full flex-row flex-wrap justify-between gap-3">
           <Card className="w-[48%]">
             <CardHeader className="gap-2">
@@ -65,7 +81,7 @@ export default function HomeScreen() {
               </Text>
             </CardContent>
             <CardFooter>
-              <Progress className="h-2" value={(20 / 50) * 100} />
+              <Progress value={(20 / 50) * 100} />
             </CardFooter>
           </Card>
         </View>
