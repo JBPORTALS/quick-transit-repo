@@ -1,4 +1,5 @@
 import { ScrollView, View } from "react-native";
+import { Link } from "expo-router";
 
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -13,19 +14,9 @@ import {
 import { Progress } from "~/components/ui/progress";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
-import {
-  H3,
-  H4,
-  Large,
-  Lead,
-  Muted,
-  P,
-  Small,
-} from "~/components/ui/typography";
+import { H3, H4, Large, Muted } from "~/components/ui/typography";
 import { Settings } from "~/lib/icons/Settings";
-import { supabase } from "~/lib/supabase";
 import { api } from "~/lib/trpc/api";
-import { useSupabase } from "~/lib/useSupabase";
 
 export default function Profile() {
   const { data } = api.auth.getUser.useQuery();
@@ -48,7 +39,7 @@ export default function Profile() {
               <CardTitle className="text-center text-4xl">4</CardTitle>
             </CardHeader>
             <CardFooter>
-              <Progress value={(4 / 5) * 100} />
+              <Progress style={{ height: 6 }} value={(4 / 5) * 100} />
             </CardFooter>
           </Card>
           <Card className="w-full flex-shrink items-center">
@@ -65,10 +56,16 @@ export default function Profile() {
             </CardContent>
           </Card>
         </View>
-        <Button size={"lg"} variant={"outline"} className="w-full">
-          <Settings strokeWidth={1.25} className="text-foreground" size={20} />
-          <Text>Profile Settings</Text>
-        </Button>
+        <Link href={`/profile-settings`} asChild>
+          <Button size={"lg"} variant={"outline"} className="w-full">
+            <Settings
+              strokeWidth={1.25}
+              className="text-foreground"
+              size={20}
+            />
+            <Text>Profile Settings</Text>
+          </Button>
+        </Link>
 
         {/** Reviews of the partner */}
         <Separator />

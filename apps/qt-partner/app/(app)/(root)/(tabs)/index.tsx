@@ -81,7 +81,7 @@ export default function HomeScreen() {
               </Text>
             </CardContent>
             <CardFooter>
-              <Progress value={(20 / 50) * 100} />
+              <Progress style={{ height: 8 }} value={(20 / 50) * 100} />
             </CardFooter>
           </Card>
         </View>
