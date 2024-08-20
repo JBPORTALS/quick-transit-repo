@@ -22,6 +22,7 @@ import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 import { H4, Muted, P } from "~/components/ui/typography";
+import UploadTrackingDetails from "~/components/UploadTrackingDetials";
 import VerifyPakcage from "~/components/VerifyPakcage";
 import { Bike } from "~/lib/icons/Bike";
 import { HandCoins } from "~/lib/icons/HandCoins";
@@ -250,10 +251,14 @@ export default function PackageDetails() {
               </View>
             </AccordionTrigger>
             <AccordionContent>
-              <Text>
-                In the world of React Native, universal components are
-                components that work on both web and native platforms.
-              </Text>
+              <View className="gap-2">
+                <Text className="text-lg font-medium">Franchisee Address</Text>
+                <P className="text-muted-foreground">
+                  {data?.franchise_address?.street} -{" "}
+                  {data?.franchise_address?.pincode}
+                </P>
+                <UploadTrackingDetails />
+              </View>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
