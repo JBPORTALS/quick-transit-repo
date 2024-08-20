@@ -23,7 +23,11 @@ export default function Profile() {
   return (
     <ScrollView>
       <View className="flex-1 items-center justify-center gap-3 p-5">
-        <Avatar alt="Shadcn" className="size-24 border-2 border-primary">
+        <Avatar
+          alt="Shadcn"
+          style={{ height: 96, width: 96 }}
+          className="border-2 border-primary"
+        >
           <AvatarImage src="https://github.com/shadcn.png" />
         </Avatar>
         <View className="items-center">
@@ -71,7 +75,10 @@ export default function Profile() {
         <Separator />
         <View className="w-full gap-5">
           <H4>Reviews</H4>
-          <View className="min-h-64 w-full items-center justify-center rounded-md border border-dashed border-border ">
+          <View
+            style={{ minHeight: 256 }}
+            className="w-full items-center justify-center rounded-md border border-dashed border-border "
+          >
             <Large>No Reviews</Large>
             <Muted className="px-10 text-center">
               When the customer reviews your service, then those reviews will

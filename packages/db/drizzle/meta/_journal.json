@@ -15,6 +15,20 @@
       "when": 1718656408199,
       "tag": "0001_natural_amazoness",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1724137255292,
+      "tag": "0002_puzzling_mantis",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1724142904004,
+      "tag": "0003_bright_karen_page",
+      "breakpoints": true
     }
   ]
 }

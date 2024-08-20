@@ -1,4 +1,5 @@
 import { RefreshControl, ScrollView, View } from "react-native";
+import * as Linking from "expo-linking";
 import { Stack, useLocalSearchParams } from "expo-router";
 
 import {
@@ -18,8 +19,10 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
+import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 import { H4, Muted, P } from "~/components/ui/typography";
+import VerifyPakcage from "~/components/VerifyPakcage";
 import { Bike } from "~/lib/icons/Bike";
 import { IndianRupee } from "~/lib/icons/IndianRupee";
 import { PackageCheck } from "~/lib/icons/PackageCheck";
@@ -31,7 +34,7 @@ import { api } from "~/lib/trpc/api";
 export default function PackageDetails() {
   const params = useLocalSearchParams<{ id: string }>();
   console.log(params);
-  const { data, error, isLoading, isFetching, refetch } =
+  const { data, isLoading, isFetching, refetch } =
     api.packages.getById.useQuery(
       {
         id: params.id,
@@ -108,7 +111,7 @@ export default function PackageDetails() {
         >
           {/* Pick-Up the package */}
           <AccordionItem value="item-1">
-            <AccordionTrigger>
+            <AccordionTrigger isCompleted={!!data?.request.is_verified}>
               <View className="flex-row items-center gap-2">
                 <AspectRatio
                   ratio={1 / 1}
@@ -121,16 +124,17 @@ export default function PackageDetails() {
                   />
                 </AspectRatio>
 
-                <Text className="font-semibold">Pick-up the package</Text>
+                <Text className="font-semibold">Pick-up & Verify Package</Text>
               </View>
             </AccordionTrigger>
             <AccordionContent className="gap-5">
+              <Separator />
               <View className="gap-2">
-                <Text>Customer</Text>
+                <Text className="text-lg">Customer</Text>
                 <Card>
-                  <CardHeader className="flex-row gap-2 p-3">
+                  <CardHeader className="flex-row items-center gap-2 p-3">
                     <Avatar
-                      className="size-12"
+                      style={{ height: 48, width: 48 }}
                       alt={data?.customer.name ?? "Customer Profile Pic"}
                     >
                       <AvatarImage src={data?.customer.picture ?? ""} />
@@ -146,7 +150,13 @@ export default function PackageDetails() {
                         +91 {data?.pick_up_address?.phone}
                       </CardDescription>
                     </View>
-                    <Button className="ml-auto" variant={"outline"}>
+                    <Button
+                      onPress={() =>
+                        Linking.openURL(`tel:${data?.pick_up_address?.phone}`)
+                      }
+                      className="ml-auto"
+                      variant={"outline"}
+                    >
                       <Text>Call</Text>
                       <PhoneCall
                         size={16}
@@ -158,19 +168,13 @@ export default function PackageDetails() {
                 </Card>
               </View>
               <View className="gap-2">
-                <Text className="font-medium">Address</Text>
-                <P className="text-lg text-muted-foreground">
+                <Text className="text-lg font-medium">Address</Text>
+                <P className="text-muted-foreground">
                   {data?.pick_up_address?.street} -{" "}
                   {data?.pick_up_address?.pincode}
                 </P>
               </View>
-              <View className="gap-2">
-                <Text>{"One Time Password (OTP)"}</Text>
-                <Input />
-                <Button>
-                  <Text>Verify</Text>
-                </Button>
-              </View>
+              <VerifyPakcage />
             </AccordionContent>
           </AccordionItem>
 

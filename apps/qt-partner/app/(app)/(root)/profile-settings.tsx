@@ -5,6 +5,7 @@ import { Stack } from "expo-router";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
+import { supabase } from "~/lib/supabase";
 
 export default function ProfileSettings() {
   return (
@@ -22,6 +23,7 @@ export default function ProfileSettings() {
       <Button
         size={"lg"}
         variant={"ghost"}
+        onPress={() => supabase.auth.signOut()}
         className="justify-start rounded-none"
       >
         <Text className="native:active:text-destructive text-destructive">
