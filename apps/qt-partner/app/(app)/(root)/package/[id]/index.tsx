@@ -24,10 +24,12 @@ import { Text } from "~/components/ui/text";
 import { H4, Muted, P } from "~/components/ui/typography";
 import VerifyPakcage from "~/components/VerifyPakcage";
 import { Bike } from "~/lib/icons/Bike";
+import { HandCoins } from "~/lib/icons/HandCoins";
 import { IndianRupee } from "~/lib/icons/IndianRupee";
 import { PackageCheck } from "~/lib/icons/PackageCheck";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
 import { PhoneCall } from "~/lib/icons/PhoneCall";
+import { QrCode } from "~/lib/icons/QrCode";
 import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { api } from "~/lib/trpc/api";
 
@@ -106,11 +108,22 @@ export default function PackageDetails() {
         <Accordion
           type="single"
           disabled
-          defaultValue={"item-1"}
+          value={
+            !!data?.request.is_verified &&
+            !["delivered", "shipping"].includes(
+              data?.request.current_status ?? "",
+            )
+              ? "payment"
+              : ["delivered", "shipping"].includes(
+                    data?.request.current_status ?? "",
+                  )
+                ? "deliver"
+                : "pickup"
+          }
           className="native:max-w-md w-full max-w-sm"
         >
           {/* Pick-Up the package */}
-          <AccordionItem value="item-1">
+          <AccordionItem value="pickup">
             <AccordionTrigger isCompleted={!!data?.request.is_verified}>
               <View className="flex-row items-center gap-2">
                 <AspectRatio
@@ -179,8 +192,12 @@ export default function PackageDetails() {
           </AccordionItem>
 
           {/*Complete the payment details */}
-          <AccordionItem value="item-2">
-            <AccordionTrigger>
+          <AccordionItem value="payment">
+            <AccordionTrigger
+              isCompleted={["delivered", "shipping"].includes(
+                data?.request.current_status ?? "",
+              )}
+            >
               <View className="flex-row items-center gap-2">
                 <AspectRatio
                   ratio={1 / 1}
@@ -196,17 +213,32 @@ export default function PackageDetails() {
                 <Text className="font-semibold">Payment</Text>
               </View>
             </AccordionTrigger>
-            <AccordionContent>
-              <Text>
-                In the world of React Native, universal components are
-                components that work on both web and native platforms.
-              </Text>
+            <AccordionContent className="gap-3">
+              <Button size={"lg"} variant={"secondary"}>
+                <HandCoins
+                  size={24}
+                  strokeWidth={1.25}
+                  className="text-foreground"
+                />
+                <Text>On Cash</Text>
+              </Button>
+              <Separator decorative />
+              <Button size={"lg"}>
+                <QrCode
+                  size={24}
+                  strokeWidth={1.25}
+                  className="text-primary-foreground"
+                />
+                <Text>Generate QR Code</Text>
+              </Button>
             </AccordionContent>
           </AccordionItem>
 
           {/*Deliver to the courier office and upload details */}
-          <AccordionItem value="item-3">
-            <AccordionTrigger>
+          <AccordionItem value="deliver">
+            <AccordionTrigger
+              isCompleted={data?.request.current_status === "delivered"}
+            >
               <View className="flex-row items-center gap-2">
                 <AspectRatio
                   ratio={1 / 1}

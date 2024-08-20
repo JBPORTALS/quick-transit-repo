@@ -286,7 +286,7 @@ export const packagesRouter = createTRPCRouter({
         package_id: z.string().min(1),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       //Get the request of package
       const request = await ctx.db.query.requests.findFirst({
         where: and(
@@ -299,8 +299,11 @@ export const packagesRouter = createTRPCRouter({
         throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid Code" });
 
       //Update the request status
-      await ctx.db.update(requests).set({
-        is_verified: true,
-      });
+      await ctx.db
+        .update(requests)
+        .set({
+          is_verified: true,
+        })
+        .where(eq(requests.package_id, input.package_id));
     }),
 });

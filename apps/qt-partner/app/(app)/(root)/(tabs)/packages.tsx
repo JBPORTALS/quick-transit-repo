@@ -91,7 +91,7 @@ export default function PackagesIndex() {
                         <Badge variant={"secondary"}>
                           <Text
                             className={cn(
-                              "font-bold capitalize",
+                              "text-sm font-bold capitalize",
                               current_status === "confirmed" &&
                                 "text-indigo-400",
                               current_status === "cancelled" && "text-red-400",

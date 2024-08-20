@@ -1,7 +1,9 @@
 import React from "react";
 import { KeyboardAvoidingView, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
 import { z } from "zod";
 
+import { api } from "~/lib/trpc/api";
 import { Button } from "./ui/button";
 import {
   Form,
@@ -27,8 +29,17 @@ export default function VerifyPakcage() {
     schema,
     mode: "onChange",
   });
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const utils = api.useUtils();
+  const { mutateAsync, error } = api.packages.verify.useMutation({
+    onSuccess() {
+      utils.packages.getById.invalidate();
+    },
+  });
 
-  async function onSubmit(vlaues: z.infer<typeof schema>) {}
+  async function onSubmit(values: z.infer<typeof schema>) {
+    await mutateAsync({ package_id: id, otp: values.otp });
+  }
 
   return (
     <Form {...form}>
@@ -52,7 +63,7 @@ export default function VerifyPakcage() {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage children={error?.message} />
                 <FormDescription>
                   Ask customer for their 6 digit code.
                 </FormDescription>
