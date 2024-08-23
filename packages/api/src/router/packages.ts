@@ -8,6 +8,7 @@ import {
   count,
   desc,
   eq,
+  like,
   packageInsertSchema,
   packages,
   requests,
@@ -264,9 +265,9 @@ export const packagesRouter = createTRPCRouter({
         .groupBy(sql`date`);
     }),
   getAllAssignedPackages: protectedProcedure
-    .input(z.object({ offset: z.number() }))
-    .query(async ({ ctx, input: { offset } }) => {
-      const packages = await ctx.db.query.requests.findMany({
+    .input(z.object({ offset: z.number(), query: z.string().optional() }))
+    .query(async ({ ctx, input: { offset, query } }) => {
+      const packagesDetials = await ctx.db.query.requests.findMany({
         with: {
           package: true,
         },
@@ -276,7 +277,7 @@ export const packagesRouter = createTRPCRouter({
       });
 
       return {
-        packages,
+        packages: packagesDetials,
       };
     }),
   verify: protectedProcedure
