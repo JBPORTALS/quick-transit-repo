@@ -416,9 +416,15 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.294
         version: 11.0.0-next-beta.294
+      '@types/otp-generator':
+        specifier: ^4.0.2
+        version: 4.0.2
       order-id:
         specifier: ^2.1.2
         version: 2.1.2
+      otp-generator:
+        specifier: ^4.0.1
+        version: 4.0.1
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -6020,6 +6026,10 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
+  /@types/otp-generator@4.0.2:
+    resolution: {integrity: sha512-9+qqWzuFb332hXPbLgjUyOXlbcaTQkmkmqQjTduvNuOmPV5fW+iLv70JsVEhdUy0DWi4kY34++HDCaWl6N0AYg==}
+    dev: false
+
   /@types/phoenix@1.6.5:
     resolution: {integrity: sha512-xegpDuR+z0UqG9fwHqNoy3rI7JDlvaPh2TY47Fl80oq6g+hXT+c/LEuE43X48clZ6lOfANl5WrPur9fYO1RJ/w==}
     dev: false
@@ -11612,6 +11622,11 @@ packages:
     dependencies:
       os-homedir: 1.0.2
       os-tmpdir: 1.0.2
+    dev: false
+
+  /otp-generator@4.0.1:
+    resolution: {integrity: sha512-2TJ52vUftA0+J3eque4wwVtpaL4/NdIXDL0gFWFJFVUAZwAN7+9tltMhL7GCNYaHJtuONoier8Hayyj4HLbSag==}
+    engines: {node: '>=14.10.0'}
     dev: false
 
   /p-finally@1.0.0:

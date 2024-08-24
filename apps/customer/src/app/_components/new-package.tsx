@@ -178,13 +178,13 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
     defaultValues: {
       is_insurance_required: "No",
       delivery_address: !isUndefined(firstDeliveryAddress)
-        ? firstDeliveryAddress?.id
+        ? firstDeliveryAddress.id
         : "",
       pick_up_address: !isUndefined(firstPickUpAddress)
-        ? firstPickUpAddress?.id
+        ? firstPickUpAddress.id
         : "",
       franchise_address: !isUndefined(firstfranchiseUpAddress)
-        ? firstfranchiseUpAddress?.id
+        ? firstfranchiseUpAddress.id
         : "",
     },
   });
@@ -490,17 +490,23 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                               </Button>
                             </FormControl>
                           </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                              mode="single"
-                              selected={field.value}
-                              onSelect={field.onChange}
-                              disabled={(date) =>
-                                date < new Date(Date.now()) ||
-                                date < new Date("1900-01-01")
-                              }
-                              initialFocus
-                            />
+                          <PopoverContent
+                            className="pointer-events-auto w-auto p-0"
+                            align="start"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div style={{ cursor: "pointer" }}>
+                              <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) =>
+                                  date < new Date() ||
+                                  date < new Date("1900-01-01")
+                                }
+                                initialFocus
+                              />
+                            </div>
                           </PopoverContent>
                         </Popover>
                         <FormMessage />

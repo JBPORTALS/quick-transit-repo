@@ -29,13 +29,20 @@ export default function UploadTrackingDetails() {
   });
   const { id } = useLocalSearchParams<{ id: string }>();
   const utils = api.useUtils();
-  const { mutateAsync, error } = api.packages.verify.useMutation({
-    onSuccess() {
-      utils.packages.getById.invalidate();
+  const { mutateAsync, error } = api.packages.updateTrackingDetails.useMutation(
+    {
+      onSuccess() {
+        utils.packages.getById.invalidate();
+      },
     },
-  });
+  );
 
-  async function onSubmit(values: z.infer<typeof schema>) {}
+  async function onSubmit(values: z.infer<typeof schema>) {
+    await mutateAsync({
+      package_id: id,
+      tracking_id: values.franchise_tracking_id,
+    });
+  }
 
   return (
     <Form {...form}>

@@ -141,7 +141,8 @@ export default function page({ params }: { params: { id: string } }) {
                               styles={"details"}
                               className="text-muted-foreground"
                             >
-                              Franchise Tracking ID: #282282299223
+                              Franchise Tracking ID:{" "}
+                              {trackingDetails.franchise_tracking_id}
                             </Text>
                             <Button size={"sm"} variant={"outline"}>
                               <FileDownIcon className="size-4" /> Service Bill

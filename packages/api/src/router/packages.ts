@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
-import { Search } from "lucide-react";
 import OrderId from "order-id";
+import otpGenerator from "otp-generator";
 import { z } from "zod";
 
 import {
@@ -128,9 +128,15 @@ export const packagesRouter = createTRPCRouter({
       const oi = OrderId("my-super-secrete");
       const tracking_number = oi.generate();
 
+      const otp = otpGenerator.generate(6, {
+        upperCaseAlphabets: true,
+        specialChars: false,
+      });
+
       const request = await ctx.db.insert(requests).values({
         package_id: package_details.id,
         tracking_number,
+        one_time_code: otp,
       });
 
       if (request) return { code: "Created", message: "Created successfully" };
@@ -356,5 +362,25 @@ export const packagesRouter = createTRPCRouter({
           is_verified: true,
         })
         .where(eq(requests.package_id, input.package_id));
+    }),
+  updateTrackingDetails: protectedProcedure
+    .input(
+      z.object({
+        tracking_id: z.string(),
+        // image_url: z.string().min(6).max(6),
+        package_id: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      //Get the request of package
+      const request = await ctx.db
+        .update(requests)
+        .set({
+          franchise_tracking_id: input.tracking_id,
+          current_status: "delivered",
+        })
+        .where(eq(requests.package_id, input.package_id));
+
+      return request;
     }),
 });
