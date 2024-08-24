@@ -41,35 +41,37 @@ export default function HomeScreen() {
       }
     >
       <View className="flex-1 p-5">
-        <View className="w-full flex-row flex-wrap justify-between gap-3">
-          <Card className="w-[48%]">
-            <CardHeader className="gap-2">
-              <CardDescription className="text-base">Today</CardDescription>
-              <CardTitle className="text-4xl">20</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Text className="text-sm text-muted-foreground">
-                packages delivered.
-              </Text>
-            </CardContent>
-            {/* <CardFooter>
+        <View className="w-full gap-3">
+          <View className="w-full max-w-full flex-row gap-3">
+            <Card className="w-full flex-shrink">
+              <CardHeader className="gap-2">
+                <CardDescription className="text-base">Today</CardDescription>
+                <CardTitle className="text-4xl">20</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Text className="text-sm text-muted-foreground">
+                  packages delivered.
+                </Text>
+              </CardContent>
+              {/* <CardFooter>
             <Progress className="h-2" value={60} />
           </CardFooter> */}
-          </Card>
-          <Card className="w-[48%]">
-            <CardHeader className="gap-2">
-              <CardDescription className="text-base">Today</CardDescription>
-              <CardTitle className="text-4xl">30</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Text className="text-sm text-muted-foreground">
-                packages in shipping.
-              </Text>
-            </CardContent>
-            {/* <CardFooter>
+            </Card>
+            <Card className="w-full flex-shrink">
+              <CardHeader className="gap-2">
+                <CardDescription className="text-base">Today</CardDescription>
+                <CardTitle className="text-4xl">30</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Text className="text-sm text-muted-foreground">
+                  packages in shipping.
+                </Text>
+              </CardContent>
+              {/* <CardFooter>
             <Progress className="h-2" value={60} />
           </CardFooter> */}
-          </Card>
+            </Card>
+          </View>
           <Card className="w-full">
             <CardHeader className="gap-2">
               <CardDescription className="text-base">Today</CardDescription>
@@ -98,7 +100,7 @@ export default function HomeScreen() {
                 <PackageIcon
                   strokeWidth={1.25}
                   size={32}
-                  className="text-muted-foreground "
+                  className="text-muted-foreground"
                 />
               </View>
               <View className="w-full flex-shrink">

@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { Search } from "lucide-react";
 import OrderId from "order-id";
 import { z } from "zod";
 
@@ -9,6 +10,7 @@ import {
   desc,
   eq,
   like,
+  or,
   packageInsertSchema,
   packages,
   requests,
@@ -271,13 +273,61 @@ export const packagesRouter = createTRPCRouter({
         with: {
           package: true,
         },
-        where: eq(requests.partner_id, ctx.user.id),
+        where: and(eq(requests.partner_id, ctx.user.id)),
         orderBy: ({ created_at }) => desc(created_at),
         offset,
       });
 
       return {
         packages: packagesDetials,
+      };
+    }),
+  search: protectedProcedure
+    .input(
+      z.object({
+        offset: z.number().optional(),
+        query: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input: { offset, query } }) => {
+      const whereClause = and(
+        eq(requests.partner_id, ctx.user.id),
+        or(
+          like(requests.tracking_number, `%${query}%`),
+          like(packages.title, `%${query}%`),
+        ),
+      );
+
+      const packagesDetails = await ctx.db
+        .select({
+          id: requests.id,
+          package_id: requests.package_id,
+          tracking_number: requests.tracking_number,
+          current_status: requests.current_status,
+          created_at: requests.created_at,
+          package: {
+            id: packages.id,
+            title: packages.title,
+            description: packages.description,
+          },
+        })
+        .from(requests)
+        .leftJoin(packages, eq(requests.package_id, packages.id))
+        .where(whereClause)
+        .orderBy(desc(requests.created_at));
+      // .offset(offset)
+      // .limit(10); // Add a limit to avoid fetching too many results
+
+      const totalCount = await ctx.db
+        .select({ count: count() })
+        .from(requests)
+        .leftJoin(packages, eq(requests.package_id, packages.id))
+        .where(whereClause)
+        .then((res) => res[0]?.count ?? 0);
+
+      return {
+        packages: packagesDetails,
+        totalCount,
       };
     }),
   verify: protectedProcedure

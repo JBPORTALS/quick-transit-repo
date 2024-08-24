@@ -5,6 +5,7 @@ import { Link, Stack } from "expo-router";
 import { PackageItem } from "~/components/PackageItem";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
+import { Skeleton } from "~/components/ui/skeleton";
 import { Text } from "~/components/ui/text";
 import { ArrowLeft } from "~/lib/icons/ArrowLeft";
 import { SearchIcon } from "~/lib/icons/Search";
@@ -14,10 +15,10 @@ import { cn } from "~/lib/utils";
 
 export default function SearchHere() {
   const [query, setQuery] = useState("");
-  const { data, refetch, isLoading } =
-    api.packages.getAllAssignedPackages.useQuery({
-      offset: 5,
-    });
+  const { data, isLoading } = api.packages.search.useQuery({
+    query,
+    offset: 5,
+  });
 
   return (
     <ScrollView>
@@ -60,20 +61,26 @@ export default function SearchHere() {
           }}
         />
         <View className="gap-3">
-          {data?.packages.map((data) => (
-            <>
-              <Link
-                key={data.id.toString()}
-                asChild
-                href={`/package/${data.package_id}`}
-              >
-                <TouchableOpacity>
-                  <PackageItem key={data.id} data={data} />
-                </TouchableOpacity>
-              </Link>
-              <Separator key={data.id + "sperator"} />
-            </>
-          ))}
+          {isLoading
+            ? Array.from({ length: 10 })
+                .fill(0)
+                .map((_, index) => (
+                  <Skeleton key={index} className={"h-24 w-full rounded-md"} />
+                ))
+            : data?.packages.map((data) => (
+                <>
+                  <Link
+                    key={data.id.toString()}
+                    asChild
+                    href={`/package/${data.package_id}`}
+                  >
+                    <TouchableOpacity>
+                      <PackageItem key={data.id} data={data} />
+                    </TouchableOpacity>
+                  </Link>
+                  <Separator key={data.id + "sperator"} />
+                </>
+              ))}
         </View>
       </View>
     </ScrollView>

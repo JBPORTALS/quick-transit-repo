@@ -236,7 +236,11 @@ export default function PackageDetails() {
           </AccordionItem>
 
           {/*Deliver to the courier office and upload details */}
-          <AccordionItem value="deliver">
+          <AccordionItem
+            value={
+              data?.request.current_status === "delivered" ? "" : "deliver"
+            }
+          >
             <AccordionTrigger
               isCompleted={data?.request.current_status === "delivered"}
             >
@@ -262,6 +266,14 @@ export default function PackageDetails() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+        {data?.request.current_status === "delivered" && (
+          <View className="flex flex-col gap-2">
+            <H4>Reviews</H4>
+            <View className="h-40 w-full items-center justify-center rounded-md border border-dashed border-border">
+              <P className="text-muted-foreground">No Reviews</P>
+            </View>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
