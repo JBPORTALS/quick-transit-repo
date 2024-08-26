@@ -15,7 +15,7 @@ export const getBaseUrl = () => {
    */
   // const debuggerHost = Constants.expoConfig?.hostUri;
 
-  const localhost = "192.168.88.111";
+  const localhost = "192.168.249.111";
 
   console.log(Constants.expoConfig);
   if (!localhost) {
