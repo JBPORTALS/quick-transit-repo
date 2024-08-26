@@ -204,7 +204,14 @@ async function main() {
             one_time_code: faker.finance.pin(6),
             is_verified:
               status === "requested" || status === "confirmed" ? false : true,
-            requested_at: ["requested"].includes(status ?? "")
+            requested_at: [
+              "requested",
+              "confirmed",
+              "pickedup",
+              "delivered",
+              "cancelled",
+              "rejected",
+            ].includes(status ?? "")
               ? faker.date.recent({ days: 4 })
               : null,
             confirmed_at: ["pickedup", "delivered", "confirmed"].includes(
