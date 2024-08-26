@@ -1,5 +1,13 @@
 import { relations } from "drizzle-orm";
-import { pgEnum, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
 import { user } from ".";
@@ -22,6 +30,12 @@ export const requests = pgTable("requests", {
     .references(() => packages.id, { onDelete: "cascade" }),
   partner_id: uuid("partner_id").references(() => user.id),
   tracking_number: varchar("tracking_number", { length: 50 }).notNull(),
+  franchise_tracking_id: varchar("franchise_tracking_id", {
+    length: 255,
+  }),
+  franchise_reciept_url: text("franchise_reciept_url"),
+  one_time_code: varchar("one_time_code"),
+  is_verified: boolean("is_verified").default(false),
   current_status: statusEnum("current_status").notNull().default("requested"),
   requested_at: timestamp("requested_at").defaultNow(),
   confirmed_at: timestamp("confirmed_at"),

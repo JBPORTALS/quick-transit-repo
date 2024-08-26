@@ -8,6 +8,9 @@ import SuperJSON from "superjson";
 
 import type { AppRouter } from "@qt/api";
 
+import { createClient } from "~/utils/client";
+import { getUrl } from "./shared";
+
 const createQueryClient = () => new QueryClient();
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
@@ -23,7 +26,10 @@ const getQueryClient = () => {
 
 export const api = createTRPCReact<AppRouter>();
 
-export function TRPCReactProvider(props: { children: React.ReactNode }) {
+export function TRPCReactProvider(props: {
+  children: React.ReactNode;
+  headers: Headers;
+}) {
   const queryClient = getQueryClient();
 
   const [trpcClient] = useState(() =>
@@ -36,11 +42,18 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
         }),
         unstable_httpBatchStreamLink({
           transformer: SuperJSON,
-          url: getBaseUrl() + "/api/trpc",
+          url: getUrl(),
           async headers() {
-            const headers = new Headers();
-            headers.set("x-trpc-source", "nextjs-react");
-            return headers;
+            const heads = new Map(props.headers);
+            const { data } = await createClient().auth.getSession();
+
+            if (data.session) {
+              heads.set("authorization", data.session.access_token);
+            }
+
+            heads.set("x-trpc-source", "react");
+
+            return Object.fromEntries(heads);
           },
         }),
       ],
@@ -59,5 +72,5 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return window.location.origin;
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
-  return `http://localhost:${process.env.PORT ?? 3001}`;
+  return `http://localhost:${process.env.PORT}`;
 };

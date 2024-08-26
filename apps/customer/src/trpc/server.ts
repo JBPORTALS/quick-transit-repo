@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { headers } from "next/headers";
 
-import { createCaller, createContextInner, createTRPCContext } from "@qt/api";
+import { createCaller, createContextInner } from "@qt/api";
 
 import { createClient } from "~/utils/server";
 
@@ -13,8 +13,14 @@ const createContext = cache(async () => {
   const heads = new Headers(headers());
   heads.set("x-trpc-source", "rsc");
 
+  heads.set("x-trpc-source", "rsc");
+
+  const {
+    data: { user },
+  } = await createClient().auth.getUser();
+
   return await createContextInner({
-    supabase: createClient(),
+    user,
   });
 });
 

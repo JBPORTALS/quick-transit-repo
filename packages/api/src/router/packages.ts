@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import OrderId from "order-id";
+import otpGenerator from "otp-generator";
 import { z } from "zod";
 
 import {
@@ -8,6 +9,9 @@ import {
   count,
   desc,
   eq,
+  ilike,
+  like,
+  or,
   packageInsertSchema,
   packages,
   requests,
@@ -24,7 +28,7 @@ export const packagesRouter = createTRPCRouter({
       return await ctx.db.query.packages.findMany({
         where: input?.requireAll
           ? undefined
-          : eq(packages.customer_id, ctx.session.user.id),
+          : eq(packages.customer_id, ctx.user.id),
         orderBy: desc(packages.created_at),
         with: {
           request: {
@@ -54,9 +58,7 @@ export const packagesRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.packages.findFirst({
         where: and(
-          input.isAdmin
-            ? undefined
-            : eq(packages.customer_id, ctx.session.user.id),
+          input.isAdmin ? undefined : eq(packages.customer_id, ctx.user.id),
           eq(packages.id, input.id),
         ),
 
@@ -111,7 +113,7 @@ export const packagesRouter = createTRPCRouter({
         .insert(packages)
         .values({
           ...input,
-          customer_id: ctx.session.user.id,
+          customer_id: ctx.user.id,
           bill_id: bill,
         })
         .returning({ id: packages.id })
@@ -127,9 +129,14 @@ export const packagesRouter = createTRPCRouter({
       const oi = OrderId("my-super-secrete");
       const tracking_number = oi.generate();
 
+      const otp = otpGenerator.generate(6, {
+        digits: true,
+      });
+
       const request = await ctx.db.insert(requests).values({
         package_id: package_details.id,
         tracking_number,
+        one_time_code: otp,
       });
 
       if (request) return { code: "Created", message: "Created successfully" };
@@ -159,7 +166,7 @@ export const packagesRouter = createTRPCRouter({
       const res = await ctx.db
         .select({ totalRecords: count(packages.id) })
         .from(packages)
-        .where(eq(packages.customer_id, ctx.session.user.id));
+        .where(eq(packages.customer_id, ctx.user.id));
 
       const packageDetails = await ctx.db.query.packages.findFirst({
         with: {
@@ -169,7 +176,7 @@ export const packagesRouter = createTRPCRouter({
             },
           },
         },
-        where: ({ customer_id }) => eq(customer_id, ctx.session.user.id),
+        where: ({ customer_id }) => eq(customer_id, ctx.user.id),
         orderBy: ({ created_at }) => desc(created_at),
         offset,
       });
@@ -264,5 +271,116 @@ export const packagesRouter = createTRPCRouter({
         .from(packages)
         .where(modifiedBetween)
         .groupBy(sql`date`);
+    }),
+  getAllAssignedPackages: protectedProcedure
+    .input(z.object({ offset: z.number(), query: z.string().optional() }))
+    .query(async ({ ctx, input: { offset, query } }) => {
+      const packagesDetials = await ctx.db.query.requests.findMany({
+        with: {
+          package: true,
+        },
+        where: and(eq(requests.partner_id, ctx.user.id)),
+        orderBy: ({ created_at }) => desc(created_at),
+        offset,
+      });
+
+      return {
+        packages: packagesDetials,
+      };
+    }),
+  search: protectedProcedure
+    .input(
+      z.object({
+        offset: z.number().optional(),
+        query: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input: { query } }) => {
+      const whereClause = and(
+        eq(requests.partner_id, ctx.user.id),
+        or(
+          ilike(requests.tracking_number, `${query}%`),
+          ilike(packages.title, `${query}%`),
+        ),
+      );
+
+      const packagesDetails = await ctx.db
+        .select({
+          id: requests.id,
+          package_id: requests.package_id,
+          tracking_number: requests.tracking_number,
+          current_status: requests.current_status,
+          created_at: requests.created_at,
+          package: {
+            id: packages.id,
+            title: packages.title,
+            description: packages.description,
+          },
+        })
+        .from(requests)
+        .leftJoin(packages, eq(requests.package_id, packages.id))
+        .where(whereClause)
+        .orderBy(desc(requests.created_at));
+      // .offset(offset)
+      // .limit(10); // Add a limit to avoid fetching too many results
+
+      const totalCount = await ctx.db
+        .select({ count: count() })
+        .from(requests)
+        .leftJoin(packages, eq(requests.package_id, packages.id))
+        .where(whereClause)
+        .then((res) => res[0]?.count ?? 0);
+
+      return {
+        packages: packagesDetails,
+        totalCount,
+      };
+    }),
+  verify: protectedProcedure
+    .input(
+      z.object({
+        otp: z.string().min(6).max(6),
+        package_id: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      //Get the request of package
+      const request = await ctx.db.query.requests.findFirst({
+        where: and(
+          eq(requests.partner_id, ctx.user.id),
+          eq(requests.package_id, input.package_id),
+        ),
+      });
+
+      if (request?.one_time_code !== input.otp)
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid Code" });
+
+      //Update the request status
+      await ctx.db
+        .update(requests)
+        .set({
+          is_verified: true,
+        })
+        .where(eq(requests.package_id, input.package_id));
+    }),
+  updateTrackingDetails: protectedProcedure
+    .input(
+      z.object({
+        tracking_id: z.string(),
+        // image_url: z.string().min(6).max(6),
+        package_id: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      //Get the request of package
+      const request = await ctx.db
+        .update(requests)
+        .set({
+          franchise_tracking_id: input.tracking_id,
+          current_status: "delivered",
+        })
+        .where(eq(requests.package_id, input.package_id));
+
+      return request;
     }),
 });

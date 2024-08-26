@@ -1,25 +1,17 @@
-/**
- * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
- * 1. You want to modify request context (see Part 1)
- * 2. You want to create a new middleware or type of procedure (see Part 3)
- *
- * tl;dr - this is where all the tRPC server stuff is created and plugged in.
- * The pieces you will need to use are documented accordingly near the end
- */
-import { createServerClient } from "@supabase/ssr";
-import { type SupabaseClient } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 import { initTRPC, TRPCError } from "@trpc/server";
-import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "@qt/db";
 
+import { getUserAsAdmin } from "./supabase/supabaseClient";
+
 /**
  * Replace this with an object if you want to pass things to createContextInner
  */
 type AuthContextProps = {
-  supabase: SupabaseClient;
+  user: Session["user"] | null;
 };
 
 /** Use this helper for:
@@ -28,9 +20,9 @@ type AuthContextProps = {
  * @see https://beta.create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 
-export const createContextInner = async ({ supabase }: AuthContextProps) => {
+export const createContextInner = async ({ user }: AuthContextProps) => {
   return {
-    supabase,
+    user,
     db,
   };
 };
@@ -47,15 +39,13 @@ export const createContextInner = async ({ supabase }: AuthContextProps) => {
  *
  * @see https://trpc.io/docs/server/context
  */
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const authToken = opts.headers.get("authorization");
+
+  const { user } = authToken ? await getUserAsAdmin(authToken) : { user: null };
+
   return await createContextInner({
-    supabase: createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: opts.req.cookies,
-      },
-    ),
+    user,
   });
 };
 
@@ -113,16 +103,13 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
-  const {
-    data: { user },
-  } = await ctx.supabase.auth.getUser();
-  if (!user) {
+  if (!ctx.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { user },
+      user: ctx.user,
     },
   });
 });
