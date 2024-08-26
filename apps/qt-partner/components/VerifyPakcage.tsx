@@ -54,7 +54,7 @@ export default function VerifyPakcage() {
                 <FormLabel>{"One Time Password (OTP)"}</FormLabel>
                 <FormControl>
                   <Input
-                    keyboardType="numeric"
+                    // keyboardType="numeric"
                     textContentType="oneTimeCode"
                     textAlign="center"
                     placeholder="######"

@@ -18,7 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 import { H4, Muted, P } from "~/components/ui/typography";
@@ -105,163 +104,194 @@ export default function PackageDetails() {
           </View>
         </View>
 
-        {/* Steps to complete the request */}
-        <Accordion
-          type="single"
-          disabled
-          value={
-            !!data?.request.is_verified &&
-            !["delivered", "shipping"].includes(
-              data?.request.current_status ?? "",
-            )
-              ? "payment"
-              : ["delivered", "shipping"].includes(
-                    data?.request.current_status ?? "",
-                  )
-                ? "deliver"
-                : "pickup"
-          }
-          className="native:max-w-md w-full max-w-sm"
-        >
-          {/* Pick-Up the package */}
-          <AccordionItem value="pickup">
-            <AccordionTrigger isCompleted={!!data?.request.is_verified}>
-              <View className="flex-row items-center gap-2">
-                <AspectRatio
-                  ratio={1 / 1}
-                  className="size-12 items-center justify-center rounded-full bg-primary/10"
-                >
-                  <PackageCheck
-                    size={24}
-                    strokeWidth={1.25}
-                    className="text-primary"
-                  />
-                </AspectRatio>
-
-                <Text className="font-semibold">Pick-up & Verify Package</Text>
-              </View>
-            </AccordionTrigger>
-            <AccordionContent className="gap-5">
-              <Separator />
-              <View className="gap-2">
-                <Text className="text-lg">Customer</Text>
-                <Card>
-                  <CardHeader className="flex-row items-center gap-2 p-3">
-                    <Avatar
-                      style={{ height: 48, width: 48 }}
-                      alt={data?.customer.name ?? "Customer Profile Pic"}
+        {/* If request get cancelled */}
+        {data?.request.current_status === "cancelled" ? (
+          <View className="h-52 items-center justify-center rounded-md border border-border">
+            <H4>Request has been cancelled</H4>
+          </View>
+        ) : (
+          <>
+            {/* Steps to complete the request */}
+            <Accordion
+              type="single"
+              disabled
+              value={
+                !!data?.request.is_verified &&
+                !["delivered", "shipping"].includes(
+                  data?.request.current_status ?? "",
+                )
+                  ? "payment"
+                  : ["delivered", "shipping"].includes(
+                        data?.request.current_status ?? "",
+                      )
+                    ? "deliver"
+                    : "pickup"
+              }
+              className="native:max-w-md w-full max-w-sm"
+            >
+              {/* Pick-Up the package */}
+              <AccordionItem value="pickup">
+                <AccordionTrigger isCompleted={!!data?.request.is_verified}>
+                  <View className="flex-row items-center gap-2">
+                    <AspectRatio
+                      ratio={1 / 1}
+                      className="size-12 items-center justify-center rounded-full bg-primary/10"
                     >
-                      <AvatarImage src={data?.customer.picture ?? ""} />
-                      <AvatarFallback>
-                        <Text>{data?.customer.name?.charAt(0)}</Text>
-                      </AvatarFallback>
-                    </Avatar>
-                    <View>
-                      <CardTitle className="text-base">
-                        {data?.customer.name}
-                      </CardTitle>
-                      <CardDescription className="text-sm">
-                        +91 {data?.pick_up_address?.phone}
-                      </CardDescription>
-                    </View>
-                    <Button
-                      onPress={() =>
-                        Linking.openURL(`tel:${data?.pick_up_address?.phone}`)
-                      }
-                      className="ml-auto"
-                      variant={"outline"}
-                    >
-                      <Text>Call</Text>
-                      <PhoneCall
-                        size={16}
+                      <PackageCheck
+                        size={24}
                         strokeWidth={1.25}
                         className="text-primary"
                       />
-                    </Button>
-                  </CardHeader>
-                </Card>
-              </View>
-              <View className="gap-2">
-                <Text className="text-lg font-medium">Address</Text>
-                <P className="text-muted-foreground">
-                  {data?.pick_up_address?.street} -{" "}
-                  {data?.pick_up_address?.pincode}
-                </P>
-              </View>
-              <VerifyPakcage />
-            </AccordionContent>
-          </AccordionItem>
+                    </AspectRatio>
 
-          {/*Complete the payment details */}
-          <AccordionItem value="payment">
-            <AccordionTrigger
-              isCompleted={["delivered", "shipping"].includes(
-                data?.request.current_status ?? "",
-              )}
-            >
-              <View className="flex-row items-center gap-2">
-                <AspectRatio
-                  ratio={1 / 1}
-                  className="size-12 items-center justify-center rounded-full bg-primary/10"
+                    <Text className="font-semibold">
+                      Pick-up & Verify Package
+                    </Text>
+                  </View>
+                </AccordionTrigger>
+                <AccordionContent className="gap-5">
+                  <Separator />
+                  <View className="gap-2">
+                    <Text className="text-lg">Customer</Text>
+                    <Card>
+                      <CardHeader className="flex-row items-center gap-2 p-3">
+                        <Avatar
+                          style={{ height: 48, width: 48 }}
+                          alt={data?.customer.name ?? "Customer Profile Pic"}
+                        >
+                          <AvatarImage src={data?.customer.picture ?? ""} />
+                          <AvatarFallback>
+                            <Text>{data?.customer.name?.charAt(0)}</Text>
+                          </AvatarFallback>
+                        </Avatar>
+                        <View>
+                          <CardTitle className="text-base">
+                            {data?.customer.name}
+                          </CardTitle>
+                          <CardDescription className="text-sm">
+                            +91 {data?.pick_up_address?.phone}
+                          </CardDescription>
+                        </View>
+                        <Button
+                          onPress={() =>
+                            Linking.openURL(
+                              `tel:${data?.pick_up_address?.phone}`,
+                            )
+                          }
+                          className="ml-auto"
+                          variant={"outline"}
+                        >
+                          <Text>Call</Text>
+                          <PhoneCall
+                            size={16}
+                            strokeWidth={1.25}
+                            className="text-primary"
+                          />
+                        </Button>
+                      </CardHeader>
+                    </Card>
+                  </View>
+                  <View className="gap-2">
+                    <Text className="text-lg font-medium">Address</Text>
+                    <P className="text-muted-foreground">
+                      {data?.pick_up_address?.street} -{" "}
+                      {data?.pick_up_address?.pincode}
+                    </P>
+                  </View>
+                  <VerifyPakcage />
+                </AccordionContent>
+              </AccordionItem>
+
+              {/*Complete the payment details */}
+              <AccordionItem value="payment">
+                <AccordionTrigger
+                  isCompleted={["delivered", "shipping"].includes(
+                    data?.request.current_status ?? "",
+                  )}
                 >
-                  <IndianRupee
-                    size={24}
-                    strokeWidth={1.25}
-                    className="text-primary"
-                  />
-                </AspectRatio>
+                  <View className="flex-row items-center gap-2">
+                    <AspectRatio
+                      ratio={1 / 1}
+                      className="size-12 items-center justify-center rounded-full bg-primary/10"
+                    >
+                      <IndianRupee
+                        size={24}
+                        strokeWidth={1.25}
+                        className="text-primary"
+                      />
+                    </AspectRatio>
 
-                <Text className="font-semibold">Payment</Text>
-              </View>
-            </AccordionTrigger>
-            <AccordionContent className="gap-3">
-              <Button size={"lg"} variant={"secondary"}>
-                <HandCoins
-                  size={24}
-                  strokeWidth={1.25}
-                  className="text-foreground"
-                />
-                <Text>On Cash</Text>
-              </Button>
-              <Separator decorative />
-              <Button size={"lg"}>
-                <QrCode
-                  size={24}
-                  strokeWidth={1.25}
-                  className="text-primary-foreground"
-                />
-                <Text>Generate QR Code</Text>
-              </Button>
-            </AccordionContent>
-          </AccordionItem>
+                    <Text className="font-semibold">Payment</Text>
+                  </View>
+                </AccordionTrigger>
+                <AccordionContent className="gap-3">
+                  <Button size={"lg"} variant={"secondary"}>
+                    <HandCoins
+                      size={24}
+                      strokeWidth={1.25}
+                      className="text-foreground"
+                    />
+                    <Text>On Cash</Text>
+                  </Button>
+                  <Separator decorative />
+                  <Button size={"lg"}>
+                    <QrCode
+                      size={24}
+                      strokeWidth={1.25}
+                      className="text-primary-foreground"
+                    />
+                    <Text>Generate QR Code</Text>
+                  </Button>
+                </AccordionContent>
+              </AccordionItem>
 
-          {/*Deliver to the courier office and upload details */}
-          <AccordionItem value="deliver">
-            <AccordionTrigger
-              isCompleted={data?.request.current_status === "delivered"}
-            >
-              <View className="flex-row items-center gap-2">
-                <AspectRatio
-                  ratio={1 / 1}
-                  className="size-12 items-center justify-center rounded-full bg-primary/10"
+              {/*Deliver to the courier office and upload details */}
+              <AccordionItem
+                value={
+                  data?.request.current_status === "delivered" ? "" : "deliver"
+                }
+              >
+                <AccordionTrigger
+                  isCompleted={data?.request.current_status === "delivered"}
                 >
-                  <Bike size={24} strokeWidth={1.25} className="text-primary" />
-                </AspectRatio>
-                <Text className="font-semibold">Deliver the package</Text>
+                  <View className="flex-row items-center gap-2">
+                    <AspectRatio
+                      ratio={1 / 1}
+                      className="size-12 items-center justify-center rounded-full bg-primary/10"
+                    >
+                      <Bike
+                        size={24}
+                        strokeWidth={1.25}
+                        className="text-primary"
+                      />
+                    </AspectRatio>
+                    <Text className="font-semibold">Deliver the package</Text>
+                  </View>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <View className="gap-2">
+                    <Text className="text-lg font-medium">
+                      Franchisee Address
+                    </Text>
+                    <P className="text-muted-foreground">
+                      {data?.franchise_address?.street} -{" "}
+                      {data?.franchise_address?.pincode}
+                    </P>
+                    <UploadTrackingDetails />
+                  </View>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            {data?.request.current_status === "delivered" && (
+              <View className="flex flex-col gap-2">
+                <H4>Reviews</H4>
+                <View className="h-40 w-full items-center justify-center rounded-md border border-dashed border-border">
+                  <P className="text-muted-foreground">No Reviews</P>
+                </View>
               </View>
-            </AccordionTrigger>
-            <AccordionContent>
-              <View className="gap-2">
-                <Text className="text-lg font-medium">Franchisee Address</Text>
-                <P className="text-muted-foreground">
-                  {data?.franchise_address?.street} -{" "}
-                  {data?.franchise_address?.pincode}
-                </P>
-                <UploadTrackingDetails />
-              </View>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+            )}
+          </>
+        )}
       </View>
     </ScrollView>
   );

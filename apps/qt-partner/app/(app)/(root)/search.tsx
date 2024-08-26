@@ -5,7 +5,8 @@ import { Link, Stack } from "expo-router";
 import { PackageItem } from "~/components/PackageItem";
 import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
-import { Text } from "~/components/ui/text";
+import { Skeleton } from "~/components/ui/skeleton";
+import { H4 } from "~/components/ui/typography";
 import { ArrowLeft } from "~/lib/icons/ArrowLeft";
 import { SearchIcon } from "~/lib/icons/Search";
 import { XIcon } from "~/lib/icons/X";
@@ -14,10 +15,10 @@ import { cn } from "~/lib/utils";
 
 export default function SearchHere() {
   const [query, setQuery] = useState("");
-  const { data, refetch, isLoading } =
-    api.packages.getAllAssignedPackages.useQuery({
-      offset: 5,
-    });
+  const { data, isLoading, isStale } = api.packages.search.useQuery({
+    query,
+    offset: 5,
+  });
 
   return (
     <ScrollView>
@@ -60,20 +61,32 @@ export default function SearchHere() {
           }}
         />
         <View className="gap-3">
-          {data?.packages.map((data) => (
-            <>
-              <Link
-                key={data.id.toString()}
-                asChild
-                href={`/package/${data.package_id}`}
-              >
-                <TouchableOpacity>
-                  <PackageItem key={data.id} data={data} />
-                </TouchableOpacity>
-              </Link>
-              <Separator key={data.id + "sperator"} />
-            </>
-          ))}
+          {isLoading ? (
+            Array.from({ length: 10 })
+              .fill(0)
+              .map((_, index) => (
+                <Skeleton key={index} className={"h-24 w-full rounded-md"} />
+              ))
+          ) : data?.totalCount === 0 ? (
+            <View className="items-center py-36">
+              <H4>No packages found</H4>
+            </View>
+          ) : (
+            data?.packages.map((data) => (
+              <>
+                <Link
+                  key={data.id.toString()}
+                  asChild
+                  href={`/package/${data.package_id}`}
+                >
+                  <TouchableOpacity>
+                    <PackageItem key={data.id} data={data} />
+                  </TouchableOpacity>
+                </Link>
+                <Separator key={data.id + "sperator"} />
+              </>
+            ))
+          )}
         </View>
       </View>
     </ScrollView>

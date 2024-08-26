@@ -11,10 +11,12 @@ import { Text } from "./ui/text";
 export const PackageItem = React.forwardRef<
   React.ElementRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
-    data: RouterOutputs["packages"]["getAllAssignedPackages"]["packages"][0];
+    data: RouterOutputs["packages"]["search"]["packages"][0];
   }
 >(({ data }, ref) => {
   const { current_status, package: packageDetails } = data;
+
+  if (!packageDetails) return null;
 
   return (
     <View ref={ref} className="w-full flex-grow-0 flex-row gap-3">

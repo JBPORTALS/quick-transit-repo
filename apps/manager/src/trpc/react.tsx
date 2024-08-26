@@ -43,16 +43,17 @@ export function TRPCReactProvider(props: {
           transformer: SuperJSON,
           url: getBaseUrl() + "/api/trpc",
           async headers() {
-            const heads = new Map(props.headers);
-            const { data } = await createClient().auth.getSession();
+            const headers = new Headers();
+            headers.set("x-trpc-source", "manager");
+            const token = await createClient().auth.getSession();
 
-            if (data.session) {
-              heads.set("authorization", data.session.access_token);
+            const access_token = token.data.session?.access_token ?? "";
+            console.log("access", access_token);
+            if (access_token) {
+              headers.set("authorization", `${access_token}`);
+              headers.set("x-Supabase-token", `${access_token}`);
             }
-
-            heads.set("x-trpc-source", "react");
-
-            return Object.fromEntries(heads);
+            return headers;
           },
         }),
       ],

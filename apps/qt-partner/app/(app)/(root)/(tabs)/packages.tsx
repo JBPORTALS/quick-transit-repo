@@ -17,7 +17,7 @@ import { api } from "~/lib/trpc/api";
 export default function PackagesIndex() {
   const { data, refetch, isLoading } =
     api.packages.getAllAssignedPackages.useQuery({
-      offset: 5,
+      offset: 0,
     });
   const [isFetching, setFetching] = useState(false);
 

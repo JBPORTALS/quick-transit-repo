@@ -10,7 +10,7 @@ import { api } from "~/trpc/server";
 
 export default async function Page() {
   const user = await api.auth.getUser();
-
+  // console.log(user);
   return (
     <main className="flex h-full flex-col items-center justify-center gap-5 bg-background">
       <HStack className="items-center gap-0 rounded-full border px-5 py-2">
