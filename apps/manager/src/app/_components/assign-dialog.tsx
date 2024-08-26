@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
+import { StarIcon } from "lucide-react";
 
 import { RouterOutputs } from "@qt/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
@@ -9,14 +11,11 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@qt/ui/dialog";
 import { Input } from "@qt/ui/input";
-import { ScrollArea } from "@qt/ui/scroll-area";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
@@ -56,13 +55,22 @@ function PartnerListItem({
   return (
     <HStack className="w-full items-center justify-between pr-3">
       <HStack>
-        <Avatar>
-          <AvatarImage src={partner.picture ?? undefined} />
+        <Avatar className="border">
+          <AvatarImage
+            src={"/partner-pic.png"}
+            alt="partner pic"
+            className="bg-gradient-to-r from-primary/50 to-primary/90 object-cover"
+          />
           <AvatarFallback>U</AvatarFallback>
         </Avatar>
         <VStack className="gap-0">
           <Text>{partner.name}</Text>
-          <Text styles={"small"}>4.3</Text>
+          <Text
+            styles={"small"}
+            className="flex flex-row items-center gap-1 text-muted-foreground"
+          >
+            <StarIcon className="size-4 text-amber-500" /> 4.5
+          </Text>
         </VStack>
       </HStack>
       <Button

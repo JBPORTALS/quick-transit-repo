@@ -25,7 +25,7 @@ export async function SigninWithPassword({
     email,
     options: {
       shouldCreateUser: false,
-      emailRedirectTo: `${getBaseUrl()}/confirm/callback`,
+      emailRedirectTo: `${getBaseUrl()}/confirm/callback?next=/dashboard`,
     },
   });
   console.error("Supabase Auth erro:", error);

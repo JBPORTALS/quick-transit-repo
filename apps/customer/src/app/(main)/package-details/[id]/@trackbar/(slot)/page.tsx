@@ -28,6 +28,7 @@ export default function page({ params }: { params: { id: string } }) {
     api.packages.getTrackingDetails.useQuery({ package_id });
 
   if (isLoading || !trackingDetails) return <TrackBarSkeleton />;
+
   return (
     <div className="sticky top-20 col-span-3 w-full">
       <Card className="max-h-fit min-h-fit w-full shadow-none">
@@ -92,29 +93,22 @@ export default function page({ params }: { params: { id: string } }) {
                     </TrackingBarContent>
                   </TrackingBarItem>
                   <TrackingBarItem
-                    isActive={trackingDetails?.current_status === "picking"}
+                    isActive={trackingDetails?.current_status === "pickedup"}
                   >
                     <TrackingBarIndicator />
                     <TrackingBarContent className="gap-0">
                       <Text styles={"subtle"}>Picked Up</Text>
-                      {trackingDetails?.picking_at && (
+                      {trackingDetails?.picked_at && (
                         <Text
                           styles={"details"}
                           className="text-muted-foreground"
                         >
-                          {moment(trackingDetails.picking_at).fromNow()}
+                          {moment(trackingDetails.picked_at).fromNow()}
                         </Text>
                       )}
                     </TrackingBarContent>
                   </TrackingBarItem>
-                  <TrackingBarItem
-                    isActive={trackingDetails?.current_status === "shipping"}
-                  >
-                    <TrackingBarIndicator />
-                    <TrackingBarContent>
-                      <Text styles={"subtle"}>Shipping</Text>
-                    </TrackingBarContent>
-                  </TrackingBarItem>
+
                   <TrackingBarItem
                     isActive={trackingDetails?.current_status === "delivered"}
                   >
