@@ -33,6 +33,7 @@ export default function UploadTrackingDetails() {
     {
       onSuccess() {
         utils.packages.getById.invalidate();
+        utils.packages.getAllAssignedPackages.invalidate();
       },
     },
   );

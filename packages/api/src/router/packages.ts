@@ -9,6 +9,7 @@ import {
   count,
   desc,
   eq,
+  ilike,
   like,
   or,
   packageInsertSchema,
@@ -129,8 +130,7 @@ export const packagesRouter = createTRPCRouter({
       const tracking_number = oi.generate();
 
       const otp = otpGenerator.generate(6, {
-        upperCaseAlphabets: true,
-        specialChars: false,
+        digits: true,
       });
 
       const request = await ctx.db.insert(requests).values({
@@ -295,12 +295,12 @@ export const packagesRouter = createTRPCRouter({
         query: z.string(),
       }),
     )
-    .query(async ({ ctx, input: { offset, query } }) => {
+    .query(async ({ ctx, input: { query } }) => {
       const whereClause = and(
         eq(requests.partner_id, ctx.user.id),
         or(
-          like(requests.tracking_number, `%${query}%`),
-          like(packages.title, `%${query}%`),
+          ilike(requests.tracking_number, `${query}%`),
+          ilike(packages.title, `${query}%`),
         ),
       );
 

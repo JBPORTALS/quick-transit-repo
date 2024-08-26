@@ -18,7 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 import { H4, Muted, P } from "~/components/ui/typography";
