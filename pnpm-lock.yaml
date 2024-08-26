@@ -416,9 +416,6 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.294
         version: 11.0.0-next-beta.294
-      '@types/otp-generator':
-        specifier: ^4.0.2
-        version: 4.0.2
       order-id:
         specifier: ^2.1.2
         version: 2.1.2
@@ -441,6 +438,9 @@ importers:
       '@qt/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
+      '@types/otp-generator':
+        specifier: ^4.0.2
+        version: 4.0.2
       eslint:
         specifier: ^9.8.0
         version: 9.9.0(jiti@1.21.6)
@@ -6028,7 +6028,7 @@ packages:
 
   /@types/otp-generator@4.0.2:
     resolution: {integrity: sha512-9+qqWzuFb332hXPbLgjUyOXlbcaTQkmkmqQjTduvNuOmPV5fW+iLv70JsVEhdUy0DWi4kY34++HDCaWl6N0AYg==}
-    dev: false
+    dev: true
 
   /@types/phoenix@1.6.5:
     resolution: {integrity: sha512-xegpDuR+z0UqG9fwHqNoy3rI7JDlvaPh2TY47Fl80oq6g+hXT+c/LEuE43X48clZ6lOfANl5WrPur9fYO1RJ/w==}

@@ -19,13 +19,13 @@
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.45.1",
     "@trpc/server": "11.0.0-next-beta.294",
-    "@types/otp-generator": "^4.0.2",
     "order-id": "^2.1.2",
     "otp-generator": "^4.0.1",
     "superjson": "2.2.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/otp-generator": "^4.0.2",
     "@qt/eslint-config": "workspace:^0.2.0",
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tsconfig": "workspace:^0.1.0",
