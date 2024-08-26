@@ -101,6 +101,12 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
               </HStack>
             )}
           </HStack>
+          <div className="rounded-full bg-blue-900 px-4 py-1 text-center text-sm">
+            <p>
+              Your One Time Password to verify the package with delivery partner
+              - <b>{packageDetail.request.one_time_code}</b>
+            </p>
+          </div>
         </CardHeader>
         <CardContent className="px-0">
           <HStack className="gap-8">

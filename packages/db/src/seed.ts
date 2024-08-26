@@ -204,6 +204,9 @@ async function main() {
                 max: 999999999999,
               })
               .toString(),
+            one_time_code: faker.finance.pin(6),
+            is_verified:
+              status === "requested" || status === "confirmed" ? false : true,
             requested_at: faker.date.recent({ days: 4 }),
             confirmed_at: faker.date.recent({ days: 3 }),
             picking_at: faker.date.recent({ days: 2 }),

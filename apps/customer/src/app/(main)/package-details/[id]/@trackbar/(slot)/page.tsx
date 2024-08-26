@@ -121,8 +121,8 @@ export default function page({ params }: { params: { id: string } }) {
                     <TrackingBarIndicator />
                     <TrackingBarContent className="gap-1">
                       <Text styles={"subtle"}>Delivered</Text>
-                      {trackingDetails?.delivered_at &&
-                        trackingDetails.current_status === "delivered" && (
+                      {trackingDetails.current_status === "delivered" &&
+                        trackingDetails.delivered_at && (
                           <>
                             <Text
                               styles={"details"}
@@ -140,7 +140,8 @@ export default function page({ params }: { params: { id: string } }) {
                               styles={"details"}
                               className="text-muted-foreground"
                             >
-                              Franchise Tracking ID: #282282299223
+                              Franchise Tracking ID:{" "}
+                              {trackingDetails.franchise_tracking_id}
                             </Text>
                             <Button size={"sm"} variant={"outline"}>
                               <FileDownIcon className="size-4" /> Service Bill

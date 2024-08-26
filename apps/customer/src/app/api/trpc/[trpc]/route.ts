@@ -1,8 +1,6 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
-import { appRouter, createContextInner } from "@qt/api";
-
-import { createClient } from "~/utils/server";
+import { appRouter, createTRPCContext } from "@qt/api";
 
 /**
  * Configure basic CORS headers
@@ -23,15 +21,17 @@ export const OPTIONS = () => {
   return response;
 };
 
-const handler = async (req: Request) => {
+const handler = async (req: Request, res: Response) => {
   const response = await fetchRequestHandler({
     endpoint: "/api/trpc",
     router: appRouter,
     req,
-    createContext: async () =>
-      await createContextInner({
-        supabase: createClient(),
-      }),
+    createContext: async () => {
+      // console.log("Headers", req.headers);
+      return await createTRPCContext({
+        headers: req.headers,
+      });
+    },
     onError({ error, path }) {
       console.error(`>>> tRPC Error on '${path}'`, error);
     },

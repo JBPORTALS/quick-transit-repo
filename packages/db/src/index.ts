@@ -12,7 +12,7 @@ if (!connectionString) throw new Error("No DB connnection string ❌");
 
 export const client = postgres(connectionString, {
   max: process.env.SEED_MODE ? 1 : undefined,
-  onnotice: process.env.SEED_MODE ? () => {} : undefined, // suppress notices in seed
+  onnotice: process.env.SEED_MODE ? () => {} : console.log, // suppress notices in seed
 });
 export const db = drizzle(client, { schema });
 

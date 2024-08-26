@@ -14,14 +14,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "zod": "^3.22.4"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@qt/eslint-config": "workspace:^0.2.0",
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tsconfig": "workspace:^0.1.0",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
+    "eslint": "^9.8.0",
+    "prettier": "^3.3.3",
     "typescript": "~5.3.3"
   },
   "eslintConfig": {

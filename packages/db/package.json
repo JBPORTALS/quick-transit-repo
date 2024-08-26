@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.16.0",
-    "@supabase/supabase-js": "^2.43.1",
+    "@supabase/supabase-js": "^2.45.1",
     "drizzle-orm": "^0.30.10",
     "drizzle-zod": "^0.5.1",
     "postgres": "^3.4.3"
@@ -36,8 +36,8 @@
     "@qt/tsconfig": "workspace:^0.1.0",
     "dotenv-cli": "^7.3.0",
     "drizzle-kit": "^0.21.1",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
+    "eslint": "^9.8.0",
+    "prettier": "^3.3.3",
     "tsx": "^4.10.1",
     "typescript": "~5.3.3"
   },

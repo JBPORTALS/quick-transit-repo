@@ -9,7 +9,6 @@ import SuperJSON from "superjson";
 import type { AppRouter } from "@qt/api";
 
 import { createClient } from "~/utils/client";
-import useSession from "~/utils/hooks/useSession";
 
 const createQueryClient = () => new QueryClient();
 
@@ -26,10 +25,11 @@ const getQueryClient = () => {
 
 export const api = createTRPCReact<AppRouter>();
 
-export function TRPCReactProvider(props: { children: React.ReactNode }) {
+export function TRPCReactProvider(props: {
+  children: React.ReactNode;
+  headers: Headers;
+}) {
   const queryClient = getQueryClient();
-  const session = useSession();
-  const supabase = createClient();
 
   const [trpcClient] = useState(() =>
     api.createClient({
@@ -44,9 +44,15 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
           url: getBaseUrl() + "/api/trpc",
           async headers() {
             const headers = new Headers();
-            headers.set("x-trpc-source", "nextjs-react");
-            headers.set("Authorization", `Bearer ${session?.access_token}`);
-            headers.set("x-Supabase-token", `${session?.access_token}`);
+            headers.set("x-trpc-source", "manager");
+            const token = await createClient().auth.getSession();
+
+            const access_token = token.data.session?.access_token ?? "";
+            console.log("access", access_token);
+            if (access_token) {
+              headers.set("authorization", `${access_token}`);
+              headers.set("x-Supabase-token", `${access_token}`);
+            }
             return headers;
           },
         }),

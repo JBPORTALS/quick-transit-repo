@@ -1,13 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { AuthError } from "@supabase/supabase-js";
 import { z } from "zod";
 
 import { and, db, eq, user } from "@qt/db";
 import { profileInformationSchema, signInFormSchema } from "@qt/validators";
 
 import { api } from "~/trpc/server";
+import { getBaseUrl } from "~/trpc/shared";
 import { createClient } from "~/utils/server";
 
 export async function SigninWithPassword({
@@ -25,6 +25,7 @@ export async function SigninWithPassword({
     email,
     options: {
       shouldCreateUser: false,
+      emailRedirectTo: `${getBaseUrl()}/confirm/callback`,
     },
   });
   console.error("Supabase Auth erro:", error);
