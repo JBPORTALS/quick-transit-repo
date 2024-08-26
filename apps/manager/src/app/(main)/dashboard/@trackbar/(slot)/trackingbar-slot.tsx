@@ -123,32 +123,23 @@ export function TrackingBarSlot() {
                   </TrackingBarItem>
                   <TrackingBarItem
                     isActive={
-                      packageDetails.request?.current_status === "picking"
+                      packageDetails.request?.current_status === "pickedup"
                     }
                   >
                     <TrackingBarIndicator />
                     <TrackingBarContent className="gap-0">
                       <Text styles={"subtle"}>Picked Up</Text>
-                      {packageDetails.request?.picking_at && (
+                      {packageDetails.request?.picked_at && (
                         <Text
                           styles={"details"}
                           className="text-muted-foreground"
                         >
-                          {moment(packageDetails.request.picking_at).fromNow()}
+                          {moment(packageDetails.request.picked_at).fromNow()}
                         </Text>
                       )}
                     </TrackingBarContent>
                   </TrackingBarItem>
-                  <TrackingBarItem
-                    isActive={
-                      packageDetails.request?.current_status === "shipping"
-                    }
-                  >
-                    <TrackingBarIndicator />
-                    <TrackingBarContent>
-                      <Text styles={"subtle"}>Shipping</Text>
-                    </TrackingBarContent>
-                  </TrackingBarItem>
+
                   <TrackingBarItem
                     isActive={
                       packageDetails.request?.current_status === "delivered"
@@ -201,10 +192,8 @@ export function TrackingBarSlot() {
             ) : (
               <HStack className="w-full items-center justify-between rounded-radius border p-3">
                 <HStack>
-                  <Avatar className="size-11 border">
-                    <AvatarImage
-                      src={packageDetails.request.partner?.picture ?? undefined}
-                    />
+                  <Avatar className="size-11 border bg-gradient-to-tr from-primary/50 to-primary/90">
+                    <AvatarImage src={"/partner-pic.png"} />
                     <AvatarFallback />
                   </Avatar>
                   <VStack className="gap-1">
@@ -212,7 +201,7 @@ export function TrackingBarSlot() {
                       {packageDetails.request.partner?.name}
                     </Text>
                     <HStack className="items-center gap-1">
-                      <StarIcon className="size-3 text-muted-foreground" />
+                      <StarIcon className="size-3 text-amber-500" />
                       <Text
                         styles={"small"}
                         className="leading-none text-muted-foreground"

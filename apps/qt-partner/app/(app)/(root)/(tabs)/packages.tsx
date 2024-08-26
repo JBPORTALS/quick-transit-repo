@@ -58,18 +58,16 @@ export default function PackagesIndex() {
         </View>
         <View className="gap-3">
           {data?.packages.map((data) => (
-            <>
-              <Link
-                key={data.id.toString()}
-                asChild
-                href={`/package/${data.package_id}`}
-              >
-                <TouchableOpacity>
-                  <PackageItem key={data.id} data={data} />
-                </TouchableOpacity>
-              </Link>
-              <Separator key={data.id + "sperator"} />
-            </>
+            <Link
+              key={data.id.toString()}
+              asChild
+              href={`/package/${data.package_id}`}
+            >
+              <TouchableOpacity className="gap-3">
+                <PackageItem key={data.id} data={data} />
+                <Separator key={data.id + "sperator"} />
+              </TouchableOpacity>
+            </Link>
           ))}
         </View>
       </View>
