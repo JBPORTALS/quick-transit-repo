@@ -130,34 +130,23 @@ export default function page() {
                     </TrackingBarItem>
                     <TrackingBarItem
                       isActive={
-                        packageDetails.request?.current_status === "picking"
+                        packageDetails.request?.current_status === "pickedup"
                       }
                     >
                       <TrackingBarIndicator />
                       <TrackingBarContent className="gap-0">
                         <Text styles={"subtle"}>Picked Up</Text>
-                        {packageDetails.request?.picking_at && (
+                        {packageDetails.request?.picked_at && (
                           <Text
                             styles={"details"}
                             className="text-muted-foreground"
                           >
-                            {moment(
-                              packageDetails.request.picking_at,
-                            ).fromNow()}
+                            {moment(packageDetails.request.picked_at).fromNow()}
                           </Text>
                         )}
                       </TrackingBarContent>
                     </TrackingBarItem>
-                    <TrackingBarItem
-                      isActive={
-                        packageDetails.request?.current_status === "shipping"
-                      }
-                    >
-                      <TrackingBarIndicator />
-                      <TrackingBarContent>
-                        <Text styles={"subtle"}>Shipping</Text>
-                      </TrackingBarContent>
-                    </TrackingBarItem>
+
                     <TrackingBarItem
                       isActive={
                         packageDetails.request?.current_status === "delivered"
