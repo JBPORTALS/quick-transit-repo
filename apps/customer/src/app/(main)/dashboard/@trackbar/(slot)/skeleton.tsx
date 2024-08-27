@@ -3,13 +3,12 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@qt/ui/card";
 import { Skeleton } from "@qt/ui/skeleton";
 import { HStack } from "@qt/ui/stack";
-
 import {
   TrackingBar,
   TrackingBarContent,
   TrackingBarIndicator,
   TrackingBarItem,
-} from "~/app/_components/tracking-bar";
+} from "@qt/ui/tracking-bar";
 
 export function TrackBarSkeleton() {
   return (

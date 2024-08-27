@@ -10,7 +10,6 @@ import {
   desc,
   eq,
   ilike,
-  like,
   or,
   packageInsertSchema,
   packages,
@@ -144,10 +143,14 @@ export const packagesRouter = createTRPCRouter({
   getTrackingDetails: protectedProcedure
     .input(z.object({ package_id: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.db.query.requests.findFirst({
-        where: eq(requests.package_id, input.package_id),
+      return ctx.db.query.packages.findFirst({
+        where: eq(packages.id, input.package_id),
         with: {
-          partner: true,
+          request: {
+            with: {
+              partner: true,
+            },
+          },
         },
       });
     }),

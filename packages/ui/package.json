@@ -52,7 +52,10 @@
     "./select": "./src/select.tsx",
     "./calendar": "./src/calendar.tsx",
     "./badge": "./src/badge.tsx",
-    "./skeleton": "./src/skeleton.tsx"
+    "./skeleton": "./src/skeleton.tsx",
+    "./status-tag": "./src/status-tag.tsx",
+    "./tracking-bar": "./src/tracking-bar.tsx",
+    "./universal-tracking-bar": "./src/universal-tracking-bar.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -87,7 +90,9 @@
     "react-hook-form": "^7.52.2",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.4.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "@qt/api": "workspace:^0.1.0",
+    "@qt/db": "workspace:^0.1.0"
   },
   "devDependencies": {
     "@qt/eslint-config": "workspace:^0.2.0",
