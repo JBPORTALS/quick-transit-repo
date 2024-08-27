@@ -7,10 +7,12 @@ import {
   categories,
   couriers,
   db,
+  eq,
   getTableName,
   package_image,
   packages,
   requests,
+  reviews,
   sql,
   Table,
   user,
@@ -114,6 +116,8 @@ async function main() {
       );
     }),
   );
+
+  
 
   console.log("Seeding into `category` 🌱");
   await db
@@ -240,7 +244,30 @@ async function main() {
       );
     }),
   );
-}
+
+  console.log("Seeding into `Reviews` 🌱");
+  const allRequests = await db.query.requests.findMany({
+    where: eq(requests.current_status, "delivered"),
+  });
+  
+  //console.log("Delivered Requests:", allRequests);
+  
+  
+    await Promise.all(
+      allRequests.map(async (request) => {
+        await db.insert(reviews).values({
+          request_id: request.id,
+          type: faker.helpers.arrayElement(["partner", "application"]),
+          rating: faker.number.int({ min: 1, max: 5 }),
+          comment: faker.lorem.sentence(),
+          review_date: faker.date.recent(),
+        });
+      })
+    );
+  
+    //console.log("Reviews have been successfully inserted.");
+  }
+
 
 main()
   .then(() => console.log("Seed Completed Successful ✅"))

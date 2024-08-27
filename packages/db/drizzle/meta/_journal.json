@@ -43,6 +43,13 @@
       "when": 1724657052377,
       "tag": "0005_unusual_talos",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1724739327324,
+      "tag": "0006_faithful_professor_monster",
+      "breakpoints": true
     }
   ]
 }
