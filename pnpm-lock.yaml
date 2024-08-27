@@ -419,9 +419,9 @@ importers:
       order-id:
         specifier: ^2.1.2
         version: 2.1.2
-      otp-generator:
-        specifier: ^4.0.1
-        version: 4.0.1
+      otp-agent:
+        specifier: ^3.0.3
+        version: 3.0.3
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -438,9 +438,6 @@ importers:
       '@qt/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
-      '@types/otp-generator':
-        specifier: ^4.0.2
-        version: 4.0.2
       eslint:
         specifier: ^9.8.0
         version: 9.9.0(jiti@1.21.6)
@@ -505,6 +502,12 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.3.4
         version: 3.9.0(react-hook-form@7.52.2)
+      '@qt/api':
+        specifier: workspace:^0.1.0
+        version: link:../api
+      '@qt/db':
+        specifier: workspace:^0.1.0
+        version: link:../db
       '@radix-ui/react-aspect-ratio':
         specifier: ^1.0.3
         version: 1.1.0(@types/react@18.2.79)(react-dom@18.2.0)(react@18.2.0)
@@ -6025,10 +6028,6 @@ packages:
     resolution: {integrity: sha512-Fz1xDMCF/B00/tYSVMlmK7hVeLh7jE5f3B7X1/hmV0MJBwE27KlS7EvD/Yp+z1lm8mVhwV5w+n8jOZG8AfTlKw==}
     dependencies:
       undici-types: 5.26.5
-
-  /@types/otp-generator@4.0.2:
-    resolution: {integrity: sha512-9+qqWzuFb332hXPbLgjUyOXlbcaTQkmkmqQjTduvNuOmPV5fW+iLv70JsVEhdUy0DWi4kY34++HDCaWl6N0AYg==}
-    dev: true
 
   /@types/phoenix@1.6.5:
     resolution: {integrity: sha512-xegpDuR+z0UqG9fwHqNoy3rI7JDlvaPh2TY47Fl80oq6g+hXT+c/LEuE43X48clZ6lOfANl5WrPur9fYO1RJ/w==}
@@ -11624,9 +11623,8 @@ packages:
       os-tmpdir: 1.0.2
     dev: false
 
-  /otp-generator@4.0.1:
-    resolution: {integrity: sha512-2TJ52vUftA0+J3eque4wwVtpaL4/NdIXDL0gFWFJFVUAZwAN7+9tltMhL7GCNYaHJtuONoier8Hayyj4HLbSag==}
-    engines: {node: '>=14.10.0'}
+  /otp-agent@3.0.3:
+    resolution: {integrity: sha512-YTabFbKg8EBAWMcrPrLbYwBbZsxfXfYzhf3+Rpkdc3FEaAOMyLlDzJsCJqRYM3JTJV959U/EO5YOgRzQnpFaPg==}
     dev: false
 
   /p-finally@1.0.0:

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import { format, parse } from "date-fns";
 import { isUndefined } from "lodash";
@@ -41,7 +40,6 @@ import { HStack, VStack } from "@qt/ui/stack";
 import { Table, TableBody, TableCell, TableRow } from "@qt/ui/table";
 import { Text } from "@qt/ui/text";
 
-import PackageMoreDropdown from "~/app/_components/package-more-dropdown";
 import { api } from "~/trpc/react";
 import { PackageDetailsSkeleton } from "./skeleton";
 
