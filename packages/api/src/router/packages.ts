@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import OrderId from "order-id";
-import otpGenerator from "otp-generator";
+import { generateOTP } from "otp-agent";
 import { z } from "zod";
 
 import {
@@ -128,9 +128,7 @@ export const packagesRouter = createTRPCRouter({
       const oi = OrderId("my-super-secrete");
       const tracking_number = oi.generate();
 
-      const otp = otpGenerator.generate(6, {
-        digits: true,
-      });
+      const otp = generateOTP();
 
       const request = await ctx.db.insert(requests).values({
         package_id: package_details.id,
