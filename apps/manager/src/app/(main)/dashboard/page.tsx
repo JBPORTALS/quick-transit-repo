@@ -14,7 +14,7 @@ import {
   YAxis,
 } from "recharts";
 
-import { RouterInputs, RouterOutputs } from "@qt/api";
+import { RouterInputs } from "@qt/api";
 import {
   Card,
   CardContent,
@@ -31,8 +31,6 @@ import {
 } from "@qt/ui/select";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
-
-import { api } from "~/trpc/react";
 
 type ByType = RouterInputs["packages"]["getPackagesAnalytics"]["by"];
 

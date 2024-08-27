@@ -7,10 +7,12 @@ import {
   categories,
   couriers,
   db,
+  eq,
   getTableName,
   package_image,
   packages,
   requests,
+  reviews,
   sql,
   Table,
   user,
@@ -77,7 +79,11 @@ async function main() {
             "partner",
             "customer",
           ]),
-          picture: faker.image.avatarLegacy(),
+          picture: faker.image.urlLoremFlickr({
+            category: "people",
+            width: 100,
+            height: 100,
+          }),
         },
       });
     }),
@@ -110,6 +116,8 @@ async function main() {
       );
     }),
   );
+
+  
 
   console.log("Seeding into `category` 🌱");
   await db
@@ -154,14 +162,7 @@ async function main() {
 
           const status = faker.helpers.arrayElement<
             typeof requests.$inferInsert.current_status
-          >([
-            "requested",
-            "confirmed",
-            "picking",
-            "shipping",
-            "delivered",
-            "cancelled",
-          ]);
+          >(["requested", "confirmed", "pickedup", "delivered", "cancelled"]);
 
           const package_detail = await db
             .insert(packages)
@@ -207,10 +208,25 @@ async function main() {
             one_time_code: faker.finance.pin(6),
             is_verified:
               status === "requested" || status === "confirmed" ? false : true,
-            requested_at: faker.date.recent({ days: 4 }),
-            confirmed_at: faker.date.recent({ days: 3 }),
-            picking_at: faker.date.recent({ days: 2 }),
-            delivered_at: faker.date.recent(),
+            requested_at: [
+              "requested",
+              "confirmed",
+              "pickedup",
+              "delivered",
+              "cancelled",
+              "rejected",
+            ].includes(status ?? "")
+              ? faker.date.recent({ days: 4 })
+              : null,
+            confirmed_at: ["pickedup", "delivered", "confirmed"].includes(
+              status ?? "",
+            )
+              ? faker.date.recent({ days: 3 })
+              : null,
+            picked_at: ["pickedup", "delivered"].includes(status ?? "")
+              ? faker.date.recent({ days: 2 })
+              : null,
+            delivered_at: status === "delivered" ? faker.date.recent() : null,
             cacelled_at: faker.date.recent(),
           });
           //inserting 3 images minimum
@@ -228,7 +244,30 @@ async function main() {
       );
     }),
   );
-}
+
+  console.log("Seeding into `Reviews` 🌱");
+  const allRequests = await db.query.requests.findMany({
+    where: eq(requests.current_status, "delivered"),
+  });
+  
+  //console.log("Delivered Requests:", allRequests);
+  
+  
+    await Promise.all(
+      allRequests.map(async (request) => {
+        await db.insert(reviews).values({
+          request_id: request.id,
+          type: faker.helpers.arrayElement(["partner", "application"]),
+          rating: faker.number.int({ min: 1, max: 5 }),
+          comment: faker.lorem.sentence(),
+          review_date: faker.date.recent(),
+        });
+      })
+    );
+  
+    //console.log("Reviews have been successfully inserted.");
+  }
+
 
 main()
   .then(() => console.log("Seed Completed Successful ✅"))

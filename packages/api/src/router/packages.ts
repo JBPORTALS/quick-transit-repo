@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import OrderId from "order-id";
-import otpGenerator from "otp-generator";
+import { generateOTP } from "otp-agent";
 import { z } from "zod";
 
 import {
@@ -10,7 +10,6 @@ import {
   desc,
   eq,
   ilike,
-  like,
   or,
   packageInsertSchema,
   packages,
@@ -129,9 +128,7 @@ export const packagesRouter = createTRPCRouter({
       const oi = OrderId("my-super-secrete");
       const tracking_number = oi.generate();
 
-      const otp = otpGenerator.generate(6, {
-        digits: true,
-      });
+      const otp = generateOTP();
 
       const request = await ctx.db.insert(requests).values({
         package_id: package_details.id,
@@ -144,10 +141,14 @@ export const packagesRouter = createTRPCRouter({
   getTrackingDetails: protectedProcedure
     .input(z.object({ package_id: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.db.query.requests.findFirst({
-        where: eq(requests.package_id, input.package_id),
+      return ctx.db.query.packages.findFirst({
+        where: eq(packages.id, input.package_id),
         with: {
-          partner: true,
+          request: {
+            with: {
+              partner: true,
+            },
+          },
         },
       });
     }),

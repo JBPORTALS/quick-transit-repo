@@ -6,10 +6,10 @@ import { Package2Icon } from "lucide-react";
 import moment from "moment";
 
 import { HStack, VStack } from "@qt/ui/stack";
+import { StatusTag } from "@qt/ui/status-tag";
 import { Text } from "@qt/ui/text";
 
 import { DashboardEmptyState } from "~/app/_components/dashboard-empty-state";
-import { StatusTag } from "~/app/_components/status-tag";
 import { api } from "~/trpc/react";
 
 function RecentPackagesList() {

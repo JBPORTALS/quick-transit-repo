@@ -9,9 +9,9 @@ import moment from "moment";
 import { Button } from "@qt/ui/button";
 import { Package, PackageBody, PackageThumbneil } from "@qt/ui/package";
 import { HStack } from "@qt/ui/stack";
+import { StatusTag } from "@qt/ui/status-tag";
 import { Text } from "@qt/ui/text";
 
-import { StatusTag } from "~/app/_components/status-tag";
 import { api } from "~/trpc/server";
 
 export type Package = Awaited<

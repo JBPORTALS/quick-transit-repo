@@ -1,6 +1,8 @@
 import { RefreshControl, ScrollView, View } from "react-native";
 import * as Linking from "expo-linking";
 import { Stack, useLocalSearchParams } from "expo-router";
+import { isUndefined } from "lodash";
+import moment from "moment";
 
 import {
   Accordion,
@@ -14,7 +16,9 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
   Card,
+  CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
@@ -30,6 +34,7 @@ import { PackageCheck } from "~/lib/icons/PackageCheck";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
 import { PhoneCall } from "~/lib/icons/PhoneCall";
 import { QrCode } from "~/lib/icons/QrCode";
+import { Star } from "~/lib/icons/Star";
 import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { api } from "~/lib/trpc/api";
 
@@ -46,6 +51,16 @@ export default function PackageDetails() {
         enabled: !!params.id,
       },
     );
+
+  const { data: reviewDetails } = api.reviews.getReviewsByType.useQuery(
+    {
+      type: "partner",
+      request_id: data?.request.id ?? "",
+    },
+    {
+      enabled: data?.request.current_status === "delivered",
+    },
+  );
 
   if (isLoading)
     return (
@@ -117,11 +132,11 @@ export default function PackageDetails() {
               disabled
               value={
                 !!data?.request.is_verified &&
-                !["delivered", "shipping"].includes(
+                !["delivered", "pickedup"].includes(
                   data?.request.current_status ?? "",
                 )
                   ? "payment"
-                  : ["delivered", "shipping"].includes(
+                  : ["delivered", "pickedup"].includes(
                         data?.request.current_status ?? "",
                       )
                     ? "deliver"
@@ -205,7 +220,7 @@ export default function PackageDetails() {
               {/*Complete the payment details */}
               <AccordionItem value="payment">
                 <AccordionTrigger
-                  isCompleted={["delivered", "shipping"].includes(
+                  isCompleted={["delivered", "pickedup"].includes(
                     data?.request.current_status ?? "",
                   )}
                 >
@@ -285,9 +300,33 @@ export default function PackageDetails() {
             {data?.request.current_status === "delivered" && (
               <View className="flex flex-col gap-2">
                 <H4>Reviews</H4>
-                <View className="h-40 w-full items-center justify-center rounded-md border border-dashed border-border">
-                  <P className="text-muted-foreground">No Reviews</P>
-                </View>
+                {isUndefined(reviewDetails) ? (
+                  <View className="h-32 w-full items-center justify-center rounded-md border border-dashed border-border">
+                    <P className="text-muted-foreground">No Reviews</P>
+                  </View>
+                ) : (
+                  <Card>
+                    <CardHeader className="gap-3">
+                      <CardTitle className="text-base">
+                        Customer rated your service
+                      </CardTitle>
+                      <CardDescription>
+                        <View className="flex-row gap-2 rounded-sm border border-amber-600/50 bg-amber-500/20 px-1 py-0.5">
+                          <Star size={18} className="text-amber-500" />
+                          <Muted>{reviewDetails.rating} Stars</Muted>
+                        </View>
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="px-6 py-0">
+                      <P>{reviewDetails.comment}</P>
+                    </CardContent>
+                    <CardFooter className="items-end pt-1">
+                      <Muted>
+                        {moment(reviewDetails.review_date).fromNow()}
+                      </Muted>
+                    </CardFooter>
+                  </Card>
+                )}
               </View>
             )}
           </>
