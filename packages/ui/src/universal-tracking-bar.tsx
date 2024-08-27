@@ -53,7 +53,7 @@ export function UniversalTrackingBar({
 
   if (isUndefined(details)) {
     return (
-      <Card className="sticky top-5 col-span-2 h-[490px] w-full shadow-none">
+      <Card className="col-span-2 h-[490px] w-full shadow-none">
         <CardHeader>
           <CardTitle>Tracking Details</CardTitle>
         </CardHeader>
