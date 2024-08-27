@@ -1,28 +1,38 @@
 import { TRPCError } from "@trpc/server";
-import { and, eq, requests, reviews, reviewsInsertSchema, reviewsSelectSchema, sql } from "@qt/db";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { z } from "zod";
 
-export const reviewRouter = createTRPCRouter({
-    getReviewsByRequestId: publicProcedure
-      .input(reviewsInsertSchema.pick({ request_id: true }))
-      .query(async ({ ctx, input }) => {
-        const reviewsForRequest = await ctx.db.query.reviews.findMany({
-          where: eq(reviews.request_id, input.request_id),
-          with: {
-            request: true,
-          },
+import {
+  and,
+  eq,
+  requests,
+  reviews,
+  reviewsInsertSchema,
+  reviewsSelectSchema,
+  sql,
+} from "@qt/db";
+
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+
+export const reviewsRouter = createTRPCRouter({
+  getReviewsByRequestId: publicProcedure
+    .input(reviewsInsertSchema.pick({ request_id: true }))
+    .query(async ({ ctx, input }) => {
+      const reviewsForRequest = await ctx.db.query.reviews.findMany({
+        where: eq(reviews.request_id, input.request_id),
+        with: {
+          request: true,
+        },
+      });
+
+      if (reviewsForRequest.length === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "No reviews found for this request",
         });
-  
-        if (reviewsForRequest.length === 0) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "No reviews found for this request",
-          });
-        }
-  
-        return reviewsForRequest;
-      }),
+      }
+
+      return reviewsForRequest;
+    }),
 
   createReview: protectedProcedure
     .input(reviewsInsertSchema)
@@ -32,7 +42,7 @@ export const reviewRouter = createTRPCRouter({
     }),
 
   updateReview: protectedProcedure
-    .input(z.object({id:z.string()}))
+    .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const updatedReview = await ctx.db
         .update(reviews)
@@ -51,7 +61,7 @@ export const reviewRouter = createTRPCRouter({
     }),
 
   deleteReview: protectedProcedure
-    .input(z.object({id:z.string()}))
+    .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const deletedReview = await ctx.db
         .delete(reviews)
@@ -69,10 +79,13 @@ export const reviewRouter = createTRPCRouter({
     }),
 
   getReviewsByType: publicProcedure
-    .input(reviewsInsertSchema.pick({ type: true }))
+    .input(reviewsInsertSchema.pick({ type: true, request_id: true }))
     .query(async ({ ctx, input }) => {
-      const reviewsByType = await ctx.db.query.reviews.findMany({
-        where: eq(reviews.type, input.type),
+      const reviewsByType = await ctx.db.query.reviews.findFirst({
+        where: and(
+          eq(reviews.type, input.type),
+          eq(reviews.request_id, input.request_id),
+        ),
         with: {
           request: true,
         },
@@ -80,7 +93,7 @@ export const reviewRouter = createTRPCRouter({
       return reviewsByType;
     }),
 
-    getAverageRatingForPartner: publicProcedure
+  getAverageRatingForPartner: publicProcedure
     .input(z.object({ partner_id: reviewsInsertSchema.shape.request_id }))
     .query(async ({ ctx, input }) => {
       const result = await ctx.db
@@ -93,8 +106,8 @@ export const reviewRouter = createTRPCRouter({
         .where(
           and(
             eq(requests.partner_id, input.partner_id),
-            eq(reviews.type, "partner")
-          )
-        )
-    }) 
+            eq(reviews.type, "partner"),
+          ),
+        );
+    }),
 });

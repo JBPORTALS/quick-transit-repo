@@ -14,7 +14,7 @@ import { api } from "~/trpc/react";
 import { TrackBarSkeleton } from "./skeleton";
 
 export function TrackingBarSlot() {
-  const [offset, setOffset] = useState(17);
+  const [offset, setOffset] = useState(0);
   const { data, isLoading } = api.packages.getAllPackagesWithTracking.useQuery({
     offset,
   });

@@ -53,7 +53,7 @@ export function UniversalTrackingBar({
 
   if (isUndefined(details)) {
     return (
-      <Card className="sticky top-5 col-span-2 h-[490px] w-full shadow-none">
+      <Card className="col-span-2 h-[490px] w-full shadow-none">
         <CardHeader>
           <CardTitle>Tracking Details</CardTitle>
         </CardHeader>
@@ -73,9 +73,7 @@ export function UniversalTrackingBar({
   }
 
   return (
-    <div
-      className={`sticky top-5 ${isPaginated ? "col-span-2" : "col-span-3"} w-full`}
-    >
+    <div className={`${isPaginated ? "col-span-2" : "col-span-3"} w-full`}>
       <Card className="max-h-fit min-h-fit w-full shadow-none">
         <CardHeader>
           <HStack className="items-center justify-between">
@@ -215,9 +213,7 @@ export function UniversalTrackingBar({
                 {/* Partner information */}
                 <HStack>
                   <Avatar className="size-11 border">
-                    <AvatarImage
-                      src={details.request.partner?.picture ?? undefined}
-                    />
+                    <AvatarImage src={"/partner-pic.webp"} />
                     <AvatarFallback />
                   </Avatar>
                   <VStack className="gap-1">
