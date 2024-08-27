@@ -117,11 +117,11 @@ export default function PackageDetails() {
               disabled
               value={
                 !!data?.request.is_verified &&
-                !["delivered", "shipping"].includes(
+                !["delivered", "pickedup"].includes(
                   data?.request.current_status ?? "",
                 )
                   ? "payment"
-                  : ["delivered", "shipping"].includes(
+                  : ["delivered", "pickedup"].includes(
                         data?.request.current_status ?? "",
                       )
                     ? "deliver"
@@ -205,7 +205,7 @@ export default function PackageDetails() {
               {/*Complete the payment details */}
               <AccordionItem value="payment">
                 <AccordionTrigger
-                  isCompleted={["delivered", "shipping"].includes(
+                  isCompleted={["delivered", "pickedup"].includes(
                     data?.request.current_status ?? "",
                   )}
                 >

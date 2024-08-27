@@ -215,9 +215,7 @@ export function UniversalTrackingBar({
                 {/* Partner information */}
                 <HStack>
                   <Avatar className="size-11 border">
-                    <AvatarImage
-                      src={details.request.partner?.picture ?? undefined}
-                    />
+                    <AvatarImage src={"/partner-pic.webp"} />
                     <AvatarFallback />
                   </Avatar>
                   <VStack className="gap-1">
