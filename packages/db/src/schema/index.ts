@@ -49,3 +49,6 @@ export {
   requestsRelations,
   statusEnum,
 } from "./requests";
+export{reviewTypeEnum,reviews
+  ,reviewsInsertSchema,reviewsRelations,reviewsSelectSchema
+}from "./reviews"
