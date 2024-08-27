@@ -73,9 +73,7 @@ export function UniversalTrackingBar({
   }
 
   return (
-    <div
-      className={`sticky top-5 ${isPaginated ? "col-span-2" : "col-span-3"} w-full`}
-    >
+    <div className={`${isPaginated ? "col-span-2" : "col-span-3"} w-full`}>
       <Card className="max-h-fit min-h-fit w-full shadow-none">
         <CardHeader>
           <HStack className="items-center justify-between">
