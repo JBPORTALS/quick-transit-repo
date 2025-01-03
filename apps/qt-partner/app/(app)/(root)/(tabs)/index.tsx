@@ -87,7 +87,7 @@ export default function HomeScreen() {
             </CardFooter>
           </Card>
         </View>
-        <View className="gap-3">
+        <View className="gap-4">
           <Text className="py-5 text-xl font-semibold text-foreground">
             {"Today's Packages"}
           </Text>

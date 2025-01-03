@@ -41,25 +41,6 @@ export const reviewsRouter = createTRPCRouter({
       return newReview[0];
     }),
 
-  updateReview: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      const updatedReview = await ctx.db
-        .update(reviews)
-        .set(input)
-        .where(eq(reviews.id, input.id))
-        .returning();
-
-      if (updatedReview.length === 0) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Review not found",
-        });
-      }
-
-      return updatedReview[0];
-    }),
-
   deleteReview: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
