@@ -88,7 +88,7 @@ export default function HomeScreen() {
           </Card>
         </View>
         <View className="gap-4">
-          <Text className="py-5 text-xl font-semibold text-foreground">
+          <Text className="py-6 text-xl font-semibold text-foreground">
             {"Today's Packages"}
           </Text>
           {data?.packages.map(({ id, package: packageDetails }) => (
@@ -96,7 +96,7 @@ export default function HomeScreen() {
               key={id.toString()}
               className="w-full flex-grow-0 flex-row gap-3"
             >
-              <View className="aspect-square min-w-24 max-w-24 items-center  justify-center rounded-md border border-border bg-muted/20">
+              <View className="aspect-square min-w-20 max-w-20 items-center  justify-center rounded-md border border-border bg-muted/20">
                 <PackageIcon
                   strokeWidth={1.25}
                   size={32}

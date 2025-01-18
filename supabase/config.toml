@@ -48,7 +48,7 @@ enabled = true
 # Port to use for Supabase Studio.
 port = 54323
 # External URL of the API server that frontend connects to.
-api_url = "http://192.168.126.111"
+api_url = "http://192.168.195.111"
 # OpenAI API Key to use for Supabase AI in the Supabase Studio.
 openai_api_key = "env(OPENAI_API_KEY)"
 
@@ -78,8 +78,8 @@ site_url = "http://localhost:3000"
 # A list of *exact* URLs that auth providers are permitted to redirect to post authentication.
 additional_redirect_urls = [
     "com.jbportals.qtpartner://**",
-    "http://192.168.126.111:3000/invite/callback",
-    "http://192.168.126.111:3000/dashboard",
+    "http://192.168.195.111:3000/invite/callback",
+    "http://192.168.195.111:3000/dashboard",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600
