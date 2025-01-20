@@ -4,7 +4,11 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { and, db, eq, user } from "@qt/db";
-import { profileInformationSchema, signInFormSchema } from "@qt/validators";
+import {
+  profileInformationSchema,
+  signInFormSchema,
+  verifyFormSchema,
+} from "@qt/validators";
 
 import { api } from "~/trpc/server";
 import { getBaseUrl } from "~/trpc/shared";
@@ -31,7 +35,24 @@ export async function SigninWithPassword({
   console.error("Supabase Auth erro:", error);
   if (error) return { error: error.message };
 
-  redirect("/auth/confirm-email-sent");
+  redirect(`/auth/confirm-email-sent?email=${email}`);
+}
+
+export async function verifyOTP({
+  otp,
+  email,
+}: z.infer<typeof verifyFormSchema>): Promise<{ error: string | null }> {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.verifyOtp({
+    type: "email",
+    token: otp,
+    email,
+  });
+  console.error("Supabase Auth erro:", error);
+  if (error) return { error: error.message };
+
+  redirect("/dashboard");
 }
 
 export async function updateProfile({

@@ -55,6 +55,7 @@
     "./skeleton": "./src/skeleton.tsx",
     "./status-tag": "./src/status-tag.tsx",
     "./tracking-bar": "./src/tracking-bar.tsx",
+    "./input-otp": "./src/input-otp.tsx",
     "./universal-tracking-bar": "./src/universal-tracking-bar.tsx"
   },
   "license": "MIT",
@@ -86,6 +87,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.0.2",
+    "input-otp": "^1.4.2",
     "lucide-react": "^0.363.0",
     "next-themes": "^0.2.1",
     "react-day-picker": "^8.10.1",
