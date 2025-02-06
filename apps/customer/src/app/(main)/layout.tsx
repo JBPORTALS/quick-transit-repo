@@ -7,7 +7,7 @@ export default function RootLayout(props: {
   return (
     <div className="relative h-full w-full gap-0">
       <HeaderClient />
-      <div className="mt-28 w-full">
+      <div className=" w-full">
         <div className="flex flex-col px-44 py-6">{props.children}</div>
       </div>
     </div>

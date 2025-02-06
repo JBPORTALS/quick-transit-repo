@@ -24,7 +24,7 @@ const AcmeFont = Acme({
 export default function HeaderClient() {
   const pathname = usePathname();
   return (
-    <VStack className="fixed top-0 z-50 w-full gap-0 border-b bg-background/80 backdrop-blur-sm">
+    <VStack className="sticky inset-0 top-0 z-50 w-full gap-0 border-b bg-background/80 backdrop-blur-sm">
       <Header className=" bg-transparent px-44">
         <Link href={"/dashboard"}>
           <HeaderTitle>
