@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEventHandler, useState } from "react";
+import React, { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
@@ -103,25 +103,77 @@ const Step = ({ ...props }: StepProps) => (
   </div>
 );
 
-const packageFormShema = z.object({
-  title: z.string().min(1, "Required"),
-  description: z.string(),
-  weight: z.string().min(1, "Required"),
-  height: z.string().min(1, "Required"),
-  width: z.string().min(1, "Required"),
-  breadth: z.string().min(1, "Required"),
-  courier: z.string().min(1, "Required"),
-  category: z.string().min(1, "Required"),
-  pick_up_address: z.string().min(1, "Add new address Or Select existing one"),
-  franchise_address: z
-    .string()
-    .min(1, "Add new address Or Select existing one"),
-  delivery_address: z.string().min(1, "Add new address Or Select existing one"),
-  is_insurance_required: z.enum(["Yes", "No"], { required_error: "Required" }),
-  delivery_date: z.date({ required_error: "Required" }),
-  from_time: z.string().min(1, "Required"),
-  to_time: z.string().min(1, "Required"),
-});
+const timeSlotSchema = z
+  .object(
+    {
+      from_time: z.string().min(1, "Required"),
+      to_time: z.string().min(1, "Required"),
+    },
+    { required_error: "Required", invalid_type_error: "Invalid" },
+  )
+  .required()
+  .superRefine(({ from_time, to_time }, ctx) => {
+    if (!from_time || !to_time) return;
+
+    const [fromHour, fromMinute] = from_time.split(":").map(Number);
+    const [toHour, toMinute] = to_time.split(":").map(Number);
+
+    if (
+      isNaN(fromHour!) ||
+      isNaN(fromMinute!) ||
+      isNaN(toHour!) ||
+      isNaN(toMinute!)
+    ) {
+      ctx.addIssue({
+        path: ["to_time"],
+        message: "Invalid time format",
+        code: "invalid_type",
+        expected: "string",
+        received: "nan",
+      });
+      return;
+    }
+
+    const fromTotalMinutes = fromHour! * 60 + fromMinute!;
+    const toTotalMinutes = toHour! * 60 + toMinute!;
+
+    if (toTotalMinutes <= fromTotalMinutes) {
+      ctx.addIssue({
+        path: ["to_time"],
+        message: "To time must be greater than From time",
+        code: "custom",
+      });
+    }
+  });
+
+const packageFormShema = z
+  .object({
+    title: z.string().trim().min(1, "Required"),
+    description: z.string().trim().min(1, "Required"),
+    weight: z
+      .number({ invalid_type_error: "Invalid" })
+      .min(1, "Invalid")
+      .max(10000, "Less than or equal to 10000"),
+    height: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
+    width: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
+    breadth: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
+    courier: z.string().trim().min(1, "Required"),
+    category: z.string().trim().min(1, "Required"),
+    pick_up_address: z
+      .string()
+      .min(1, "Add new address Or Select existing one"),
+    franchise_address: z
+      .string()
+      .min(1, "Add new address Or Select existing one"),
+    delivery_address: z
+      .string()
+      .min(1, "Add new address Or Select existing one"),
+    is_insurance_required: z.enum(["Yes", "No"], {
+      required_error: "Required",
+    }),
+    delivery_date: z.date({ required_error: "Required" }),
+  })
+  .and(timeSlotSchema);
 
 const formatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -194,7 +246,7 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
   const { data: bill_summary_detail, isLoading: is_bill_summury_loading } =
     api.bills.getSummaryDetails.useQuery(
       {
-        weight: parseInt(formValues.weight),
+        weight: formValues.weight,
         insurance_required:
           formValues.is_insurance_required === "Yes" ? true : false,
       },
@@ -230,12 +282,12 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
         await addPackage.mutateAsync({
           title: values.title,
           description: values.description,
-          weight: parseInt(values.weight),
+          weight: values.weight,
           category_id: values.category,
           courier_id: values.courier,
-          breadth: parseInt(values.breadth),
-          width: parseInt(values.width),
-          height: parseInt(values.height),
+          breadth: values.breadth,
+          width: values.width,
+          height: values.height,
           delivery_date: new Date(values.delivery_date),
           from_time: values.from_time,
           to_time: values.to_time,
@@ -323,7 +375,13 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                       <FormItem className="w-full">
                         <Label>Weight</Label>
                         <FormControl>
-                          <Input type="number" {...field} />
+                          <Input
+                            type="number"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(parseFloat(e.target.value))
+                            }
+                          />
                         </FormControl>
                         <FormDescription>in kilo grams</FormDescription>
                         <FormMessage />
@@ -344,6 +402,9 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                                   type="number"
                                   placeholder="H"
                                   {...field}
+                                  onChange={(e) =>
+                                    field.onChange(parseFloat(e.target.value))
+                                  }
                                 />
                                 <span className="text-sm text-muted-foreground">
                                   x
@@ -365,6 +426,9 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                                   type="number"
                                   placeholder="B"
                                   {...field}
+                                  onChange={(e) =>
+                                    field.onChange(parseFloat(e.target.value))
+                                  }
                                 />
                                 <span className="text-sm text-muted-foreground">
                                   x
@@ -382,7 +446,14 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                         render={({ field }) => (
                           <FormItem className="w-full">
                             <FormControl>
-                              <Input type="number" placeholder="W" {...field} />
+                              <Input
+                                type="number"
+                                placeholder="W"
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(parseFloat(e.target.value))
+                                }
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

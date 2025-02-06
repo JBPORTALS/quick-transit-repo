@@ -1,8 +1,10 @@
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  decimal,
   integer,
   pgTable,
+  real,
   text,
   time,
   timestamp,
@@ -31,10 +33,10 @@ export const packages = pgTable("packages", {
   bill_id: uuid("bill_id")
     .notNull()
     .references(() => bill_details.id, { onDelete: "set null" }),
-  height: integer("height").notNull(),
-  width: integer("width").notNull(),
-  breadth: integer("breadth").notNull(),
-  weight: integer("weight").notNull(),
+  height: real("height").notNull(),
+  width: real("width").notNull(),
+  breadth: real("breadth").notNull(),
+  weight: real("weight").notNull(),
   category_id: uuid("category_id")
     .notNull()
     .references(() => categories.id, { onDelete: "set null" }),
