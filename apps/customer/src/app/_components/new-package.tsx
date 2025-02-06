@@ -236,12 +236,10 @@ export function NewPackage() {
 
   const addPackage = api.packages.addPackage.useMutation({
     async onSuccess() {
-      router.refresh();
       await utils.packages.getRecentPackages.invalidate();
       await utils.packages.getAllTrackingDetails.invalidate();
       router.replace("/dashboard");
       toast.success("Package requested successfully");
-      form.reset();
     },
   });
 
@@ -626,20 +624,24 @@ export function NewPackage() {
                 name="pick_up_address"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <Label>{"Pickup Address"}</Label>
-                    <FormDescription>
-                      Where we have to pick up your package
-                    </FormDescription>
+                    <HStack className="justify-between">
+                      <VStack>
+                        <Label>{"Pickup Address"}</Label>
+                        <FormDescription>
+                          Where we have to pick up your package
+                        </FormDescription>
+                      </VStack>
 
-                    <AddressCardDialog
-                      title="New Pickup Address"
-                      description="Where we have to pick up your package"
-                      type="pickup"
-                    >
-                      <Button className="w-full" variant={"outline"}>
-                        Add New <PlusIcon />
-                      </Button>
-                    </AddressCardDialog>
+                      <AddressCardDialog
+                        title="New Pickup Address"
+                        description="Where we have to pick up your package"
+                        type="pickup"
+                      >
+                        <Button variant={"outline"}>
+                          Add <PlusIcon />
+                        </Button>
+                      </AddressCardDialog>
+                    </HStack>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -648,30 +650,34 @@ export function NewPackage() {
                       >
                         {pickUpAddresses?.map(
                           ({ phone, street, pincode, id }) => (
-                            <HStack
-                              className={cn(
-                                "items-center justify-between rounded-radius border bg-card p-5",
-                                field.value === id &&
-                                  "border-primary bg-primary/10",
-                              )}
-                            >
-                              <VStack>
-                                <Text>{phone}</Text>
-                                <Text
-                                  styles={"subtle"}
-                                  className="text-muted-foreground"
-                                >
-                                  {street}
-                                </Text>
-                                <Text
-                                  styles={"subtle"}
-                                  className="text-muted-foreground"
-                                >
-                                  {pincode}
-                                </Text>
-                              </VStack>
-                              <RadioGroupItem value={id} />
-                            </HStack>
+                            <Label key={id} htmlFor={id}>
+                              <HStack
+                                key={id}
+                                className={cn(
+                                  "items-center justify-between rounded-radius border bg-card p-5 transition-all duration-150 ",
+                                  field.value === id
+                                    ? "border-primary bg-primary/10"
+                                    : " hover:cursor-pointer hover:bg-accent",
+                                )}
+                              >
+                                <VStack>
+                                  <Text>{phone}</Text>
+                                  <Text
+                                    styles={"subtle"}
+                                    className="text-muted-foreground"
+                                  >
+                                    {street}
+                                  </Text>
+                                  <Text
+                                    styles={"subtle"}
+                                    className="text-muted-foreground"
+                                  >
+                                    {pincode}
+                                  </Text>
+                                </VStack>
+                                <RadioGroupItem id={id} value={id} />
+                              </HStack>
+                            </Label>
                           ),
                         )}
                       </RadioGroup>
@@ -688,19 +694,23 @@ export function NewPackage() {
                 name="franchise_address"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <Label>{"Franchise Address"}</Label>
-                    <FormDescription>
-                      Where we have to deliver your package
-                    </FormDescription>
-                    <AddressCardDialog
-                      title="New Franchise Address"
-                      description="Where we have to deliver your package"
-                      type="franchise"
-                    >
-                      <Button variant={"outline"} className="w-full">
-                        Add New <PlusIcon />
-                      </Button>
-                    </AddressCardDialog>
+                    <HStack className="justify-between">
+                      <VStack>
+                        <Label>{"Franchise Address"}</Label>
+                        <FormDescription>
+                          Where we have to deliver your package
+                        </FormDescription>
+                      </VStack>
+                      <AddressCardDialog
+                        title="New Franchise Address"
+                        description="Where we have to deliver your package"
+                        type="franchise"
+                      >
+                        <Button variant={"outline"}>
+                          Add <PlusIcon />
+                        </Button>
+                      </AddressCardDialog>
+                    </HStack>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -709,30 +719,33 @@ export function NewPackage() {
                       >
                         {franchiseAddresses?.map(
                           ({ phone, street, pincode, id }) => (
-                            <HStack
-                              className={cn(
-                                "items-center justify-between rounded-radius border bg-card p-5",
-                                field.value === id &&
-                                  "border-primary bg-primary/10",
-                              )}
-                            >
-                              <VStack>
-                                <Text>{phone}</Text>
-                                <Text
-                                  styles={"subtle"}
-                                  className="text-muted-foreground"
-                                >
-                                  {street}
-                                </Text>
-                                <Text
-                                  styles={"subtle"}
-                                  className="text-muted-foreground"
-                                >
-                                  {pincode}
-                                </Text>
-                              </VStack>
-                              <RadioGroupItem value={id} />
-                            </HStack>
+                            <Label key={id} htmlFor={id}>
+                              <HStack
+                                className={cn(
+                                  "items-center justify-between rounded-radius border bg-card p-5",
+                                  field.value === id
+                                    ? "border-primary bg-primary/10"
+                                    : " hover:cursor-pointer hover:bg-accent",
+                                )}
+                              >
+                                <VStack>
+                                  <Text>{phone}</Text>
+                                  <Text
+                                    styles={"subtle"}
+                                    className="text-muted-foreground"
+                                  >
+                                    {street}
+                                  </Text>
+                                  <Text
+                                    styles={"subtle"}
+                                    className="text-muted-foreground"
+                                  >
+                                    {pincode}
+                                  </Text>
+                                </VStack>
+                                <RadioGroupItem id={id} value={id} />
+                              </HStack>
+                            </Label>
                           ),
                         )}
                       </RadioGroup>
@@ -748,20 +761,23 @@ export function NewPackage() {
                 name="delivery_address"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <Label>{"Delivery Address"}</Label>
-                    <FormDescription>
-                      Where franchise has to deliver your package
-                    </FormDescription>
-                    <AddressCardDialog
-                      title="New Delivery Address"
-                      description="Where franchise has to deliver your package"
-                      type="delivery"
-                    >
-                      <Button variant={"outline"} className="w-full">
-                        Add New <PlusIcon />
-                      </Button>
-                    </AddressCardDialog>
-
+                    <HStack className="justify-between">
+                      <VStack>
+                        <Label>{"Delivery Address"}</Label>
+                        <FormDescription>
+                          Where franchise has to deliver your package
+                        </FormDescription>
+                      </VStack>
+                      <AddressCardDialog
+                        title="New Delivery Address"
+                        description="Where franchise has to deliver your package"
+                        type="delivery"
+                      >
+                        <Button variant={"outline"}>
+                          Add <PlusIcon />
+                        </Button>
+                      </AddressCardDialog>
+                    </HStack>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -770,30 +786,33 @@ export function NewPackage() {
                       >
                         {deliveryAddresses?.map(
                           ({ phone, street, pincode, id }) => (
-                            <HStack
-                              className={cn(
-                                "items-center justify-between rounded-radius border bg-card p-5",
-                                field.value === id &&
-                                  "border-primary bg-primary/10",
-                              )}
-                            >
-                              <VStack>
-                                <Text>{phone}</Text>
-                                <Text
-                                  styles={"subtle"}
-                                  className="text-muted-foreground"
-                                >
-                                  {street}
-                                </Text>
-                                <Text
-                                  styles={"subtle"}
-                                  className="text-muted-foreground"
-                                >
-                                  {pincode}
-                                </Text>
-                              </VStack>
-                              <RadioGroupItem value={id} />
-                            </HStack>
+                            <Label key={id} htmlFor={id}>
+                              <HStack
+                                className={cn(
+                                  "items-center justify-between rounded-radius border bg-card p-5",
+                                  field.value === id
+                                    ? "border-primary bg-primary/10"
+                                    : " hover:cursor-pointer hover:bg-accent",
+                                )}
+                              >
+                                <VStack>
+                                  <Text>{phone}</Text>
+                                  <Text
+                                    styles={"subtle"}
+                                    className="text-muted-foreground"
+                                  >
+                                    {street}
+                                  </Text>
+                                  <Text
+                                    styles={"subtle"}
+                                    className="text-muted-foreground"
+                                  >
+                                    {pincode}
+                                  </Text>
+                                </VStack>
+                                <RadioGroupItem id={id} value={id} />
+                              </HStack>
+                            </Label>
                           ),
                         )}
                       </RadioGroup>
