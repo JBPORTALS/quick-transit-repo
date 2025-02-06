@@ -41,13 +41,20 @@ interface AddressCardDialogProps extends AddressCardProps {
   children: React.ReactNode;
 }
 const addressFormSchema = z.object({
-  street: z.string().min(10, "Invalid address"),
-  pincode: z.string().min(6, "Invalid Pincode").max(6, "Invalid Pincode"),
+  street: z.string().trim().min(10, "Invalid address"),
+  pincode: z
+    .string()
+    .trim()
+    .min(6, "Invalid pincode")
+    .max(6, "Invalid pincode")
+    .refine((v) => parseInt(v) > 0, { message: "Invalid pin code" }),
   phone: z
     .string()
+    .trim()
     .min(1, "Required")
-    .max(10, "Invalid Phone Number")
-    .min(10, "Invalid Phone Number"),
+    .max(10, "Invalid phone number")
+    .min(10, "Invalid phone number")
+    .refine((v) => parseInt(v) > 0, { message: "Invalid phone number" }),
 });
 
 //New address dialog box

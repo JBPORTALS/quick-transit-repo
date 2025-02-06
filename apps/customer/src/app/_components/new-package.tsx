@@ -34,14 +34,6 @@ import {
   SelectValue,
 } from "@qt/ui/select";
 import { Separator } from "@qt/ui/seperator";
-import {
-  Sheet,
-  SheetContent,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@qt/ui/sheet";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 import { Textarea } from "@qt/ui/textarea";
@@ -182,42 +174,28 @@ const formatter = new Intl.NumberFormat("en-IN", {
 
 type FieldNames = keyof z.infer<typeof packageFormShema>;
 
-export function NewPackage({ children }: { children: React.ReactNode }) {
-  const [isOpen, setOpen] = useState(false);
+export function NewPackage() {
   const [current, setCurrent] = useState(0);
 
-  const { data: categories } = api.category.getCategories.useQuery(undefined, {
-    enabled: isOpen,
-  });
+  const { data: categories } = api.category.getCategories.useQuery();
 
   const utils = api.useUtils();
 
   const billMutation = api.bills.createBill.useMutation({});
 
-  const { data: couriers } = api.couriers.getCouriers.useQuery(undefined, {
-    enabled: isOpen,
+  const { data: couriers } = api.couriers.getCouriers.useQuery();
+
+  const { data: pickUpAddresses } = api.address.getAllByType.useQuery({
+    type: "pickup",
   });
 
-  const { data: pickUpAddresses } = api.address.getAllByType.useQuery(
-    { type: "pickup" },
-    {
-      enabled: isOpen,
-    },
-  );
+  const { data: franchiseAddresses } = api.address.getAllByType.useQuery({
+    type: "franchise",
+  });
 
-  const { data: franchiseAddresses } = api.address.getAllByType.useQuery(
-    { type: "franchise" },
-    {
-      enabled: isOpen,
-    },
-  );
-
-  const { data: deliveryAddresses } = api.address.getAllByType.useQuery(
-    { type: "delivery" },
-    {
-      enabled: isOpen,
-    },
-  );
+  const { data: deliveryAddresses } = api.address.getAllByType.useQuery({
+    type: "delivery",
+  });
 
   const firstDeliveryAddress = deliveryAddresses?.at(0);
   const firstPickUpAddress = pickUpAddresses?.at(0);
@@ -260,7 +238,6 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
       router.refresh();
       utils.packages.getRecentPackages.invalidate();
       utils.packages.getAllTrackingDetails.invalidate();
-      setOpen(false);
       form.reset();
     },
   });
@@ -316,284 +293,96 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={setOpen}>
-      <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="w-[70%] overflow-y-auto">
-        <SheetHeader>
-          <SheetTitle>New Package</SheetTitle>
+    <div className="w-full px-10">
+      <div className="sm:text-center">
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          New Package
+        </h3>
 
-          {/* <SheetDescription>{steps[current]?.description}</SheetDescription> */}
-          <div className="flex w-fit gap-5 pb-10 pt-3">
-            {steps.map((s, i) => (
-              <Step
-                key={s.name}
-                aria-label={s.name}
-                aria-hidden={i > current}
-              />
-            ))}
-          </div>
-        </SheetHeader>
-        <Form {...form}>
-          <form
-            onSubmit={onSubmitWithPrecheck}
-            className="w-full space-y-6 px-3 py-4"
-          >
-            {current === 0 && (
-              <>
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Label>Title</Label>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Label>Description</Label>
-                      <FormControl>
-                        <Textarea {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <HStack className="w-full">
-                  <FormField
-                    control={form.control}
-                    name="weight"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <Label>Weight</Label>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(parseFloat(e.target.value))
-                            }
-                          />
-                        </FormControl>
-                        <FormDescription>in kilo grams</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+        {/* <SheetDescription>{steps[current]?.description}</SheetDescription> */}
+        <div className="mx-auto flex w-fit gap-5 pb-10 pt-3">
+          {steps.map((s, i) => (
+            <Step key={s.name} aria-label={s.name} aria-hidden={i > current} />
+          ))}
+        </div>
+      </div>
+      <Form {...form}>
+        <form
+          onSubmit={onSubmitWithPrecheck}
+          className="w-full space-y-6 px-3 py-4"
+        >
+          {current === 0 && (
+            <>
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
                   <FormItem>
-                    <Label>{"Dimensions (HxBxW in .cm)"}</Label>
-                    <HStack className="items-start">
-                      <FormField
-                        control={form.control}
-                        name="height"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <HStack className="items-center">
-                                <Input
-                                  type="number"
-                                  placeholder="H"
-                                  {...field}
-                                  onChange={(e) =>
-                                    field.onChange(parseFloat(e.target.value))
-                                  }
-                                />
-                                <span className="text-sm text-muted-foreground">
-                                  x
-                                </span>
-                              </HStack>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="breadth"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
-                              <HStack className="items-center">
-                                <Input
-                                  type="number"
-                                  placeholder="B"
-                                  {...field}
-                                  onChange={(e) =>
-                                    field.onChange(parseFloat(e.target.value))
-                                  }
-                                />
-                                <span className="text-sm text-muted-foreground">
-                                  x
-                                </span>
-                              </HStack>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                    <Label>Title</Label>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                      <FormField
-                        control={form.control}
-                        name="width"
-                        render={({ field }) => (
-                          <FormItem className="w-full">
-                            <FormControl>
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <Label>Description</Label>
+                    <FormControl>
+                      <Textarea {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <HStack className="w-full">
+                <FormField
+                  control={form.control}
+                  name="weight"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <Label>Weight</Label>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(parseFloat(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormDescription>in kilo grams</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormItem>
+                  <Label>{"Dimensions (HxBxW in .cm)"}</Label>
+                  <HStack className="items-start">
+                    <FormField
+                      control={form.control}
+                      name="height"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <HStack className="items-center">
                               <Input
                                 type="number"
-                                placeholder="W"
+                                placeholder="H"
                                 {...field}
                                 onChange={(e) =>
                                   field.onChange(parseFloat(e.target.value))
                                 }
                               />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </HStack>
-                  </FormItem>
-                </HStack>
-
-                <HStack>
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <Label>Category</Label>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            {...field}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Categories</SelectLabel>
-                                {categories &&
-                                  categories.map((category) => (
-                                    <SelectItem value={category.id}>
-                                      <HStack className="items-center">
-                                        <Circle className="size-4" />
-                                        {category.name}
-                                      </HStack>
-                                    </SelectItem>
-                                  ))}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="courier"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <Label>Courier Service</Label>
-                        <FormControl>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            {...field}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Select..." />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectGroup>
-                                <SelectLabel>Courier Services</SelectLabel>
-                                {couriers &&
-                                  couriers.map((courier) => (
-                                    <SelectItem value={courier.id}>
-                                      <HStack className="items-center">
-                                        <RocketIcon className="size-4" />
-                                        {courier.name}
-                                      </HStack>
-                                    </SelectItem>
-                                  ))}
-                              </SelectGroup>
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </HStack>
-                <HStack>
-                  <FormField
-                    control={form.control}
-                    name="delivery_date"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Label>Date of Delivery</Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={"outline"}
-                                className={cn(
-                                  "w-full pl-3 text-left font-normal",
-                                  !field.value && "text-muted-foreground",
-                                )}
-                              >
-                                {field.value ? (
-                                  format(field.value, "PPP")
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            className="pointer-events-auto w-auto p-0"
-                            align="start"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <div style={{ cursor: "pointer" }}>
-                              <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                  date < new Date() ||
-                                  date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                              />
-                            </div>
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <HStack>
-                    <FormField
-                      control={form.control}
-                      name="from_time"
-                      render={({ field }) => (
-                        <FormItem className="w-full">
-                          <Label>From Time</Label>
-                          <FormControl>
-                            <Input className="w-full" type="time" {...field} />
+                              <span className="text-sm text-muted-foreground">
+                                x
+                              </span>
+                            </HStack>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -601,19 +390,200 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                     />
                     <FormField
                       control={form.control}
-                      name="to_time"
+                      name="breadth"
                       render={({ field }) => (
                         <FormItem className="w-full">
-                          <Label>To Time</Label>
                           <FormControl>
-                            <Input className="w-full" type="time" {...field} />
+                            <HStack className="items-center">
+                              <Input
+                                type="number"
+                                placeholder="B"
+                                {...field}
+                                onChange={(e) =>
+                                  field.onChange(parseFloat(e.target.value))
+                                }
+                              />
+                              <span className="text-sm text-muted-foreground">
+                                x
+                              </span>
+                            </HStack>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="width"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="W"
+                              {...field}
+                              onChange={(e) =>
+                                field.onChange(parseFloat(e.target.value))
+                              }
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
                   </HStack>
-                </HStack>
+                </FormItem>
+              </HStack>
+
+              <HStack>
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <Label>Category</Label>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          {...field}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Categories</SelectLabel>
+                              {categories &&
+                                categories.map((category) => (
+                                  <SelectItem value={category.id}>
+                                    <HStack className="items-center">
+                                      <Circle className="size-4" />
+                                      {category.name}
+                                    </HStack>
+                                  </SelectItem>
+                                ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="courier"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <Label>Courier Service</Label>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          {...field}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Courier Services</SelectLabel>
+                              {couriers &&
+                                couriers.map((courier) => (
+                                  <SelectItem value={courier.id}>
+                                    <HStack className="items-center">
+                                      <RocketIcon className="size-4" />
+                                      {courier.name}
+                                    </HStack>
+                                  </SelectItem>
+                                ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </HStack>
+              <HStack>
+                <FormField
+                  control={form.control}
+                  name="delivery_date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Date of Delivery</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[250px] pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground",
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="pointer-events-auto w-auto p-0"
+                          align="start"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <div style={{ cursor: "pointer" }}>
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) =>
+                                date < new Date() ||
+                                date < new Date("1900-01-01")
+                              }
+                              initialFocus
+                            />
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="from_time"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <Label>From Time</Label>
+                      <FormControl>
+                        <Input className="w-full" type="time" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="to_time"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <Label>To Time</Label>
+                      <FormControl>
+                        <Input className="w-full" type="time" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="is_insurance_required"
@@ -642,248 +612,246 @@ export function NewPackage({ children }: { children: React.ReactNode }) {
                     </FormItem>
                   )}
                 />
-              </>
-            )}
+              </HStack>
+            </>
+          )}
 
-            {current === 1 && (
-              <>
-                <FormField
-                  control={form.control}
-                  name="pick_up_address"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <Label>{"Pickup Address"}</Label>
-                      <FormDescription>
-                        Where we have to pick up your package
-                      </FormDescription>
+          {current === 1 && (
+            <>
+              <FormField
+                control={form.control}
+                name="pick_up_address"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <Label>{"Pickup Address"}</Label>
+                    <FormDescription>
+                      Where we have to pick up your package
+                    </FormDescription>
 
-                      <AddressCardDialog
-                        title="New Pickup Address"
-                        description="Where we have to pick up your package"
-                        type="pickup"
+                    <AddressCardDialog
+                      title="New Pickup Address"
+                      description="Where we have to pick up your package"
+                      type="pickup"
+                    >
+                      <Button className="w-full" variant={"outline"}>
+                        Add New <PlusIcon />
+                      </Button>
+                    </AddressCardDialog>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
                       >
-                        <Button className="w-full" variant={"outline"}>
-                          Add New <PlusIcon />
-                        </Button>
-                      </AddressCardDialog>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          {pickUpAddresses?.map(
-                            ({ phone, street, pincode, id }) => (
-                              <HStack
-                                className={cn(
-                                  "items-center justify-between rounded-radius border bg-card p-5",
-                                  field.value === id &&
-                                    "border-primary bg-primary/5",
-                                )}
-                              >
-                                <VStack>
-                                  <Text>{phone}</Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {street}
-                                  </Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {pincode}
-                                  </Text>
-                                </VStack>
-                                <RadioGroupItem value={id} />
-                              </HStack>
-                            ),
-                          )}
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        {pickUpAddresses?.map(
+                          ({ phone, street, pincode, id }) => (
+                            <HStack
+                              className={cn(
+                                "items-center justify-between rounded-radius border bg-card p-5",
+                                field.value === id &&
+                                  "border-primary bg-primary/10",
+                              )}
+                            >
+                              <VStack>
+                                <Text>{phone}</Text>
+                                <Text
+                                  styles={"subtle"}
+                                  className="text-muted-foreground"
+                                >
+                                  {street}
+                                </Text>
+                                <Text
+                                  styles={"subtle"}
+                                  className="text-muted-foreground"
+                                >
+                                  {pincode}
+                                </Text>
+                              </VStack>
+                              <RadioGroupItem value={id} />
+                            </HStack>
+                          ),
+                        )}
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <Separator />
+              <Separator />
 
-                <FormField
-                  control={form.control}
-                  name="franchise_address"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <Label>{"Franchise Address"}</Label>
-                      <FormDescription>
-                        Where we have to deliver your package
-                      </FormDescription>
-                      <AddressCardDialog
-                        title="New Franchise Address"
-                        description="Where we have to deliver your package"
-                        type="franchise"
+              <FormField
+                control={form.control}
+                name="franchise_address"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <Label>{"Franchise Address"}</Label>
+                    <FormDescription>
+                      Where we have to deliver your package
+                    </FormDescription>
+                    <AddressCardDialog
+                      title="New Franchise Address"
+                      description="Where we have to deliver your package"
+                      type="franchise"
+                    >
+                      <Button variant={"outline"} className="w-full">
+                        Add New <PlusIcon />
+                      </Button>
+                    </AddressCardDialog>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
                       >
-                        <Button variant={"outline"} className="w-full">
-                          Add New <PlusIcon />
-                        </Button>
-                      </AddressCardDialog>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          {franchiseAddresses?.map(
-                            ({ phone, street, pincode, id }) => (
-                              <HStack
-                                className={cn(
-                                  "items-center justify-between rounded-radius border bg-card p-5",
-                                  field.value === id &&
-                                    "border-primary bg-primary/5",
-                                )}
-                              >
-                                <VStack>
-                                  <Text>{phone}</Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {street}
-                                  </Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {pincode}
-                                  </Text>
-                                </VStack>
-                                <RadioGroupItem value={id} />
-                              </HStack>
-                            ),
-                          )}
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Separator />
+                        {franchiseAddresses?.map(
+                          ({ phone, street, pincode, id }) => (
+                            <HStack
+                              className={cn(
+                                "items-center justify-between rounded-radius border bg-card p-5",
+                                field.value === id &&
+                                  "border-primary bg-primary/10",
+                              )}
+                            >
+                              <VStack>
+                                <Text>{phone}</Text>
+                                <Text
+                                  styles={"subtle"}
+                                  className="text-muted-foreground"
+                                >
+                                  {street}
+                                </Text>
+                                <Text
+                                  styles={"subtle"}
+                                  className="text-muted-foreground"
+                                >
+                                  {pincode}
+                                </Text>
+                              </VStack>
+                              <RadioGroupItem value={id} />
+                            </HStack>
+                          ),
+                        )}
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Separator />
 
-                <FormField
-                  control={form.control}
-                  name="delivery_address"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <Label>{"Delivery Address"}</Label>
-                      <FormDescription>
-                        Where franchise has to deliver your package
-                      </FormDescription>
-                      <AddressCardDialog
-                        title="New Delivery Address"
-                        description="Where franchise has to deliver your package"
-                        type="delivery"
+              <FormField
+                control={form.control}
+                name="delivery_address"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <Label>{"Delivery Address"}</Label>
+                    <FormDescription>
+                      Where franchise has to deliver your package
+                    </FormDescription>
+                    <AddressCardDialog
+                      title="New Delivery Address"
+                      description="Where franchise has to deliver your package"
+                      type="delivery"
+                    >
+                      <Button variant={"outline"} className="w-full">
+                        Add New <PlusIcon />
+                      </Button>
+                    </AddressCardDialog>
+
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        value={field.value}
                       >
-                        <Button variant={"outline"} className="w-full">
-                          Add New <PlusIcon />
-                        </Button>
-                      </AddressCardDialog>
+                        {deliveryAddresses?.map(
+                          ({ phone, street, pincode, id }) => (
+                            <HStack
+                              className={cn(
+                                "items-center justify-between rounded-radius border bg-card p-5",
+                                field.value === id &&
+                                  "border-primary bg-primary/10",
+                              )}
+                            >
+                              <VStack>
+                                <Text>{phone}</Text>
+                                <Text
+                                  styles={"subtle"}
+                                  className="text-muted-foreground"
+                                >
+                                  {street}
+                                </Text>
+                                <Text
+                                  styles={"subtle"}
+                                  className="text-muted-foreground"
+                                >
+                                  {pincode}
+                                </Text>
+                              </VStack>
+                              <RadioGroupItem value={id} />
+                            </HStack>
+                          ),
+                        )}
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          )}
 
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          value={field.value}
-                        >
-                          {deliveryAddresses?.map(
-                            ({ phone, street, pincode, id }) => (
-                              <HStack
-                                className={cn(
-                                  "items-center justify-between rounded-radius border bg-card p-5",
-                                  field.value === id &&
-                                    "border-primary bg-primary/5",
-                                )}
-                              >
-                                <VStack>
-                                  <Text>{phone}</Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {street}
-                                  </Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {pincode}
-                                  </Text>
-                                </VStack>
-                                <RadioGroupItem value={id} />
-                              </HStack>
-                            ),
-                          )}
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </>
-            )}
-
-            {current === 2 && bill_summary_detail && (
-              <>
+          {current === 2 && bill_summary_detail && (
+            <>
+              <HStack className="justify-between">
+                <Text>Service Charge</Text>
+                <Text>
+                  {formatter.format(bill_summary_detail.service_charge)}
+                </Text>
+              </HStack>
+              <HStack className="justify-between">
+                <Text>GST Charge</Text>
+                <Text>{formatter.format(bill_summary_detail.gst)}</Text>
+              </HStack>
+              {bill_summary_detail.insurance_charge && (
                 <HStack className="justify-between">
-                  <Text>Service Charge</Text>
+                  <Text>Insurance Charge</Text>
                   <Text>
-                    {formatter.format(bill_summary_detail.service_charge)}
+                    {formatter.format(bill_summary_detail.insurance_charge)}
                   </Text>
                 </HStack>
-                <HStack className="justify-between">
-                  <Text>GST Charge</Text>
-                  <Text>{formatter.format(bill_summary_detail.gst)}</Text>
-                </HStack>
-                {bill_summary_detail.insurance_charge && (
-                  <HStack className="justify-between">
-                    <Text>Insurance Charge</Text>
-                    <Text>
-                      {formatter.format(bill_summary_detail.insurance_charge)}
-                    </Text>
-                  </HStack>
-                )}
-                <Separator />
-                <HStack className="justify-between">
-                  <Text>Total Amount</Text>
-                  <Text>{formatter.format(bill_summary_detail.total)}</Text>
-                </HStack>
-              </>
-            )}
-            <SheetFooter>
-              {current > 0 && (
-                <Button
-                  disabled={addPackage.isPending}
-                  variant={"secondary"}
-                  type="button"
-                  size={"lg"}
-                  onClick={() => setCurrent((current) => current - 1)}
-                  className="w-1/3"
-                >
-                  Previous
-                </Button>
               )}
+              <Separator />
+              <HStack className="justify-between">
+                <Text>Total Amount</Text>
+                <Text>{formatter.format(bill_summary_detail.total)}</Text>
+              </HStack>
+            </>
+          )}
+          <div className="flex items-center justify-end gap-3">
+            {current > 0 && (
               <Button
-                disabled={is_bill_summury_loading || addPackage.isPending}
+                disabled={addPackage.isPending}
+                variant={"outline"}
+                type="button"
                 size={"lg"}
-                isLoading={addPackage.isPending}
-                type="submit"
-                className="w-1/3"
+                onClick={() => setCurrent((current) => current - 1)}
               >
-                {current === 2 ? "Create" : "Continue"}
+                Previous
               </Button>
-            </SheetFooter>
-          </form>
-        </Form>
-      </SheetContent>
-    </Sheet>
+            )}
+            <Button
+              disabled={is_bill_summury_loading || addPackage.isPending}
+              size={"lg"}
+              isLoading={addPackage.isPending}
+              type="submit"
+            >
+              {current === 2 ? "Create" : "Continue"}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }

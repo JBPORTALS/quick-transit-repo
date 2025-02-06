@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { PackagePlusIcon } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
@@ -20,11 +21,11 @@ export default function layout({
         <Text styles={"lead"} className="font-medium">
           Your Recent Requests
         </Text>
-        <NewPackage>
+        <Link href={"/new"}>
           <Button variant={"outline"}>
             <PackagePlusIcon className="size-5" /> Add Package
           </Button>
-        </NewPackage>
+        </Link>
       </HStack>
       <HStack className="relative grid w-full grid-cols-6 gap-6">
         {children}
