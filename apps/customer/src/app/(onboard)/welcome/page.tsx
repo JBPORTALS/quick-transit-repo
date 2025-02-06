@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import { Button } from "@qt/ui/button";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 

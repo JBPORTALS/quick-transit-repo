@@ -58,7 +58,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <TRPCReactProvider headers={headers()}>
             {props.children}
           </TRPCReactProvider>
-          <Toaster />
+          <Toaster richColors />
         </ThemeProvider>
       </body>
     </html>

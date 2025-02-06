@@ -6,8 +6,6 @@ import { Button } from "@qt/ui/button";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
-import { NewPackage } from "~/app/_components/new-package";
-
 export default function layout({
   children,
   trackbar,

@@ -37,6 +37,7 @@ import { Separator } from "@qt/ui/seperator";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 import { Textarea } from "@qt/ui/textarea";
+import { toast } from "@qt/ui/toast";
 
 import { api } from "~/trpc/react";
 import { AddressCardDialog } from "./add-address-form";
@@ -234,10 +235,12 @@ export function NewPackage() {
     );
 
   const addPackage = api.packages.addPackage.useMutation({
-    onSuccess() {
+    async onSuccess() {
       router.refresh();
-      utils.packages.getRecentPackages.invalidate();
-      utils.packages.getAllTrackingDetails.invalidate();
+      await utils.packages.getRecentPackages.invalidate();
+      await utils.packages.getAllTrackingDetails.invalidate();
+      router.replace("/dashboard");
+      toast.success("Package requested successfully");
       form.reset();
     },
   });
