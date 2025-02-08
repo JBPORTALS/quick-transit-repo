@@ -10,7 +10,7 @@ export const AddressDataServerComponent = async ({
   title,
   type,
 }: AddressCardProps) => {
-  const address = await api.address.getAddressByUser({ type });
+  const address = await api.address.getByUser({ type });
 
   if (address) return <AddressDataCard {...address} />;
   return <AddressCard {...{ description, title, type }} />;

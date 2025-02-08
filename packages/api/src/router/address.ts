@@ -3,7 +3,7 @@ import { address, addressInsertSchema, and, eq } from "@qt/db";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 export const addressRouter = createTRPCRouter({
-  postAddress: protectedProcedure
+  create: protectedProcedure
     .input(addressInsertSchema.omit({ customerId: true }))
     .mutation(async ({ ctx, input }) => {
       return await ctx.db.insert(address).values({
@@ -14,7 +14,7 @@ export const addressRouter = createTRPCRouter({
         phone: input.phone,
       });
     }),
-  getAddressByUser: protectedProcedure
+  getByUser: protectedProcedure
     .input(addressInsertSchema.pick({ type: true }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.address.findFirst({
@@ -32,6 +32,17 @@ export const addressRouter = createTRPCRouter({
           eq(address.customerId, ctx.user.id),
           eq(address.type, input.type),
         ),
+      });
+    }),
+  update: protectedProcedure
+    .input(addressInsertSchema.omit({ customerId: true }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.db.insert(address).values({
+        street: input.street,
+        customerId: ctx.user.id,
+        pincode: input.pincode,
+        type: input.type,
+        phone: input.phone,
       });
     }),
 });

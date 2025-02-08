@@ -73,10 +73,10 @@ export const AddressCardDialog = ({
   });
 
   const utils = api.useUtils();
-  const addAddress = api.address.postAddress.useMutation({
+  const addAddress = api.address.create.useMutation({
     onSuccess() {
       utils.address.getAllByType.invalidate();
-      utils.address.getAddressByUser.invalidate();
+      utils.address.getByUser.invalidate();
       setIsOpen(false);
       form.reset();
     },
