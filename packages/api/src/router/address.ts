@@ -56,7 +56,7 @@ export const addressRouter = createTRPCRouter({
     .input(
       z.object({
         addressId: z.string().min(1),
-        data: addressSelectSchema.omit({ customerId: true, id: true }),
+        data: addressInsertSchema.omit({ customerId: true, id: true }),
       }),
     )
     .mutation(async ({ ctx, input }) => {

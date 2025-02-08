@@ -1,7 +1,9 @@
+import { isUndefined } from "lodash";
+
 import { api } from "~/trpc/server";
 import {
   AddressCard,
-  AddressCardProps,
+  AddressCardBaseProps,
   AddressDataCard,
 } from "./add-address-form";
 
@@ -9,9 +11,10 @@ export const AddressDataServerComponent = async ({
   description,
   title,
   type,
-}: AddressCardProps) => {
+}: AddressCardBaseProps) => {
   const address = await api.address.getByUser({ type });
 
-  if (address) return <AddressDataCard {...address} />;
-  return <AddressCard {...{ description, title, type }} />;
+  if (isUndefined(address))
+    return <AddressCard {...{ description, title, type }} />;
+  return <AddressDataCard initialData={address} />;
 };

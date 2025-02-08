@@ -48,10 +48,6 @@ export const packages = pgTable("packages", {
     onDelete: "set null",
     onUpdate: "cascade",
   }),
-  franchise_address_id: uuid("franchise_address_id").references(
-    () => address.id,
-    { onDelete: "set null", onUpdate: "cascade" },
-  ),
   destination_address_id: uuid("destination_address_id").references(
     () => address.id,
     { onDelete: "set null", onUpdate: "cascade" },
@@ -90,11 +86,6 @@ export const packageRealations = relations(packages, ({ one, many }) => ({
     fields: [packages.pick_up_address_id],
     references: [address.id],
     relationName: "pick_up_address_fk",
-  }),
-  franchise_address: one(address, {
-    fields: [packages.franchise_address_id],
-    references: [address.id],
-    relationName: "franchise_address_fk",
   }),
   destination_address: one(address, {
     fields: [packages.destination_address_id],

@@ -69,7 +69,6 @@ export const packagesRouter = createTRPCRouter({
             },
           },
           pick_up_address: true,
-          franchise_address: true,
           destination_address: true,
           category: true,
           courier: true,

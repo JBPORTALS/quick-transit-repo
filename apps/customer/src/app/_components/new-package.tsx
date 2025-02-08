@@ -161,9 +161,6 @@ const packageFormShema = z
     pick_up_address: z
       .string()
       .min(1, "Add new address Or Select existing one"),
-    franchise_address: z
-      .string()
-      .min(1, "Add new address Or Select existing one"),
     delivery_address: z
       .string()
       .min(1, "Add new address Or Select existing one"),
@@ -220,9 +217,6 @@ export function NewPackage() {
       pick_up_address: !isUndefined(firstPickUpAddress)
         ? firstPickUpAddress.id
         : "",
-      franchise_address: !isUndefined(firstfranchiseUpAddress)
-        ? firstfranchiseUpAddress.id
-        : "",
     },
   });
 
@@ -276,7 +270,6 @@ export function NewPackage() {
           from_time: values.from_time,
           to_time: values.to_time,
           destination_address_id: values.delivery_address,
-          franchise_address_id: values.franchise_address,
           pick_up_address_id: values.pick_up_address,
           is_insurance_required:
             values.is_insurance_required == "Yes" ? true : false,
@@ -285,8 +278,11 @@ export function NewPackage() {
     }
   }
 
-  const onSubmitWithPrecheck: FormEventHandler<HTMLFormElement> = async (e) => {
+  const onSubmitWithPrecheck: FormEventHandler<HTMLButtonElement> = async (
+    e,
+  ) => {
     e.preventDefault();
+    e.stopPropagation();
     const fields = steps[current]?.fields;
     const isValid = await form.trigger(fields as FieldNames[], {
       shouldFocus: true,
@@ -314,10 +310,7 @@ export function NewPackage() {
         </div>
       </div>
       <Form {...form}>
-        <form
-          onSubmit={onSubmitWithPrecheck}
-          className="w-full space-y-6 px-3 py-4"
-        >
+        <form className="w-full space-y-6 px-3 py-4">
           {current === 0 && (
             <>
               <FormField
@@ -682,13 +675,21 @@ export function NewPackage() {
                                   </Text>
                                 </VStack>
                                 <HStack className="items-center">
-                                  <Button
-                                    type="button"
-                                    size={"icon"}
-                                    variant={"ghost"}
+                                  <AddressCardDialog
+                                    editMode
+                                    addressId={id}
+                                    type="pickup"
+                                    title="Edit address"
+                                    description=""
                                   >
-                                    <Edit2Icon className="size-4" />
-                                  </Button>
+                                    <Button
+                                      type="button"
+                                      size={"icon"}
+                                      variant={"ghost"}
+                                    >
+                                      <Edit2Icon className="size-4" />
+                                    </Button>
+                                  </AddressCardDialog>
                                   <RadioGroupItem id={id} value={id} />
                                 </HStack>
                               </HStack>
@@ -702,82 +703,6 @@ export function NewPackage() {
                 )}
               />
 
-              <Separator />
-
-              <FormField
-                control={form.control}
-                name="franchise_address"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <HStack className="justify-between">
-                      <VStack>
-                        <Label>{"Franchise Address"}</Label>
-                        <FormDescription>
-                          Where we have to deliver your package
-                        </FormDescription>
-                      </VStack>
-                      <AddressCardDialog
-                        title="New Franchise Address"
-                        description="Where we have to deliver your package"
-                        type="franchise"
-                      >
-                        <Button variant={"outline"}>
-                          Add <PlusIcon />
-                        </Button>
-                      </AddressCardDialog>
-                    </HStack>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        value={field.value}
-                      >
-                        {franchiseAddresses?.map(
-                          ({ phone, street, pincode, id }) => (
-                            <Label key={id} htmlFor={id}>
-                              <HStack
-                                className={cn(
-                                  "items-center justify-between rounded-radius border bg-card p-5",
-                                  field.value === id
-                                    ? "border-primary bg-primary/10"
-                                    : " hover:cursor-pointer hover:bg-accent/30",
-                                )}
-                              >
-                                <VStack>
-                                  <Text>{phone}</Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {street}
-                                  </Text>
-                                  <Text
-                                    styles={"subtle"}
-                                    className="text-muted-foreground"
-                                  >
-                                    {pincode}
-                                  </Text>
-                                </VStack>
-                                <HStack className="items-center">
-                                  <Button
-                                    type="button"
-                                    size={"icon"}
-                                    variant={"ghost"}
-                                  >
-                                    <Edit2Icon className="size-4" />
-                                  </Button>
-                                  <RadioGroupItem id={id} value={id} />
-                                </HStack>
-                              </HStack>
-                            </Label>
-                          ),
-                        )}
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <Separator />
 
               <FormField
@@ -835,13 +760,21 @@ export function NewPackage() {
                                   </Text>
                                 </VStack>
                                 <HStack className="items-center">
-                                  <Button
-                                    type="button"
-                                    size={"icon"}
-                                    variant={"ghost"}
+                                  <AddressCardDialog
+                                    editMode
+                                    addressId={id}
+                                    type="delivery"
+                                    title="Edit address"
+                                    description=""
                                   >
-                                    <Edit2Icon className="size-4" />
-                                  </Button>
+                                    <Button
+                                      type="button"
+                                      size={"icon"}
+                                      variant={"ghost"}
+                                    >
+                                      <Edit2Icon className="size-4" />
+                                    </Button>
+                                  </AddressCardDialog>
                                   <RadioGroupItem id={id} value={id} />
                                 </HStack>
                               </HStack>
@@ -900,7 +833,8 @@ export function NewPackage() {
               disabled={is_bill_summury_loading || addPackage.isPending}
               size={"lg"}
               isLoading={addPackage.isPending}
-              type="submit"
+              type="button"
+              onClick={onSubmitWithPrecheck}
             >
               {current === 2 ? "Create" : "Continue"}
             </Button>

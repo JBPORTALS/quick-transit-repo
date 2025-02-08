@@ -37,11 +37,6 @@ export default async function page() {
           description="Where we have to pick up your package."
         />
         <AddressDataServerComponent
-          type="franchise"
-          title="Add Franchise Address"
-          description="Where we have to deliver your package"
-        />
-        <AddressDataServerComponent
           type="delivery"
           title="Add Delivery Address"
           description="Where franchise has to deliver your package."
