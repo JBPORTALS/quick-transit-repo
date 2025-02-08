@@ -1,1 +1,0 @@
-ALTER TABLE "requests" ADD COLUMN "one_time_code" varchar;

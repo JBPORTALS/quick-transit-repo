@@ -28,6 +28,7 @@ import { Label } from "@qt/ui/label";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 import { Textarea } from "@qt/ui/textarea";
+import { toast } from "@qt/ui/toast";
 
 import { api } from "~/trpc/react";
 
@@ -64,20 +65,39 @@ export const AddressCardDialog = ({
   description,
   title,
   type,
+  editMode,
 }: AddressCardDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const utils = api.useUtils();
+
+  async function getDefaultValues() {}
+
   const form = useForm({
     schema: addressFormSchema,
-    defaultValues: {},
+    async defaultValues() {
+      const data = await utils.address.getById.fetch({ id: "" });
+      return {
+        phone: data?.phone ?? "",
+        pincode: data?.pincode ?? "",
+        street: data?.street ?? "",
+      };
+    },
     mode: "onChange",
   });
 
-  const utils = api.useUtils();
   const addAddress = api.address.create.useMutation({
     onSuccess() {
-      utils.address.getAllByType.invalidate();
-      utils.address.getByUser.invalidate();
+      utils.address.invalidate();
       setIsOpen(false);
+      form.reset();
+    },
+  });
+
+  const updateAddress = api.address.update.useMutation({
+    onSuccess() {
+      utils.address.invalidate();
+      setIsOpen(false);
+      toast.info("Address details updated");
       form.reset();
     },
   });
@@ -85,7 +105,7 @@ export const AddressCardDialog = ({
   async function onSubmit(values: z.infer<typeof addressFormSchema>) {
     await addAddress.mutateAsync({
       ...values,
-      pincode: parseInt(values.pincode),
+      pincode: values.pincode,
       type,
     });
   }

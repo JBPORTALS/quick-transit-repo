@@ -8,7 +8,7 @@ import {
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 import { packages } from "./packages";
 import { user } from "./users";
@@ -27,13 +27,14 @@ export const address = pgTable("address", {
   phone: varchar("phone", { length: 10 }).notNull(),
   street: text("street").notNull(),
   city: text("city").default("Banglore"),
-  pincode: integer("pincode").notNull(),
+  pincode: varchar("pincode", { length: 50 }).notNull(),
   type: addressTypeEnum("type").notNull(),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").defaultNow(),
 });
 
 export const addressInsertSchema = createInsertSchema(address);
+export const addressSelectSchema = createSelectSchema(address);
 
 export const addressRealations = relations(address, ({ one, many }) => ({
   customer: one(user, {

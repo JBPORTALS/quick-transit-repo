@@ -1,1 +1,0 @@
-ALTER TABLE "requests" ADD COLUMN "is_verified" boolean DEFAULT false;

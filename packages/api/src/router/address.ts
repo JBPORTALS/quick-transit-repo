@@ -1,6 +1,12 @@
 import { z } from "zod";
 
-import { address, addressInsertSchema, and, eq } from "@qt/db";
+import {
+  address,
+  addressInsertSchema,
+  addressSelectSchema,
+  and,
+  eq,
+} from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -36,11 +42,21 @@ export const addressRouter = createTRPCRouter({
         ),
       });
     }),
+  getById: protectedProcedure
+    .input(addressSelectSchema.pick({ id: true }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.address.findFirst({
+        where: and(
+          eq(address.customerId, ctx.user.id),
+          eq(address.id, input.id),
+        ),
+      });
+    }),
   update: protectedProcedure
     .input(
       z.object({
         addressId: z.string().min(1),
-        data: addressInsertSchema.omit({ customerId: true, id: true }),
+        data: addressSelectSchema.omit({ customerId: true, id: true }),
       }),
     )
     .mutation(async ({ ctx, input }) => {

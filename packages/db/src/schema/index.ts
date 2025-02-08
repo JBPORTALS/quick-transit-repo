@@ -1,54 +1,9 @@
-export {
-  user,
-  userRelations,
-  userInsertSchema,
-  userSelectSchema,
-  userRoleEnum,
-  handle_user_data,
-} from "./users";
-export {
-  address,
-  addressInsertSchema,
-  addressRealations,
-  addressTypeEnum,
-} from "./address";
-export {
-  packages,
-  packageInsertSchema,
-  packageSelectSchema,
-  packageRealations,
-} from "./packages";
-export {
-  categories,
-  categoryInsertSchema,
-  categorySelectSchema,
-  categoriesRelations,
-} from "./categories";
-export {
-  couriers,
-  couriersInsertSchema,
-  couriersSelectSchema,
-  couriersRelations,
-} from "./couriers";
-export {
-  bill_details,
-  billDetialsInsertSchema,
-  billDetialsSelectSchema,
-  billDetailsRealations,
-} from "./bill_details";
-export {
-  package_image,
-  packagImageInsertSchema,
-  packageImageSelectSchema,
-  packageImageRealations,
-} from "./package_images";
-export {
-  requests,
-  requestsInsertSchema,
-  requestsSelectSchema,
-  requestsRelations,
-  statusEnum,
-} from "./requests";
-export{reviewTypeEnum,reviews
-  ,reviewsInsertSchema,reviewsRelations,reviewsSelectSchema
-}from "./reviews"
+export * from "./users";
+export * from "./address";
+export * from "./packages";
+export * from "./categories";
+export * from "./couriers";
+export * from "./bill_details";
+export * from "./package_images";
+export * from "./requests";
+export * from "./reviews";
