@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { isUndefined } from "lodash";
-import { CalendarIcon, Circle, PlusIcon, RocketIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  Circle,
+  Edit2Icon,
+  PlusIcon,
+  RocketIcon,
+} from "lucide-react";
 import { z } from "zod";
 
 import { cn } from "@qt/ui";
@@ -657,7 +663,7 @@ export function NewPackage() {
                                   "items-center justify-between rounded-radius border bg-card p-5 transition-all duration-150 ",
                                   field.value === id
                                     ? "border-primary bg-primary/10"
-                                    : " hover:cursor-pointer hover:bg-accent",
+                                    : " hover:cursor-pointer hover:bg-accent/30",
                                 )}
                               >
                                 <VStack>
@@ -675,7 +681,16 @@ export function NewPackage() {
                                     {pincode}
                                   </Text>
                                 </VStack>
-                                <RadioGroupItem id={id} value={id} />
+                                <HStack className="items-center">
+                                  <Button
+                                    type="button"
+                                    size={"icon"}
+                                    variant={"ghost"}
+                                  >
+                                    <Edit2Icon className="size-4" />
+                                  </Button>
+                                  <RadioGroupItem id={id} value={id} />
+                                </HStack>
                               </HStack>
                             </Label>
                           ),
@@ -725,7 +740,7 @@ export function NewPackage() {
                                   "items-center justify-between rounded-radius border bg-card p-5",
                                   field.value === id
                                     ? "border-primary bg-primary/10"
-                                    : " hover:cursor-pointer hover:bg-accent",
+                                    : " hover:cursor-pointer hover:bg-accent/30",
                                 )}
                               >
                                 <VStack>
@@ -743,7 +758,16 @@ export function NewPackage() {
                                     {pincode}
                                   </Text>
                                 </VStack>
-                                <RadioGroupItem id={id} value={id} />
+                                <HStack className="items-center">
+                                  <Button
+                                    type="button"
+                                    size={"icon"}
+                                    variant={"ghost"}
+                                  >
+                                    <Edit2Icon className="size-4" />
+                                  </Button>
+                                  <RadioGroupItem id={id} value={id} />
+                                </HStack>
                               </HStack>
                             </Label>
                           ),
@@ -792,7 +816,7 @@ export function NewPackage() {
                                   "items-center justify-between rounded-radius border bg-card p-5",
                                   field.value === id
                                     ? "border-primary bg-primary/10"
-                                    : " hover:cursor-pointer hover:bg-accent",
+                                    : " hover:cursor-pointer hover:bg-accent/30",
                                 )}
                               >
                                 <VStack>
@@ -810,7 +834,16 @@ export function NewPackage() {
                                     {pincode}
                                   </Text>
                                 </VStack>
-                                <RadioGroupItem id={id} value={id} />
+                                <HStack className="items-center">
+                                  <Button
+                                    type="button"
+                                    size={"icon"}
+                                    variant={"ghost"}
+                                  >
+                                    <Edit2Icon className="size-4" />
+                                  </Button>
+                                  <RadioGroupItem id={id} value={id} />
+                                </HStack>
                               </HStack>
                             </Label>
                           ),

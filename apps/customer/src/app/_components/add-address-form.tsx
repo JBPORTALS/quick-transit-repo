@@ -35,6 +35,7 @@ export interface AddressCardProps {
   title: string;
   description: string;
   type: "pickup" | "franchise" | "delivery";
+  editMode?: boolean;
 }
 
 interface AddressCardDialogProps extends AddressCardProps {
