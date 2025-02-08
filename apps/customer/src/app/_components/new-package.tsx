@@ -71,7 +71,7 @@ const steps = [
   {
     name: "Address Details",
     // show: true,
-    fields: ["pick_up_address", "franchise_address", "delivery_address"],
+    fields: ["pick_up_address", "delivery_address"],
   },
   {
     name: "Payment",
@@ -302,7 +302,9 @@ export function NewPackage() {
           New Package
         </h3>
 
-        {/* <SheetDescription>{steps[current]?.description}</SheetDescription> */}
+        {/* <p className="text-sm text-muted-foreground">
+          {steps[current]?.description}
+        </p> */}
         <div className="mx-auto flex w-fit gap-5 pb-10 pt-3">
           {steps.map((s, i) => (
             <Step key={s.name} aria-label={s.name} aria-hidden={i > current} />
