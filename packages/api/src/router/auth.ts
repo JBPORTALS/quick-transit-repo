@@ -19,6 +19,7 @@ export const authRouter = createTRPCRouter({
         role: false,
       },
       where: eq(user.role, "customer"),
+      limit: 10,
     });
 
     const finalResult = await Promise.all(
