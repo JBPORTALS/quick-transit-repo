@@ -103,23 +103,27 @@ export default async function PackageDetails({
             </VStack>
             {packageDetail.request.current_status !== "cancelled" && (
               <HStack className="items-center">
-                <Button size={"sm"} variant={"outline"}>
+                {/* <Button size={"sm"} variant={"outline"}>
                   <FileDown className="size-4" /> Invoice
-                </Button>
-                <Button variant={"outline"} size={"sm"}>
+                </Button> */}
+                {/* <Button variant={"outline"} size={"sm"}>
                   <Edit3Icon className="size-4" />
                   Update Details
-                </Button>
-                <CancelDialog packageId={packageDetail.id}>
-                  <Button
-                    variant={"outline"}
-                    size={"sm"}
-                    className="border-destructive text-destructive hover:text-destructive"
-                  >
-                    <XIcon className="size-4" />
-                    Cancell Request
-                  </Button>
-                </CancelDialog>
+                </Button> */}
+                {["requested", "confirmed"].includes(
+                  packageDetail.request.current_status,
+                ) && (
+                  <CancelDialog packageId={packageDetail.id}>
+                    <Button
+                      variant={"outline"}
+                      size={"sm"}
+                      className="border-destructive text-destructive hover:text-destructive"
+                    >
+                      <XIcon className="size-4" />
+                      Cancell Request
+                    </Button>
+                  </CancelDialog>
+                )}
               </HStack>
             )}
           </HStack>
