@@ -16,12 +16,12 @@ export default function layout({
   return (
     <VStack className="h-full w-full gap-5">
       <HStack className="w-full items-center justify-between">
-        <Text styles={"lead"} className="font-medium">
-          Your Recent Requests
+        <Text styles={"lead"} className="font-mono font-medium">
+          Your Ongoing Requests
         </Text>
         <Link href={"/new"}>
-          <Button variant={"outline"}>
-            <PackagePlusIcon className="size-5" /> Add Package
+          <Button size={"lg"}>
+            <PackagePlusIcon className="size-5" /> New Package
           </Button>
         </Link>
       </HStack>

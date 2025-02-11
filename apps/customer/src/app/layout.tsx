@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Acme } from "next/font/google";
+import { Acme, Fira_Sans } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 
@@ -41,6 +41,12 @@ const AcmeFont = Acme({
   variable: "--font-acme",
   subsets: ["latin"],
   weight: ["400"],
+});
+
+const FiraSansFont = Fira_Sans({
+  variable: "--font-fira-sans",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export default function RootLayout(props: { children: React.ReactNode }) {

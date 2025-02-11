@@ -208,7 +208,9 @@ export function UniversalTrackingBar({
               )}
             </TrackingBar>
 
-            {details.request.current_status !== "requested" && (
+            {!["delivered", "cancelled", "requested"].includes(
+              details.request.current_status,
+            ) && (
               <HStack className="w-full items-center justify-between rounded-radius border p-3">
                 {/* Partner information */}
                 <HStack>

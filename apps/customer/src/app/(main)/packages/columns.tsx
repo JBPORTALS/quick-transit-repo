@@ -53,17 +53,17 @@ export const columns: ColumnDef<Package>[] = [
         currency: "INR",
       }).format(amount);
 
-      return <div className="text-right">{formatted}</div>;
+      return <div className="w-full text-right">{formatted}</div>;
     },
   },
   {
     accessorKey: "request.current_status",
-    header: ({ column }: any) => {
+    header: ({ column }) => {
       return (
-        <div className="text-center">
+        <div className="w-full text-right">
           <Button
             variant="ghost"
-            className="text-sm"
+            size={"sm"}
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Status
@@ -75,28 +75,36 @@ export const columns: ColumnDef<Package>[] = [
     cell: ({ row }) => {
       const value = row.original;
       return (
-        <HStack className="items-center justify-center">
-          <StatusTag status={value.request.current_status} />
-        </HStack>
+        <div className="flex w-full justify-end">
+          <HStack className="ml-auto items-center">
+            <StatusTag status={value.request.current_status} />
+          </HStack>
+        </div>
       );
     },
   },
   {
     accessorKey: "created_at",
-    header: ({ column }: any) => {
+    header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          className="text-sm"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Requested On
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="w-full text-right">
+          <Button
+            size={"sm"}
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            <span>Requested On</span>
+            <ArrowUpDown className="size-4" />
+          </Button>
+        </div>
       );
     },
     cell({ row }) {
-      return <>{moment(row.original.created_at).fromNow()}</>;
+      return (
+        <div className="w-full px-5 text-right">
+          <span>{moment(row.original.created_at).fromNow()}</span>
+        </div>
+      );
     },
   },
 ];

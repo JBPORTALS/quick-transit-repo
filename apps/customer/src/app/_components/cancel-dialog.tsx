@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@qt/ui/dialog";
+import { toast } from "@qt/ui/toast";
 
 import { api } from "~/trpc/react";
 
@@ -32,6 +33,7 @@ export default function CancelDialog({
       utils.packages.getTrackingDetails.refetch();
       utils.packages.getById.refetch();
       router.refresh();
+      toast.info("Package cancelled");
     },
   });
   const [open, onOpenChange] = useState(false);

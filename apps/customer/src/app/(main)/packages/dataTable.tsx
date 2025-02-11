@@ -13,14 +13,9 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
+import { Search } from "lucide-react";
 
 import { Button } from "@qt/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@qt/ui/dropdown-menu";
 import { Input } from "@qt/ui/input";
 import {
   Table,
@@ -70,9 +65,11 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="">
-      <div className="flex w-full items-center  py-4">
+      <div className="relative mb-3 flex w-full items-center">
+        <Search className="absolute ml-2.5 mr-2.5 size-4 text-muted-foreground" />
         <Input
-          placeholder="Filter Packages..."
+          placeholder="Search here..."
+          className="h-10 ps-8"
           value={(table.getColumn("package")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("package")?.setFilterValue(event.target.value)
