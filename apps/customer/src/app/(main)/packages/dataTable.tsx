@@ -14,6 +14,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { Search } from "lucide-react";
+import { parseAsString, useQueryState } from "nuqs";
 
 import { Button } from "@qt/ui/button";
 import { Input } from "@qt/ui/input";
@@ -25,6 +26,8 @@ import {
   TableHeader,
   TableRow,
 } from "@qt/ui/table";
+
+import { api } from "~/trpc/react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,7 +45,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-
+  const [query, setQuery] = useQueryState("q", parseAsString.withDefault(""));
   const table = useReactTable({
     data,
     columns,
@@ -70,10 +73,8 @@ export function DataTable<TData, TValue>({
         <Input
           placeholder="Search here..."
           className="h-10 ps-8"
-          value={(table.getColumn("package")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("package")?.setFilterValue(event.target.value)
-          }
+          value={query ?? ""}
+          onChange={(event) => setQuery(event.target.value)}
         />
       </div>
       <div className="overflow-hidden rounded-radius border">

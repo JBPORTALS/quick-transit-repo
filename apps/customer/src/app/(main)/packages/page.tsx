@@ -1,16 +1,17 @@
+import type { SearchParams } from "nuqs";
 import React from "react";
 
 import { api } from "~/trpc/server";
-import { columns } from "./columns";
-import { DataTable } from "./dataTable";
+import { loadSearchParams } from "~/utils/search-params";
+import { PackagesList } from "./packages-list";
 
-async function getData() {
-  // Fetch data from your API here.
-  return api.packages.getRecentPackages();
-}
+export default async function DemoPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { q } = await loadSearchParams(searchParams);
+  const data = await api.packages.getByCustomerId({ query: q });
 
-export default async function DemoPage() {
-  const data = await getData();
-
-  return <DataTable columns={columns} data={data} />;
+  return <PackagesList initialData={data} />;
 }

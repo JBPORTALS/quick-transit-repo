@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Acme, Fira_Sans } from "next/font/google";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { cn } from "@qt/ui";
 import { ThemeProvider } from "@qt/ui/theme";
@@ -60,12 +61,14 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           AcmeFont.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider headers={headers()}>
-            {props.children}
-          </TRPCReactProvider>
-          <Toaster richColors />
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <TRPCReactProvider headers={headers()}>
+              {props.children}
+            </TRPCReactProvider>
+            <Toaster richColors />
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );
