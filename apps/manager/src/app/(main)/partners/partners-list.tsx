@@ -8,16 +8,13 @@ import { api } from "~/trpc/react";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
-export function PackagesList({
+export function PartnersList({
   initialData,
 }: {
-  initialData: RouterOutputs["packages"]["getByCustomerId"];
+  initialData: RouterOutputs["auth"]["getPartners"];
 }) {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
-  const { data } = api.packages.getByCustomerId.useQuery(
-    { query },
-    { initialData },
-  );
+  const { data } = api.auth.getPartners.useQuery({ query }, { initialData });
   return <DataTable columns={columns} data={data} />;
 }

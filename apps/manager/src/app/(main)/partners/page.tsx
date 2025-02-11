@@ -1,12 +1,19 @@
-import { api } from "~/trpc/server";
-import { columns } from "./columns";
-import { DataTable } from "./data-table";
+import { SearchParams } from "nuqs";
 
-export default async function Page() {
-  const data = await api.auth.getPartners();
+import { api } from "~/trpc/server";
+import { loadSearchParams } from "~/utils/search-params";
+import { PartnersList } from "./partners-list";
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { q } = await loadSearchParams(searchParams);
+  const data = await api.auth.getPartners({ query: q });
   return (
     <div>
-      <DataTable columns={columns} data={data} />
+      <PartnersList initialData={data} />
     </div>
   );
 }

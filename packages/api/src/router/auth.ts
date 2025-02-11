@@ -1,6 +1,16 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
-import { eq, packages, sql, user, userInsertSchema } from "@qt/db";
+import {
+  and,
+  eq,
+  ilike,
+  or,
+  packages,
+  sql,
+  user,
+  userInsertSchema,
+} from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
@@ -46,16 +56,26 @@ export const authRouter = createTRPCRouter({
 
     return finalResult;
   }),
-  getPartners: publicProcedure.query(async ({ ctx }) => {
-    const customers = await ctx.db.query.user.findMany({
-      columns: {
-        role: false,
-      },
-      where: eq(user.role, "partner"),
-    });
+  getPartners: publicProcedure
+    .input(z.object({ query: z.string().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      const customers = await ctx.db.query.user.findMany({
+        columns: {
+          role: false,
+        },
+        where: input?.query
+          ? and(
+              eq(user.role, "partner"),
+              or(
+                ilike(user.name, `%${input.query}%`),
+                ilike(user.email, `%${input.query}%`),
+              ),
+            )
+          : eq(user.role, "partner"),
+      });
 
-    return customers;
-  }),
+      return customers;
+    }),
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))
     .mutation(({ input, ctx }) => {
