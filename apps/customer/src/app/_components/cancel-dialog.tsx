@@ -25,11 +25,13 @@ export default function CancelDialog({
   packageId: string;
 }) {
   const utils = api.useUtils();
+  const router = useRouter();
 
   const cancelRequest = api.packages.cancelRequest.useMutation({
     onSuccess() {
       utils.packages.getTrackingDetails.refetch();
       utils.packages.getById.refetch();
+      router.refresh();
     },
   });
   const [open, onOpenChange] = useState(false);

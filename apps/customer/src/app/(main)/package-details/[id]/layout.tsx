@@ -1,5 +1,3 @@
-import React from "react";
-
 import { HStack, VStack } from "@qt/ui/stack";
 
 export default function layout({

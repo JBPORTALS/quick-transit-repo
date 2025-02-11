@@ -1,12 +1,12 @@
-"use client";
-
 import React from "react";
 import Link from "next/link";
 import { format, parse } from "date-fns";
+import { isUndefined } from "lodash";
 import {
   BoxIcon,
   CalendarIcon,
   ClockIcon,
+  Edit3Icon,
   FileDown,
   MoveHorizontalIcon,
   PackageIcon,
@@ -15,6 +15,7 @@ import {
   ScaleIcon,
   TagIcon,
   TextQuoteIcon,
+  XIcon,
 } from "lucide-react";
 
 import { Badge } from "@qt/ui/badge";
@@ -39,8 +40,9 @@ import { HStack, VStack } from "@qt/ui/stack";
 import { Table, TableBody, TableCell, TableRow } from "@qt/ui/table";
 import { Text } from "@qt/ui/text";
 
+import CancelDialog from "~/app/_components/cancel-dialog";
 import PackageMoreDropdown from "~/app/_components/package-more-dropdown";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
 import { PackageDetailsSkeleton } from "./skeleton";
 
 function convertTo12HourFormat(time24: string) {
@@ -53,15 +55,22 @@ function convertTo12HourFormat(time24: string) {
   return formattedTime;
 }
 
-export default function PackageDetails({ params }: { params: { id: string } }) {
+export default async function PackageDetails({
+  params,
+}: {
+  params: { id: string };
+}) {
   const formatToINR = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "INR",
   });
-  const { data: packageDetail, isLoading } = api.packages.getById.useQuery({
+  const packageDetail = await api.packages.getById({
     id: params.id,
   });
-  if (isLoading || !packageDetail) return <PackageDetailsSkeleton />;
+
+  if (isUndefined(packageDetail))
+    throw new Error("Ooops! Failed to fetch package details");
+
   return (
     <VStack className="col-span-7">
       <Breadcrumb>
@@ -95,19 +104,35 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
             {packageDetail.request.current_status !== "cancelled" && (
               <HStack className="items-center">
                 <Button size={"sm"} variant={"outline"}>
-                  <FileDown className="h-5 w-5" /> Invoice
+                  <FileDown className="size-4" /> Invoice
                 </Button>
-                <PackageMoreDropdown packageId={params.id} />
+                <Button variant={"outline"} size={"sm"}>
+                  <Edit3Icon className="size-4" />
+                  Update Details
+                </Button>
+                <CancelDialog packageId={packageDetail.id}>
+                  <Button
+                    variant={"outline"}
+                    size={"sm"}
+                    className="border-destructive text-destructive hover:text-destructive"
+                  >
+                    <XIcon className="size-4" />
+                    Cancell Request
+                  </Button>
+                </CancelDialog>
               </HStack>
             )}
           </HStack>
           {packageDetail.request.current_status === "confirmed" && (
-            <div className="rounded-full bg-blue-200 px-4 py-0.5 text-center text-sm dark:bg-blue-900">
+            <Badge
+              variant={"secondary"}
+              className="justify-center py-1.5 text-center font-medium"
+            >
               <p>
                 Your One Time Password to verify the package with delivery
                 partner - <b>{packageDetail.request.one_time_code}</b>
               </p>
-            </div>
+            </Badge>
           )}
         </CardHeader>
         <CardContent className="px-0">
