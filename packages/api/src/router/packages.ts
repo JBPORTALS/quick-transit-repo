@@ -27,7 +27,7 @@ export const packagesRouter = createTRPCRouter({
       return await ctx.db.query.packages.findMany({
         where: input?.requireAll
           ? undefined
-          : eq(packages.customer_id, ctx.user.id),
+          : and(eq(packages.customer_id, ctx.user.id)),
         orderBy: desc(packages.created_at),
         with: {
           request: {
