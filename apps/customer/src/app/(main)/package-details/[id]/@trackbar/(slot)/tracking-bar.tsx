@@ -258,10 +258,13 @@ export function TrackingBar({
 }) {
   const params = useParams();
   const package_id = params.id as string;
-  const { data: trackingDetails, isLoading } =
-    api.packages.getTrackingDetails.useQuery({ package_id }, { initialData });
+  const { data: trackingDetails } = api.packages.getTrackingDetails.useQuery(
+    { package_id },
+    { initialData },
+  );
 
-  if (isLoading || !trackingDetails) return <TrackBarSkeleton />;
+  if (isUndefined(trackingDetails))
+    return <div>Unable to get tracking details</div>;
 
   return (
     <div className="sticky top-20 col-span-3 w-full">
