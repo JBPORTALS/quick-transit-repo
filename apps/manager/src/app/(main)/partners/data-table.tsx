@@ -13,7 +13,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { BikeIcon, PackageOpen, Search } from "lucide-react";
+import { BikeIcon, PackageOpen, PlusIcon, Search } from "lucide-react";
 import { useQueryState } from "nuqs";
 
 import { Button } from "@qt/ui/button";
@@ -28,6 +28,8 @@ import {
   TableRow,
 } from "@qt/ui/table";
 import { Text } from "@qt/ui/text";
+
+import NewPartner from "~/app/_components/new-partner";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -69,14 +71,22 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="">
-      <div className="relative mb-3 flex w-full items-center">
-        <Search className="absolute ml-2.5 mr-2.5 size-4 text-muted-foreground" />
-        <Input
-          placeholder="Search here..."
-          className="h-10 ps-8"
-          value={query ?? ""}
-          onChange={(event) => setQuery(event.target.value)}
-        />
+      <div className={"flex gap-3"}>
+        <div className="relative mb-3 flex w-full items-center">
+          <Search className="absolute ml-2.5 mr-2.5 size-4 text-muted-foreground" />
+          <Input
+            placeholder="Search here..."
+            className="h-10 ps-8"
+            value={query ?? ""}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+        </div>
+        <NewPartner>
+          <Button size={"lg"}>
+            <PlusIcon className="size-4" />
+            Add
+          </Button>
+        </NewPartner>
       </div>
       <div className="overflow-hidden rounded-radius border">
         <Table className="bg-card">

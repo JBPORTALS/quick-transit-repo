@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  index,
   pgEnum,
   pgSchema,
   pgTable,
@@ -25,19 +26,25 @@ const authUsers = pgSchema("auth").table("users", {
   email: varchar("email"),
 });
 
-export const user = pgTable("user", {
-  id: uuid("id")
-    .primaryKey()
-    .references(() => authUsers.id, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    }),
-  name: text("name"),
-  email: text("email"),
-  picture: text("picture"),
-  role: userRoleEnum("role").default("user"),
-  created_at: timestamp("created_at").defaultNow().notNull(),
-});
+export const user = pgTable(
+  "user",
+  {
+    id: uuid("id")
+      .primaryKey()
+      .references(() => authUsers.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    picture: text("picture"),
+    role: userRoleEnum("role").default("user").notNull(),
+    created_at: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => ({
+    roleIndex: index("roleIndex").on(t.role),
+  }),
+);
 
 export const userRelations = relations(user, ({ many }) => ({
   addresses: many(address),

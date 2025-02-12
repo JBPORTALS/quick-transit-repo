@@ -1,4 +1,4 @@
-import { Session } from "@supabase/supabase-js";
+import { createClient, Session } from "@supabase/supabase-js";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -21,9 +21,20 @@ type AuthContextProps = {
  */
 
 export const createContextInner = async ({ user }: AuthContextProps) => {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    },
+  );
   return {
     user,
     db,
+    supabase,
   };
 };
 

@@ -169,7 +169,6 @@ async function main() {
               title: faker.commerce.productName(),
               description: faker.commerce.productDescription(),
               pick_up_address_id: faker.helpers.arrayElement(addresses).id,
-              franchise_address_id: faker.helpers.arrayElement(addresses).id,
               destination_address_id: faker.helpers.arrayElement(addresses).id,
               category_id: faker.helpers.arrayElement(categories_data).id,
               is_insurance_required: faker.helpers.arrayElement([true, false]),

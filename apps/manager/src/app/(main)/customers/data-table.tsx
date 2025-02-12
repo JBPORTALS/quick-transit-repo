@@ -13,15 +13,10 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { PackageOpen } from "lucide-react";
+import { PackageOpen, Search } from "lucide-react";
+import { useQueryState } from "nuqs";
 
 import { Button } from "@qt/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@qt/ui/dropdown-menu";
 import { Input } from "@qt/ui/input";
 import { VStack } from "@qt/ui/stack";
 import {
@@ -50,6 +45,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [query, setQuery] = useQueryState("q", { clearOnDefault: true });
 
   const table = useReactTable({
     data,
@@ -73,15 +69,16 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="">
-      <div className="flex w-full items-center  py-4">
+      <div className="relative mb-3 flex w-full items-center">
+        <Search className="absolute ml-2.5 mr-2.5 size-4 text-muted-foreground" />
         <Input
-          placeholder="Filter Packages..."
-          value={(table.getColumn("package")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("package")?.setFilterValue(event.target.value)
-          }
+          placeholder="Search here..."
+          className="h-10 ps-8"
+          value={query ?? ""}
+          onChange={(event) => setQuery(event.target.value)}
         />
       </div>
+
       <div className="overflow-hidden rounded-radius border">
         <Table className="bg-card">
           <TableHeader>
