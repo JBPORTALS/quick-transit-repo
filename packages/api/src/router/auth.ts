@@ -24,6 +24,25 @@ export const authRouter = createTRPCRouter({
     });
     return { ...ctx.user, ...userProfileData };
   }),
+
+  getUserById: publicProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      const userProfileData = await ctx.db.query.user.findFirst({
+        where: eq(user.id, input.id),
+      });
+      const { data, error } = await ctx.supabase.auth.admin.getUserById(
+        input.id,
+      );
+      if (error)
+        throw new TRPCError({
+          message: error.message,
+          code: "INTERNAL_SERVER_ERROR",
+          cause: error.cause,
+        });
+      return { ...data.user, ...userProfileData };
+    }),
+
   getCustomers: publicProcedure
     .input(z.object({ query: z.string().optional() }).optional())
     .query(async ({ ctx, input }) => {

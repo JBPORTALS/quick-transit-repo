@@ -23,7 +23,7 @@ export default function RootLayout(props: {
         <VStack className="relative gap-0 border-b">
           <HeaderClient />
           {/* if these paths are isn't include in the pathname, then show the sub header. */}
-          {!["/package-details"]
+          {!["/package-details", "/partners/v"]
             .map((value) => pathname.startsWith(value))
             .includes(true) && <Subheader />}
         </VStack>
