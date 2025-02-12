@@ -18,7 +18,7 @@ import { api } from "~/lib/trpc/api";
 export default function HomeScreen() {
   const { data, refetch, isLoading } =
     api.packages.getAllAssignedPackages.useQuery({
-      offset: 5,
+      offset: 0,
     });
 
   const [isFetching, setFetching] = useState(false);
@@ -94,7 +94,7 @@ export default function HomeScreen() {
           {data?.packages.map(({ id, package: packageDetails }) => (
             <View
               key={id.toString()}
-              className="w-full flex-grow-0 flex-row gap-3"
+              className="w-full flex-grow-0 flex-row gap-2"
             >
               <View className="aspect-square min-w-20 max-w-20 items-center  justify-center rounded-md border border-border bg-muted/20">
                 <PackageIcon

@@ -13,16 +13,17 @@ export const getBaseUrl = () => {
    * **NOTE**: This is only for development. In production, you'll want to set the
    * baseUrl to your production API URL.
    */
-  // const debuggerHost = Constants.expoConfig?.hostUri;
-
-  const localhost = "192.168.195.111";
+  const debuggerHost = Constants.expoConfig?.hostUri;
+  const localhost = debuggerHost?.split(":")[0];
 
   console.log(Constants.expoConfig);
-  if (!localhost) {
-    // return "https://turbo.t3.gg";
-    throw new Error(
-      "Failed to get localhost. Please point to your production server.",
-    );
-  }
-  return `http://${localhost}:3000`;
+  // if (!localhost) {
+  //   // return "https://turbo.t3.gg";
+  //   throw new Error(
+  //     "Failed to get localhost. Please point to your production server.",
+  //   );
+  // }
+
+  console.log("localhost", localhost);
+  return `http://192.168.208.111:3000`;
 };

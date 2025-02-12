@@ -37,6 +37,8 @@ const sendMagicLink = async (email: string) => {
     },
   });
 
+  console.log("auth error", error?.code);
+
   return { data, error };
 };
 
@@ -47,12 +49,34 @@ export default function MagicLink() {
   const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof MagicLinkSchema>) {
+    const { data, error: userError } = await supabase
+      .from("user")
+      .select()
+      .eq("email", values.email)
+      .eq("role", "partner");
+
+    // console.warn("e", count, userError, status, data);
+
+    if (data?.length === 0) {
+      form.setError("email", {
+        message: "Invalid email address",
+      });
+      return null;
+    }
     const { error } = await sendMagicLink(values.email);
 
-    if (error) console.log(error);
+    if (error) {
+      form.setError("email", {
+        message:
+          error.code === "otp_disabled"
+            ? "Email address not exists"
+            : error.message,
+      });
+      return null;
+    }
 
     form.reset();
-    router.push("/email-sent");
+    router.push(`/verification?email=${values.email}`);
   }
 
   return (

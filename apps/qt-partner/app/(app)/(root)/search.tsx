@@ -74,12 +74,8 @@ export default function SearchHere() {
           ) : (
             data?.packages.map((data) => (
               <>
-                <Link
-                  key={data.id.toString()}
-                  asChild
-                  href={`/package/${data.package_id}`}
-                >
-                  <TouchableOpacity>
+                <Link asChild href={`/package/${data.package_id}`}>
+                  <TouchableOpacity key={data.id.toString()}>
                     <PackageItem key={data.id} data={data} />
                   </TouchableOpacity>
                 </Link>
