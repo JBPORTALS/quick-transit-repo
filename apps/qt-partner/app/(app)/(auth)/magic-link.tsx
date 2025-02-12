@@ -17,7 +17,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
-import { Send } from "~/lib/icons/Send";
+import { ArrowRight } from "~/lib/icons/ArrowRight";
 import { supabase } from "~/lib/supabase";
 
 const MagicLinkSchema = z.object({
@@ -33,6 +33,7 @@ const sendMagicLink = async (email: string) => {
     email,
     options: {
       emailRedirectTo: redirectTo,
+      shouldCreateUser: false,
     },
   });
 
@@ -98,7 +99,7 @@ export default function MagicLink() {
             className="w-full"
           >
             <Text>Send</Text>
-            <Send size={18} className="text-primary-foreground" />
+            <ArrowRight size={18} className="text-primary-foreground" />
           </Button>
         </View>
       </Form>

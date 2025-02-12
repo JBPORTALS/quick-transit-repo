@@ -38,7 +38,7 @@ function HandleAuthLink() {
   React.useEffect(() => {
     if (url)
       createSessionFromUrl(url).then((value) => {
-        if (value?.error) router.push("/verify-error");
+        if (value?.error) console.log(value.error);
       });
   }, [url]);
 
