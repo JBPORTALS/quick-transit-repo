@@ -25,6 +25,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     package: "com.jbportals.qtpartner",
   },
+  extra: {
+    eas: {
+      projectId: "edea622a-6fcf-4f1a-a8e4-cfb033597919",
+    },
+  },
   web: {
     bundler: "metro",
     output: "static",

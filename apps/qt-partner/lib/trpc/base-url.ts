@@ -18,7 +18,7 @@ export const getBaseUrl = () => {
 
   console.log(Constants.expoConfig);
   // if (!localhost) {
-  //   // return "https://turbo.t3.gg";
+  //   // return "https://quick-transit-repo-manager-wheat.vercel.app/";
   //   throw new Error(
   //     "Failed to get localhost. Please point to your production server.",
   //   );

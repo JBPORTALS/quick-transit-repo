@@ -85,7 +85,7 @@ export default function EmailSent() {
                   <Input
                     {...field}
                     autoFocus
-                    className="native:h-14"
+                    className="native:h-14 native:text-2xl native:text-primary native:leading-snug native:tracking-widest font-bold"
                     keyboardType="number-pad"
                     onChangeText={(value) => field.onChange(value)}
                   />
