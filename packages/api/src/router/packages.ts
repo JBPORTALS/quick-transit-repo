@@ -119,6 +119,29 @@ export const packagesRouter = createTRPCRouter({
         },
       });
     }),
+  getByPartnerId: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.requests.findMany({
+        where: and(eq(requests.partner_id, input.id)),
+        with: {
+          package: {
+            with: {
+              bill: {
+                extras(fields, operators) {
+                  return {
+                    total:
+                      operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
+                        "total",
+                      ),
+                  };
+                },
+              },
+            },
+          },
+        },
+      });
+    }),
   addPackage: protectedProcedure
     .input(packageInsertSchema.omit({ customer_id: true, bill_id: true }))
     .mutation(async ({ ctx, input }) => {
