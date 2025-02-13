@@ -288,10 +288,10 @@ export default function PackageDetails() {
                     <Text className="text-lg font-medium">
                       Franchisee Address
                     </Text>
-                    <P className="text-muted-foreground">
+                    {/* <P className="text-muted-foreground">
                       {data?.franchise_address?.street} -{" "}
-                      {data?.franchise_address?.pincode}
-                    </P>
+                      {data?.pincode}
+                    </P> */}
                     <UploadTrackingDetails />
                   </View>
                 </AccordionContent>
