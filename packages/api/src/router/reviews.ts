@@ -90,5 +90,7 @@ export const reviewsRouter = createTRPCRouter({
             eq(reviews.type, "partner"),
           ),
         );
+
+      return result.at(0);
     }),
 });

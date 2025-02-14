@@ -127,6 +127,7 @@ export const packagesRouter = createTRPCRouter({
         with: {
           package: {
             with: {
+              customer: true,
               bill: {
                 extras(fields, operators) {
                   return {
@@ -139,6 +140,7 @@ export const packagesRouter = createTRPCRouter({
               },
             },
           },
+          reviews: true,
         },
       });
     }),

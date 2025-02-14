@@ -10,7 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
-import { user } from ".";
+import { reviews, user } from ".";
 import { packages } from "./packages";
 
 export const statusEnum = pgEnum("statusEnum", [
@@ -51,7 +51,7 @@ export const requests = pgTable("requests", {
 export const requestsInsertSchema = createInsertSchema(requests);
 export const requestsSelectSchema = createInsertSchema(requests);
 
-export const requestsRelations = relations(requests, ({ one }) => ({
+export const requestsRelations = relations(requests, ({ one, many }) => ({
   package: one(packages, {
     fields: [requests.package_id],
     references: [packages.id],
@@ -61,4 +61,5 @@ export const requestsRelations = relations(requests, ({ one }) => ({
     references: [user.id],
     relationName: "partner",
   }),
+  reviews: many(reviews),
 }));
