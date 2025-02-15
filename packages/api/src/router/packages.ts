@@ -388,10 +388,15 @@ export const packagesRouter = createTRPCRouter({
 
     return ctx.db
       .select({
-        count: sql<number>`COUNT(*)`.as("count"),
+        raised: sql<number>`COUNT(*)`.mapWith(Number).as("raised"),
+        cancelled:
+          sql<number>`SUM(CASE WHEN requests.current_status = 'cancelled' THEN 1 ELSE 0 END)`
+            .mapWith(Number)
+            .as("cancelled"),
         date: sql<string>`DATE(${packages.created_at})`.as("date"),
       })
       .from(packages)
+      .leftJoin(requests, eq(requests.package_id, packages.id))
       .groupBy(sql`date`);
   }),
   getAllAssignedPackages: protectedProcedure
