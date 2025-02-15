@@ -10,13 +10,6 @@ import { Text } from "@qt/ui/text";
 
 export type Customer = Awaited<RouterOutputs["auth"]["getCustomers"][0]>;
 
-// total_requests: number;
-// id: string;
-// email: string | null;
-// name: string | null;
-// picture: string | null;
-// created_at: Date;
-
 export const columns: ColumnDef<Customer>[] = [
   {
     header: "Customer",
@@ -44,19 +37,25 @@ export const columns: ColumnDef<Customer>[] = [
     },
   },
   {
-    header: "Total Requests",
+    accessorKey: "total_requests",
+    header: () => <div className="px-4 text-center">Total Requests</div>,
     cell(props) {
       return (
-        <Text styles={"body_medium"} className="text-right">
-          {props.row.original.total_requests}
-        </Text>
+        <div className="px-4 text-center">
+          <Text styles={"h4"}>{props.row.original.total_requests}</Text>
+        </div>
       );
     },
   },
   {
-    header: "Joined At",
+    accessorKey: "created_at",
+    header: () => <div className="px-4 text-right">Joined On</div>,
     cell({ row }) {
-      return <div>{moment(row.original.created_at).fromNow()}</div>;
+      return (
+        <div className="px-4 text-right text-muted-foreground">
+          {moment(row.original.created_at).fromNow()}
+        </div>
+      );
     },
   },
 ];

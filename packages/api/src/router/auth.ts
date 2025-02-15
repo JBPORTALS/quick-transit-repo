@@ -52,13 +52,13 @@ export const authRouter = createTRPCRouter({
         },
         where: input?.query
           ? and(
-              eq(user.role, "partner"),
+              eq(user.role, "customer"),
               or(
                 ilike(user.name, `%${input.query}%`),
                 ilike(user.email, `%${input.query}%`),
               ),
             )
-          : eq(user.role, "partner"),
+          : eq(user.role, "customer"),
       });
 
       const finalResult = await Promise.all(

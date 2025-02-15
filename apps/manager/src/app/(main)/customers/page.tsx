@@ -1,14 +1,19 @@
-import React from "react";
+import { SearchParams } from "nuqs";
 
 import { api } from "~/trpc/server";
-import { columns, Customer } from "./columns";
-import { DataTable } from "./data-table";
+import { loadSearchParams } from "~/utils/search-params";
+import { CustomerList } from "./customers-list";
 
-export default async function Page() {
-  const data = await api.auth.getCustomers();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { q } = await loadSearchParams(searchParams);
+  const customers = await api.auth.getCustomers({ query: q });
   return (
     <div>
-      <DataTable columns={columns} data={data} />
+      <CustomerList initialData={customers} />
     </div>
   );
 }

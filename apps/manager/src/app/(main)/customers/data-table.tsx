@@ -75,7 +75,9 @@ export function DataTable<TData, TValue>({
           placeholder="Search here..."
           className="h-10 ps-8"
           value={query ?? ""}
-          onChange={(event) => setQuery(event.target.value)}
+          onChange={(event) =>
+            setQuery(event.target.value, { clearOnDefault: true })
+          }
         />
       </div>
 
