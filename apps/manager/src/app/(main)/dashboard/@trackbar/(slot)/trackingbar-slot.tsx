@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { isUndefined } from "lodash";
 
+import { RouterOutputs } from "@qt/api";
 import { Button } from "@qt/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@qt/ui/card";
 import { HStack, VStack } from "@qt/ui/stack";
@@ -13,11 +14,19 @@ import AssignDialog from "~/app/_components/assign-dialog";
 import { api } from "~/trpc/react";
 import { TrackBarSkeleton } from "./skeleton";
 
-export function TrackingBarSlot() {
+export function TrackingBarSlot({
+  initialData,
+}: {
+  initialData: RouterOutputs["packages"]["getByStatusWithOffset"];
+}) {
   const [offset, setOffset] = useState(0);
-  const { data, isLoading } = api.packages.getAllPackagesWithTracking.useQuery({
-    offset,
-  });
+  const { data, isLoading } = api.requests.getByStatusWithOffset.useQuery(
+    {
+      offset,
+      omitStatus: ["cancelled", "rejected", "delivered"],
+    },
+    { initialData },
+  );
 
   if (isLoading) return <TrackBarSkeleton />;
 

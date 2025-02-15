@@ -10,11 +10,14 @@ import {
   desc,
   eq,
   ilike,
+  notInArray,
   or,
   packageInsertSchema,
   packages,
   requests,
+  requestsSelectSchema,
   sql,
+  user,
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -310,24 +313,34 @@ export const packagesRouter = createTRPCRouter({
         totalRecords: res[0]?.totalRecords ?? 0,
       };
     }),
-  getAllPackagesWithTracking: protectedProcedure
-    .input(z.object({ offset: z.number() }))
-    .query(async ({ ctx, input: { offset } }) => {
+  getByStatusWithOffset: protectedProcedure
+    .input(
+      z.object({
+        offset: z.number(),
+        omitStatus: z
+          .enum(["cancelled", "rejected", "requested"])
+          .array()
+          .nonempty(),
+      }),
+    )
+    .query(async ({ ctx, input: { offset, omitStatus } }) => {
       const res = await ctx.db
         .select({ totalRecords: count(packages.id) })
-        .from(packages);
+        .from(packages)
+        .leftJoin(requests, eq(packages.id, requests.package_id))
+        .where(notInArray(sql`requests.current_status`, omitStatus));
 
-      const packageDetails = await ctx.db.query.packages.findFirst({
+      const packageDetails = await ctx.db.query.requests.findFirst({
+        where: notInArray(requests.current_status, omitStatus),
         with: {
-          request: {
-            with: {
-              partner: true,
-            },
-          },
+          package: true,
+          partner: true,
+          reviews: true,
         },
         orderBy: ({ created_at }) => desc(created_at),
         offset,
       });
+
       return {
         packageDetails,
         totalRecords: res[0]?.totalRecords ?? 0,
@@ -347,45 +360,6 @@ export const packagesRouter = createTRPCRouter({
         .returning();
     }),
   getAllCountByDate: protectedProcedure.query(async ({ input, ctx }) => {
-    // function getWeekRange() {
-    //   const now = new Date();
-    //   const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); // Set to the beginning of the week
-    //   startOfWeek.setHours(0, 0, 0, 0); // Set to midnight
-
-    //   const endOfWeek = new Date(startOfWeek);
-    //   endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
-    //   endOfWeek.setHours(23, 59, 59, 999); // End of the day
-
-    //   return {
-    //     start: startOfWeek,
-    //     end: endOfWeek,
-    //   };
-    // }
-
-    // function getMonthRange() {
-    //   const now = new Date();
-    //   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    //   startOfMonth.setHours(0, 0, 0, 0);
-
-    //   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    //   endOfMonth.setHours(23, 59, 59, 999);
-
-    //   return {
-    //     start: startOfMonth,
-    //     end: endOfMonth,
-    //   };
-    // }
-
-    // const weekrage = getWeekRange();
-    // const monthrange = getMonthRange();
-
-    // const modifiedBetween =
-    //   input.by === "week"
-    //     ? between(packages.created_at, weekrage.start, weekrage.end)
-    //     : input.by === "month"
-    //       ? between(packages.created_at, monthrange.start, monthrange.end)
-    //       : undefined;
-
     return ctx.db
       .select({
         raised: sql<number>`COUNT(*)`.mapWith(Number).as("raised"),

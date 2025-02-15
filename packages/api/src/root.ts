@@ -4,6 +4,7 @@ import { billsRouter } from "./router/bills";
 import { categoriesRouter } from "./router/categories";
 import { courierRouter } from "./router/courier";
 import { packagesRouter } from "./router/packages";
+import { requestsRouter } from "./router/requests";
 import { reviewsRouter } from "./router/reviews";
 import { createTRPCRouter } from "./trpc";
 
@@ -11,6 +12,7 @@ export const appRouter = createTRPCRouter({
   auth: authRouter,
   address: addressRouter,
   packages: packagesRouter,
+  requests: requestsRouter,
   category: categoriesRouter,
   couriers: courierRouter,
   bills: billsRouter,

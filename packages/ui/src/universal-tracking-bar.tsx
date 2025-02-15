@@ -26,7 +26,7 @@ import {
 } from "./tracking-bar";
 
 type PackageDetails =
-  RouterOutputs["packages"]["getAllTrackingDetails"]["packageDetails"];
+  RouterOutputs["requests"]["getByStatusWithOffset"]["packageDetails"];
 
 interface UniversalTrackingBarProps {
   packageDetails: PackageDetails | PackageDetails[];
@@ -78,7 +78,7 @@ export function UniversalTrackingBar({
         <CardHeader>
           <HStack className="items-center justify-between">
             <CardTitle>Tracking Details</CardTitle>
-            <StatusTag status={details.request.current_status} />
+            <StatusTag status={details.current_status} />
           </HStack>
         </CardHeader>
         <CardContent>
@@ -89,9 +89,9 @@ export function UniversalTrackingBar({
                   <Package2Icon className="text-accent-foreground/60" />
                 </div>
                 <VStack className="gap-1">
-                  <Text styles={"subtle"}>{details.title}</Text>
+                  <Text styles={"subtle"}>{details.package.title}</Text>
                   <Text styles={"small"} className="text-muted-foreground">
-                    Tracking Number: {details.request.tracking_number}
+                    Tracking Number: {details.tracking_number}
                   </Text>
                 </VStack>
               </HStack>
@@ -102,21 +102,21 @@ export function UniversalTrackingBar({
             <TrackingBar>
               {/* TrackingBarItems */}
               <TrackingBarItem
-                isActive={details.request.current_status === "requested"}
+                isActive={details.current_status === "requested"}
               >
                 <TrackingBarIndicator icon="circle-check" />
                 <TrackingBarContent className="gap-0">
                   <Text styles={"subtle"}>Requested</Text>
-                  {details.request.requested_at && (
+                  {details.requested_at && (
                     <Text styles={"details"} className="text-muted-foreground">
-                      {moment(details.request.requested_at).fromNow()}
+                      {moment(details.requested_at).fromNow()}
                     </Text>
                   )}
                 </TrackingBarContent>
               </TrackingBarItem>
-              {details.request.current_status === "cancelled" ? (
+              {details.current_status === "cancelled" ? (
                 <TrackingBarItem
-                  isActive={details.request.current_status === "cancelled"}
+                  isActive={details.current_status === "cancelled"}
                 >
                   <TrackingBarIndicator
                     icon="circle-x"
@@ -124,12 +124,12 @@ export function UniversalTrackingBar({
                   />
                   <TrackingBarContent className="gap-0">
                     <Text styles={"subtle"}>Cancelled</Text>
-                    {details.request.cacelled_at && (
+                    {details.cacelled_at && (
                       <Text
                         styles={"details"}
                         className="text-muted-foreground"
                       >
-                        {moment(details.request.cacelled_at).fromNow()}
+                        {moment(details.cacelled_at).fromNow()}
                       </Text>
                     )}
                   </TrackingBarContent>
@@ -137,52 +137,52 @@ export function UniversalTrackingBar({
               ) : (
                 <>
                   <TrackingBarItem
-                    isActive={details.request.current_status === "confirmed"}
+                    isActive={details.current_status === "confirmed"}
                   >
                     <TrackingBarIndicator />
                     <TrackingBarContent className="gap-0">
                       <Text styles={"subtle"}>Confirmed</Text>
-                      {details.request.confirmed_at && (
+                      {details.confirmed_at && (
                         <Text
                           styles={"details"}
                           className="text-muted-foreground"
                         >
-                          {moment(details.request.confirmed_at).fromNow()}
+                          {moment(details.confirmed_at).fromNow()}
                         </Text>
                       )}
                     </TrackingBarContent>
                   </TrackingBarItem>
                   <TrackingBarItem
-                    isActive={details.request.current_status === "pickedup"}
+                    isActive={details.current_status === "pickedup"}
                   >
                     <TrackingBarIndicator />
                     <TrackingBarContent className="gap-0">
                       <Text styles={"subtle"}>Picked Up</Text>
-                      {details.request.picked_at && (
+                      {details.picked_at && (
                         <Text
                           styles={"details"}
                           className="text-muted-foreground"
                         >
-                          {moment(details.request.picked_at).fromNow()}
+                          {moment(details.picked_at).fromNow()}
                         </Text>
                       )}
                     </TrackingBarContent>
                   </TrackingBarItem>
 
                   <TrackingBarItem
-                    isActive={details.request.current_status === "delivered"}
+                    isActive={details.current_status === "delivered"}
                   >
                     <TrackingBarIndicator />
                     <TrackingBarContent className="gap-1">
                       <Text styles={"subtle"}>Delivered</Text>
-                      {details.request.current_status === "delivered" &&
-                        details.request.delivered_at && (
+                      {details.current_status === "delivered" &&
+                        details.delivered_at && (
                           <>
                             <Text
                               styles={"details"}
                               className="text-muted-foreground"
                             >
-                              {moment(details.request.delivered_at).fromNow()}
+                              {moment(details.delivered_at).fromNow()}
                             </Text>
                             <Text
                               styles={"details"}
@@ -195,7 +195,7 @@ export function UniversalTrackingBar({
                               className="text-muted-foreground"
                             >
                               Franchise Tracking ID:{" "}
-                              {details.request.franchise_tracking_id}
+                              {details.franchise_tracking_id}
                             </Text>
                             <Button size={"sm"} variant={"outline"}>
                               <FileDownIcon className="size-4" /> Service Bill
@@ -209,7 +209,7 @@ export function UniversalTrackingBar({
             </TrackingBar>
 
             {!["delivered", "cancelled", "requested"].includes(
-              details.request.current_status,
+              details.current_status,
             ) && (
               <HStack className="w-full items-center justify-between rounded-radius border p-3">
                 {/* Partner information */}
@@ -220,7 +220,7 @@ export function UniversalTrackingBar({
                   </Avatar>
                   <VStack className="gap-1">
                     <Text styles={"subtle_medium"}>
-                      {details.request.partner?.name}
+                      {details.partner?.name}
                     </Text>
                     <HStack className="items-center gap-1">
                       <StarIcon className="size-3 text-muted-foreground" />
@@ -237,8 +237,7 @@ export function UniversalTrackingBar({
               </HStack>
             )}
 
-            {details.request.current_status === "requested" &&
-              assignPartnerComp}
+            {details.current_status === "requested" && assignPartnerComp}
 
             {isPaginated && (
               <>
