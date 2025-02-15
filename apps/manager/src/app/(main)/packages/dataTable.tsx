@@ -13,15 +13,10 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { PackageOpen } from "lucide-react";
+import { PackageOpen, SearchIcon } from "lucide-react";
+import { useQueryState } from "nuqs";
 
 import { Button } from "@qt/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@qt/ui/dropdown-menu";
 import { Input } from "@qt/ui/input";
 import { VStack } from "@qt/ui/stack";
 import {
@@ -73,15 +68,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="">
-      <div className="flex w-full items-center  py-4">
-        <Input
-          placeholder="Filter Packages..."
-          value={(table.getColumn("package")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("package")?.setFilterValue(event.target.value)
-          }
-        />
-      </div>
       <div className="overflow-hidden rounded-radius border">
         <Table className="bg-card">
           <TableHeader>

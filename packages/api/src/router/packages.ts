@@ -52,6 +52,72 @@ export const packagesRouter = createTRPCRouter({
         },
       });
     }),
+  getAllByUserId: protectedProcedure
+    .input(z.object({ query: z.boolean().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.packages.findMany({
+        where: input?.query
+          ? and(
+              eq(packages.customer_id, ctx.user.id),
+              ilike(packages.title, `%${input.query}%`),
+            )
+          : eq(packages.customer_id, ctx.user.id),
+        orderBy: desc(packages.created_at),
+        with: {
+          request: {
+            columns: {
+              tracking_number: true,
+              current_status: true,
+            },
+            with: {
+              partner: true,
+            },
+          },
+          bill: {
+            extras(fields, operators) {
+              return {
+                totalAmount:
+                  operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
+                    "totalAmount",
+                  ),
+              };
+            },
+          },
+        },
+      });
+    }),
+
+  getAll: protectedProcedure
+    .input(z.object({ query: z.string().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.query.packages.findMany({
+        where: input?.query
+          ? or(ilike(packages.title, `%${input.query}%`))
+          : undefined,
+        orderBy: desc(packages.created_at),
+        with: {
+          request: {
+            columns: {
+              tracking_number: true,
+              current_status: true,
+            },
+            with: {
+              partner: true,
+            },
+          },
+          bill: {
+            extras(fields, operators) {
+              return {
+                totalAmount:
+                  operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
+                    "totalAmount",
+                  ),
+              };
+            },
+          },
+        },
+      });
+    }),
   getByCustomerId: protectedProcedure
     .input(z.object({ query: z.string().optional() }).optional())
     .query(async ({ ctx, input }) => {
