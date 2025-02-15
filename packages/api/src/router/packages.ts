@@ -346,57 +346,54 @@ export const packagesRouter = createTRPCRouter({
         .where(eq(requests.package_id, packageId))
         .returning();
     }),
-  getPackagesAnalytics: protectedProcedure
-    .input(z.object({ by: z.enum(["week", "month", "all"]) }))
-    .query(async ({ input, ctx }) => {
-      function getWeekRange() {
-        const now = new Date();
-        const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); // Set to the beginning of the week
-        startOfWeek.setHours(0, 0, 0, 0); // Set to midnight
+  getAllCountByDate: protectedProcedure.query(async ({ input, ctx }) => {
+    // function getWeekRange() {
+    //   const now = new Date();
+    //   const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); // Set to the beginning of the week
+    //   startOfWeek.setHours(0, 0, 0, 0); // Set to midnight
 
-        const endOfWeek = new Date(startOfWeek);
-        endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
-        endOfWeek.setHours(23, 59, 59, 999); // End of the day
+    //   const endOfWeek = new Date(startOfWeek);
+    //   endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week
+    //   endOfWeek.setHours(23, 59, 59, 999); // End of the day
 
-        return {
-          start: startOfWeek,
-          end: endOfWeek,
-        };
-      }
+    //   return {
+    //     start: startOfWeek,
+    //     end: endOfWeek,
+    //   };
+    // }
 
-      function getMonthRange() {
-        const now = new Date();
-        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        startOfMonth.setHours(0, 0, 0, 0);
+    // function getMonthRange() {
+    //   const now = new Date();
+    //   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    //   startOfMonth.setHours(0, 0, 0, 0);
 
-        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        endOfMonth.setHours(23, 59, 59, 999);
+    //   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    //   endOfMonth.setHours(23, 59, 59, 999);
 
-        return {
-          start: startOfMonth,
-          end: endOfMonth,
-        };
-      }
+    //   return {
+    //     start: startOfMonth,
+    //     end: endOfMonth,
+    //   };
+    // }
 
-      const weekrage = getWeekRange();
-      const monthrange = getMonthRange();
+    // const weekrage = getWeekRange();
+    // const monthrange = getMonthRange();
 
-      const modifiedBetween =
-        input.by === "week"
-          ? between(packages.created_at, weekrage.start, weekrage.end)
-          : input.by === "month"
-            ? between(packages.created_at, monthrange.start, monthrange.end)
-            : undefined;
+    // const modifiedBetween =
+    //   input.by === "week"
+    //     ? between(packages.created_at, weekrage.start, weekrage.end)
+    //     : input.by === "month"
+    //       ? between(packages.created_at, monthrange.start, monthrange.end)
+    //       : undefined;
 
-      return ctx.db
-        .select({
-          count: sql<number>`COUNT(*)`.as("count"),
-          date: sql`DATE(${packages.created_at})`.as("date"),
-        })
-        .from(packages)
-        .where(modifiedBetween)
-        .groupBy(sql`date`);
-    }),
+    return ctx.db
+      .select({
+        count: sql<number>`COUNT(*)`.as("count"),
+        date: sql<string>`DATE(${packages.created_at})`.as("date"),
+      })
+      .from(packages)
+      .groupBy(sql`date`);
+  }),
   getAllAssignedPackages: protectedProcedure
     .input(z.object({ offset: z.number(), query: z.string().optional() }))
     .query(async ({ ctx, input: { offset, query } }) => {

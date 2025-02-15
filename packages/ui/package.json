@@ -56,6 +56,7 @@
     "./status-tag": "./src/status-tag.tsx",
     "./tracking-bar": "./src/tracking-bar.tsx",
     "./input-otp": "./src/input-otp.tsx",
+    "./chart": "./src/chart.tsx",
     "./universal-tracking-bar": "./src/universal-tracking-bar.tsx"
   },
   "license": "MIT",
@@ -92,6 +93,7 @@
     "next-themes": "^0.2.1",
     "react-day-picker": "^8.10.1",
     "react-hook-form": "^7.52.2",
+    "recharts": "^2.12.6",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"
