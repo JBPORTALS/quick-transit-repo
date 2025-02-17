@@ -9,7 +9,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 
-// import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
+import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { supabase, SupabaseProvider } from "~/lib/supabase";
 import { TRPCProvider } from "~/lib/trpc/api";
@@ -67,15 +67,15 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // await setAndroidNavigationBar(colorScheme); //set the theme for Android bottom NavigationBar
+      await setAndroidNavigationBar(colorScheme); //set the theme for Android bottom NavigationBar
 
       setIsColorSchemeLoaded(true);
     })().finally(() => {
-      if (loaded || error || isSessionLoaded) {
+      if (loaded && isSessionLoaded) {
         SplashScreen.hideAsync();
       }
     });
-  }, [loaded, error]);
+  }, [loaded, error, isSessionLoaded]);
 
   if (!isColorSchemeLoaded) {
     return null;

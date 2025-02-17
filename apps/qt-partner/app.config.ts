@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   splash: {
     image: "./assets/images/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#FFFFFF",
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -21,7 +21,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
-      backgroundColor: "#ffffff",
+      backgroundColor: "#592D8F",
     },
     package: "com.jbportals.qtpartner",
   },
@@ -41,6 +41,19 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       "expo-font",
       {
         fonts: ["./assets/fonts/Geist-Black.otf"],
+      },
+    ],
+    [
+      "expo-splash-screen",
+      {
+        backgroundColor: "#FFFFFF",
+        image: "./assets/images/splash.png",
+        resizeMode: "contain",
+        dark: {
+          image: "./assets/images/splash.png",
+          backgroundColor: "#000000",
+          resizeMode: "contain",
+        },
       },
     ],
   ],

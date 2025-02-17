@@ -25,5 +25,5 @@ export const getBaseUrl = () => {
   // }
 
   console.log("localhost", localhost);
-  return `http://192.168.208.111:3000`;
+  return `http://192.168.110.111:3000`;
 };
