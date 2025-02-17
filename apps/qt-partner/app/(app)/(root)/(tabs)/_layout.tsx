@@ -19,20 +19,7 @@ export default function RootLayout() {
       <Tabs
         screenOptions={{
           headerRight: (props) => {
-            return (
-              <View className="flex-row items-center gap-3 px-4">
-                <View>
-                  <ThemeToggle />
-                </View>
-                <View className="aspect-square p-2">
-                  <Bell
-                    size={24}
-                    className="text-foreground"
-                    strokeWidth={1.25}
-                  />
-                </View>
-              </View>
-            );
+            return <ThemeToggle />;
           },
           tabBarShowLabel: true,
           tabBarStyle: {
