@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   splash: {
     image: "./assets/images/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#030711",
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -21,7 +21,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
-      backgroundColor: "#592D8F",
+      backgroundImage: "./assets/images/adaptive-background.png",
     },
     package: "com.jbportals.qtpartner",
   },
@@ -49,9 +49,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
         backgroundColor: "#FFFFFF",
         image: "./assets/images/splash.png",
         resizeMode: "contain",
+
         dark: {
           image: "./assets/images/splash.png",
-          backgroundColor: "#000000",
+          backgroundColor: "#030711",
           resizeMode: "contain",
         },
       },

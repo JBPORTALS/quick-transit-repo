@@ -7,11 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Text } from "~/components/ui/text";
 import { NAV_THEME } from "~/lib/constants";
 import { Bell } from "~/lib/icons/Bell";
+import { User } from "~/lib/icons/User";
 import { useColorScheme } from "~/lib/useColorScheme";
+import { useSupabase } from "~/lib/useSupabase";
 import { cn } from "~/lib/utils";
 
 export default function RootLayout() {
   const { isDarkColorScheme } = useColorScheme();
+  const { session } = useSupabase();
 
   return (
     <>
@@ -90,9 +93,11 @@ export default function RootLayout() {
                   )}
                 >
                   <AvatarImage
-                    source={{ uri: "https://github.com/shadcn.png" }}
+                    source={{ uri: "session?.user.user_metadata.picture" }}
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>
+                    <Text>CN</Text>
+                  </AvatarFallback>
                 </Avatar>
               </View>
             ),

@@ -65,9 +65,15 @@ export const requestsRouter = createTRPCRouter({
         .returning();
     }),
 
-  getAllByUserId: protectedProcedure
-    .input(z.object({ offset: z.number(), query: z.string().optional() }))
-    .query(async ({ ctx, input: { offset, query } }) => {
+  getAllByPartnerId: protectedProcedure
+    .input(
+      z.object({
+        offset: z.number(),
+        query: z.string().optional(),
+        date: z.date().optional(),
+      }),
+    )
+    .query(async ({ ctx, input: { offset } }) => {
       const packagesDetials = await ctx.db.query.requests.findMany({
         with: {
           package: true,
@@ -181,4 +187,6 @@ export const requestsRouter = createTRPCRouter({
 
       return request;
     }),
+
+  //Get requests
 });
