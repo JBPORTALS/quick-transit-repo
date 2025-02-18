@@ -48,7 +48,6 @@ export const requestsRouter = createTRPCRouter({
         .from(requests)
         .innerJoin(packages, eq(packages.id, requests.package_id))
         .innerJoin(user, eq(user.id, requests.partner_id))
-        .innerJoin(reviews, eq(reviews.request_id, requests.id))
         .where(
           and(
             // notInArray(sql`requests.current_status`, omitStatus),
@@ -59,10 +58,9 @@ export const requestsRouter = createTRPCRouter({
         .offset(offset);
 
       const mappedPackageDetials = requestsResponse.flatMap(
-        ({ packages, requests, reviews, user: partner }) => ({
+        ({ packages, requests, user: partner }) => ({
           package: packages,
           partner,
-          reviews,
           ...requests,
         }),
       );
@@ -85,6 +83,26 @@ export const requestsRouter = createTRPCRouter({
         packageDetails: mappedPackageDetials.at(0),
         totalRecords: res[0]?.totalRecords ?? 0,
       };
+    }),
+  getByPackageId: protectedProcedure
+    .input(z.object({ package_id: z.string() }))
+    .query( async ({ ctx, input }) => {
+      
+
+      
+      
+      const requestsResponse = await ctx.db.query.requests.findFirst({
+        where: eq(requests.package_id, input.package_id),
+        with: {
+          package: true,
+          partner: true,
+          reviews: true
+          }
+        })
+
+     
+
+      return  requestsResponse
     }),
 
   assignPartner: protectedProcedure

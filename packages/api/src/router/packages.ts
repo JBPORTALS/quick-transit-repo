@@ -175,6 +175,7 @@ export const packagesRouter = createTRPCRouter({
           destination_address: true,
           category: true,
           courier: true,
+          timeslot:true,
           bill: {
             extras(fields, operators) {
               return {

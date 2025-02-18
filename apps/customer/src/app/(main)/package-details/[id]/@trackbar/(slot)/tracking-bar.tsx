@@ -142,28 +142,27 @@ function AddReviewForPartnerDialog(props: {
 }
 
 function Reviews({
-  trackingDetails,
+  request_id,
+  enabled,
 }: {
-  trackingDetails: Exclude<
-    RouterOutputs["packages"]["getTrackingDetails"],
-    undefined
-  >;
+  request_id: string;
+  enabled: boolean;
 }) {
   const { data: partnerReviewDetails } = api.reviews.getReviewsByType.useQuery(
     {
-      request_id: trackingDetails.request.id,
+      request_id,
       type: "partner",
     },
-    { enabled: trackingDetails.request.current_status === "delivered" },
+    { enabled },
   );
 
   const { data: applicationReviewDetails } =
     api.reviews.getReviewsByType.useQuery(
       {
-        request_id: trackingDetails.request.id,
+        request_id,
         type: "application",
       },
-      { enabled: trackingDetails.request.current_status === "delivered" },
+      { enabled },
     );
   return (
     <Card className="shadow-none">
@@ -180,7 +179,7 @@ function Reviews({
             title="Feedback for Your Delivery Partner"
             description="Rate your delivery experience. Your feedback matters!"
             type="partner"
-            request_id={trackingDetails.request.id}
+            request_id={request_id}
           >
             <Button size={"lg"} variant={"outline"}>
               Add Review For Partner <BikeIcon />
@@ -215,7 +214,7 @@ function Reviews({
             title="Feedback for Company"
             description="Rate your service experience. Your feedback matters!"
             type="application"
-            request_id={trackingDetails.request.id}
+            request_id={request_id}
           >
             <Button size={"lg"} variant={"outline"}>
               Add Review For Company
@@ -251,27 +250,26 @@ function Reviews({
 export function TrackingBar({
   initialData,
 }: {
-  initialData: Exclude<
-    RouterOutputs["packages"]["getTrackingDetails"],
-    undefined
-  >;
+  initialData: Exclude<RouterOutputs["requests"]["getByPackageId"], undefined>;
 }) {
   const params = useParams();
   const package_id = params.id as string;
-  const { data: trackingDetails } = api.packages.getTrackingDetails.useQuery(
+  const { data: request } = api.requests.getByPackageId.useQuery(
     { package_id },
     { initialData },
   );
 
-  if (isUndefined(trackingDetails))
-    return <div>Unable to get tracking details</div>;
+  if (isUndefined(request)) return <div>Unable to get tracking details</div>;
 
   return (
     <div className="sticky top-20 col-span-3 w-full">
       <div className="flex w-full flex-col gap-4">
-        <UniversalTrackingBar packageDetails={trackingDetails} />
-        {trackingDetails.request.current_status === "delivered" && (
-          <Reviews trackingDetails={trackingDetails} />
+        <UniversalTrackingBar packageDetails={request} />
+        {request.current_status === "delivered" && (
+          <Reviews
+            request_id={request.id}
+            enabled={request.current_status === "delivered"}
+          />
         )}
       </div>
     </div>

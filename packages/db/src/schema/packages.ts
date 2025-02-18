@@ -71,6 +71,10 @@ export const packageRealations = relations(packages, ({ one, many }) => ({
     fields: [packages.category_id],
     references: [categories.id],
   }),
+  timeslot: one(timeslots, {
+    fields: [packages.timeslot_id],
+    references: [timeslots.id],
+  }),
   courier: one(couriers, {
     fields: [packages.courier_id],
     references: [couriers.id],

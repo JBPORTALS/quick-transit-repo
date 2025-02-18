@@ -26,7 +26,8 @@ import {
 } from "./tracking-bar";
 
 type PackageDetails =
-  RouterOutputs["requests"]["getByStatusWithOffset"]["packageDetails"];
+  | RouterOutputs["requests"]["getByStatusWithOffset"]["packageDetails"]
+  | RouterOutputs["requests"]["getByPackageId"];
 
 interface UniversalTrackingBarProps {
   packageDetails: PackageDetails | PackageDetails[];

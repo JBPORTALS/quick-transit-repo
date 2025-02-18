@@ -47,6 +47,7 @@ import { Textarea } from "@qt/ui/textarea";
 import { toast } from "@qt/ui/toast";
 
 import { api } from "~/trpc/react";
+import { convertTo12HourFormat } from "~/utils/extra";
 import { AddressCardDialog } from "./add-address-form";
 
 const steps = [
@@ -530,7 +531,13 @@ export function NewPackage() {
                                   <SelectItem value={timeslot.id}>
                                     <HStack className="items-center">
                                       <Clock className="size-4" />
-                                      {timeslot.from_time} - {timeslot.to_time}
+                                      {timeslot.from_time &&
+                                        convertTo12HourFormat(
+                                          timeslot.from_time,
+                                        )}{" "}
+                                      -{" "}
+                                      {timeslot.to_time &&
+                                        convertTo12HourFormat(timeslot.to_time)}
                                     </HStack>
                                   </SelectItem>
                                 ))}
