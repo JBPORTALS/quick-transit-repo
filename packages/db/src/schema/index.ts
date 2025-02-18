@@ -6,3 +6,4 @@ export * from "./couriers";
 export * from "./bill_details";
 export * from "./requests";
 export * from "./reviews";
+export * from "./timeslots";

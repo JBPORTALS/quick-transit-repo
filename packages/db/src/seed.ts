@@ -14,6 +14,7 @@ import {
   reviews,
   sql,
   Table,
+  timeslots,
   user,
 } from "./index";
 
@@ -53,6 +54,7 @@ async function main() {
   for (const table of [
     packages,
     bill_details,
+    timeslots,
     couriers,
     categories,
     address,
@@ -143,10 +145,21 @@ async function main() {
   await db
     .insert(couriers)
     .values([{ name: "DTDC" }, { name: "Delhivery.com" }]);
+  
+    console.log("Seeding into `timeslots` 🌱");
+    await db
+      .insert(timeslots)
+    .values([
+      { from_time:"9:30",to_time:"10:30" },
+      { from_time:"12:30",to_time:"13:30" },
+      { from_time:"14:30",to_time:"18:30" }
+    ]);
+  
   console.log("Seeding into `Pakages` 🌱");
   const addresses = await db.query.address.findMany();
   const categories_data = await db.query.categories.findMany();
   const couriers_data = await db.query.couriers.findMany();
+  const timeslots_data = await db.query.timeslots.findMany();
   const partners = await db.query.user.findMany({
     where: (col, opt) => opt.eq(col.role, "partner"),
   });
@@ -183,15 +196,14 @@ async function main() {
               width: faker.number.int({ min: 20, max: 40 }),
               breadth: faker.number.int({ min: 20, max: 40 }),
               courier_id: faker.helpers.arrayElement(couriers_data).id,
-              delivery_date: faker.date.future(),
-              to_time: faker.date.anytime().toLocaleTimeString(),
-              from_time: faker.date.anytime().toLocaleTimeString(),
+              pickup_date: faker.date.future(),
               weight: faker.number.int({ min: 20, max: 40 }),
               bill_id: faker.helpers.arrayElement(bill_details_data).id,
               created_at: faker.date.between({
                 from: "2024-06-01T00:00:00.000Z",
                 to: "2024-06-30T00:00:00.000Z",
               }),
+              timeslot_id: faker.helpers.arrayElement(timeslots_data).id
             })
             .returning();
           //create request

@@ -18,6 +18,7 @@ import { categories } from "./categories";
 import { couriers } from "./couriers";
 import { requests } from "./requests";
 import { user } from "./users";
+import { timeslots } from "./timeslots";
 
 export const packages = pgTable("packages", {
   id: uuid("id").defaultRandom().primaryKey().notNull(),
@@ -39,9 +40,8 @@ export const packages = pgTable("packages", {
   category_id: uuid("category_id")
     .notNull()
     .references(() => categories.id, { onDelete: "set null" }),
-  delivery_date: timestamp("delivery_date").notNull(),
-  from_time: time("from_time").notNull(),
-  to_time: time("to_time").notNull(),
+  pickup_date: timestamp("pickup_date").notNull(),
+  timeslot_id: uuid("timeslot_id").references(()=>timeslots.id,{onDelete:"cascade",onUpdate:"cascade"}).notNull(),
   is_insurance_required: boolean("is_insurance_required").default(false),
   pick_up_address_id: uuid("pick_up_address_id").references(() => address.id, {
     onDelete: "set null",

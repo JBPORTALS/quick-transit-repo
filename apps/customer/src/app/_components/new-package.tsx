@@ -8,6 +8,7 @@ import { isUndefined } from "lodash";
 import {
   CalendarIcon,
   Circle,
+  Clock,
   Edit2Icon,
   PlusIcon,
   RocketIcon,
@@ -61,9 +62,8 @@ const steps = [
       "height",
       "width",
       "breadth",
-      "delivery_date",
-      "from_time",
-      "to_time",
+      "pickup_date",
+      "timeslot",
       "is_insurance_required",
       "weight",
     ],
@@ -102,74 +102,26 @@ const Step = ({ ...props }: StepProps) => (
   </div>
 );
 
-const timeSlotSchema = z
-  .object(
-    {
-      from_time: z.string().min(1, "Required"),
-      to_time: z.string().min(1, "Required"),
-    },
-    { required_error: "Required", invalid_type_error: "Invalid" },
-  )
-  .required()
-  .superRefine(({ from_time, to_time }, ctx) => {
-    if (!from_time || !to_time) return;
-
-    const [fromHour, fromMinute] = from_time.split(":").map(Number);
-    const [toHour, toMinute] = to_time.split(":").map(Number);
-
-    if (
-      isNaN(fromHour!) ||
-      isNaN(fromMinute!) ||
-      isNaN(toHour!) ||
-      isNaN(toMinute!)
-    ) {
-      ctx.addIssue({
-        path: ["to_time"],
-        message: "Invalid time format",
-        code: "invalid_type",
-        expected: "string",
-        received: "nan",
-      });
-      return;
-    }
-
-    const fromTotalMinutes = fromHour! * 60 + fromMinute!;
-    const toTotalMinutes = toHour! * 60 + toMinute!;
-
-    if (toTotalMinutes <= fromTotalMinutes) {
-      ctx.addIssue({
-        path: ["to_time"],
-        message: "To time must be greater than From time",
-        code: "custom",
-      });
-    }
-  });
-
-const packageFormShema = z
-  .object({
-    title: z.string().trim().min(1, "Required"),
-    description: z.string().trim().min(1, "Required"),
-    weight: z
-      .number({ invalid_type_error: "Invalid" })
-      .min(1, "Invalid")
-      .max(10000, "Less than or equal to 10000"),
-    height: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
-    width: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
-    breadth: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
-    courier: z.string().trim().min(1, "Required"),
-    category: z.string().trim().min(1, "Required"),
-    pick_up_address: z
-      .string()
-      .min(1, "Add new address Or Select existing one"),
-    delivery_address: z
-      .string()
-      .min(1, "Add new address Or Select existing one"),
-    is_insurance_required: z.enum(["Yes", "No"], {
-      required_error: "Required",
-    }),
-    delivery_date: z.date({ required_error: "Required" }),
-  })
-  .and(timeSlotSchema);
+const packageFormShema = z.object({
+  title: z.string().trim().min(1, "Required"),
+  description: z.string().trim().min(1, "Required"),
+  weight: z
+    .number({ invalid_type_error: "Invalid" })
+    .min(1, "Invalid")
+    .max(10000, "Less than or equal to 10000"),
+  height: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
+  width: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
+  breadth: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
+  courier: z.string().trim().min(1, "Required"),
+  timeslot: z.string().trim().min(1, "Required"),
+  category: z.string().trim().min(1, "Required"),
+  pick_up_address: z.string().min(1, "Add new address Or Select existing one"),
+  delivery_address: z.string().min(1, "Add new address Or Select existing one"),
+  is_insurance_required: z.enum(["Yes", "No"], {
+    required_error: "Required",
+  }),
+  pickup_date: z.date({ required_error: "Required" }),
+});
 
 const formatter = new Intl.NumberFormat("en-IN", {
   style: "currency",
@@ -188,13 +140,10 @@ export function NewPackage() {
   const billMutation = api.bills.createBill.useMutation({});
 
   const { data: couriers } = api.couriers.getCouriers.useQuery();
+  const { data: timeslots } = api.timeslots.getAll.useQuery();
 
   const { data: pickUpAddresses } = api.address.getAllByType.useQuery({
     type: "pickup",
-  });
-
-  const { data: franchiseAddresses } = api.address.getAllByType.useQuery({
-    type: "franchise",
   });
 
   const { data: deliveryAddresses } = api.address.getAllByType.useQuery({
@@ -203,7 +152,6 @@ export function NewPackage() {
 
   const firstDeliveryAddress = deliveryAddresses?.at(0);
   const firstPickUpAddress = pickUpAddresses?.at(0);
-  const firstfranchiseUpAddress = franchiseAddresses?.at(0);
 
   const form = useForm({
     schema: packageFormShema,
@@ -266,9 +214,8 @@ export function NewPackage() {
           breadth: values.breadth,
           width: values.width,
           height: values.height,
-          delivery_date: new Date(values.delivery_date),
-          from_time: values.from_time,
-          to_time: values.to_time,
+          pickup_date: new Date(values.pickup_date),
+          timeslot_id: values.timeslot,
           destination_address_id: values.delivery_address,
           pick_up_address_id: values.pick_up_address,
           is_insurance_required:
@@ -513,10 +460,10 @@ export function NewPackage() {
               <HStack>
                 <FormField
                   control={form.control}
-                  name="delivery_date"
+                  name="pickup_date"
                   render={({ field }) => (
                     <FormItem>
-                      <Label>Date of Delivery</Label>
+                      <Label>Pickup Date</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -562,25 +509,34 @@ export function NewPackage() {
 
                 <FormField
                   control={form.control}
-                  name="from_time"
+                  name="timeslot"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <Label>From Time</Label>
+                      <Label>Time Slot</Label>
                       <FormControl>
-                        <Input className="w-full" type="time" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="to_time"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <Label>To Time</Label>
-                      <FormControl>
-                        <Input className="w-full" type="time" {...field} />
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          {...field}
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>Courier Services</SelectLabel>
+                              {timeslots &&
+                                timeslots.map((timeslot) => (
+                                  <SelectItem value={timeslot.id}>
+                                    <HStack className="items-center">
+                                      <Clock className="size-4" />
+                                      {timeslot.from_time} - {timeslot.to_time}
+                                    </HStack>
+                                  </SelectItem>
+                                ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
