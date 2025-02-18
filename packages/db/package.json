@@ -36,7 +36,7 @@
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tsconfig": "workspace:^0.1.0",
     "dotenv-cli": "^7.3.0",
-    "drizzle-kit": "^0.21.1",
+    "drizzle-kit": "^0.26.2",
     "eslint": "^9.8.0",
     "prettier": "^3.3.3",
     "tsx": "^4.10.1",

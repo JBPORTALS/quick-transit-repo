@@ -15,14 +15,21 @@ import { TrackBarSkeleton } from "./skeleton";
 export function TrackingBarClient({
   initialData,
 }: {
-  initialData: RouterOutputs["packages"]["getAllTrackingDetails"];
+  initialData: RouterOutputs["requests"]["getByStatusWithOffset"];
 }) {
   const [offset, setOffset] = useState(0);
-  const { data, isLoading } = api.packages.getAllTrackingDetails.useQuery(
+  const { data, isLoading } = api.requests.getByStatusWithOffset.useQuery(
     {
       offset,
+      omitStatus: ["cancelled"],
+      fetchByUserId: true,
     },
-    { initialData },
+    {
+      initialData: {
+        packageDetails: initialData.packageDetails,
+        totalRecords: initialData.totalRecords,
+      },
+    },
   );
 
   if (isLoading) return <TrackBarSkeleton />;

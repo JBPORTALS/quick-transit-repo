@@ -77,8 +77,4 @@ $$ language plpgsql security definer;
 create or replace trigger on_user_created
   after insert on auth.users
   for each row execute procedure public.handle_user_data();
-
-create or replace trigger on_user_updated
-  after update on auth.users
-  for each row execute procedure public.handle_user_data();
 `;

@@ -16,7 +16,6 @@ import { address } from "./address";
 import { bill_details } from "./bill_details";
 import { categories } from "./categories";
 import { couriers } from "./couriers";
-import { package_image } from "./package_images";
 import { requests } from "./requests";
 import { user } from "./users";
 
@@ -60,7 +59,6 @@ export const packageInsertSchema = createInsertSchema(packages);
 export const packageSelectSchema = createSelectSchema(packages);
 
 export const packageRealations = relations(packages, ({ one, many }) => ({
-  packageImages: many(package_image),
   customer: one(user, {
     fields: [packages.customer_id],
     references: [user.id],

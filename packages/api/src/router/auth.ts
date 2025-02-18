@@ -108,8 +108,13 @@ export const authRouter = createTRPCRouter({
     }),
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))
-    .mutation(({ input, ctx }) => {
-      return ctx.db
+    .mutation(async ({ input, ctx }) => {
+      await ctx.supabase.auth.updateUser({
+        data: {
+          user_role: input.role,
+        },
+      });
+      return await ctx.db
         .update(user)
         .set({ role: input.role })
         .where(eq(user.id, ctx.user.id));

@@ -1,3 +1,4 @@
+import { Acme } from "next/font/google";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -11,7 +12,9 @@ import {
   or,
   packages,
   requests,
+  reviews,
   sql,
+  user,
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -25,28 +28,61 @@ export const requestsRouter = createTRPCRouter({
           .enum(["cancelled", "rejected", "requested", "delivered"])
           .array()
           .nonempty(),
+        fetchByUserId: z.boolean().default(false),
       }),
     )
-    .query(async ({ ctx, input: { offset, omitStatus } }) => {
+    .query(async ({ ctx, input: { offset, omitStatus, fetchByUserId } }) => {
       const res = await ctx.db
         .select({ totalRecords: count(packages.id) })
         .from(packages)
         .leftJoin(requests, eq(packages.id, requests.package_id))
-        .where(notInArray(sql`requests.current_status`, omitStatus));
+        .where(
+          and(
+            // notInArray(sql`requests.current_status`, omitStatus),
+            fetchByUserId ? eq(packages.customer_id, ctx.user.id) : undefined,
+          ),
+        );
 
-      const packageDetails = await ctx.db.query.requests.findFirst({
-        where: notInArray(requests.current_status, omitStatus),
-        with: {
-          package: true,
-          partner: true,
-          reviews: true,
-        },
-        orderBy: ({ created_at }) => desc(created_at),
-        offset,
-      });
+      const requestsResponse = await ctx.db
+        .select()
+        .from(requests)
+        .innerJoin(packages, eq(packages.id, requests.package_id))
+        .innerJoin(user, eq(user.id, requests.partner_id))
+        .innerJoin(reviews, eq(reviews.request_id, requests.id))
+        .where(
+          and(
+            // notInArray(sql`requests.current_status`, omitStatus),
+            fetchByUserId ? eq(packages.customer_id, ctx.user.id) : undefined,
+          ),
+        )
+        .orderBy(desc(packages.created_at))
+        .offset(offset);
+
+      const mappedPackageDetials = requestsResponse.flatMap(
+        ({ packages, requests, reviews, user: partner }) => ({
+          package: packages,
+          partner,
+          reviews,
+          ...requests,
+        }),
+      );
+
+      // const packageDetails = await ctx.db.query.requests.findFirst({
+      //   where: and(
+      //     notInArray(requests.current_status, omitStatus),
+      //     fetchByUserId ? eq(requests, ctx.user.id) : undefined,
+      //   ),
+      //   with: {
+      //     package: true,
+      //     partner: true,
+      //     reviews: true,
+      //   },
+      //   orderBy: ({ created_at }) => desc(created_at),
+      //   offset,
+      // });
 
       return {
-        packageDetails,
+        packageDetails: mappedPackageDetials.at(0),
         totalRecords: res[0]?.totalRecords ?? 0,
       };
     }),

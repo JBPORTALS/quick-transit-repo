@@ -9,7 +9,6 @@ import {
   db,
   eq,
   getTableName,
-  package_image,
   packages,
   requests,
   reviews,
@@ -39,14 +38,19 @@ const supabase = createClient(
 );
 
 async function reset(db: db, table: Table) {
-  const query = `TRUNCATE TABLE ${getTableName(table)} RESTART IDENTITY CASCADE`;
+  const query =
+  `DO $$
+    BEGIN
+    IF EXISTS (SELECT FROM information_schema.tables WHERE table_name = '${getTableName(table)}') THEN
+    TRUNCATE TABLE ${getTableName(table)} RESTART IDENTITY CASCADE;
+    END IF;
+  END $$;`;
   return db.execute(sql.raw(query));
 }
 
 async function main() {
   console.log("Reset the tables 🧹");
   for (const table of [
-    package_image,
     packages,
     bill_details,
     couriers,
@@ -121,21 +125,24 @@ async function main() {
   await db
     .insert(categories)
     .values([
-      { name: "Question Papers" },
+      { name: "Essential Shipments" },
+      { name: "Liquid Non-Dg chemicals" },
+      { name: "Solid Chemicals" },
+      { name: "Consumer Electronics & Accessories" },
+      { name: "Gift Items & Personal Effects" },
+      { name: "Auto Components & Machine Parts" },
+      { name: "Electrical Equipement" },
+      { name: "Paper Based Material" },
+      { name: "Consumer Eelectronics & Accessories" },
+      { name: "Agricultural / Horticultural Items" },
+      { name: "House Hold Items" },
       { name: "Others" },
-      { name: "Answer Papaers" },
-      { name: "Miscelaneous" },
     ]);
 
   console.log("Seeding into `couriers` 🌱");
   await db
     .insert(couriers)
-    .values([
-      { name: "FastX" },
-      { name: "SpeedX" },
-      { name: "Super Express" },
-      { name: "Shift Box" },
-    ]);
+    .values([{ name: "DTDC" }, { name: "Delhivery.com" }]);
   console.log("Seeding into `Pakages` 🌱");
   const addresses = await db.query.address.findMany();
   const categories_data = await db.query.categories.findMany();
@@ -226,17 +233,7 @@ async function main() {
             delivered_at: status === "delivered" ? faker.date.recent() : null,
             cacelled_at: faker.date.recent(),
           });
-          //inserting 3 images minimum
-          await Promise.all(
-            Array.from({ length: 3 }).map(() =>
-              db.insert(package_image).values({
-                image_url: faker.image.urlLoremFlickr({
-                  category: "parcel",
-                }),
-                package_id: faker.helpers.arrayElement(package_detail).id,
-              }),
-            ),
-          );
+          
         }),
       );
     }),

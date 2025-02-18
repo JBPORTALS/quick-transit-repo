@@ -41,16 +41,15 @@ import { api } from "~/lib/trpc/api";
 export default function PackageDetails() {
   const params = useLocalSearchParams<{ id: string }>();
   console.log(params);
-  const { data, isLoading, isFetching, refetch } =
-    api.packages.getById.useQuery(
-      {
-        id: params.id,
-        isAdmin: true,
-      },
-      {
-        enabled: !!params.id,
-      },
-    );
+  const { data, isLoading, isPending, refetch } = api.packages.getById.useQuery(
+    {
+      id: params.id,
+      isAdmin: true,
+    },
+    {
+      enabled: !!params.id,
+    },
+  );
 
   const { data: reviewDetails } = api.reviews.getReviewsByType.useQuery(
     {
@@ -77,7 +76,7 @@ export default function PackageDetails() {
           style={{
             backgroundColor: "red",
           }}
-          refreshing={isFetching}
+          refreshing={isLoading}
           onRefresh={refetch}
         />
       }
@@ -150,7 +149,7 @@ export default function PackageDetails() {
                   <View className="flex-row items-center gap-2">
                     <AspectRatio
                       ratio={1 / 1}
-                      className="size-12 items-center justify-center rounded-full bg-primary/10"
+                      className="size-12 items-center justify-center rounded-full border border-border bg-muted/60"
                     >
                       <PackageCheck
                         size={24}
@@ -158,10 +157,15 @@ export default function PackageDetails() {
                         className="text-primary"
                       />
                     </AspectRatio>
-
-                    <Text className="font-semibold">
-                      Pick-up & Verify Package
-                    </Text>
+                    <View>
+                      <Text className="font-semibold">
+                        Pick-up & Verify Package
+                      </Text>
+                      <Muted>
+                        {data?.request.picked_at &&
+                          moment(data.request.picked_at).fromNow()}
+                      </Muted>
+                    </View>
                   </View>
                 </AccordionTrigger>
                 <AccordionContent className="gap-5">
@@ -227,7 +231,7 @@ export default function PackageDetails() {
                   <View className="flex-row items-center gap-2">
                     <AspectRatio
                       ratio={1 / 1}
-                      className="size-12 items-center justify-center rounded-full bg-primary/10"
+                      className="size-12 items-center justify-center rounded-full border border-border bg-muted/60"
                     >
                       <IndianRupee
                         size={24}
@@ -235,8 +239,13 @@ export default function PackageDetails() {
                         className="text-primary"
                       />
                     </AspectRatio>
-
-                    <Text className="font-semibold">Payment</Text>
+                    <View>
+                      <Text className="font-semibold">Payment</Text>
+                      <Muted>
+                        {data?.bill.created_at &&
+                          moment(data.bill.created_at).fromNow()}
+                      </Muted>
+                    </View>
                   </View>
                 </AccordionTrigger>
                 <AccordionContent className="gap-3">
@@ -272,7 +281,7 @@ export default function PackageDetails() {
                   <View className="flex-row items-center gap-2">
                     <AspectRatio
                       ratio={1 / 1}
-                      className="size-12 items-center justify-center rounded-full bg-primary/10"
+                      className="size-12 items-center justify-center rounded-full border border-border bg-muted/60"
                     >
                       <Bike
                         size={24}

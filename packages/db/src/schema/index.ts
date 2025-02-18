@@ -4,6 +4,5 @@ export * from "./packages";
 export * from "./categories";
 export * from "./couriers";
 export * from "./bill_details";
-export * from "./package_images";
 export * from "./requests";
 export * from "./reviews";
