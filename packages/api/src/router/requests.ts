@@ -38,7 +38,7 @@ export const requestsRouter = createTRPCRouter({
         .leftJoin(requests, eq(packages.id, requests.package_id))
         .where(
           and(
-            // notInArray(sql`requests.current_status`, omitStatus),
+            notInArray(requests.current_status, omitStatus),
             fetchByUserId ? eq(packages.customer_id, ctx.user.id) : undefined,
           ),
         );
@@ -46,11 +46,11 @@ export const requestsRouter = createTRPCRouter({
       const requestsResponse = await ctx.db
         .select()
         .from(requests)
-        .innerJoin(packages, eq(packages.id, requests.package_id))
-        .innerJoin(user, eq(user.id, requests.partner_id))
+        .innerJoin(packages, eq( requests.package_id,packages.id))
+        .innerJoin(user, eq(requests.partner_id,user.id ))
         .where(
           and(
-            // notInArray(sql`requests.current_status`, omitStatus),
+            notInArray(requests.current_status, omitStatus),
             fetchByUserId ? eq(packages.customer_id, ctx.user.id) : undefined,
           ),
         )
