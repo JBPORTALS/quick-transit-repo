@@ -8,7 +8,7 @@ import { client, db, handle_user_data } from ".";
 await migrate(db, { migrationsFolder: "./drizzle" });
 
 // Custome sql queries
-await db.execute(handle_user_data);
+await db.execute(handle_user_data).catch((e)=>console.log(e));
 
 await client.end();
 

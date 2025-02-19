@@ -46,15 +46,22 @@ export default function HeaderClient() {
         </Link>
         <HeaderRight>
           <HStack>
-            <NotificationsPopover>
+            <Link target="_blank" href={"https://wa.me/message/NRTADMKQMKXOO1"}>
               <Button
-                size={"icon"}
+                size={"lg"}
                 variant={"outline"}
-                className="rounded-full"
+                className="rounded-full border-[#28C669] bg-[#28C669]/30 hover:bg-[#28C669]/15"
               >
-                <BellIcon className="h-5 w-5" />
+                <Image
+                  src={"/whatsapp.gif"}
+                  height={32}
+                  width={32}
+                  alt="whatsapp logo"
+                  className="animate-in"
+                />
+                Contact Us
               </Button>
-            </NotificationsPopover>
+            </Link>
             <AvatarButton />
           </HStack>
         </HeaderRight>

@@ -1,0 +1,2 @@
+-- No seed data should be insert here
+-- It's there in packages/db/seed.ts

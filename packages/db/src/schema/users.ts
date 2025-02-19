@@ -56,7 +56,9 @@ export const userSelectSchema = createSelectSchema(user);
 
 export const handle_user_data = sql`
 create or replace function public.handle_user_data()
-returns trigger as $$
+returns trigger 
+set search_path = ''
+as $$
 declare
   user_role "public"."userRoleEnum";
 begin
