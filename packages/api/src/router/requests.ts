@@ -12,8 +12,6 @@ import {
   or,
   packages,
   requests,
-  reviews,
-  sql,
   user,
 } from "@qt/db";
 
@@ -34,8 +32,8 @@ export const requestsRouter = createTRPCRouter({
     .query(async ({ ctx, input: { offset, omitStatus, fetchByUserId } }) => {
       const res = await ctx.db
         .select({ totalRecords: count(packages.id) })
-        .from(packages)
-        .leftJoin(requests, eq(packages.id, requests.package_id))
+        .from(requests)
+        .leftJoin(packages, eq(packages.id, requests.package_id))
         .where(
           and(
             notInArray(requests.current_status, omitStatus),
@@ -46,13 +44,14 @@ export const requestsRouter = createTRPCRouter({
       const requestsResponse = await ctx.db
         .select()
         .from(requests)
-        .innerJoin(packages, eq( requests.package_id,packages.id))
-        .innerJoin(user, eq(requests.partner_id,user.id ))
+        .leftJoin(packages, eq( requests.package_id,packages.id))
+        .leftJoin(user, eq(requests.partner_id,user.id ))
         .where(
+          fetchByUserId?
           and(
             notInArray(requests.current_status, omitStatus),
-            fetchByUserId ? eq(packages.customer_id, ctx.user.id) : undefined,
-          ),
+            eq(packages.customer_id, ctx.user.id),
+          ):notInArray(requests.current_status, omitStatus)
         )
         .orderBy(desc(packages.created_at))
         .offset(offset);
@@ -64,20 +63,6 @@ export const requestsRouter = createTRPCRouter({
           ...requests,
         }),
       );
-
-      // const packageDetails = await ctx.db.query.requests.findFirst({
-      //   where: and(
-      //     notInArray(requests.current_status, omitStatus),
-      //     fetchByUserId ? eq(requests, ctx.user.id) : undefined,
-      //   ),
-      //   with: {
-      //     package: true,
-      //     partner: true,
-      //     reviews: true,
-      //   },
-      //   orderBy: ({ created_at }) => desc(created_at),
-      //   offset,
-      // });
 
       return {
         packageDetails: mappedPackageDetials.at(0),
@@ -91,18 +76,24 @@ export const requestsRouter = createTRPCRouter({
 
       
       
-      const requestsResponse = await ctx.db.query.requests.findFirst({
-        where: eq(requests.package_id, input.package_id),
-        with: {
-          package: true,
-          partner: true,
-          reviews: true
-          }
-        })
+      const requestsResponse = await ctx.db
+        .select()
+        .from(requests)
+        .leftJoin(packages, eq( requests.package_id,packages.id))
+        .leftJoin(user, eq(requests.partner_id,user.id ))
+        .where(
+            eq(packages.id, input.package_id),
+        )
 
-     
+      const mappedPackageDetials = requestsResponse.flatMap(
+        ({ packages, requests, user: partner }) => ({
+          package: packages,
+          partner,
+          ...requests,
+        }),
+      ).at(0);
 
-      return  requestsResponse
+      return  mappedPackageDetials
     }),
 
   assignPartner: protectedProcedure

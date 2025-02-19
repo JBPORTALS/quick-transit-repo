@@ -35,7 +35,7 @@ export const user = pgTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       }),
-    name: text("name").notNull(),
+    name: text("name"),
     email: text("email").notNull(),
     picture: text("picture"),
     role: userRoleEnum("role").default("user").notNull(),

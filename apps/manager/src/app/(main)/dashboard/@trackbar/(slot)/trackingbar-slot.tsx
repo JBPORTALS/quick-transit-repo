@@ -17,13 +17,13 @@ import { TrackBarSkeleton } from "./skeleton";
 export function TrackingBarSlot({
   initialData,
 }: {
-  initialData: RouterOutputs["packages"]["getByStatusWithOffset"];
+  initialData: RouterOutputs["requests"]["getByStatusWithOffset"];
 }) {
   const [offset, setOffset] = useState(0);
   const { data, isLoading } = api.requests.getByStatusWithOffset.useQuery(
     {
       offset,
-      omitStatus: ["cancelled", "rejected", "delivered"],
+      omitStatus: ["cancelled", "delivered"],
     },
     { initialData },
   );

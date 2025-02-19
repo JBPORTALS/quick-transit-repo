@@ -8,7 +8,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = await api.auth.getUser();
   const userRole = await api.auth.getUserRole();
   if (!session) redirect("/");
-  if (userRole === "user") redirect("/welcome");
+  if (userRole === "user" || !session.name) redirect("/welcome");
   if (userRole === "customer" || userRole === "partner") {
     await client.auth.signOut();
     redirect("/auth/mismatch-role-access");

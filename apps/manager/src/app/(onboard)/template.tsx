@@ -7,6 +7,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const userRole = await api.auth.getUserRole();
   // console.log("welcome -----", userRole);
   if (!session) return redirect("/");
-  if (userRole === "manager") redirect("/dashboard");
+  if (userRole === "manager" && session.name) redirect("/dashboard");
   return <>{props.children}</>;
 }

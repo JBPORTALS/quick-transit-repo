@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "couriers" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
 	"id" uuid PRIMARY KEY NOT NULL,
-	"name" text NOT NULL,
+	"name" text,
 	"email" text NOT NULL,
 	"picture" text,
 	"role" "userRoleEnum" DEFAULT 'user' NOT NULL,

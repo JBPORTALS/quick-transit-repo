@@ -28,25 +28,25 @@ function Reviews({
   trackingDetails,
 }: {
   trackingDetails: Exclude<
-    RouterOutputs["packages"]["getTrackingDetails"],
+    RouterOutputs["requests"]["getByPackageId"],
     undefined
   >;
 }) {
   const { data: partnerReviewDetails } = api.reviews.getReviewsByType.useQuery(
     {
-      request_id: trackingDetails.request.id,
+      request_id: trackingDetails.id,
       type: "partner",
     },
-    { enabled: trackingDetails.request.current_status === "delivered" },
+    { enabled: trackingDetails.current_status === "delivered" },
   );
 
   const { data: applicationReviewDetails } =
     api.reviews.getReviewsByType.useQuery(
       {
-        request_id: trackingDetails.request.id,
+        request_id: trackingDetails.id,
         type: "application",
       },
-      { enabled: trackingDetails.request.current_status === "delivered" },
+      { enabled: trackingDetails.current_status === "delivered" },
     );
   return (
     <Card className="shadow-none">
@@ -124,7 +124,7 @@ function Reviews({
 export default function page({ params }: { params: { id: string } }) {
   const package_id = params.id;
   const { data: trackingDetails, isLoading } =
-    api.packages.getTrackingDetails.useQuery({ package_id });
+    api.requests.getByPackageId.useQuery({ package_id });
 
   if (isLoading || !trackingDetails) return <TrackBarSkeleton />;
   return (
@@ -139,7 +139,7 @@ export default function page({ params }: { params: { id: string } }) {
           </AssignDialog>
         }
       />
-      {trackingDetails.request.current_status === "delivered" && (
+      {trackingDetails.current_status === "delivered" && (
         <Reviews trackingDetails={trackingDetails} />
       )}
     </div>
