@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   decimal,
   integer,
@@ -15,6 +15,7 @@ export const bill_details = pgTable("bill_details", {
   service_charge: decimal("service_charge").notNull(),
   insurance_charge: decimal("insurance_charge").notNull(),
   gst_charges: decimal("gst_charges").notNull(),
+  paid_at: timestamp("paid_at").$defaultFn(()=> sql`NUll`),
   created_at: timestamp("created_at").defaultNow(),
 });
 

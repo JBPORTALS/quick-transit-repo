@@ -8,6 +8,13 @@
       "when": 1739956686228,
       "tag": "0000_open_silver_fox",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1742536923660,
+      "tag": "0001_stiff_queen_noir",
+      "breakpoints": true
     }
   ]
 }

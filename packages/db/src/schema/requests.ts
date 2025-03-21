@@ -12,6 +12,7 @@ import { createInsertSchema } from "drizzle-zod";
 
 import { reviews, user } from ".";
 import { packages } from "./packages";
+import { createSelectSchema } from "drizzle-zod";
 
 export const statusEnum = pgEnum("statusEnum", [
   "requested",
@@ -49,7 +50,7 @@ export const requests = pgTable("requests", {
 });
 
 export const requestsInsertSchema = createInsertSchema(requests);
-export const requestsSelectSchema = createInsertSchema(requests);
+export const requestsSelectSchema = createSelectSchema(requests);
 
 export const requestsRelations = relations(requests, ({ one, many }) => ({
   package: one(packages, {

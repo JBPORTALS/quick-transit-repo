@@ -24,7 +24,7 @@ import {
 } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
-import { H4, Muted, P } from "~/components/ui/typography";
+import { H2, H3, H4, Muted, P } from "~/components/ui/typography";
 import UploadTrackingDetails from "~/components/UploadTrackingDetials";
 import VerifyPakcage from "~/components/VerifyPakcage";
 import { Bike } from "~/lib/icons/Bike";
@@ -60,6 +60,20 @@ export default function PackageDetails() {
       enabled: data?.request.current_status === "delivered",
     },
   );
+  const { mutateAsync: updateRequest } = api.requests.update.useMutation();
+  const utils = api.useUtils();
+  const { isPending: isBillDetailsUpdating, mutate: updateBillDetails } =
+    api.bills.update.useMutation({
+      async onSuccess() {
+        await updateRequest({
+          current_status: "pickedup",
+          picked_at: new Date(),
+          request_id: data?.request.id!,
+        });
+        await refetch();
+        await utils.invalidate();
+      },
+    });
 
   if (isLoading)
     return (
@@ -242,30 +256,44 @@ export default function PackageDetails() {
                     <View>
                       <Text className="font-semibold">Payment</Text>
                       <Muted>
-                        {data?.bill.created_at &&
-                          moment(data.bill.created_at).fromNow()}
+                        {data?.bill.paid_at &&
+                          moment(data.bill.paid_at).fromNow()}
                       </Muted>
                     </View>
                   </View>
                 </AccordionTrigger>
                 <AccordionContent className="gap-3">
-                  <Button size={"lg"} variant={"secondary"}>
-                    <HandCoins
-                      size={24}
-                      strokeWidth={1.25}
-                      className="text-foreground"
-                    />
-                    <Text>On Cash</Text>
-                  </Button>
-                  <Separator decorative />
-                  <Button size={"lg"}>
-                    <QrCode
-                      size={24}
-                      strokeWidth={1.25}
-                      className="text-primary-foreground"
-                    />
-                    <Text>Generate QR Code</Text>
-                  </Button>
+                  <View className="w-full flex-row items-center justify-between">
+                    <View>
+                      <Text>Total Amount</Text>
+                      <H3 className="w-full text-right">
+                        {data?.bill.total.toLocaleString("en-IN", {
+                          currency: "INR",
+                          style: "currency",
+                          maximumFractionDigits: 2,
+                        })}
+                      </H3>
+                    </View>
+                    <Button
+                      onLongPress={(e) => {
+                        updateBillDetails({
+                          bill_id: data?.bill.id!,
+                          paid_at: new Date(),
+                        });
+                      }}
+                      size={"lg"}
+                      variant={"default"}
+                      isLoading={isBillDetailsUpdating}
+                      className=" w-1/2 active:scale-95 active:opacity-90"
+                    >
+                      <HandCoins
+                        size={24}
+                        strokeWidth={1.25}
+                        className="text-primary-foreground"
+                      />
+                      <Text>On Cash</Text>
+                    </Button>
+                  </View>
                 </AccordionContent>
               </AccordionItem>
 
@@ -294,13 +322,11 @@ export default function PackageDetails() {
                 </AccordionTrigger>
                 <AccordionContent>
                   <View className="gap-2">
-                    <Text className="text-lg font-medium">
-                      Franchisee Address
-                    </Text>
-                    {/* <P className="text-muted-foreground">
-                      {data?.franchise_address?.street} -{" "}
-                      {data?.pincode}
-                    </P> */}
+                    <P className="text-muted-foreground">Drop off to</P>
+                    <H3 className="text-lg font-medium">
+                      {data?.courier.name}
+                    </H3>
+                    <Separator />
                     <UploadTrackingDetails />
                   </View>
                 </AccordionContent>

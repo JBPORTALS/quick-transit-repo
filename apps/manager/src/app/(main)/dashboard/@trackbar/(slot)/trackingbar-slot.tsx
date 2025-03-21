@@ -41,7 +41,7 @@ export function TrackingBarSlot({
         onNext={() => setOffset((prev) => prev + 1)}
         onPrevious={() => setOffset((prev) => prev - 1)}
         assignPartnerComp={
-          <AssignDialog packageId={packageDetails.id}>
+          <AssignDialog packageId={packageDetails.package_id}>
             <Button variant={"outline"} className="w-full" size={"lg"}>
               Assign Parnter
             </Button>

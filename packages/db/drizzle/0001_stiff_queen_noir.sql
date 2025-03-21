@@ -1,0 +1,1 @@
+ALTER TABLE "bill_details" ADD COLUMN "paid_at" timestamp;

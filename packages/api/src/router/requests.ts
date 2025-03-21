@@ -12,6 +12,7 @@ import {
   or,
   packages,
   requests,
+  requestsInsertSchema,
   user,
 } from "@qt/db";
 
@@ -98,8 +99,8 @@ export const requestsRouter = createTRPCRouter({
 
   assignPartner: protectedProcedure
     .input(z.object({ partnerId: z.string(), packageId: z.string() }))
-    .mutation(async ({ ctx, input: { packageId, partnerId } }) => {
-      return await ctx.db
+    .mutation(({ ctx, input: { packageId, partnerId } }) => {
+      return ctx.db
         .update(requests)
         .set({
           partner_id: partnerId,
@@ -212,23 +213,16 @@ export const requestsRouter = createTRPCRouter({
     }),
 
   //Update the final details derived from the courier office
-  updateTrackingDetails: protectedProcedure
+  update: protectedProcedure
     .input(
-      z.object({
-        tracking_id: z.string(),
-        // image_url: z.string().min(6).max(6),
-        package_id: z.string().min(1),
-      }),
+    requestsInsertSchema.partial().omit({id:true}).and(z.object({request_id: z.string().min(1)}))
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input:{request_id,...values} }) => {
       //Get the request of package
       const request = await ctx.db
         .update(requests)
-        .set({
-          franchise_tracking_id: input.tracking_id,
-          current_status: "delivered",
-        })
-        .where(eq(requests.package_id, input.package_id));
+        .set(values)
+        .where(eq(requests.id, request_id));
 
       return request;
     }),

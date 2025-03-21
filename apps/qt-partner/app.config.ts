@@ -21,7 +21,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
-      backgroundImage: "./assets/images/adaptive-background.png",
+      backgroundColor: "#703EAE",
     },
     package: "com.jbportals.qtpartner",
   },
@@ -42,6 +42,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         fonts: ["./assets/fonts/Geist-Black.otf"],
       },
+    ],
+    [
+      "expo-image-picker",
+      {
+        "photosPermission": "The app accesses your photos to let you share."
+      }
     ],
     [
       "expo-splash-screen",

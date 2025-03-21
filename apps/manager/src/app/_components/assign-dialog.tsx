@@ -34,11 +34,10 @@ function PartnerListItem({
 }) {
   const utils = api.useUtils();
 
-  const assignPartner = api.packages.assignPartner.useMutation({
-    onSuccess(data) {
-      utils.packages.getTrackingDetails.invalidate();
-      utils.packages.getAllPackagesWithTracking.invalidate();
-      utils.packages.getAllTrackingDetails.invalidate();
+  const assignPartner = api.requests.assignPartner.useMutation({
+    async onSuccess(data) {
+      await utils.requests.invalidate();
+      await utils.packages.invalidate();
       onOpenChange(false); //shut the dialog
     },
   });
@@ -49,7 +48,6 @@ function PartnerListItem({
         packageId: packageId,
         partnerId: partner.id,
       });
-    // onOpenChange(false);
   }
 
   return (
