@@ -1,12 +1,12 @@
 import "~/global.css";
 
 import * as React from "react";
-import { AppState } from "react-native";
+import { AppState, View } from "react-native";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen } from "expo-router";
+import { Slot, SplashScreen, useFocusEffect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Theme, ThemeProvider } from "@react-navigation/native";
+import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
@@ -17,11 +17,11 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { useSupabase } from "~/lib/useSupabase";
 
 const LIGHT_THEME: Theme = {
-  dark: false,
+  ...DefaultTheme,
   colors: NAV_THEME.light,
 };
 const DARK_THEME: Theme = {
-  dark: true,
+  ...DefaultTheme,
   colors: NAV_THEME.dark,
 };
 
@@ -46,7 +46,7 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
     GeistBlack: require("../assets/fonts/Geist-Black.otf"),
   });
 
-  const { colorScheme, setColorScheme } = useColorScheme();
+  const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
 
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
   const { isLoaded: isSessionLoaded } = useSupabase();
@@ -56,26 +56,31 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
       const theme = await AsyncStorage.getItem("theme");
 
       if (!theme) {
+        setAndroidNavigationBar(colorScheme);
         AsyncStorage.setItem("theme", colorScheme);
         setIsColorSchemeLoaded(true);
         return;
       }
       const colorTheme = theme === "dark" ? "dark" : "light";
+      setAndroidNavigationBar(colorScheme);
+
       if (colorTheme !== colorScheme) {
         setColorScheme(colorTheme);
         setIsColorSchemeLoaded(true);
         return;
       }
 
-      await setAndroidNavigationBar(colorScheme); //set the theme for Android bottom NavigationBar
-
       setIsColorSchemeLoaded(true);
-    })().finally(() => {
-      if (loaded && isSessionLoaded) {
-        SplashScreen.hideAsync();
+    })();
+  }, [isColorSchemeLoaded]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (isSessionLoaded && loaded) {
+        SplashScreen.hide();
       }
-    });
-  }, [loaded, error, isSessionLoaded]);
+    }, [isSessionLoaded, loaded]),
+  );
 
   if (!isColorSchemeLoaded) {
     return null;
@@ -85,30 +90,35 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
     return null;
   }
 
-  return <>{children}</>;
+  return (
+    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+      <StatusBar
+        style={isDarkColorScheme ? "light" : "dark"}
+        backgroundColor="transparent"
+      />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: isDarkColorScheme
+            ? NAV_THEME.dark.background
+            : NAV_THEME.light.background,
+        }}
+      >
+        {children}
+      </View>
+    </ThemeProvider>
+  );
 }
 
 export default function RootLayout() {
-  const { isDarkColorScheme } = useColorScheme();
-
   return (
     <TRPCProvider>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <SupabaseProvider>
-          <WithSplashScreenHandle>
-            <StatusBar
-              backgroundColor={
-                isDarkColorScheme
-                  ? DARK_THEME.colors.background
-                  : LIGHT_THEME.colors.background
-              }
-              style={isDarkColorScheme ? "light" : "dark"}
-            />
-            <Slot />
-            <PortalHost />
-          </WithSplashScreenHandle>
-        </SupabaseProvider>
-      </ThemeProvider>
+      <SupabaseProvider>
+        <WithSplashScreenHandle>
+          <Slot />
+          <PortalHost />
+        </WithSplashScreenHandle>
+      </SupabaseProvider>
     </TRPCProvider>
   );
 }

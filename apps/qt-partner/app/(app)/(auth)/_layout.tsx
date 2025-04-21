@@ -1,4 +1,5 @@
 import React from "react";
+import { ScrollView, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import * as Linking from "expo-linking";
@@ -47,12 +48,12 @@ function HandleAuthLink() {
 
 export default function AuthLayout() {
   return (
-    <SafeAreaProvider>
+    <>
       <Stack
         initialRouteName="index"
         screenOptions={{ headerShadowVisible: false }}
       />
       <HandleAuthLink />
-    </SafeAreaProvider>
+    </>
   );
 }
