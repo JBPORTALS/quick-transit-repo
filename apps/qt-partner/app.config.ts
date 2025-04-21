@@ -25,6 +25,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     },
     package: "com.jbportals.qtpartner",
   },
+  updates: {
+    url: "https://u.expo.dev/edea622a-6fcf-4f1a-a8e4-cfb033597919"
+  },
+  runtimeVersion: {
+    policy: "appVersion"
+  },
   extra: {
     eas: {
       projectId: "edea622a-6fcf-4f1a-a8e4-cfb033597919",
