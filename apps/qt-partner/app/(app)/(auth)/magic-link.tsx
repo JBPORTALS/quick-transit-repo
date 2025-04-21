@@ -26,7 +26,7 @@ const MagicLinkSchema = z.object({
 
 const redirectTo = makeRedirectUri();
 
-console.log({ redirectTo });
+// console.log({ redirectTo });
 
 const sendMagicLink = async (email: string) => {
   const { data, error } = await supabase.auth.signInWithOtp({

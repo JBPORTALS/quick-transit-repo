@@ -16,14 +16,9 @@ export const getBaseUrl = () => {
   const debuggerHost = Constants.expoConfig?.hostUri;
   const localhost = debuggerHost?.split(":")[0];
 
-  console.log(Constants.expoConfig);
-  // if (!localhost) {
-  //   // return "https://quick-transit-repo-manager-wheat.vercel.app/";
-  //   throw new Error(
-  //     "Failed to get localhost. Please point to your production server.",
-  //   );
-  // }
+  if (!localhost) {
+    return process.env.EXPO_PUBLIC_SERVER_URL;
+  }
 
-  console.log("localhost", localhost);
-  return `http://192.168.205.111:3000`;
+  return `http://${localhost}:3000`;
 };

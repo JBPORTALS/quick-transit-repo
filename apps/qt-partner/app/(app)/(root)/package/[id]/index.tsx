@@ -33,15 +33,14 @@ import { IndianRupee } from "~/lib/icons/IndianRupee";
 import { PackageCheck } from "~/lib/icons/PackageCheck";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
 import { PhoneCall } from "~/lib/icons/PhoneCall";
-import { QrCode } from "~/lib/icons/QrCode";
 import { Star } from "~/lib/icons/Star";
 import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { api } from "~/lib/trpc/api";
 
 export default function PackageDetails() {
   const params = useLocalSearchParams<{ id: string }>();
-  console.log(params);
-  const { data, isLoading, isPending, refetch } = api.packages.getById.useQuery(
+  // console.log(params);
+  const { data, isLoading, refetch } = api.packages.getById.useQuery(
     {
       id: params.id,
       isAdmin: true,

@@ -103,10 +103,10 @@
     "@qt/prettier-config": "workspace:^0.1.0",
     "@qt/tailwind-config": "workspace:^0.1.0",
     "@qt/tsconfig": "workspace:^0.1.0",
-    "@types/react": "~18.2.79",
+    "@types/react": "catalog:react18",
     "eslint": "^9.8.0",
     "prettier": "^3.3.3",
-    "react": "18.2.0",
+    "react": "catalog:react18",
     "tailwindcss": "^3.4.9",
     "typescript": "~5.3.3",
     "zod": "^3.23.8"

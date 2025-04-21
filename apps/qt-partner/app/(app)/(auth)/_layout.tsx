@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import * as Linking from "expo-linking";
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 
 import { supabase } from "~/lib/supabase";
 
@@ -25,7 +25,7 @@ const createSessionFromUrl = async (url: string) => {
     refresh_token,
   });
 
-  console.log({ error, data });
+  // console.log({ error, data });
 
   return { data, error };
 };
@@ -33,7 +33,7 @@ const createSessionFromUrl = async (url: string) => {
 function HandleAuthLink() {
   const url = Linking.useURL();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   React.useEffect(() => {
     if (url)
