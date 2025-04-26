@@ -26,7 +26,7 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
-    "@qt/prettier-config": "workspace:^0.1.0",
+    "@qt/prettier-config": "workspace:^",
     "@turbo/gen": "^1.12.4",
     "prettier": "^3.3.3",
     "turbo": "^1.12.4",

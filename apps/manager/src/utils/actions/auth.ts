@@ -28,11 +28,13 @@ export async function SigninWithPassword({
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: false,
+      shouldCreateUser: false,  
       emailRedirectTo: `${getBaseUrl()}/confirm/callback?next=/dashboard`,
     },
   });
+
   console.error("Supabase Auth erro:", error);
+  
   if (error) return { error: error.message };
 
   redirect(`/auth/confirm-email-sent?email=${email}`);
