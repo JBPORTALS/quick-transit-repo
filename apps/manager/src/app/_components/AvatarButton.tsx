@@ -10,18 +10,13 @@ import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 import { ThemeToggle } from "@qt/ui/theme";
 
+import { api } from "~/trpc/react";
 import { createClient } from "~/utils/client";
 
 export default function AvatarButton() {
-  const [user, setUser] = useState<User | null>(null);
+  const { data: user } = api.auth.getUser.useQuery();
   const supabase = createClient();
   const router = useRouter();
-  // Fetch user data on mount if not already loaded
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
-    });
-  }, [supabase]);
 
   return (
     <Popover>
@@ -36,9 +31,7 @@ export default function AvatarButton() {
           <Avatar className="size-10 border">
             <AvatarImage src={user?.user_metadata?.picture} />
             <AvatarFallback className="font-bold">
-              {user?.user_metadata.full_name
-                ? user.user_metadata.full_name.charAt(0)
-                : ""}
+              {user?.name?.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <ChevronDown className="h-4 w-4" />
@@ -48,12 +41,10 @@ export default function AvatarButton() {
         <HStack className="bg-secondary px-4 py-4">
           <Avatar className="size-10 border">
             <AvatarImage src={user?.user_metadata?.picture} />
-            <AvatarFallback>
-              {user ? user.user_metadata.full_name.charAt(0) : ""}
-            </AvatarFallback>
+            <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
           </Avatar>
           <VStack className="gap-1">
-            <Text styles={"body_medium"}>{user?.user_metadata.full_name}</Text>
+            <Text styles={"body_medium"}>{user?.name}</Text>
             <Text styles={"body"}>{user?.email}</Text>
           </VStack>
         </HStack>

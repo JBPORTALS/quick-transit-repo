@@ -17,7 +17,7 @@ export default async function layout({
     <VStack className="h-full w-full gap-5">
       <HStack className="w-full items-center justify-between">
         <Text styles={"lead"} className="font-medium text-accent-foreground/80">
-          Hello, {user?.user_metadata.full_name}
+          Hello, {user?.name}
         </Text>
       </HStack>
       <HStack className="relative grid w-full grid-cols-6 gap-6">
