@@ -33,7 +33,7 @@ export async function SigninWithPassword({
     },
   });
 
-  console.error("Supabase Auth erro:", error);
+  // console.error("Supabase Auth erro:", error);
   
   if (error) return { error: error.message };
 
@@ -67,7 +67,7 @@ export async function updateProfile({
       full_name: name,
     },
   });
-  console.log("Auth Error", error);
+  // console.log("Auth Error", error);
   if (error) throw new Error(error.message);
 
   await api.auth.updateUserRole({ role: "manager" });
