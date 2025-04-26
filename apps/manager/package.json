@@ -14,6 +14,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@hookform/resolvers": "catalog:",
     "@qt/api": "workspace:^0.1.0",
     "@qt/db": "workspace:^0.1.0",
     "@qt/ui": "workspace:^0.1.0",
@@ -32,6 +33,7 @@
     "nextjs-toploader": "^1.6.12",
     "nuqs": "^2.3.2",
     "react": "catalog:react18",
+    "react-hook-form": "catalog:",
     "recharts": "^2.12.6",
     "sharp": "^0.33.5",
     "superjson": "2.2.1",

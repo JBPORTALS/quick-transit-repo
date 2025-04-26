@@ -68,7 +68,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.3.4",
+    "@hookform/resolvers": "catalog:",
     "@qt/api": "workspace:^0.1.0",
     "@qt/db": "workspace:^0.1.0",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
@@ -92,7 +92,7 @@
     "lucide-react": "^0.363.0",
     "next-themes": "^0.2.1",
     "react-day-picker": "^8.10.1",
-    "react-hook-form": "^7.52.2",
+    "react-hook-form": "catalog:",
     "recharts": "^2.12.6",
     "sonner": "^1.4.3",
     "tailwind-merge": "^2.4.0",

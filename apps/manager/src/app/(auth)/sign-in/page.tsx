@@ -25,6 +25,10 @@ export default function page() {
   const form = useForm({
     schema: signInFormSchema,
     mode: "onChange",
+    defaultValues: {
+      email: "",
+      global_error: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof signInFormSchema>) {
@@ -58,7 +62,7 @@ export default function page() {
           </VStack>
           <FormField
             name="global_error"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isLoading}
             control={form.control}
             render={() => (
               <FormItem className="w-full text-center">
@@ -68,7 +72,7 @@ export default function page() {
           />
           <FormField
             name="email"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isLoading}
             control={form.control}
             render={({ field }) => (
               <FormItem className="w-full">

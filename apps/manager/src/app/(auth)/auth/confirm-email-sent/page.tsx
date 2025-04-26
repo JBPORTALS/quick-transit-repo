@@ -79,7 +79,6 @@ export default function Page() {
           </VStack>
           <FormField
             name="global_error"
-            disabled={form.formState.isSubmitting}
             control={form.control}
             render={() => (
               <FormItem className="w-full text-center">
@@ -89,7 +88,6 @@ export default function Page() {
           />
           <FormField
             name="otp"
-            disabled={form.formState.isSubmitting}
             control={form.control}
             render={({ field }) => (
               <FormItem className="w-full items-center text-center">
@@ -121,7 +119,6 @@ export default function Page() {
 
           <FormField
             name="email"
-            disabled={form.formState.isSubmitting}
             control={form.control}
             render={({ field }) => (
               <FormItem hidden className="w-full">
