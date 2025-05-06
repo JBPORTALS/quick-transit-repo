@@ -38,7 +38,8 @@ export default function VerifyPakcage() {
   });
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    await mutateAsync({ package_id: id, otp: values.otp });
+    console.log(values);
+    await mutateAsync({ package_id: id, otp: form.getValues().otp });
   }
 
   return (
@@ -54,16 +55,19 @@ export default function VerifyPakcage() {
                 <FormLabel>{"One Time Password (OTP)"}</FormLabel>
                 <FormControl>
                   <Input
-                    // keyboardType="numeric"
+                    {...field}
+                    keyboardType="numeric"
                     textContentType="oneTimeCode"
                     textAlign="center"
                     placeholder="######"
                     className="native:h-14"
-                    onChangeText={field.onChange}
-                    {...field}
+                    onChangeText={(text) => form.setValue("otp", text)}
                   />
                 </FormControl>
-                <FormMessage children={error?.message} />
+                <FormMessage
+                  className="text-center"
+                  children={error?.message}
+                />
                 <FormDescription>
                   Ask customer for their 6 digit code.
                 </FormDescription>
