@@ -83,16 +83,23 @@ export default function UploadTrackingDetails() {
   );
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    if (values.invoice_uri) {
-      const response = await fetch(values.invoice_uri.uri);
-      const blob = await response.blob();
+    try {
+      if (values.invoice_uri) {
+        const response = await fetch(values.invoice_uri.uri);
+        const blob = await response.blob();
 
-      const { data, error } = await supabase.storage
-        .from("images")
-        .update(`/invoices/${id}-${values.invoice_uri.name}.png`, blob);
-      if (error)
-        form.setError("franchise_tracking_id", { message: error.message });
-      console.log(data);
+        const { data, error } = await supabase.storage
+          .from("partners")
+          .upload(`/invoices/${id}-${values.invoice_uri.name}.png`, blob, {
+            upsert: true,
+          });
+
+        if (error)
+          form.setError("franchise_tracking_id", { message: error.message });
+        console.log(data);
+      }
+    } catch (e) {
+      console.log("Uploading error", e);
     }
   }
 
@@ -127,109 +134,104 @@ export default function UploadTrackingDetails() {
 
   return (
     <Form {...form}>
-      <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
-        <View className="gap-3">
-          <FormField
-            control={form.control}
-            name="invoice_uri"
-            render={({ field }) => (
-              <FormItem>
-                {field.value ? (
-                  <Card className="w-full flex-row items-center  justify-between">
-                    <CardContent className="w-full flex-1 flex-row gap-2 p-2 ">
-                      <View>
-                        <AspectRatio
-                          style={{ width: 20, height: 40 }}
-                          className="mt-auto "
-                          ratio={1 / 1}
-                        >
-                          <Image
-                            style={{ width: "100%", height: "100%" }}
-                            source={{
-                              uri: field.value.uri,
-                            }}
-                            contentPosition={"center"}
-                            contentFit="contain"
-                          />
-                        </AspectRatio>
-                      </View>
-                      <CardHeader className=" flex-shrink flex-grow-0 flex-wrap  p-0">
-                        <CardTitle className="text-base">
-                          Invoice Reciept
-                        </CardTitle>
-                        <CardDescription className="w-full text-xs">
-                          You can't change the picture once request completed
-                        </CardDescription>
-                      </CardHeader>
-                    </CardContent>
-                    <CardFooter className="w-full flex-[0.5]  p-0 px-3">
-                      <Button
-                        onPress={() => field.onChange("")}
-                        size={"sm"}
-                        variant={"destructive"}
-                        className="w-full"
+      <View className="gap-3">
+        <FormField
+          control={form.control}
+          name="invoice_uri"
+          render={({ field }) => (
+            <FormItem>
+              {field.value ? (
+                <Card className="w-full flex-row items-center  justify-between">
+                  <CardContent className="w-full flex-1 flex-row gap-2 p-2 ">
+                    <View>
+                      <AspectRatio
+                        style={{ width: 20, height: 40 }}
+                        className="mt-auto "
+                        ratio={1 / 1}
                       >
-                        <Text>Remove</Text>
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                ) : (
-                  <>
-                    <FormDescription>
-                      Capture clear picture of final franchise invoice reciept
-                    </FormDescription>
-                    <FormControl>
-                      <Button
-                        onPress={() => openCamera()}
-                        size={"lg"}
-                        variant={"secondary"}
-                        isLoading={isCameraLoading}
-                      >
-                        <Camera
-                          size={18}
-                          className="text-secondary-foreground"
+                        <Image
+                          style={{ width: "100%", height: "100%" }}
+                          source={{
+                            uri: field.value.uri,
+                          }}
+                          contentPosition={"center"}
+                          contentFit="contain"
                         />
-                        <Text>Upload Invoice</Text>
-                      </Button>
-                    </FormControl>
-                  </>
-                )}
-                <FormMessage children={error?.message} />
-              </FormItem>
-            )}
-          />
-          <FormField
-            disabled={form.formState.isSubmitting}
-            control={form.control}
-            name="franchise_tracking_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{"Tracking Link"}</FormLabel>
-                <FormControl>
-                  <Input
-                    className="native:h-14"
-                    onChangeText={field.onChange}
-                    keyboardType="url"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage children={error?.message} />
-                <FormDescription>
-                  Get the tracking link from the franchise.
-                </FormDescription>
-              </FormItem>
-            )}
-          />
+                      </AspectRatio>
+                    </View>
+                    <CardHeader className=" flex-shrink flex-grow-0 flex-wrap  p-0">
+                      <CardTitle className="text-base">
+                        Invoice Reciept
+                      </CardTitle>
+                      <CardDescription className="w-full text-xs">
+                        You can't change the picture once request completed
+                      </CardDescription>
+                    </CardHeader>
+                  </CardContent>
+                  <CardFooter className="w-full flex-[0.5]  p-0 px-3">
+                    <Button
+                      onPress={() => field.onChange("")}
+                      size={"sm"}
+                      variant={"destructive"}
+                      className="w-full"
+                    >
+                      <Text>Remove</Text>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ) : (
+                <>
+                  <FormDescription>
+                    Capture clear picture of final franchise invoice reciept
+                  </FormDescription>
+                  <FormControl>
+                    <Button
+                      onPress={() => openCamera()}
+                      size={"lg"}
+                      variant={"secondary"}
+                      isLoading={isCameraLoading}
+                    >
+                      <Camera size={18} className="text-secondary-foreground" />
+                      <Text>Upload Invoice</Text>
+                    </Button>
+                  </FormControl>
+                </>
+              )}
+              <FormMessage children={error?.message} />
+            </FormItem>
+          )}
+        />
+        <FormField
+          disabled={form.formState.isSubmitting}
+          control={form.control}
+          name="franchise_tracking_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{"Tracking Link"}</FormLabel>
+              <FormControl>
+                <Input
+                  className="native:h-14"
+                  onChangeText={field.onChange}
+                  keyboardType="url"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage children={error?.message} />
+              <FormDescription>
+                Get the tracking link from the franchise.
+              </FormDescription>
+            </FormItem>
+          )}
+        />
 
-          <Button
-            onPress={form.handleSubmit(onSubmit)}
-            isLoading={form.formState.isSubmitting}
-            size={"lg"}
-          >
-            <Text>Complete Request</Text>
-          </Button>
-        </View>
-      </KeyboardAvoidingView>
+        <Button
+          onPress={form.handleSubmit(onSubmit)}
+          isLoading={form.formState.isSubmitting}
+          size={"lg"}
+        >
+          <Text>Complete Request</Text>
+        </Button>
+      </View>
     </Form>
   );
 }

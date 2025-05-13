@@ -17,7 +17,7 @@
     "@qt/db": "workspace:^0.1.0",
     "@qt/validators": "workspace:^0.1.0",
     "@supabase/ssr": "^0.3.0",
-    "@supabase/supabase-js": "^2.45.1",
+    "@supabase/supabase-js": "catalog:",
     "@trpc/server": "catalog:trpc11",
     "order-id": "^2.1.2",
     "otp-agent": "^3.0.3",

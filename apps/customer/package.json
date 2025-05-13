@@ -19,7 +19,7 @@
     "@qt/ui": "workspace:^0.1.0",
     "@qt/validators": "workspace:^0.1.0",
     "@supabase/ssr": "^0.3.0",
-    "@supabase/supabase-js": "^2.45.1",
+    "@supabase/supabase-js": "catalog:",
     "@t3-oss/env-nextjs": "^0.9.2",
     "@tanstack/react-query": "catalog:trpc11",
     "@tanstack/react-query-devtools": "catalog:trpc11",

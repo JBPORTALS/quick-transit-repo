@@ -32,5 +32,12 @@
     "turbo": "^1.12.4",
     "typescript": "catalog:"
   },
-  "prettier": "@qt/prettier-config"
+  "prettier": "@qt/prettier-config",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "core-js-pure",
+      "esbuild",
+      "sharp"
+    ]
+  }
 }

@@ -25,7 +25,7 @@
     "@rn-primitives/slot": "~1.0.3",
     "@rn-primitives/tooltip": "~1.0.3",
     "@rn-primitives/types": "~1.0.3",
-    "@supabase/supabase-js": "^2.45.1",
+    "@supabase/supabase-js": "catalog:",
     "@tanstack/react-query": "catalog:trpc11",
     "@trpc/client": "catalog:trpc11",
     "@trpc/react-query": "catalog:trpc11",

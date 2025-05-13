@@ -9,6 +9,9 @@ catalogs:
     '@hookform/resolvers':
       specifier: ^5.0.1
       version: 5.0.1
+    '@supabase/supabase-js':
+      specifier: ^2.49.4
+      version: 2.49.4
     react-hook-form:
       specifier: ^7.56.1
       version: 7.56.1
@@ -83,7 +86,7 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(@supabase/supabase-js@2.49.4)
       '@supabase/supabase-js':
-        specifier: ^2.45.1
+        specifier: 'catalog:'
         version: 2.49.4
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
@@ -219,7 +222,7 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(@supabase/supabase-js@2.49.4)
       '@supabase/supabase-js':
-        specifier: ^2.45.1
+        specifier: 'catalog:'
         version: 2.49.4
       '@t3-oss/env-nextjs':
         specifier: ^0.9.2
@@ -364,7 +367,7 @@ importers:
         specifier: ~1.0.3
         version: 1.0.5(react-native-web@0.20.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.26.10)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       '@supabase/supabase-js':
-        specifier: ^2.45.1
+        specifier: 'catalog:'
         version: 2.49.4
       '@tanstack/react-query':
         specifier: catalog:trpc11
@@ -518,7 +521,7 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(@supabase/supabase-js@2.49.4)
       '@supabase/supabase-js':
-        specifier: ^2.45.1
+        specifier: 'catalog:'
         version: 2.49.4
       '@trpc/server':
         specifier: catalog:trpc11
@@ -561,7 +564,7 @@ importers:
         specifier: ^1.16.0
         version: 1.19.0
       '@supabase/supabase-js':
-        specifier: ^2.45.1
+        specifier: 'catalog:'
         version: 2.49.4
       drizzle-orm:
         specifier: ^0.35.1
