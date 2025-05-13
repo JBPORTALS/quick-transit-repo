@@ -27,7 +27,6 @@ const handler = async (req: Request, res: Response) => {
     router: appRouter,
     req,
     createContext: async () => {
-      // console.log("Headers", req.headers);
       return await createTRPCContext({
         headers: req.headers,
       });

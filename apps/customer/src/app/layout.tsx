@@ -50,7 +50,8 @@ const FiraSansFont = Fira_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  const nextHeaders = await headers();
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -63,7 +64,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       >
         <NuqsAdapter>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TRPCReactProvider headers={headers()}>
+            <TRPCReactProvider headers={nextHeaders}>
               {props.children}
             </TRPCReactProvider>
             <Toaster richColors />
