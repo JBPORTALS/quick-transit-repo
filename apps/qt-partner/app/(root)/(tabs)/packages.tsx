@@ -64,12 +64,12 @@ export default function PackagesIndex() {
             <View>
               <Link href={"/search"} asChild>
                 <TouchableOpacity>
-                  <View className="flex-row items-center overflow-hidden rounded-md border border-border bg-secondary pl-3">
-                    <SearchIcon size={20} className="text-foreground" />
+                  <View className="flex-row items-center overflow-hidden rounded-xl border border-border bg-card/50 pl-3">
+                    <SearchIcon size={16} className="text-muted-foreground" />
                     <Input
-                      placeholder="Search ..."
+                      placeholder="Search packages..."
                       readOnly
-                      className="native:h-10 w-full flex-shrink rounded-none border-0 bg-transparent"
+                      className="native:h-12 w-full flex-shrink rounded-none border-0 bg-transparent"
                     />
                   </View>
                 </TouchableOpacity>
@@ -84,7 +84,6 @@ export default function PackagesIndex() {
                 >
                   <TouchableOpacity className="gap-3">
                     <PackageItem key={data.id} data={data} />
-                    <Separator key={data.id + "sperator"} />
                   </TouchableOpacity>
                 </Link>
               ))}

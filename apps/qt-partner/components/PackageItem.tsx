@@ -6,10 +6,12 @@ import { RouterOutputs } from "@qt/api";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
 import { cn } from "~/lib/utils";
 import { Badge } from "./ui/badge";
+import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Text } from "./ui/text";
+import { H1 } from "./ui/typography";
 
 export const PackageItem = React.forwardRef<
-  React.ElementRef<typeof View>,
+  React.ComponentRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
     data: RouterOutputs["packages"]["search"]["packages"][0];
   }
@@ -19,35 +21,35 @@ export const PackageItem = React.forwardRef<
   if (!packageDetails) return null;
 
   return (
-    <View ref={ref} className="w-full flex-grow-0 flex-row gap-3">
-      <View className="aspect-square min-w-24 max-w-24 items-center  justify-center rounded-md border border-border bg-muted/20">
-        <PackageIcon
-          strokeWidth={1.25}
-          size={32}
-          className="text-muted-foreground "
-        />
+    <Card ref={ref} className="w-full flex-row items-center pl-5">
+      <View className="aspect-square min-w-20 max-w-20 items-center  justify-center rounded-md border border-border bg-muted/20">
+        <H1>📦</H1>
       </View>
-      <View className="w-full flex-shrink gap-2">
-        <Text className="font-bold">{packageDetails.title}</Text>
-        <Text className="text-sm text-muted-foreground">
-          {packageDetails.description.length > 40
-            ? packageDetails.description.slice(0, 40).concat("...")
-            : packageDetails.description}
-        </Text>
-        <Badge variant={"secondary"}>
+      <CardHeader className="w-full flex-shrink gap-2">
+        <View>
+          <CardTitle className="text-lg font-bold">
+            {packageDetails.title}
+          </CardTitle>
+          <CardDescription className="text-sm text-muted-foreground">
+            {packageDetails.description.length > 40
+              ? packageDetails.description.slice(0, 40).concat("...")
+              : packageDetails.description}
+          </CardDescription>
+        </View>
+        <Badge variant={"outline"}>
           <Text
             className={cn(
               "text-sm font-bold capitalize",
               current_status === "confirmed" && "text-indigo-400",
               current_status === "cancelled" && "text-red-400",
-              current_status === "shipping" && "text-amber-600",
+              current_status === "pickedup" && "text-amber-600",
               current_status === "delivered" && "text-green-600",
             )}
           >
             {current_status === "confirmed" ? "Pick Up" : current_status}
           </Text>
         </Badge>
-      </View>
-    </View>
+      </CardHeader>
+    </Card>
   );
 });
