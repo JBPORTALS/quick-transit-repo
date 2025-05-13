@@ -59,7 +59,7 @@ export const reviewsRouter = createTRPCRouter({
       return deletedReview[0];
     }),
 
-  getReviewsByType: publicProcedure
+  getReviewsByType: protectedProcedure
     .input(reviewsInsertSchema.pick({ type: true, request_id: true }))
     .query(async ({ ctx, input }) => {
       const reviewsByType = await ctx.db.query.reviews.findFirst({
@@ -74,7 +74,7 @@ export const reviewsRouter = createTRPCRouter({
       return reviewsByType;
     }),
 
-  getAverageRatingForPartner: publicProcedure
+  getAverageRatingForPartner: protectedProcedure
     .input(z.object({ partner_id: reviewsInsertSchema.shape.request_id }))
     .query(async ({ ctx, input }) => {
       const result = await ctx.db
@@ -93,4 +93,18 @@ export const reviewsRouter = createTRPCRouter({
 
       return result.at(0);
     }),
+
+  getRatingsOfPartner: protectedProcedure.query(({ ctx }) =>
+    ctx.db
+      .select({
+        averageRating: sql<number>`CAST(AVG(${reviews.rating}) AS DECIMAL(10,2))`,
+        totalReviews: sql<number>`COUNT(${reviews.id})`,
+      })
+      .from(reviews)
+      .innerJoin(requests, eq(reviews.request_id, requests.id))
+      .where(
+        and(eq(requests.partner_id, ctx.user.id), eq(reviews.type, "partner")),
+      )
+      .then((r) => r.at(0)),
+  ),
 });

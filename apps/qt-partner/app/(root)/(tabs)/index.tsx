@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RefreshControl, ScrollView, View } from "react-native";
 import { isEmpty } from "lodash";
 
+import SpinnerView from "~/components/SpinnerView";
 import {
   Card,
   CardContent,
@@ -12,10 +13,9 @@ import {
 } from "~/components/ui/card";
 import { Progress } from "~/components/ui/progress";
 import { Text } from "~/components/ui/text";
-import { H3, Large, Lead, Muted } from "~/components/ui/typography";
+import { Large, Muted } from "~/components/ui/typography";
 import { Bell } from "~/lib/icons/Bell";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
-import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { api } from "~/lib/trpc/api";
 
 export default function HomeScreen() {
@@ -32,8 +32,7 @@ export default function HomeScreen() {
     setFetching(false);
   }
 
-  if (isLoading)
-    return <ActivityIndicator size={45} className="mt-4 text-primary" />;
+  if (isLoading) return <SpinnerView />;
 
   return (
     <>

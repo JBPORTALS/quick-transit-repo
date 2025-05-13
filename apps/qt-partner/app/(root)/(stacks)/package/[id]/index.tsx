@@ -9,6 +9,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { isUndefined } from "lodash";
 import moment from "moment";
 
+import SpinnerView from "~/components/SpinnerView";
 import {
   Accordion,
   AccordionContent,
@@ -39,7 +40,6 @@ import { PackageCheck } from "~/lib/icons/PackageCheck";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
 import { PhoneCall } from "~/lib/icons/PhoneCall";
 import { Star } from "~/lib/icons/Star";
-import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { api } from "~/lib/trpc/api";
 
 export default function PackageDetails() {
@@ -79,13 +79,7 @@ export default function PackageDetails() {
       },
     });
 
-  if (isLoading)
-    return (
-      <View className="flex-1 items-center justify-center">
-        <Stack.Screen options={{ title: "Package Details" }} />
-        <ActivityIndicator size={42} className="text-primary" />
-      </View>
-    );
+  if (isLoading) return <SpinnerView />;
 
   return (
     <KeyboardAvoidingView
@@ -106,7 +100,6 @@ export default function PackageDetails() {
           />
         }
       >
-        <Stack.Screen options={{ title: "Package Details" }} />
         <View className="gap-3 p-5">
           <AspectRatio
             ratio={16 / 9}

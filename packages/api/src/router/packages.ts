@@ -175,7 +175,7 @@ export const packagesRouter = createTRPCRouter({
           destination_address: true,
           category: true,
           courier: true,
-          timeslot:true,
+          timeslot: true,
           bill: {
             extras(fields, operators) {
               return {
@@ -485,4 +485,21 @@ export const packagesRouter = createTRPCRouter({
 
       return request;
     }),
+
+  /**
+   * Get's total delivered packages count for partner
+   * @context Partner
+   */
+  getDeliveredCountForPartner: protectedProcedure.query(({ ctx }) =>
+    ctx.db
+      .select({ count: count(requests.partner_id) })
+      .from(requests)
+      .where(
+        and(
+          eq(requests.partner_id, ctx.user.id),
+          eq(requests.current_status, "delivered"),
+        ),
+      )
+      .then((s) => s.at(0)?.count),
+  ),
 });

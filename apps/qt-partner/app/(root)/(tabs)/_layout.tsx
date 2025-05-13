@@ -90,9 +90,7 @@ export default function RootLayout() {
                     `border-2 ${isDarkColorScheme ? "border-primary-foreground" : "border-primary"}`,
                 )}
               >
-                <AvatarImage
-                  source={{ uri: "session?.user.user_metadata.picture" }}
-                />
+                <AvatarImage source={require("assets/images/profile.png")} />
                 <AvatarFallback>
                   <Text>CN</Text>
                 </AvatarFallback>

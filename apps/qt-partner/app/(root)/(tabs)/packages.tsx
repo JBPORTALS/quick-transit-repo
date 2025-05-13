@@ -9,12 +9,11 @@ import { Link } from "expo-router";
 import { isEmpty } from "lodash";
 
 import { PackageItem } from "~/components/PackageItem";
+import SpinnerView from "~/components/SpinnerView";
 import { Input } from "~/components/ui/input";
-import { Separator } from "~/components/ui/separator";
 import { Large, Muted } from "~/components/ui/typography";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
 import { SearchIcon } from "~/lib/icons/Search";
-import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { api } from "~/lib/trpc/api";
 
 export default function PackagesIndex() {
@@ -30,8 +29,8 @@ export default function PackagesIndex() {
     setFetching(false);
   }
 
-  if (isLoading)
-    return <ActivityIndicator size={45} className="mt-4 text-primary" />;
+  if (isLoading) return <SpinnerView />;
+
   return (
     <>
       {isEmpty(data?.packages) ? (

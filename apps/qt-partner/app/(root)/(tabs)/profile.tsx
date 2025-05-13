@@ -1,6 +1,7 @@
 import { ScrollView, View } from "react-native";
 import { Link } from "expo-router";
 
+import SpinnerView from "~/components/SpinnerView";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import {
@@ -19,7 +20,15 @@ import { Settings } from "~/lib/icons/Settings";
 import { api } from "~/lib/trpc/api";
 
 export default function Profile() {
-  const { data } = api.auth.getUser.useQuery();
+  const [user, ratings, totalDeliveredPackages] = api.useQueries((t) => [
+    t.auth.getUser(),
+    t.reviews.getRatingsOfPartner(),
+    t.packages.getDeliveredCountForPartner(),
+  ]);
+
+  if (user.isLoading || ratings.isLoading || totalDeliveredPackages.isLoading)
+    return <SpinnerView />;
+
   return (
     <ScrollView>
       <View className="flex-1 items-center justify-center gap-3 p-5">
@@ -28,11 +37,11 @@ export default function Profile() {
           style={{ height: 96, width: 96 }}
           className="border-2 border-primary"
         >
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage source={require("assets/images/profile.png")} />
         </Avatar>
         <View className="items-center">
-          <H3>{data?.name}</H3>
-          <Muted>{data?.email}</Muted>
+          <H3>{user.data?.name}</H3>
+          <Muted>{user.data?.email}</Muted>
         </View>
         <View className="flex-row justify-between gap-3">
           <Card className="w-full flex-shrink items-center">
@@ -40,10 +49,15 @@ export default function Profile() {
               <CardDescription className="text-base">
                 Average Ratings
               </CardDescription>
-              <CardTitle className="text-center text-4xl">4</CardTitle>
+              <CardTitle className="text-center text-4xl">
+                {ratings.data?.averageRating ?? 0}
+              </CardTitle>
             </CardHeader>
             <CardFooter>
-              <Progress style={{ height: 6 }} value={(4 / 5) * 100} />
+              <Progress
+                style={{ height: 6 }}
+                value={((ratings.data?.averageRating ?? 0) / 5) * 100}
+              />
             </CardFooter>
           </Card>
           <Card className="w-full flex-shrink items-center">
@@ -51,7 +65,9 @@ export default function Profile() {
               <CardDescription className="text-base">
                 Package Delivered
               </CardDescription>
-              <CardTitle className="text-center text-4xl">39</CardTitle>
+              <CardTitle className="text-center text-4xl">
+                {totalDeliveredPackages?.data}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Muted className="text-center text-xs">
