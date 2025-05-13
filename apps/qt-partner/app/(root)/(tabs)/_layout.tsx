@@ -26,6 +26,9 @@ export default function RootLayout() {
           ? NAV_THEME.dark.text
           : NAV_THEME.light.primary,
         headerShadowVisible: false,
+        headerStyle: {
+          borderBottomWidth: 0.5,
+        },
       }}
       backBehavior="history"
     >
