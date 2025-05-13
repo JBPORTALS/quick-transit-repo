@@ -24,7 +24,7 @@ import {
 } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
-import { H2, H3, H4, Muted, P } from "~/components/ui/typography";
+import { H2, H3, H4, Lead, Muted, P } from "~/components/ui/typography";
 import UploadTrackingDetails from "~/components/UploadTrackingDetials";
 import VerifyPakcage from "~/components/VerifyPakcage";
 import { Bike } from "~/lib/icons/Bike";
@@ -84,6 +84,8 @@ export default function PackageDetails() {
 
   return (
     <ScrollView
+      automaticallyAdjustKeyboardInsets
+      keyboardShouldPersistTaps
       refreshControl={
         <RefreshControl
           style={{
@@ -262,17 +264,15 @@ export default function PackageDetails() {
                   </View>
                 </AccordionTrigger>
                 <AccordionContent className="gap-3">
-                  <View className="w-full flex-row items-center justify-between">
-                    <View>
-                      <Text>Total Amount</Text>
-                      <H3 className="w-full text-right">
-                        {data?.bill.total.toLocaleString("en-IN", {
-                          currency: "INR",
-                          style: "currency",
-                          maximumFractionDigits: 2,
-                        })}
-                      </H3>
-                    </View>
+                  <View className="w-full items-center justify-between gap-3.5">
+                    <Lead className="text-center">Total Amount</Lead>
+                    <H2 className="w-full text-center">
+                      {data?.bill.total.toLocaleString("en-IN", {
+                        currency: "INR",
+                        style: "currency",
+                        maximumFractionDigits: 2,
+                      })}
+                    </H2>
                     <Button
                       onLongPress={(e) => {
                         updateBillDetails({
@@ -283,7 +283,7 @@ export default function PackageDetails() {
                       size={"lg"}
                       variant={"default"}
                       isLoading={isBillDetailsUpdating}
-                      className=" w-1/2 active:scale-95 active:opacity-90"
+                      className=" w-full active:scale-95 active:opacity-90"
                     >
                       <HandCoins
                         size={24}
@@ -292,6 +292,9 @@ export default function PackageDetails() {
                       />
                       <Text>On Cash</Text>
                     </Button>
+                    <Muted className="text-center">
+                      Long press to confirm the cash collected action
+                    </Muted>
                   </View>
                 </AccordionContent>
               </AccordionItem>

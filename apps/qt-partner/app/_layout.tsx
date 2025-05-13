@@ -2,7 +2,6 @@ import "~/global.css";
 
 import * as React from "react";
 import { AppState, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import {
   router,
@@ -16,7 +15,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
 import { PortalHost } from "@rn-primitives/portal";
 
-import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { NAV_THEME } from "~/lib/constants";
 import { supabase, SupabaseProvider } from "~/lib/supabase";
 import { TRPCProvider } from "~/lib/trpc/api";
@@ -86,8 +84,6 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
       if (isSessionLoaded && loaded && isColorSchemeLoaded) {
         const isAuthSegment = segments[0] === "(auth)";
         const isRootSegment = segments[0] === "(root)";
-
-        console.log("segments", segments);
 
         if (isLoggedin && isAuthSegment) router.replace("/(root)/(tabs)");
         else if (!isLoggedin && isRootSegment) router.replace("/(auth)");
