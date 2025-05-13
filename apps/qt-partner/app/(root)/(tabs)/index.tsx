@@ -34,6 +34,7 @@ export default function HomeScreen() {
 
   if (isLoading)
     return <ActivityIndicator size={45} className="mt-4 text-primary" />;
+
   return (
     <>
       {isEmpty(data?.packages) ? (

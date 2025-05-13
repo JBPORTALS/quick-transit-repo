@@ -3,9 +3,10 @@ import { ScrollView, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import * as Linking from "expo-linking";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
 
 import { supabase } from "~/lib/supabase";
+import { useSupabase } from "~/lib/useSupabase";
 
 export const unstable_settings = {
   // Ensure any route can link back to `/`
@@ -47,6 +48,10 @@ function HandleAuthLink() {
 }
 
 export default function AuthLayout() {
+  const { isLoggedin } = useSupabase();
+
+  if (isLoggedin) <Redirect href={"/(root)/(tabs)"} />;
+
   return (
     <>
       <Stack

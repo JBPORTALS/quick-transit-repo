@@ -2,8 +2,15 @@ import "~/global.css";
 
 import * as React from "react";
 import { AppState, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen, useFocusEffect } from "expo-router";
+import {
+  router,
+  Slot,
+  SplashScreen,
+  useFocusEffect,
+  useSegments,
+} from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { DefaultTheme, Theme, ThemeProvider } from "@react-navigation/native";
@@ -48,8 +55,10 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
 
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
 
+  const segments = useSegments();
+
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-  const { isLoaded: isSessionLoaded } = useSupabase();
+  const { isLoaded: isSessionLoaded, isLoggedin } = useSupabase();
 
   React.useEffect(() => {
     (async () => {
@@ -77,9 +86,18 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
   useFocusEffect(
     React.useCallback(() => {
       if (isSessionLoaded && loaded) {
+        const isAuthSegment = segments[0] === "(auth)";
+        const isRootSegment = segments[0] === "(root)";
+
+        console.log("segments", segments);
+
+        if (isLoggedin && isAuthSegment) router.replace("/(root)/(tabs)");
+        else if (!isLoggedin && isRootSegment) router.replace("/(auth)");
+        else return;
+
         SplashScreen.hide();
       }
-    }, [isSessionLoaded, loaded]),
+    }, [isSessionLoaded, segments, isLoggedin, loaded]),
   );
 
   if (!isColorSchemeLoaded) {
@@ -92,11 +110,8 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar
-        style={isDarkColorScheme ? "light" : "dark"}
-        backgroundColor="transparent"
-      />
-      <View
+      <StatusBar backgroundColor="transparent" />
+      <SafeAreaView
         style={{
           flex: 1,
           backgroundColor: isDarkColorScheme
@@ -105,7 +120,7 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
         }}
       >
         {children}
-      </View>
+      </SafeAreaView>
     </ThemeProvider>
   );
 }
