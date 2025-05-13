@@ -1,5 +1,5 @@
-import { Acme } from "next/font/google";
 import { TRPCError } from "@trpc/server";
+import { sql } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -233,25 +233,33 @@ export const requestsRouter = createTRPCRouter({
   getTodayAnalyticsForPartner: protectedProcedure.query(async ({ ctx }) => {
     const [deliveredRes, shippingRes, totalPackagesRes] = await Promise.all([
       ctx.db
-        .select({ deliveredCount: count(requests.id).as("deliveredCount") })
+        .select({
+          deliveredCount: count().as("deliveredCount"),
+        })
         .from(requests)
-        .leftJoin(packages, eq(packages.id, requests.package_id))
+        .leftJoin(packages, eq(requests.package_id, packages.id))
         .where(
           and(
             eq(requests.partner_id, ctx.user.id),
             eq(requests.current_status, "delivered"),
-            eq(packages.pickup_date, new Date()),
+            eq(
+              sql`DATE(${packages.pickup_date})`,
+              sql`DATE(${new Date().toDateString()})`,
+            ),
           ),
         ),
       ctx.db
         .select({ shippingCount: count(requests.id).as("shippingCount") })
         .from(requests)
-        .leftJoin(packages, eq(packages.id, requests.package_id))
+        .leftJoin(packages, eq(requests.package_id, packages.id))
         .where(
           and(
             eq(requests.partner_id, ctx.user.id),
-            inArray(requests.current_status, ["confirmed", "pickedup"]),
-            eq(packages.pickup_date, new Date()),
+            notInArray(requests.current_status, ["confirmed", "pickedup"]),
+            eq(
+              sql`DATE(${packages.pickup_date})`,
+              sql`DATE(${new Date().toDateString()})`,
+            ),
           ),
         ),
       ctx.db
@@ -259,7 +267,7 @@ export const requestsRouter = createTRPCRouter({
           totalPackagesCount: count(requests.id).as("totalPackagesCount"),
         })
         .from(requests)
-        .leftJoin(packages, eq(packages.id, requests.package_id))
+        .leftJoin(packages, eq(requests.package_id, packages.id))
         .where(
           and(
             eq(requests.partner_id, ctx.user.id),
@@ -269,7 +277,10 @@ export const requestsRouter = createTRPCRouter({
               "delivered",
               "cancelled",
             ]),
-            eq(packages.pickup_date, new Date()),
+            eq(
+              sql`DATE(${packages.pickup_date})`,
+              sql`DATE(${new Date().toDateString()})`,
+            ),
           ),
         ),
     ]);

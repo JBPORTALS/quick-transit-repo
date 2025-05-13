@@ -119,8 +119,8 @@ export default function HomeScreen() {
                   <Progress
                     style={{ height: 8 }}
                     value={
-                      (todayAnalytics.data?.deliveredCount ??
-                        0 / (todayAnalytics.data?.totalPackagesCount ?? 0)) *
+                      ((todayAnalytics.data?.deliveredCount ?? 0) /
+                        (todayAnalytics.data?.totalPackagesCount ?? 0)) *
                       100
                     }
                   />

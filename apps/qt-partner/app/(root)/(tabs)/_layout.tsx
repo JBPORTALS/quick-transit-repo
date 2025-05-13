@@ -40,10 +40,7 @@ export default function RootLayout() {
             return (
               <Text
                 className={cn(
-                  "font-GeistBlack text-2xl tracking-wider",
-                  isDarkColorScheme
-                    ? "text-primary-foreground"
-                    : "text-primary",
+                  "font-GeistBlack text-xl tracking-wider text-foreground/85",
                 )}
               >
                 QT Partner
