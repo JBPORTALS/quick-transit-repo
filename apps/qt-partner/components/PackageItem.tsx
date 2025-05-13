@@ -13,7 +13,9 @@ import { H1 } from "./ui/typography";
 export const PackageItem = React.forwardRef<
   React.ComponentRef<typeof View>,
   React.ComponentPropsWithoutRef<typeof View> & {
-    data: RouterOutputs["packages"]["search"]["packages"][0];
+    data:
+      | RouterOutputs["packages"]["search"]["packages"][0]
+      | RouterOutputs["packages"]["getAllAssignedPackagesForToday"]["packages"][0];
   }
 >(({ data }, ref) => {
   const { current_status, package: packageDetails } = data;

@@ -5,7 +5,6 @@ import { z } from "zod";
 
 import {
   and,
-  between,
   count,
   desc,
   eq,
@@ -15,9 +14,7 @@ import {
   packageInsertSchema,
   packages,
   requests,
-  requestsSelectSchema,
   sql,
-  user,
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
@@ -374,6 +371,9 @@ export const packagesRouter = createTRPCRouter({
       .leftJoin(requests, eq(requests.package_id, packages.id))
       .groupBy(sql`date`);
   }),
+  /**
+   * Get all assigned packages with partner context
+   */
   getAllAssignedPackages: protectedProcedure
     .input(z.object({ offset: z.number(), query: z.string().optional() }))
     .query(async ({ ctx, input: { offset, query } }) => {
@@ -388,6 +388,29 @@ export const packagesRouter = createTRPCRouter({
 
       return {
         packages: packagesDetials,
+      };
+    }),
+  /**
+   * Get all assigned packages for today with partner context
+   */
+  getAllAssignedPackagesForToday: protectedProcedure
+    .input(z.object({ offset: z.number(), query: z.string().optional() }))
+    .query(async ({ ctx, input: { offset } }) => {
+      const packagesList = await ctx.db
+        .select()
+        .from(requests)
+        .fullJoin(packages, eq(requests.package_id, packages.id))
+        .where(and(eq(requests.partner_id, ctx.user.id)))
+        .orderBy(desc(requests.current_status))
+        .offset(offset);
+
+      const mappedPackagesList = packagesList.map(({ packages, requests }) => ({
+        ...requests,
+        package: packages,
+      }));
+
+      return {
+        packages: mappedPackagesList,
       };
     }),
   search: protectedProcedure

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RefreshControl, ScrollView, View } from "react-native";
 import { isEmpty } from "lodash";
 
+import { PackageItem } from "~/components/PackageItem";
 import SpinnerView from "~/components/SpinnerView";
 import {
   Card,
@@ -20,7 +21,7 @@ import { api } from "~/lib/trpc/api";
 
 export default function HomeScreen() {
   const { data, refetch, isLoading } =
-    api.packages.getAllAssignedPackages.useQuery({
+    api.packages.getAllAssignedPackagesForToday.useQuery({
       offset: 0,
     });
 
@@ -128,30 +129,11 @@ export default function HomeScreen() {
               </Card>
             </View>
             <View className="gap-4">
-              <Text className="py-6 text-xl font-semibold text-foreground">
+              <Text className="pt-6 text-xl font-semibold text-foreground">
                 {"Today's Packages"}
               </Text>
-              {data?.packages.map(({ id, package: packageDetails }) => (
-                <View
-                  key={id.toString()}
-                  className="w-full flex-grow-0 flex-row gap-2"
-                >
-                  <View className="aspect-square min-w-20 max-w-20 items-center  justify-center rounded-md border border-border bg-muted/20">
-                    <PackageIcon
-                      strokeWidth={1.25}
-                      size={32}
-                      className="text-muted-foreground"
-                    />
-                  </View>
-                  <View className="w-full flex-shrink">
-                    <Text className="font-bold">{packageDetails.title}</Text>
-                    <Text className="text-sm text-muted-foreground">
-                      {packageDetails.description.length > 60
-                        ? packageDetails.description.slice(0, 60).concat("...")
-                        : packageDetails.description}
-                    </Text>
-                  </View>
-                </View>
+              {data?.packages.map((request) => (
+                <PackageItem key={request.id} data={request} />
               ))}
             </View>
           </View>
