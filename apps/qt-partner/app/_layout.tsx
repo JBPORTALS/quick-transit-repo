@@ -65,13 +65,11 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
       const theme = await AsyncStorage.getItem("theme");
 
       if (!theme) {
-        setAndroidNavigationBar(colorScheme);
         AsyncStorage.setItem("theme", colorScheme);
         setIsColorSchemeLoaded(true);
         return;
       }
       const colorTheme = theme === "dark" ? "dark" : "light";
-      setAndroidNavigationBar(colorScheme);
 
       if (colorTheme !== colorScheme) {
         setColorScheme(colorTheme);
@@ -85,7 +83,7 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (isSessionLoaded && loaded) {
+      if (isSessionLoaded && loaded && isColorSchemeLoaded) {
         const isAuthSegment = segments[0] === "(auth)";
         const isRootSegment = segments[0] === "(root)";
 
@@ -97,7 +95,7 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
 
         SplashScreen.hide();
       }
-    }, [isSessionLoaded, segments, isLoggedin, loaded]),
+    }, [isSessionLoaded, segments, isLoggedin, loaded, isColorSchemeLoaded]),
   );
 
   if (!isColorSchemeLoaded) {
@@ -111,7 +109,7 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar backgroundColor="transparent" />
-      <SafeAreaView
+      <View
         style={{
           flex: 1,
           backgroundColor: isDarkColorScheme
@@ -120,7 +118,7 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
         }}
       >
         {children}
-      </SafeAreaView>
+      </View>
     </ThemeProvider>
   );
 }

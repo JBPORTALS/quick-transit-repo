@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Stack, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { BoxesIcon, HomeIcon } from "lucide-react-native";
 
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -20,8 +20,7 @@ export default function RootLayout() {
         },
         tabBarShowLabel: true,
         tabBarStyle: {
-          height: 64,
-          paddingTop: 6,
+          height: 72,
         },
         tabBarActiveTintColor: isDarkColorScheme
           ? NAV_THEME.dark.text
