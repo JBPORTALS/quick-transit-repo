@@ -24,15 +24,20 @@ export default function HomeScreen() {
       offset: 0,
     });
 
+  const [todayAnalytics] = api.useQueries((t) => [
+    t.requests.getTodayAnalyticsForPartner(),
+  ]);
+
   const [isFetching, setFetching] = useState(false);
 
   async function refreshData() {
     setFetching(true);
     await refetch();
+    await todayAnalytics.refetch();
     setFetching(false);
   }
 
-  if (isLoading) return <SpinnerView />;
+  if (isLoading || todayAnalytics.isLoading) return <SpinnerView />;
 
   return (
     <>
@@ -63,7 +68,9 @@ export default function HomeScreen() {
                     <CardDescription className="text-base">
                       Today
                     </CardDescription>
-                    <CardTitle className="text-4xl">20</CardTitle>
+                    <CardTitle className="text-4xl">
+                      {todayAnalytics.data?.deliveredCount ?? 0}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Text className="text-sm text-muted-foreground">
@@ -79,7 +86,9 @@ export default function HomeScreen() {
                     <CardDescription className="text-base">
                       Today
                     </CardDescription>
-                    <CardTitle className="text-4xl">30</CardTitle>
+                    <CardTitle className="text-4xl">
+                      {todayAnalytics.data?.shippingCount ?? 0}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Text className="text-sm text-muted-foreground">
@@ -94,15 +103,27 @@ export default function HomeScreen() {
               <Card className="w-full">
                 <CardHeader className="gap-2">
                   <CardDescription className="text-base">Today</CardDescription>
-                  <CardTitle className="text-4xl">20/50</CardTitle>
+                  <CardTitle className="text-4xl">
+                    {todayAnalytics.data?.deliveredCount ?? 0}/
+                    {todayAnalytics.data?.totalPackagesCount ?? 0}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Text className="text-sm text-muted-foreground">
-                    Still out of 50, 20 more packages to delivered.
+                    Still out of {todayAnalytics.data?.totalPackagesCount ?? 0},{" "}
+                    {todayAnalytics.data?.shippingCount ?? 0} more packages to
+                    delivered.
                   </Text>
                 </CardContent>
                 <CardFooter>
-                  <Progress style={{ height: 8 }} value={(20 / 50) * 100} />
+                  <Progress
+                    style={{ height: 8 }}
+                    value={
+                      (todayAnalytics.data?.deliveredCount ??
+                        0 / (todayAnalytics.data?.totalPackagesCount ?? 0)) *
+                      100
+                    }
+                  />
                 </CardFooter>
               </Card>
             </View>

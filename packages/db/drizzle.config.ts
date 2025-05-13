@@ -1,6 +1,8 @@
 import { defineConfig } from "drizzle-kit";
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.PUSH_MODE
+  ? process.env.DATABASE_SESSION_POOLER
+  : process.env.DATABASE_URL;
 
 if (!connectionString) throw new Error("No pg connection string ❌");
 
