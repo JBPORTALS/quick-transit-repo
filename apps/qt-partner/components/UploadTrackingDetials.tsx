@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { View } from "react-native";
+import * as FileSystem from "expo-file-system";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
-import { Link, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { decode } from "base64-arraybuffer";
 import { z } from "zod";
 
 import { Camera } from "~/lib/icons/Camera";
-import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { supabase } from "~/lib/supabase";
 import { api } from "~/lib/trpc/api";
 import { AspectRatio } from "./ui/aspect-ratio";
@@ -66,37 +61,47 @@ export default function UploadTrackingDetails() {
   const form = useForm({
     schema,
     mode: "onChange",
+    defaultValues: {
+      invoice_uri: undefined,
+      franchise_tracking_id: "",
+    },
   });
   const [isCameraLoading, setCameraLoading] = useState(false);
-  const [asset, setAsset] = useState<
-    ImagePicker.ImagePickerAsset | undefined | null
-  >(null);
   const { id } = useLocalSearchParams<{ id: string }>();
   const utils = api.useUtils();
-  const { mutateAsync, error } = api.packages.updateTrackingDetails.useMutation(
-    {
+  const { mutateAsync: updateTrackingDetails, error } =
+    api.packages.updateTrackingDetails.useMutation({
       onSuccess() {
         utils.packages.getById.invalidate();
         utils.packages.getAllAssignedPackages.invalidate();
       },
-    },
-  );
+    });
 
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
-      if (values.invoice_uri) {
-        const response = await fetch(values.invoice_uri.uri);
-        const blob = await response.blob();
+      if (values.invoice_uri.uri) {
+        const base64 = await FileSystem.readAsStringAsync(
+          values.invoice_uri.uri,
+          { encoding: "base64" },
+        );
+
+        const fileName = `/invoices/${id}.png`;
+        const contentType = "image/png";
 
         const { data, error } = await supabase.storage
-          .from("partners")
-          .upload(`/invoices/${id}-${values.invoice_uri.name}.png`, blob, {
+          .from("images")
+          .upload(fileName, decode(base64), {
             upsert: true,
+            contentType,
           });
 
         if (error)
           form.setError("franchise_tracking_id", { message: error.message });
-        console.log(data);
+
+        await updateTrackingDetails({
+          package_id: id,
+          tracking_id: form.getValues().franchise_tracking_id,
+        });
       }
     } catch (e) {
       console.log("Uploading error", e);
@@ -201,6 +206,7 @@ export default function UploadTrackingDetails() {
             </FormItem>
           )}
         />
+        {/* <Text>{JSON.stringify(form.getValues(), undefined, 2)}</Text> */}
         <FormField
           disabled={form.formState.isSubmitting}
           control={form.control}
@@ -210,10 +216,10 @@ export default function UploadTrackingDetails() {
               <FormLabel>{"Tracking Link"}</FormLabel>
               <FormControl>
                 <Input
-                  className="native:h-14"
-                  onChangeText={field.onChange}
-                  keyboardType="url"
                   {...field}
+                  className="native:h-14"
+                  keyboardType="url"
+                  onChangeText={field.onChange}
                 />
               </FormControl>
               <FormMessage children={error?.message} />
