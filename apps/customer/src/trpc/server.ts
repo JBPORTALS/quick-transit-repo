@@ -10,14 +10,15 @@ import { createClient } from "~/utils/server";
  * handling a tRPC call from a React Server Component.
  */
 const createContext = cache(async () => {
-  const heads = new Headers(headers());
+  const nextHeaders = await headers();
+  const heads = new Headers(nextHeaders);
   heads.set("x-trpc-source", "rsc");
 
   heads.set("x-trpc-source", "rsc");
 
   const {
     data: { user },
-  } = await createClient().auth.getUser();
+  } = await (await createClient()).auth.getUser();
 
   return await createContextInner({
     user,

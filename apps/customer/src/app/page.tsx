@@ -10,7 +10,7 @@ import { createClient } from "~/utils/server";
 import AuthButton from "./_components/AuthButton";
 
 export default async function Page() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

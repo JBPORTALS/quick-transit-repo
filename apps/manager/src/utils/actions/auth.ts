@@ -17,7 +17,7 @@ import { createClient } from "~/utils/server";
 export async function SigninWithPassword({
   email,
 }: z.infer<typeof signInFormSchema>): Promise<{ error: string | null }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const isManager = await db.query.user.findFirst({
     where: and(eq(user.role, "manager"), eq(user.email, email)),
@@ -28,13 +28,13 @@ export async function SigninWithPassword({
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: false,  
+      shouldCreateUser: false,
       emailRedirectTo: `${getBaseUrl()}/confirm/callback?next=/dashboard`,
     },
   });
 
   // console.error("Supabase Auth erro:", error);
-  
+
   if (error) return { error: error.message };
 
   redirect(`/auth/confirm-email-sent?email=${email}`);
@@ -44,7 +44,7 @@ export async function verifyOTP({
   otp,
   email,
 }: z.infer<typeof verifyFormSchema>): Promise<{ error: string | null }> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.verifyOtp({
     type: "email",
@@ -60,7 +60,7 @@ export async function verifyOTP({
 export async function updateProfile({
   name,
 }: z.infer<typeof profileInformationSchema>) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.updateUser({
     data: {

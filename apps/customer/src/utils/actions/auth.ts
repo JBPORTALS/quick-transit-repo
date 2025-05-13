@@ -8,11 +8,12 @@ import { api } from "~/trpc/server";
 import { createClient } from "~/utils/server";
 
 export async function SigninWithGoogle() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const origin =
     process.env.NODE_ENV === "development"
       ? `http://localhost:${process.env.PORT}`
-      : headers().get("origin");
+      : (await headers()).get("origin");
+
   const redirectUrl = `${origin}/auth/callback?next=/dashboard`;
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",

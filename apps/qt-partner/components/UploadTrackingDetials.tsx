@@ -83,20 +83,16 @@ export default function UploadTrackingDetails() {
   );
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values.invoice_uri);
     if (values.invoice_uri) {
       const response = await fetch(values.invoice_uri.uri);
       const blob = await response.blob();
-      const buffer = await blob.arrayBuffer();
 
-      console.log("blob", buffer);
-
-      // const { data, error } = await supabase.storage
-      //   .from("images")
-      //   .update(`/invoices/${id}-${values.invoice_uri.name}.png`, blob);
-      // if (error)
-      //   form.setError("franchise_tracking_id", { message: error.message });
-      // console.log(data);
+      const { data, error } = await supabase.storage
+        .from("images")
+        .update(`/invoices/${id}-${values.invoice_uri.name}.png`, blob);
+      if (error)
+        form.setError("franchise_tracking_id", { message: error.message });
+      console.log(data);
     }
   }
 

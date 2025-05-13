@@ -25,7 +25,7 @@
     "@qt/tsconfig": "workspace:^0.1.0",
     "eslint": "^9.8.0",
     "prettier": "^3.3.3",
-    "typescript": "~5.3.3"
+    "typescript": "catalog:"
   },
   "eslintConfig": {
     "root": true,
