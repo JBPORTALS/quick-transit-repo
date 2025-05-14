@@ -24,8 +24,8 @@ export const columns: ColumnDef<Package>[] = [
       return (
         <Link href={`/package-details/${id}`}>
           <Package>
-            <PackageThumbneil>
-              <Image src={"/package-1.jpg"} fill alt="Package Thumbnail" />
+            <PackageThumbneil className="flex items-center justify-center bg-accent/40">
+              <h1 className="text-2xl">📦</h1>
             </PackageThumbneil>
             <PackageBody className="flex flex-col gap-1">
               <Text styles={"small"}>{title}</Text>
@@ -55,20 +55,7 @@ export const columns: ColumnDef<Package>[] = [
   },
   {
     accessorKey: "request.current_status",
-    header: ({ column }) => {
-      return (
-        <div className="w-full text-right">
-          <Button
-            variant="ghost"
-            size={"sm"}
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Status
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: () => <div className="px-10 text-right">Status</div>,
     cell: ({ row }) => {
       const value = row.original;
       return (
@@ -82,20 +69,7 @@ export const columns: ColumnDef<Package>[] = [
   },
   {
     accessorKey: "created_at",
-    header: ({ column }) => {
-      return (
-        <div className="w-full text-right">
-          <Button
-            size={"sm"}
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            <span>Requested On</span>
-            <ArrowUpDown className="size-4" />
-          </Button>
-        </div>
-      );
-    },
+    header: () => <div className="px-5 text-right">Requested on</div>,
     cell({ row }) {
       return (
         <div className="w-full px-5 text-right">

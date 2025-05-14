@@ -1,15 +1,12 @@
-import React from "react";
 import Link from "next/link";
-import { format, parse } from "date-fns";
+import { format } from "date-fns";
 import { isUndefined } from "lodash";
 import {
   BoxIcon,
   CalendarIcon,
   ClockIcon,
-  Edit3Icon,
   FileDown,
   MoveHorizontalIcon,
-  PackageIcon,
   ReceiptIndianRupeeIcon,
   RocketIcon,
   ScaleIcon,
@@ -35,16 +32,13 @@ import {
   CardTitle,
 } from "@qt/ui/card";
 import { Separator } from "@qt/ui/seperator";
-import { Skeleton } from "@qt/ui/skeleton";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Table, TableBody, TableCell, TableRow } from "@qt/ui/table";
 import { Text } from "@qt/ui/text";
 
 import CancelDialog from "~/app/_components/cancel-dialog";
-import PackageMoreDropdown from "~/app/_components/package-more-dropdown";
 import { api } from "~/trpc/server";
 import { convertTo12HourFormat } from "~/utils/extra";
-import { PackageDetailsSkeleton } from "./skeleton";
 
 export default async function PackageDetails({
   params,
@@ -94,9 +88,9 @@ export default async function PackageDetails({
             </VStack>
             {packageDetail.request.current_status !== "cancelled" && (
               <HStack className="items-center">
-                {/* <Button size={"sm"} variant={"outline"}>
+                <Button size={"sm"} variant={"outline"}>
                   <FileDown className="size-4" /> Invoice
-                </Button> */}
+                </Button>
                 {/* <Button variant={"outline"} size={"sm"}>
                   <Edit3Icon className="size-4" />
                   Update Details
@@ -279,30 +273,9 @@ export default async function PackageDetails({
                 </TableBody>
               </Table>
             </VStack>
-            <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-muted">
-              <PackageIcon className="size-32 text-muted-foreground/60" />
+            <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-accent/40">
+              <h1 className="text-9xl">📦</h1>
             </div>
-            {/* <Carousel className="relative w-full max-w-xs">
-                  <CarouselContent>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <CarouselItem key={index}>
-                        <div className="p-1">
-                          <Card>
-                            <CardContent className="flex aspect-square items-center justify-center p-6">
-                              <span className="text-4xl font-semibold">
-                                {index + 1}
-                              </span>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <div className="absolute inset-0 flex h-full w-full items-center justify-between px-4">
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </div>
-                </Carousel> */}
           </HStack>
         </CardContent>
       </Card>
@@ -336,20 +309,6 @@ export default async function PackageDetails({
               <RocketIcon size={23} />
             </div>
             <Separator className="flex-[.2]" />
-            {/* <Card>
-              <CardHeader>
-                <CardTitle>Franchise Address</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <VStack className="gap-2">
-                  <Text>+91 {packageDetail.franchise_address.phone}</Text>
-                  <Text styles={"subtle"} className="text-muted-foreground">
-                    {packageDetail.franchise_address.street} -{" "}
-                    {packageDetail.franchise_address.pincode}
-                  </Text>
-                </VStack>
-              </CardContent>
-            </Card> */}
             <Card className="h-full w-[17rem] max-w-[17rem] flex-1">
               <CardHeader>
                 <CardTitle className="text-sm">Delivery Address</CardTitle>

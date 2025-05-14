@@ -1,10 +1,8 @@
-import React from "react";
 import {
   BoxIcon,
   CalendarIcon,
   ClockIcon,
   MoveHorizontalIcon,
-  PackageIcon,
   ReceiptIndianRupeeIcon,
   RocketIcon,
   ScaleIcon,
@@ -203,8 +201,8 @@ export function PackageDetailsSkeleton() {
                 </TableBody>
               </Table>
             </VStack>
-            <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-muted">
-              <PackageIcon className="size-32 text-muted-foreground/30" />
+            <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-accent/40">
+              <h1 className="text-9xl">📦</h1>
             </div>
           </HStack>
         </CardContent>
