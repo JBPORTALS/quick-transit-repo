@@ -10,7 +10,6 @@ import {
   ClockIcon,
   FileDown,
   MoveHorizontalIcon,
-  PackageIcon,
   ReceiptIndianRupeeIcon,
   RocketIcon,
   ScaleIcon,
@@ -314,8 +313,8 @@ export default function PackageDetails() {
                   </TableBody>
                 </Table>
               </VStack>
-              <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-muted">
-                <PackageIcon className="size-32 text-muted-foreground/60" />
+              <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-accent/40">
+                <h1 className="text-9xl">📦</h1>
               </div>
             </HStack>
           </CardContent>
