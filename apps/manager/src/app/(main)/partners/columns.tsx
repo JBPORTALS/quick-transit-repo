@@ -29,10 +29,10 @@ export const columns: ColumnDef<Customer>[] = [
               "h-fit w-full justify-start",
             )}
           >
-            <Avatar className="box-content size-12 overflow-hidden border-2">
+            <Avatar className="size-12 overflow-hidden border border-primary/50 [&_svg]:size-full">
               <AvatarImage src={props.row.original.picture ?? undefined} />
-              <AvatarFallback className="box-border inline-flex bg-primary/20">
-                <User2Icon className="size-full scale-105 fill-primary text-transparent" />
+              <AvatarFallback className="overflow-hidden bg-primary/20">
+                <User2Icon className="mt-3 fill-primary text-transparent" />
               </AvatarFallback>
             </Avatar>
             <VStack className="gap-0">
