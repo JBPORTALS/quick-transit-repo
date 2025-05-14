@@ -14,8 +14,8 @@ export function PaymentsDataTable() {
   const query = searchParams.get("q") ?? "";
 
   const { data, isLoading } = api.bills.getAll.useQuery({
-    limit: parseInt(pageSize),
-    offset: parseInt(pageIndex),
+    pageSize: parseInt(pageSize),
+    pageIndex: parseInt(pageIndex),
     query,
   });
 

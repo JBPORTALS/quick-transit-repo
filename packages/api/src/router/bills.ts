@@ -19,6 +19,7 @@ import {
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure, t } from "../trpc";
+import { getPagination, paginateInputSchema } from "../utils";
 
 export const billsRouter = createTRPCRouter({
   createBill: protectedProcedure
@@ -62,27 +63,17 @@ export const billsRouter = createTRPCRouter({
     ),
 
   getAll: protectedProcedure
-    .input(
-      z
-        .object({
-          offset: z.number().optional(),
-          limit: z.number().optional(),
-          query: z.string().optional(),
-        })
-        .optional(),
-    )
+    .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
     .query(async ({ ctx, input }) => {
-      const limit = input?.limit ?? 10;
-      const offset = input?.offset ?? 0;
-      const queryCond = input?.query
-        ? or(
-            ilike(packages.title, `%${input.query}%`),
-            ilike(user.name, `%${input.query}%`),
-            ilike(user.email, `%${input.query}%`),
-            ilike(requests.tracking_number, `%${input.query}%`),
-          )
-        : undefined;
+      const { pageIndex, pageSize, query } = input;
+      const { offset } = getPagination(pageIndex, pageSize);
 
+      const queryCond = or(
+        ilike(packages.title, `%${query}%`),
+        ilike(user.name, `%${query}%`),
+        ilike(user.email, `%${query}%`),
+        ilike(requests.tracking_number, `%${query}%`),
+      );
       const bills = await ctx.db
         .select()
         .from(bill_details)
@@ -96,7 +87,7 @@ export const billsRouter = createTRPCRouter({
             queryCond,
           ),
         )
-        .limit(limit)
+        .limit(pageSize)
         .offset(offset)
         .orderBy(desc(bill_details.paid_at));
 
@@ -139,8 +130,8 @@ export const billsRouter = createTRPCRouter({
 
       return {
         items: mappedResults,
-        pageCount: Math.ceil((totalRecords ?? 0) / limit),
-        pageSize: limit,
+        pageCount: Math.ceil((totalRecords ?? 0) / pageSize),
+        pageSize: pageSize,
         pageIndex: offset,
       };
     }),
