@@ -46,6 +46,10 @@ AppState.addEventListener("change", (state) => {
   }
 });
 
+export const unstable_settings = {
+  initialRouteName: "(root)",
+};
+
 function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
   const [loaded, error] = useFonts({
     GeistBlack: require("../assets/fonts/Geist-Black.otf"),
@@ -75,23 +79,24 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
         return;
       }
 
+      if (!isSessionLoaded || !segments) return;
+
+      const isAuthSegment = segments[0] === "(auth)";
+      const isRootSegment = segments[0] === "(root)";
+
+      if (isLoggedin && isAuthSegment) router.replace("/(root)/(tabs)");
+      else if (!isLoggedin && isRootSegment) router.replace("/(auth)");
+
       setIsColorSchemeLoaded(true);
     })();
-  }, [isColorSchemeLoaded]);
+  }, [isColorSchemeLoaded, isSessionLoaded, segments, isLoggedin]);
 
   useFocusEffect(
     React.useCallback(() => {
-      if (isSessionLoaded && loaded && isColorSchemeLoaded) {
-        const isAuthSegment = segments[0] === "(auth)";
-        const isRootSegment = segments[0] === "(root)";
-
-        if (isLoggedin && isAuthSegment) router.replace("/(root)/(tabs)");
-        else if (!isLoggedin && isRootSegment) router.replace("/(auth)");
-        else return;
-
+      if (loaded && isColorSchemeLoaded) {
         SplashScreen.hide();
       }
-    }, [isSessionLoaded, segments, isLoggedin, loaded, isColorSchemeLoaded]),
+    }, [loaded, isColorSchemeLoaded]),
   );
 
   if (!isColorSchemeLoaded) {

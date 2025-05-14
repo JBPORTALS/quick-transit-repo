@@ -27,6 +27,10 @@
       "distribution": "internal",
       "ios": {
         "simulator": true
+      },
+      "environment": "preview",
+      "env": {
+        "NODE_ENV":"test"
       }
     },
     "production": {
