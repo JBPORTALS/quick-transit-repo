@@ -8,7 +8,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Text } from "@qt/ui/text";
 
-export type Customer = Awaited<RouterOutputs["auth"]["getCustomers"][0]>;
+export type Customer = Awaited<
+  RouterOutputs["auth"]["getCustomers"]["items"][0]
+>;
 
 export const columns: ColumnDef<Customer>[] = [
   {

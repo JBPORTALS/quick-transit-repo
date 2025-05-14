@@ -1,19 +1,11 @@
-import { SearchParams } from "nuqs";
+import InputSearch from "~/app/_components/input-search";
+import { CustomersDataTable } from "./data-table";
 
-import { api } from "~/trpc/server";
-import { loadSearchParams } from "~/utils/search-params";
-import { CustomerList } from "./customers-list";
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const { q } = await loadSearchParams(searchParams);
-  const customers = await api.auth.getCustomers({ query: q });
+export default async function Page() {
   return (
-    <div>
-      <CustomerList initialData={customers} />
+    <div className="flex flex-col gap-5">
+      <InputSearch />
+      <CustomersDataTable />
     </div>
   );
 }

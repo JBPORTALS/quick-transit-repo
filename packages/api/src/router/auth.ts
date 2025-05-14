@@ -47,22 +47,36 @@ export const authRouter = createTRPCRouter({
     }),
 
   getCustomers: publicProcedure
-    .input(z.object({ query: z.string().optional() }).optional())
+    .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
     .query(async ({ ctx, input }) => {
+      const { pageIndex, pageSize, query } = input;
+      const { offset } = getPagination(pageIndex, pageSize);
+
+      const queryCond = or(
+        ilike(user.name, `%${query}%`),
+        ilike(user.email, `%${query}%`),
+      );
+
       const customers = await ctx.db.query.user.findMany({
         columns: {
           role: false,
         },
-        where: input?.query
-          ? and(
-              eq(user.role, "customer"),
-              or(
-                ilike(user.name, `%${input.query}%`),
-                ilike(user.email, `%${input.query}%`),
-              ),
-            )
-          : eq(user.role, "customer"),
+        where: and(eq(user.role, "customer"), queryCond),
+        limit: pageSize,
+        offset,
       });
+
+      const aggr = await ctx.db.query.user
+        .findMany({
+          columns: {},
+          extras: ({ id }) => {
+            return {
+              count: count(id).mapWith(Number).as("count"),
+            };
+          },
+          where: and(eq(user.role, "customer"), queryCond),
+        })
+        .then((r) => r.at(0));
 
       const finalResult = await Promise.all(
         customers.map(async (customer) => {
@@ -86,7 +100,12 @@ export const authRouter = createTRPCRouter({
         }),
       );
 
-      return finalResult;
+      return {
+        items: finalResult,
+        pageCount: Math.ceil((aggr?.count ?? 0) / pageSize),
+        pageIndex: offset,
+        pageSize,
+      };
     }),
   getPartners: publicProcedure
     .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
