@@ -3,6 +3,8 @@ import { z } from "zod";
 
 import {
   and,
+  asc,
+  count,
   desc,
   eq,
   ilike,
@@ -14,6 +16,7 @@ import {
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { getPagination, paginateInputSchema } from "../utils";
 
 export const authRouter = createTRPCRouter({
   getUser: publicProcedure.query(async ({ ctx }) => {
@@ -86,25 +89,44 @@ export const authRouter = createTRPCRouter({
       return finalResult;
     }),
   getPartners: publicProcedure
-    .input(z.object({ query: z.string().optional() }).optional())
+    .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
     .query(async ({ ctx, input }) => {
+      const { pageIndex, pageSize, query } = input;
+      const { offset } = getPagination(pageIndex, pageSize);
+
+      const queryCond = or(
+        ilike(user.name, `%${query}%`),
+        ilike(user.email, `%${query}%`),
+      );
+
       const customers = await ctx.db.query.user.findMany({
         columns: {
           role: false,
         },
+        limit: pageSize,
+        offset,
         orderBy: desc(user.created_at),
-        where: input?.query
-          ? and(
-              eq(user.role, "partner"),
-              or(
-                ilike(user.name, `%${input.query}%`),
-                ilike(user.email, `%${input.query}%`),
-              ),
-            )
-          : eq(user.role, "partner"),
+        where: and(eq(user.role, "partner"), queryCond),
       });
 
-      return customers;
+      const aggr = await ctx.db.query.user
+        .findMany({
+          columns: {},
+          extras: ({ id }) => {
+            return {
+              count: count(id).mapWith(Number).as("count"),
+            };
+          },
+          where: and(eq(user.role, "partner"), queryCond),
+        })
+        .then((r) => r.at(0));
+
+      return {
+        items: customers,
+        pageCount: Math.ceil((aggr?.count ?? 0) / pageSize),
+        pageIndex: offset,
+        pageSize,
+      };
     }),
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))

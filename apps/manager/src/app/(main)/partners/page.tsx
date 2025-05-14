@@ -1,19 +1,11 @@
-import { SearchParams } from "nuqs";
+import InputSearch from "~/app/_components/input-search";
+import { PartnersDataTable } from "./data-table";
 
-import { api } from "~/trpc/server";
-import { loadSearchParams } from "~/utils/search-params";
-import { PartnersList } from "./partners-list";
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
-  const { q } = await loadSearchParams(searchParams);
-  const data = await api.auth.getPartners({ query: q });
+export default async function Page() {
   return (
-    <div>
-      <PartnersList initialData={data} />
+    <div className="flex flex-col gap-5">
+      <InputSearch />
+      <PartnersDataTable />
     </div>
   );
 }
