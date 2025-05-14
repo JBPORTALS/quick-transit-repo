@@ -19,7 +19,6 @@ import {
   UserCircle2Icon,
 } from "lucide-react";
 
-import { supabase } from "@qt/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Badge } from "@qt/ui/badge";
 import {
@@ -44,7 +43,6 @@ import { Text } from "@qt/ui/text";
 import { toast } from "@qt/ui/toast";
 
 import { api } from "~/trpc/react";
-import { downloadInvoice } from "~/utils/actions/invoice";
 import { useDownload } from "~/utils/hooks/useDownload";
 import { PackageDetailsSkeleton } from "./skeleton";
 
