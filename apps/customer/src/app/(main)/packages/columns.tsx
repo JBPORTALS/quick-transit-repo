@@ -6,17 +6,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import moment from "moment";
 
+import { RouterOutputs } from "@qt/api";
 import { Button } from "@qt/ui/button";
 import { Package, PackageBody, PackageThumbneil } from "@qt/ui/package";
 import { HStack } from "@qt/ui/stack";
 import { StatusTag } from "@qt/ui/status-tag";
 import { Text } from "@qt/ui/text";
 
-import { api } from "~/trpc/server";
-
-export type Package = Awaited<
-  ReturnType<typeof api.packages.getRecentPackages>
->[0];
+export type Package = RouterOutputs["packages"]["getAll"]["items"][0];
 
 export const columns: ColumnDef<Package>[] = [
   {
