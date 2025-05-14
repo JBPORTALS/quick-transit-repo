@@ -33,9 +33,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default async function RootLayout(props: { children: React.ReactNode }) {
-  const nextHeaders = await headers();
-
+export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -47,9 +45,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       >
         <NuqsAdapter>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <TRPCReactProvider headers={nextHeaders}>
-              {props.children}
-            </TRPCReactProvider>
+            <TRPCReactProvider>{props.children}</TRPCReactProvider>
             <Toaster richColors />
           </ThemeProvider>
         </NuqsAdapter>

@@ -2,7 +2,7 @@
 
 import React, { FormEventHandler, useState } from "react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns";
+import { addDays, format } from "date-fns";
 import { motion } from "framer-motion";
 import { isUndefined } from "lodash";
 import {
@@ -166,6 +166,16 @@ export function NewPackage() {
       pick_up_address: !isUndefined(firstPickUpAddress)
         ? firstPickUpAddress.id
         : "",
+      breadth: 0,
+      category: "",
+      courier: "",
+      description: "",
+      height: 0,
+      pickup_date: addDays(new Date(), 1),
+      timeslot: "",
+      title: "",
+      weight: 0,
+      width: 0,
     },
   });
 
@@ -407,7 +417,10 @@ export function NewPackage() {
                               <SelectLabel>Categories</SelectLabel>
                               {categories &&
                                 categories.map((category) => (
-                                  <SelectItem value={category.id}>
+                                  <SelectItem
+                                    key={category.id}
+                                    value={category.id}
+                                  >
                                     <HStack className="items-center">
                                       <Circle className="size-4" />
                                       {category.name}
@@ -442,7 +455,10 @@ export function NewPackage() {
                               <SelectLabel>Courier Services</SelectLabel>
                               {couriers &&
                                 couriers.map((courier) => (
-                                  <SelectItem value={courier.id}>
+                                  <SelectItem
+                                    key={courier.id}
+                                    value={courier.id}
+                                  >
                                     <HStack className="items-center">
                                       <RocketIcon className="size-4" />
                                       {courier.name}
@@ -528,7 +544,10 @@ export function NewPackage() {
                               <SelectLabel>Courier Services</SelectLabel>
                               {timeslots &&
                                 timeslots.map((timeslot) => (
-                                  <SelectItem value={timeslot.id}>
+                                  <SelectItem
+                                    key={timeslot.id}
+                                    value={timeslot.id}
+                                  >
                                     <HStack className="items-center">
                                       <Clock className="size-4" />
                                       {timeslot.from_time &&
@@ -783,7 +802,7 @@ export function NewPackage() {
             </>
           )}
           <div className="flex items-center justify-end gap-3">
-            {current > 0 && (
+            {current > 0 ? (
               <Button
                 disabled={addPackage.isPending}
                 variant={"outline"}
@@ -793,9 +812,23 @@ export function NewPackage() {
               >
                 Previous
               </Button>
+            ) : (
+              <Button
+                disabled={addPackage.isPending}
+                variant={"outline"}
+                type="button"
+                size={"lg"}
+                onClick={() => router.back()}
+              >
+                Cancel
+              </Button>
             )}
             <Button
-              disabled={is_bill_summury_loading || addPackage.isPending}
+              disabled={
+                is_bill_summury_loading ||
+                addPackage.isPending ||
+                form.formState.isSubmitting
+              }
               size={"lg"}
               isLoading={addPackage.isPending}
               type="button"
