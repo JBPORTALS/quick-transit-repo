@@ -200,13 +200,13 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                           styles={"small"}
                           className=" flex items-center gap-2 text-nowrap text-muted-foreground"
                         >
-                          <CalendarIcon className="size-5" /> Delivery Date
+                          <CalendarIcon className="size-5" /> Pickup Date
                         </Text>
                       </TableCell>
                       <TableCell>
                         <Text styles={"small"} className="col-span-2 w-full ">
-                          {packageDetail?.delivery_date &&
-                            format(packageDetail.delivery_date, "do MMM yyyy")}
+                          {packageDetail?.pickup_date &&
+                            format(packageDetail.pickup_date, "do MMM yyyy")}
                         </Text>
                       </TableCell>
                     </TableRow>
@@ -225,13 +225,17 @@ export default function PackageDetails({ params }: { params: { id: string } }) {
                           className="col-span-2 flex  w-full items-center gap-1 "
                         >
                           <Badge variant={"secondary"}>
-                            {packageDetail?.from_time &&
-                              convertTo12HourFormat(packageDetail?.from_time)}
+                            {packageDetail?.timeslot.from_time &&
+                              convertTo12HourFormat(
+                                packageDetail?.timeslot.from_time,
+                              )}
                           </Badge>
                           <MoveHorizontalIcon className="size-4" />
                           <Badge variant={"secondary"}>
-                            {packageDetail?.to_time &&
-                              convertTo12HourFormat(packageDetail?.to_time)}
+                            {packageDetail?.timeslot.to_time &&
+                              convertTo12HourFormat(
+                                packageDetail?.timeslot.to_time,
+                              )}
                           </Badge>
                         </Text>
                       </TableCell>

@@ -23,5 +23,8 @@ export const billDetialsInsertSchema = createInsertSchema(bill_details);
 export const billDetialsSelectSchema = createSelectSchema(bill_details);
 
 export const billDetailsRealations = relations(bill_details, ({ one }) => ({
-  packages: one(packages),
+  packages: one(packages, {
+    fields: [bill_details.id],
+    references: [packages.bill_id],
+  }),
 }));
