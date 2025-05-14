@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
+import { User2Icon } from "lucide-react";
 import moment from "moment";
 
 import { RouterOutputs } from "@qt/api";
@@ -28,12 +29,10 @@ export const columns: ColumnDef<Customer>[] = [
               "h-fit w-full justify-start",
             )}
           >
-            <Avatar className="size-12 border-2">
+            <Avatar className="box-content size-12 overflow-hidden border-2">
               <AvatarImage src={props.row.original.picture ?? undefined} />
-              <AvatarFallback>
-                {props.row.original.name
-                  ? props.row.original.name.charAt(0)
-                  : "C"}
+              <AvatarFallback className="box-border inline-flex bg-primary/20">
+                <User2Icon className="size-full scale-105 fill-primary text-transparent" />
               </AvatarFallback>
             </Avatar>
             <VStack className="gap-0">

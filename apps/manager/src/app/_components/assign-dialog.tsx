@@ -21,7 +21,9 @@ import { Text } from "@qt/ui/text";
 
 import { api } from "~/trpc/react";
 
-type PartnerRouteReturnType = Awaited<RouterOutputs["auth"]["getPartners"][0]>;
+type PartnerRouteReturnType = Awaited<
+  RouterOutputs["auth"]["getPartners"]["items"][0]
+>;
 
 function PartnerListItem({
   partner,

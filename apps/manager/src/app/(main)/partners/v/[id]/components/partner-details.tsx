@@ -61,7 +61,7 @@ export function PartnerDetails({
 
   const setFormDetails = React.useCallback(() => {
     form.reset({
-      fullName: data.name,
+      fullName: data.name ?? "",
       email: data.email,
     });
   }, [id]);

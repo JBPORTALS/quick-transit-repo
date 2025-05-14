@@ -1,13 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
 import moment from "moment";
 
 import { RouterOutputs } from "@qt/api";
-import { Button } from "@qt/ui/button";
 import { Package, PackageBody, PackageThumbneil } from "@qt/ui/package";
 import { HStack } from "@qt/ui/stack";
 import { StatusTag } from "@qt/ui/status-tag";
@@ -24,8 +21,8 @@ export const columns: ColumnDef<Package>[] = [
       return (
         <Link href={`/package-details/${id}`}>
           <Package>
-            <PackageThumbneil>
-              <Image src={"/package-1.jpg"} fill alt="Package Thumbnail" />
+            <PackageThumbneil className="flex items-center justify-center bg-accent/40">
+              <h1 className="text-2xl">📦</h1>
             </PackageThumbneil>
             <PackageBody className="flex flex-col gap-1">
               <Text styles={"small"}>{title}</Text>
