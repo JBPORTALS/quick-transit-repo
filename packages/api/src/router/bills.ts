@@ -8,7 +8,9 @@ import {
   count,
   desc,
   eq,
+  ilike,
   inArray,
+  or,
   packages,
   requests,
   sql,
@@ -62,12 +64,24 @@ export const billsRouter = createTRPCRouter({
   getAll: protectedProcedure
     .input(
       z
-        .object({ offset: z.number().optional(), limit: z.number().optional() })
+        .object({
+          offset: z.number().optional(),
+          limit: z.number().optional(),
+          query: z.string().optional(),
+        })
         .optional(),
     )
     .query(async ({ ctx, input }) => {
       const limit = input?.limit ?? 10;
       const offset = input?.offset ?? 0;
+      const queryCond = input?.query
+        ? or(
+            ilike(packages.title, `%${input.query}%`),
+            ilike(user.name, `%${input.query}%`),
+            ilike(user.email, `%${input.query}%`),
+            ilike(requests.tracking_number, `%${input.query}%`),
+          )
+        : undefined;
 
       const bills = await ctx.db
         .select()
@@ -79,6 +93,7 @@ export const billsRouter = createTRPCRouter({
           and(
             eq(user.role, "customer"),
             inArray(requests.current_status, ["pickedup", "delivered"]),
+            queryCond,
           ),
         )
         .limit(limit)
@@ -95,6 +110,7 @@ export const billsRouter = createTRPCRouter({
           and(
             eq(user.role, "customer"),
             inArray(requests.current_status, ["pickedup", "delivered"]),
+            queryCond,
           ),
         )
         .then((r) => r.at(0)?.count);

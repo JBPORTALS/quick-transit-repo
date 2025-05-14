@@ -11,9 +11,12 @@ export function PaymentsDataTable() {
   const searchParams = useSearchParams();
   const pageIndex = searchParams.get("pageIndex") ?? "0";
   const pageSize = searchParams.get("pageSize") ?? "10";
+  const query = searchParams.get("q") ?? "";
+
   const { data, isLoading } = api.bills.getAll.useQuery({
     limit: parseInt(pageSize),
     offset: parseInt(pageIndex),
+    query,
   });
 
   if (isLoading) return <SpinnerPage />;
