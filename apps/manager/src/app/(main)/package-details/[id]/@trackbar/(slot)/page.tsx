@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { isUndefined } from "lodash";
 import { Star } from "lucide-react";
 import moment from "moment";
@@ -121,7 +122,8 @@ function Reviews({
   );
 }
 
-export default function page({ params }: { params: { id: string } }) {
+export default function page() {
+  const params = useParams<{ id: string }>();
   const package_id = params.id;
   const { data: trackingDetails, isLoading } =
     api.requests.getByPackageId.useQuery({ package_id });

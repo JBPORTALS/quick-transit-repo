@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { format, parse } from "date-fns";
 import { isUndefined } from "lodash";
 import {
@@ -53,11 +54,13 @@ function convertTo12HourFormat(time24: string) {
   return formattedTime;
 }
 
-export default function PackageDetails({ params }: { params: { id: string } }) {
+export default function PackageDetails() {
   const formatToINR = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "INR",
   });
+
+  const params = useParams<{ id: string }>();
   const { data: packageDetail, isLoading } = api.packages.getById.useQuery({
     id: params.id,
     isAdmin: true,
