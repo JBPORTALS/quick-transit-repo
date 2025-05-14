@@ -84,6 +84,7 @@ export default async function SettingsLayout({
     partner_id: params.id,
   });
   const averateRating = Number(ratings?.averageRating ?? 0).toFixed(1) ?? 0;
+
   return (
     <div className="hidden space-y-6 pb-16 md:block">
       <Breadcrumb className="mb-0.5">
@@ -122,7 +123,9 @@ export default async function SettingsLayout({
               "inline-flex items-center gap-3 align-bottom text-sm text-amber-600"
             }
           >
-            <div className="flex items-center">{renderStars(Number(3.5))}</div>
+            <span className="flex items-center">
+              {renderStars(Number(averateRating))}
+            </span>
             {averateRating} {`(${ratings?.totalReviews ?? 0})`}
           </p>
         </div>

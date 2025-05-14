@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const packages = await api.packages.getByPartnerId({ id: params.id });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div>
         <h3 className="text-lg font-medium">Assigned Packages</h3>
         <p className="text-sm text-muted-foreground">

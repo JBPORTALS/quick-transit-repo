@@ -42,83 +42,76 @@ export default function PackageDetails({
           ({ type }) => type === "partner",
         )[0];
         return (
-          <>
-            <Package asChild>
-              <Link href={`/package-details/${packageDetails.package_id}`}>
-                <VStack className="w-full">
-                  <HStack className="w-full">
-                    <PackageThumbneil className="flex items-center justify-center">
-                      <PackageIcon className="size-20 text-muted-foreground" />
-                    </PackageThumbneil>
-                    <HStack
-                      key={packageDetails.id}
-                      className="w-full justify-between"
-                    >
-                      <PackageBody className="flex flex-col gap-1">
-                        <Text styles={"small"}>
-                          {packageDetails.package.title}
-                        </Text>
-                        <HStack>
-                          <Text
-                            styles={"details"}
-                            className="text-muted-foreground"
-                          >
-                            {packageDetails.package.height}x
-                            {packageDetails.package.breadth}x
-                            {packageDetails.package.width} •{" "}
-                            {packageDetails.package.weight}
-                          </Text>
-                        </HStack>
-                      </PackageBody>
-                      <StatusTag status={packageDetails.current_status} />
-                    </HStack>
-                  </HStack>
-                  {packageDetails.current_status === "delivered" && (
-                    <VStack>
-                      <Text
-                        styles={"subtle_semibold"}
-                        className="text-muted-foreground"
-                      >
-                        {review ? "Customer Review" : "No Customer Review"}
+          <Package asChild>
+            <Link href={`/package-details/${packageDetails.package_id}`}>
+              <VStack className="w-full">
+                <HStack className="w-full">
+                  <PackageThumbneil className="flex items-center justify-center bg-accent/40">
+                    <h1 className="text-xl">📦</h1>
+                  </PackageThumbneil>
+                  <HStack
+                    key={packageDetails.id}
+                    className="w-full justify-between"
+                  >
+                    <PackageBody className="flex flex-col gap-1">
+                      <Text styles={"small"}>
+                        {packageDetails.package.title}
                       </Text>
+                      <HStack>
+                        <Text
+                          styles={"details"}
+                          className="text-muted-foreground"
+                        >
+                          {packageDetails.package.height}x
+                          {packageDetails.package.breadth}x
+                          {packageDetails.package.width} •{" "}
+                          {packageDetails.package.weight}
+                        </Text>
+                      </HStack>
+                    </PackageBody>
+                    <StatusTag status={packageDetails.current_status} />
+                  </HStack>
+                </HStack>
+                {packageDetails.current_status === "delivered" && (
+                  <VStack>
+                    <Text
+                      styles={"subtle_semibold"}
+                      className="text-muted-foreground"
+                    >
+                      {review ? "Customer Review" : "No Customer Review"}
+                    </Text>
 
-                      {review && (
-                        <HStack>
-                          <Avatar className="size-8 overflow-hidden border-2">
-                            <AvatarImage
-                              src={
-                                packageDetails.package.customer.picture ?? ""
-                              }
-                            />
-                            <AvatarFallback className="bg-primary/20">
-                              <User2Icon className="mt-4 size-full scale-105 fill-primary text-transparent " />
-                            </AvatarFallback>
-                          </Avatar>
-                          <VStack className="gap-1 ">
-                            <Text className="text-sm font-semibold ">
-                              {packageDetails.package.customer.name}
-                            </Text>
-                            <Text
-                              className={
-                                "inline-flex items-center gap-1 text-sm text-amber-600"
-                              }
-                            >
-                              <StarIcon className={"size-2 fill-amber-600"} />
-                              {review?.rating}
-                            </Text>
-                            <span className="font-normal">
-                              {review.comment}
-                            </span>
-                          </VStack>
-                        </HStack>
-                      )}
-                    </VStack>
-                  )}
-                </VStack>
-              </Link>
-            </Package>
-            <Separator />
-          </>
+                    {review && (
+                      <HStack>
+                        <Avatar className="size-8 overflow-hidden border-2">
+                          <AvatarImage
+                            src={packageDetails.package.customer.picture ?? ""}
+                          />
+                          <AvatarFallback className="bg-primary/20">
+                            <User2Icon className="mt-4 size-full scale-105 fill-primary text-transparent " />
+                          </AvatarFallback>
+                        </Avatar>
+                        <VStack className="gap-1 ">
+                          <Text className="text-sm font-semibold ">
+                            {packageDetails.package.customer.name}
+                          </Text>
+                          <Text
+                            className={
+                              "inline-flex items-center gap-1 text-sm text-amber-600"
+                            }
+                          >
+                            <StarIcon className={"size-2 fill-amber-600"} />
+                            {review?.rating}
+                          </Text>
+                          <span className="font-normal">{review.comment}</span>
+                        </VStack>
+                      </HStack>
+                    )}
+                  </VStack>
+                )}
+              </VStack>
+            </Link>
+          </Package>
         );
       })}
     </>
