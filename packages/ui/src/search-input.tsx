@@ -8,9 +8,12 @@ export default function SearchInput({
   ...props
 }: React.ComponentProps<typeof Input>) {
   return (
-    <div className="relative flex w-auto items-center  overflow-x-visible">
+    <div className="relative flex w-auto items-center overflow-x-visible">
       <SearchIcon className="absolute ml-2.5 mr-2.5 size-4 text-muted-foreground" />
-      <Input className={cn("ps-8", className)} {...props} />
+      <Input
+        className={cn("h-10 rounded-lg bg-accent/20 ps-8", className)}
+        {...props}
+      />
     </div>
   );
 }
