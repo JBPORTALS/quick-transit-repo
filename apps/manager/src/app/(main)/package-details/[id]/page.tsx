@@ -19,6 +19,7 @@ import {
   UserCircle2Icon,
 } from "lucide-react";
 
+import { supabase } from "@qt/api";
 import { Avatar, AvatarFallback, AvatarImage } from "@qt/ui/avatar";
 import { Badge } from "@qt/ui/badge";
 import {
@@ -40,8 +41,11 @@ import { Separator } from "@qt/ui/seperator";
 import { HStack, VStack } from "@qt/ui/stack";
 import { Table, TableBody, TableCell, TableRow } from "@qt/ui/table";
 import { Text } from "@qt/ui/text";
+import { toast } from "@qt/ui/toast";
 
 import { api } from "~/trpc/react";
+import { downloadInvoice } from "~/utils/actions/invoice";
+import { useDownload } from "~/utils/hooks/useDownload";
 import { PackageDetailsSkeleton } from "./skeleton";
 
 function convertTo12HourFormat(time24: string) {
@@ -58,6 +62,15 @@ export default function PackageDetails() {
   const formatToINR = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "INR",
+  });
+
+  const { download, isPending } = useDownload({
+    onSuccess() {
+      toast.success("Invoice downloaded successfully");
+    },
+    onError(error) {
+      toast.error(error);
+    },
   });
 
   const params = useParams<{ id: string }>();
@@ -106,12 +119,22 @@ export default function PackageDetails() {
                   Tracking Number: {packageDetail?.request.tracking_number}
                 </CardDescription>
               </VStack>
-              {packageDetail.request.current_status !== "cancelled" && (
+              {packageDetail.request.current_status === "delivered" && (
                 <HStack className="items-center">
-                  <Button size={"sm"} variant={"outline"}>
+                  <Button
+                    isLoading={isPending}
+                    onClick={() =>
+                      download(
+                        "images",
+                        `invoices/${packageDetail.id}.png`,
+                        `${packageDetail.title}-Franchise-Invoice.png`,
+                      )
+                    }
+                    size={"sm"}
+                    variant={"outline"}
+                  >
                     <FileDown className="h-5 w-5" /> Invoice
                   </Button>
-                  {/* <PackageMoreDropdown packageId={params.id} /> */}
                 </HStack>
               )}
             </HStack>
@@ -296,27 +319,6 @@ export default function PackageDetails() {
               <div className="flex aspect-square w-full max-w-[16rem] items-center justify-center rounded-radius border bg-muted">
                 <PackageIcon className="size-32 text-muted-foreground/60" />
               </div>
-              {/* <Carousel className="relative w-full max-w-xs">
-                  <CarouselContent>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <CarouselItem key={index}>
-                        <div className="p-1">
-                          <Card>
-                            <CardContent className="flex aspect-square items-center justify-center p-6">
-                              <span className="text-4xl font-semibold">
-                                {index + 1}
-                              </span>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <div className="absolute inset-0 flex h-full w-full items-center justify-between px-4">
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </div>
-                </Carousel> */}
             </HStack>
           </CardContent>
         </Card>
@@ -350,20 +352,6 @@ export default function PackageDetails() {
                 <RocketIcon size={23} />
               </div>
               <Separator className="flex-[.2]" />
-              {/* <Card>
-              <CardHeader>
-                <CardTitle>Franchise Address</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <VStack className="gap-2">
-                  <Text>+91 {packageDetail.franchise_address.phone}</Text>
-                  <Text styles={"subtle"} className="text-muted-foreground">
-                    {packageDetail.franchise_address.street} -{" "}
-                    {packageDetail.franchise_address.pincode}
-                  </Text>
-                </VStack>
-              </CardContent>
-            </Card> */}
               <Card className="h-full w-[17rem] max-w-[17rem] flex-1">
                 <CardHeader>
                   <CardTitle className="text-sm">Delivery Address</CardTitle>
