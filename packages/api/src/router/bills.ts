@@ -1,6 +1,20 @@
 import { z } from "zod";
 
-import { bill_details, billDetialsInsertSchema, billDetialsSelectSchema, eq ,ne, sql} from "@qt/db";
+import {
+  and,
+  bill_details,
+  billDetialsInsertSchema,
+  billDetialsSelectSchema,
+  count,
+  desc,
+  eq,
+  inArray,
+  packages,
+  requests,
+  sql,
+  sum,
+  user,
+} from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure, t } from "../trpc";
 
@@ -15,12 +29,6 @@ export const billsRouter = createTRPCRouter({
 
       return bill.at(0)?.id;
     }),
-  getAllByOnlyPaid: protectedProcedure
-    .query(({ ctx }) => ctx.db.query.bill_details.findMany({
-      where: ne(bill_details.paid_at, sql`NULL`), with: {
-        packages:true
-    
-  }})),
   getSummaryDetails: protectedProcedure
     .input(z.object({ weight: z.number(), insurance_required: z.boolean() }))
     .query(({ input }) => {
@@ -38,8 +46,88 @@ export const billsRouter = createTRPCRouter({
       };
     }),
   update: protectedProcedure
-  .input(billDetialsSelectSchema.pick({paid_at:true}).and(z.object({bill_id: z.string().min(1)})))
-  .mutation(({ input:{bill_id,...values},ctx }) => ctx.db.update(bill_details).set(values).where(eq(bill_details.id,bill_id)).returning()),
+    .input(
+      billDetialsSelectSchema
+        .pick({ paid_at: true })
+        .and(z.object({ bill_id: z.string().min(1) })),
+    )
+    .mutation(({ input: { bill_id, ...values }, ctx }) =>
+      ctx.db
+        .update(bill_details)
+        .set(values)
+        .where(eq(bill_details.id, bill_id))
+        .returning(),
+    ),
+
+  getAll: protectedProcedure
+    .input(
+      z
+        .object({ offset: z.number().optional(), limit: z.number().optional() })
+        .optional(),
+    )
+    .query(async ({ ctx, input }) => {
+      const limit = input?.limit ?? 10;
+      const offset = input?.offset ?? 0;
+
+      const bills = await ctx.db
+        .select()
+        .from(bill_details)
+        .leftJoin(packages, eq(packages.bill_id, bill_details.id))
+        .leftJoin(requests, eq(requests.package_id, packages.id))
+        .leftJoin(user, eq(user.id, packages.customer_id))
+        .where(
+          and(
+            eq(user.role, "customer"),
+            inArray(requests.current_status, ["pickedup", "delivered"]),
+          ),
+        )
+        .limit(limit)
+        .offset(offset)
+        .orderBy(desc(bill_details.paid_at));
+
+      const totalRecords = await ctx.db
+        .select({ count: count() })
+        .from(bill_details)
+        .leftJoin(packages, eq(packages.bill_id, bill_details.id))
+        .leftJoin(requests, eq(requests.package_id, packages.id))
+        .leftJoin(user, eq(user.id, packages.customer_id))
+        .where(
+          and(
+            eq(user.role, "customer"),
+            inArray(requests.current_status, ["pickedup", "delivered"]),
+          ),
+        )
+        .then((r) => r.at(0)?.count);
+
+      const mappedResults = await Promise.all(
+        bills.map(async (b) => {
+          const res = await ctx.db
+            .select({
+              totalAmount:
+                sql`${bill_details.gst_charges}+${bill_details.insurance_charge}+${bill_details.service_charge}`
+                  .mapWith(Number)
+                  .as("totalAmount"),
+            })
+            .from(bill_details)
+            .where(eq(bill_details.id, b.bill_details.id))
+            .then((r) => r.at(0));
+
+          return {
+            ...b.bill_details,
+            totalAmount: res?.totalAmount ?? 0,
+            package_details: { ...b.packages },
+            customer: { ...b.user },
+          };
+        }),
+      );
+
+      return {
+        items: mappedResults,
+        pageCount: Math.ceil((totalRecords ?? 0) / limit),
+        pageSize: limit,
+        pageIndex: offset,
+      };
+    }),
 });
 
 export const billsRouterCaller = t.createCallerFactory(billsRouter);
