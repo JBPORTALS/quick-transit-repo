@@ -5,9 +5,11 @@ import { z } from "zod";
 
 import {
   and,
+  bill_details,
   count,
   desc,
   eq,
+  getTableColumns,
   ilike,
   notInArray,
   or,
@@ -18,6 +20,7 @@ import {
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { getPagination, paginateInputSchema } from "../utils";
 import { billsRouterCaller } from "./bills";
 
 export const packagesRouter = createTRPCRouter({
@@ -88,36 +91,56 @@ export const packagesRouter = createTRPCRouter({
     }),
 
   getAll: protectedProcedure
-    .input(z.object({ query: z.string().optional() }).optional())
+    .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
     .query(async ({ ctx, input }) => {
-      return await ctx.db.query.packages.findMany({
-        where: input?.query
-          ? or(ilike(packages.title, `%${input.query}%`))
-          : undefined,
-        orderBy: desc(packages.created_at),
-        with: {
+      const { pageIndex, pageSize, query } = input;
+      const { offset } = getPagination(pageIndex, pageSize);
+
+      const queryCond = or(
+        ilike(packages.title, `%${query}%`),
+        ilike(sql`"requests"."tracking_number"`, `%${query}%`),
+      );
+
+      const packagesList = await ctx.db
+        .select({
+          ...getTableColumns(packages),
           request: {
-            columns: {
-              tracking_number: true,
-              current_status: true,
-            },
-            with: {
-              partner: true,
-            },
+            tracking_number: requests.tracking_number,
+            current_status: requests.current_status,
           },
           bill: {
-            extras(fields, operators) {
-              return {
-                totalAmount:
-                  operators.sql<number>`${fields.gst_charges}+${fields.insurance_charge}+${fields.service_charge}`.as(
-                    "totalAmount",
-                  ),
-              };
-            },
+            totalAmount:
+              sql<number>`${bill_details.gst_charges}+${bill_details.insurance_charge}+${bill_details.service_charge}`.as(
+                "totalAmount",
+              ),
           },
-        },
-      });
+        })
+        .from(packages)
+        .innerJoin(requests, eq(requests.package_id, packages.id))
+        .leftJoin(bill_details, eq(bill_details.id, packages.bill_id))
+        .where(queryCond)
+        .limit(pageSize)
+        .offset(offset);
+
+      const aggr = await ctx.db.query.packages
+        .findMany({
+          columns: {},
+          extras: ({ id }) => {
+            return {
+              count: count(id).mapWith(Number).as("count"),
+            };
+          },
+        })
+        .then((r) => r.at(0));
+
+      return {
+        items: packagesList,
+        pageCount: Math.ceil((aggr?.count ?? 0) / pageSize),
+        pageIndex: offset,
+        pageSize,
+      };
     }),
+
   getByCustomerId: protectedProcedure
     .input(z.object({ query: z.string().optional() }).optional())
     .query(async ({ ctx, input }) => {
