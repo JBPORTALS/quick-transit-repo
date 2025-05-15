@@ -98,24 +98,6 @@ export default function NewPartner({
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="flex items-center gap-3">
-              <Avatar className="size-16">
-                <AvatarImage src={getPreviewUrl()} />
-                <AvatarFallback className="bg-primary/20">
-                  <User2Icon className="size-6 fill-primary text-transparent " />
-                </AvatarFallback>
-              </Avatar>
-
-              <Label htmlFor="avatar">
-                <Input
-                  type="file"
-                  name="avatar"
-                  onChange={(e) => {
-                    setAvatarFile(e.target.files![0]);
-                  }}
-                />
-              </Label>
-            </div>
             <FormField
               control={form.control}
               name="fullName"
