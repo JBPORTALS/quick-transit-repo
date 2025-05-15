@@ -8,6 +8,7 @@ import {
   desc,
   eq,
   ilike,
+  lte,
   or,
   packages,
   sql,
@@ -16,7 +17,11 @@ import {
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
-import { getPagination, paginateInputSchema } from "../utils";
+import {
+  cursorPaginateInputSchema,
+  getPagination,
+  paginateInputSchema,
+} from "../utils";
 
 export const authRouter = createTRPCRouter({
   getUser: publicProcedure.query(async ({ ctx }) => {
@@ -154,43 +159,38 @@ export const authRouter = createTRPCRouter({
    * Get all available partner to assign to package request
    */
   getAvailablePartners: publicProcedure
-    .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
+    .input(
+      cursorPaginateInputSchema
+        .and(z.object({ query: z.string().optional() }))
+        .optional(),
+    )
     .query(async ({ ctx, input }) => {
-      const { pageIndex, pageSize, query } = input;
-      const { offset } = getPagination(pageIndex, pageSize);
+      const cursor = input?.cursor;
+      const limit = input?.limit ?? 10;
+      const query = input?.query;
 
-      const queryCond = or(
-        ilike(user.name, `%${query}%`),
-        ilike(user.email, `%${query}%`),
-      );
+      const cursorCond = cursor ? lte(user.id, cursor) : undefined;
 
-      const customers = await ctx.db.query.user.findMany({
+      const queryCond = query
+        ? or(ilike(user.name, `%${query}%`), ilike(user.email, `%${query}%`))
+        : undefined;
+
+      const partners = await ctx.db.query.user.findMany({
         columns: {
           role: false,
         },
-        limit: pageSize,
-        offset,
-        orderBy: desc(user.created_at),
-        where: and(eq(user.role, "partner"), queryCond),
+        limit: limit + 1,
+        orderBy: [desc(user.id), desc(user.created_at)],
+        where: and(eq(user.role, "partner"), queryCond, cursorCond),
       });
 
-      const aggr = await ctx.db.query.user
-        .findMany({
-          columns: {},
-          extras: ({ id }) => {
-            return {
-              count: count(id).mapWith(Number).as("count"),
-            };
-          },
-          where: and(eq(user.role, "partner"), queryCond),
-        })
-        .then((r) => r.at(0));
+      const nextCursor =
+        partners.length > limit ? partners.pop()?.id : undefined;
 
       return {
-        items: customers,
-        pageCount: Math.ceil((aggr?.count ?? 0) / pageSize),
-        pageIndex: offset,
-        pageSize,
+        items: partners,
+        nextCursor,
+        limit,
       };
     }),
 
