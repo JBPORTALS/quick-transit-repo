@@ -9,7 +9,7 @@ import { PartnersDataTable } from "./data-table";
 export default async function Page() {
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex items-center gap-3">
+      <div className="flex w-full items-center gap-3">
         <InputSearch />
         <NewPartner>
           <Button>
