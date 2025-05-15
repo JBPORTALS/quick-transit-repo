@@ -423,23 +423,43 @@ export const packagesRouter = createTRPCRouter({
    * Get all assigned packages for today with partner context
    */
   getAllAssignedPackagesForToday: protectedProcedure
-    .input(z.object({ offset: z.number(), query: z.string().optional() }))
-    .query(async ({ ctx, input: { offset } }) => {
+    .input(cursorPaginateInputSchema.optional())
+    .query(async ({ ctx, input }) => {
+      const cursor = input?.cursor;
+      const limit = input?.limit ?? 10;
+      const cursorCond = cursor ? lte(requests.id, cursor) : undefined;
+
       const packagesList = await ctx.db
         .select()
         .from(requests)
         .fullJoin(packages, eq(requests.package_id, packages.id))
-        .where(and(eq(requests.partner_id, ctx.user.id)))
-        .orderBy(desc(requests.current_status))
-        .offset(offset);
+        .where(
+          and(
+            eq(requests.partner_id, ctx.user.id),
+            eq(
+              sql`DATE(${packages.pickup_date})`,
+              sql`${new Date().toDateString()}`,
+            ),
+            cursorCond,
+          ),
+        )
+        .orderBy(desc(requests.id), desc(requests.current_status))
+        .limit(limit + 1);
 
       const mappedPackagesList = packagesList.map(({ packages, requests }) => ({
         ...requests,
         package: packages,
       }));
 
+      const nextCursor =
+        mappedPackagesList.length > limit
+          ? mappedPackagesList.pop()?.id
+          : undefined;
+
       return {
-        packages: mappedPackagesList,
+        items: mappedPackagesList,
+        nextCursor,
+        limit,
       };
     }),
 

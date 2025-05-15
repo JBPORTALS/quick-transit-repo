@@ -1,13 +1,7 @@
 import { useState } from "react";
-import {
-  RefreshControl,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { RefreshControl, TouchableOpacity, View } from "react-native";
 import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
-import { isEmpty } from "lodash";
 
 import { PackageItem } from "~/components/PackageItem";
 import SpinnerView from "~/components/SpinnerView";
