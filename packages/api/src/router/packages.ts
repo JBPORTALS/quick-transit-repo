@@ -553,7 +553,7 @@ export const packagesRouter = createTRPCRouter({
     .input(
       z.object({
         tracking_id: z.string(),
-        image_url: z.string().min(6).max(6),
+        image_url: z.string(),
         package_id: z.string().min(1),
       }),
     )
