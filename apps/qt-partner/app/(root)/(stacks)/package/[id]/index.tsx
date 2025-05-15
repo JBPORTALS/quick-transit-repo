@@ -189,10 +189,12 @@ export default function PackageDetails() {
                       <Card>
                         <CardHeader className="flex-row items-center gap-2 p-3">
                           <Avatar
-                            style={{ height: 48, width: 48 }}
+                            style={{ height: 40, width: 40 }}
                             alt={data?.customer.name ?? "Customer Profile Pic"}
                           >
-                            <AvatarImage src={data?.customer.picture ?? ""} />
+                            <AvatarImage
+                              source={{ uri: data?.customer.picture ?? "" }}
+                            />
                             <AvatarFallback>
                               <Text>{data?.customer.name?.charAt(0)}</Text>
                             </AvatarFallback>

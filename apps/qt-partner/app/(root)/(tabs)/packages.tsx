@@ -6,6 +6,7 @@ import {
   View,
 } from "react-native";
 import { Link } from "expo-router";
+import { FlashList } from "@shopify/flash-list";
 import { isEmpty } from "lodash";
 
 import { PackageItem } from "~/components/PackageItem";
@@ -14,13 +15,23 @@ import { Input } from "~/components/ui/input";
 import { Large, Muted } from "~/components/ui/typography";
 import { PackageIcon } from "~/lib/icons/PackageIcon";
 import { SearchIcon } from "~/lib/icons/Search";
+import { ActivityIndicator } from "~/lib/native/activity-indicator";
 import { api } from "~/lib/trpc/api";
 
 export default function PackagesIndex() {
-  const { data, refetch, isLoading } =
-    api.packages.getAllAssignedPackages.useQuery({
-      offset: 0,
-    });
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = api.packages.getAllAssignedPackages.useInfiniteQuery(
+    {},
+    {
+      getNextPageParam: (pageParam) => pageParam.nextCursor,
+    },
+  );
   const [isFetching, setFetching] = useState(false);
 
   async function refreshData() {
@@ -29,11 +40,33 @@ export default function PackagesIndex() {
     setFetching(false);
   }
 
+  const items = data?.pages.flatMap((p) => p.items) ?? [];
+
   if (isLoading) return <SpinnerView />;
 
   return (
-    <>
-      {isEmpty(data?.packages) ? (
+    <FlashList
+      refreshControl={
+        <RefreshControl refreshing={isFetching} onRefresh={refreshData} />
+      }
+      data={items}
+      ListHeaderComponent={
+        <View>
+          <Link href={"/search"} asChild>
+            <TouchableOpacity>
+              <View className="flex-row items-center overflow-hidden rounded-xl border border-border bg-card/50 pl-3">
+                <SearchIcon size={16} className="text-muted-foreground" />
+                <Input
+                  placeholder="Search packages..."
+                  readOnly
+                  className="native:h-12 w-full flex-shrink rounded-none border-0 bg-transparent"
+                />
+              </View>
+            </TouchableOpacity>
+          </Link>
+        </View>
+      }
+      ListEmptyComponent={
         <View className="h-[100vh] flex-1 items-center justify-center gap-3">
           <PackageIcon
             size={45}
@@ -47,49 +80,26 @@ export default function PackagesIndex() {
             </Muted>
           </View>
         </View>
-      ) : (
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              style={{
-                backgroundColor: "red",
-              }}
-              refreshing={isFetching}
-              onRefresh={() => refreshData()}
-            />
-          }
-        >
-          <View className="flex-1 gap-5 p-5">
-            <View>
-              <Link href={"/search"} asChild>
-                <TouchableOpacity>
-                  <View className="flex-row items-center overflow-hidden rounded-xl border border-border bg-card/50 pl-3">
-                    <SearchIcon size={16} className="text-muted-foreground" />
-                    <Input
-                      placeholder="Search packages..."
-                      readOnly
-                      className="native:h-12 w-full flex-shrink rounded-none border-0 bg-transparent"
-                    />
-                  </View>
-                </TouchableOpacity>
-              </Link>
-            </View>
-            <View className="gap-3">
-              {data?.packages.map((data) => (
-                <Link
-                  key={data.id.toString()}
-                  asChild
-                  href={`/package/${data.package_id}`}
-                >
-                  <TouchableOpacity className="gap-3">
-                    <PackageItem key={data.id} data={data} />
-                  </TouchableOpacity>
-                </Link>
-              ))}
-            </View>
-          </View>
-        </ScrollView>
+      }
+      ListFooterComponent={
+        <View className="items-center justify-center py-5">
+          {hasNextPage && isFetchingNextPage ? (
+            <ActivityIndicator className="text-foreground/60" size={20} />
+          ) : null}
+        </View>
+      }
+      onEndReached={() => hasNextPage && fetchNextPage()}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ padding: 20 }}
+      estimatedItemSize={180}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item: p }) => (
+        <Link className="mt-5" asChild href={`/package/${p.package_id}`}>
+          <TouchableOpacity className="gap-3">
+            <PackageItem data={p} />
+          </TouchableOpacity>
+        </Link>
       )}
-    </>
+    />
   );
 }

@@ -135,11 +135,11 @@ export default function Profile() {
           )
         }
         ListFooterComponent={
-          hasNextPage && isFetchingNextPage ? (
-            <View className="items-center justify-center">
-              <ActivityIndicator size={12} />
-            </View>
-          ) : null
+          <View className="items-center justify-center py-5">
+            {hasNextPage && isFetchingNextPage ? (
+              <ActivityIndicator className="text-foreground/60" size={20} />
+            ) : null}
+          </View>
         }
         renderItem={({ item: r }) => (
           <Card className="mt-5">

@@ -11,6 +11,7 @@ import {
   eq,
   getTableColumns,
   ilike,
+  lte,
   notInArray,
   or,
   packageInsertSchema,
@@ -21,7 +22,11 @@ import {
 } from "@qt/db";
 
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { getPagination, paginateInputSchema } from "../utils";
+import {
+  cursorPaginateInputSchema,
+  getPagination,
+  paginateInputSchema,
+} from "../utils";
 import { billsRouterCaller } from "./bills";
 
 export const packagesRouter = createTRPCRouter({
@@ -385,19 +390,32 @@ export const packagesRouter = createTRPCRouter({
    * Get all assigned packages with partner context
    */
   getAllAssignedPackages: protectedProcedure
-    .input(z.object({ offset: z.number(), query: z.string().optional() }))
-    .query(async ({ ctx, input: { offset, query } }) => {
-      const packagesDetials = await ctx.db.query.requests.findMany({
+    .input(
+      cursorPaginateInputSchema
+        .and(z.object({ query: z.string().optional() }))
+        .optional(),
+    )
+    .query(async ({ ctx, input }) => {
+      const cursor = input?.cursor;
+      const limit = input?.limit ?? 10;
+      const cursorCond = cursor ? lte(requests.id, cursor) : undefined;
+
+      const packagesList = await ctx.db.query.requests.findMany({
         with: {
           package: true,
         },
-        where: and(eq(requests.partner_id, ctx.user.id)),
-        orderBy: ({ created_at }) => desc(created_at),
-        offset,
+        where: and(eq(requests.partner_id, ctx.user.id), cursorCond),
+        orderBy: ({ created_at, id }) => [desc(id), desc(created_at)],
+        limit: limit + 1,
       });
 
+      const nextCursor =
+        packagesList.length > limit ? packagesList.pop()?.id : undefined;
+
       return {
-        packages: packagesDetials,
+        items: packagesList,
+        nextCursor,
+        limit,
       };
     }),
 
