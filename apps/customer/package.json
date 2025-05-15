@@ -37,6 +37,7 @@
     "next": "catalog:react19",
     "nuqs": "^2.3.2",
     "react": "catalog:react19",
+    "react-dom": "catalog:react19",
     "react-dropzone": "^14.2.3",
     "react-rating-stars-component": "^2.2.0",
     "react-simple-star-rating": "^5.1.7",
