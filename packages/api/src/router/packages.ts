@@ -117,6 +117,7 @@ export const packagesRouter = createTRPCRouter({
         .innerJoin(requests, eq(requests.package_id, packages.id))
         .leftJoin(bill_details, eq(bill_details.id, packages.bill_id))
         .where(and(queryCond, userCond))
+        .orderBy(desc(packages.created_at))
         .limit(pageSize)
         .offset(offset);
 
