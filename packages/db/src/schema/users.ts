@@ -41,9 +41,12 @@ export const user = pgTable(
     role: userRoleEnum("role").default("user").notNull(),
     created_at: timestamp("created_at").defaultNow().notNull(),
   },
-  (t) => ({
-    roleIndex: index("roleIndex").on(t.role),
-  }),
+  (t) => [
+    index("roleIndex").on(t.role),
+    index("userIdIndex").on(t.id),
+    index("nameIndex").on(t.name),
+    index("emailIndex").on(t.email),
+  ],
 );
 
 export const userRelations = relations(user, ({ many }) => ({

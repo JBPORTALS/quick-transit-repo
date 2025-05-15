@@ -42,12 +42,9 @@ import { Textarea } from "@qt/ui/textarea";
 import { UniversalTrackingBar } from "@qt/ui/universal-tracking-bar";
 
 import { api } from "~/trpc/react";
-import { TrackBarSkeleton } from "./skeleton";
-
-// export const dynamic = "force-dynamic";
 
 const reviewSchema = z.object({
-  ratings: z.number().min(1),
+  ratings: z.number().min(1).max(5),
   comment: z.string().optional(),
 });
 

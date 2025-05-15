@@ -66,6 +66,7 @@ export const packages = pgTable(
     index().on(self.pickup_date),
     index().on(self.title),
     index().on(self.customer_id),
+    index().on(self.bill_id),
   ],
 );
 

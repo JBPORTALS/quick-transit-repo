@@ -48,7 +48,11 @@ export const requests = pgTable(
       .defaultNow()
       .$onUpdateFn(() => new Date(Date.now())),
   },
-  (self) => [index().on(self.partner_id), index().on(self.current_status)],
+  (self) => [
+    index().on(self.partner_id),
+    index().on(self.current_status),
+    index().on(self.tracking_number),
+  ],
 );
 
 export const requestsInsertSchema = createInsertSchema(requests);
