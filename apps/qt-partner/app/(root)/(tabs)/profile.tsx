@@ -119,16 +119,20 @@ export default function Profile() {
         keyExtractor={(item) => item.id}
         onEndReached={() => hasNextPage && fetchNextPage()}
         ListEmptyComponent={
-          <View
-            style={{ minHeight: 256 }}
-            className="w-full items-center justify-center rounded-md border border-dashed border-border "
-          >
-            <Large>No Reviews</Large>
-            <Muted className="px-10 text-center">
-              When the customer reviews your service, then those reviews will
-              appear here.
-            </Muted>
-          </View>
+          isLoading ? (
+            <SpinnerView />
+          ) : (
+            <View
+              style={{ minHeight: 256 }}
+              className="mt-5 w-full items-center justify-center rounded-md border border-dashed border-border "
+            >
+              <Large>No Reviews</Large>
+              <Muted className="px-10 text-center">
+                When the customer reviews your service, then those reviews will
+                appear here.
+              </Muted>
+            </View>
+          )
         }
         ListFooterComponent={
           hasNextPage && isFetchingNextPage ? (
