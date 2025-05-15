@@ -44,7 +44,9 @@ function PartnerListItem({
     async onSuccess() {
       await utils.requests.invalidate();
       await utils.packages.invalidate();
-      toast.success("Partner assigned successfully");
+      toast.success("Partner assigned successfully", {
+        position: "bottom-center",
+      });
       onOpenChange(false); //shut the dialog
     },
   });
