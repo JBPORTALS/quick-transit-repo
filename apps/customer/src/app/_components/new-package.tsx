@@ -108,7 +108,7 @@ const packageFormShema = z.object({
   description: z.string().trim().min(1, "Required"),
   weight: z
     .number({ invalid_type_error: "Invalid" })
-    .min(1, "Invalid")
+    .min(0.1, "Invalid")
     .max(10000, "Less than or equal to 10000"),
   height: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
   width: z.number({ invalid_type_error: "Invalid" }).min(1, "Invalid"),
@@ -193,16 +193,22 @@ export function NewPackage() {
       },
     );
 
+  const router = useRouter();
+
   const addPackage = api.packages.addPackage.useMutation({
     async onSuccess() {
       await utils.packages.getRecentPackages.invalidate();
       await utils.packages.getAllTrackingDetails.invalidate();
-      router.replace("/dashboard");
+
       toast.success("Package requested successfully");
+      router.push("/dashboard");
+
+      const waitForPromise = new Promise((res) =>
+        setTimeout(() => res(() => {}), 20000),
+      );
+      await waitForPromise;
     },
   });
-
-  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof packageFormShema>) {
     if (bill_summary_detail) {
