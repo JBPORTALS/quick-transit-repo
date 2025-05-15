@@ -25,6 +25,7 @@
     "@rn-primitives/slot": "~1.0.3",
     "@rn-primitives/tooltip": "~1.0.3",
     "@rn-primitives/types": "~1.0.3",
+    "@shopify/flash-list": "1.7.6",
     "@supabase/supabase-js": "catalog:",
     "@tanstack/react-query": "catalog:trpc11",
     "@trpc/client": "catalog:trpc11",
