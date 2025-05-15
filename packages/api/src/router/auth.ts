@@ -107,6 +107,8 @@ export const authRouter = createTRPCRouter({
         pageSize,
       };
     }),
+
+  /** Get's partners list */
   getPartners: publicProcedure
     .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
     .query(async ({ ctx, input }) => {
@@ -147,6 +149,51 @@ export const authRouter = createTRPCRouter({
         pageSize,
       };
     }),
+
+  /**
+   * Get all available partner to assign to package request
+   */
+  getAvailablePartners: publicProcedure
+    .input(paginateInputSchema.and(z.object({ query: z.string().optional() })))
+    .query(async ({ ctx, input }) => {
+      const { pageIndex, pageSize, query } = input;
+      const { offset } = getPagination(pageIndex, pageSize);
+
+      const queryCond = or(
+        ilike(user.name, `%${query}%`),
+        ilike(user.email, `%${query}%`),
+      );
+
+      const customers = await ctx.db.query.user.findMany({
+        columns: {
+          role: false,
+        },
+        limit: pageSize,
+        offset,
+        orderBy: desc(user.created_at),
+        where: and(eq(user.role, "partner"), queryCond),
+      });
+
+      const aggr = await ctx.db.query.user
+        .findMany({
+          columns: {},
+          extras: ({ id }) => {
+            return {
+              count: count(id).mapWith(Number).as("count"),
+            };
+          },
+          where: and(eq(user.role, "partner"), queryCond),
+        })
+        .then((r) => r.at(0));
+
+      return {
+        items: customers,
+        pageCount: Math.ceil((aggr?.count ?? 0) / pageSize),
+        pageIndex: offset,
+        pageSize,
+      };
+    }),
+
   updateUserRole: protectedProcedure
     .input(userInsertSchema.pick({ role: true }))
     .mutation(async ({ input, ctx }) => {
