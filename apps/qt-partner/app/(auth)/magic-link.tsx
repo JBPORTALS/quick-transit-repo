@@ -104,6 +104,7 @@ export default function MagicLink() {
                     autoFocus
                     className="native:h-14"
                     keyboardType="email-address"
+                    autoCapitalize="none"
                     placeholder="joe@gmail.com"
                     onChangeText={field.onChange}
                   />

@@ -32,9 +32,7 @@ export const requests = pgTable(
       .references(() => packages.id, { onDelete: "cascade" }),
     partner_id: uuid("partner_id").references(() => user.id),
     tracking_number: varchar("tracking_number", { length: 50 }).notNull(),
-    franchise_tracking_id: varchar("franchise_tracking_id", {
-      length: 255,
-    }),
+    franchise_tracking_id: text("franchise_tracking_id"),
     franchise_reciept_url: text("franchise_reciept_url"),
     one_time_code: varchar("one_time_code"),
     is_verified: boolean("is_verified").default(false),

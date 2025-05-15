@@ -30,7 +30,7 @@ import {
 } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
-import { H2, H3, H4, Lead, Muted, P } from "~/components/ui/typography";
+import { H1, H2, H3, H4, Lead, Muted, P } from "~/components/ui/typography";
 import UploadTrackingDetails from "~/components/UploadTrackingDetials";
 import VerifyPakcage from "~/components/VerifyPakcage";
 import { Bike } from "~/lib/icons/Bike";
@@ -103,13 +103,9 @@ export default function PackageDetails() {
         <View className="gap-3 p-5">
           <AspectRatio
             ratio={16 / 9}
-            className="min-h-lvh items-center justify-center rounded-md border border-border bg-accent/30"
+            className="min-h-svh items-center justify-center rounded-md border border-border bg-accent/40"
           >
-            <PackageIcon
-              size={96}
-              strokeWidth={0.75}
-              className="text-muted-foreground/50"
-            />
+            <Text className="text-9xl">📦</Text>
           </AspectRatio>
 
           {/* Content of package */}

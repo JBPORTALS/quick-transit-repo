@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import * as Linking from "expo-linking";
 import { Redirect, Stack } from "expo-router";
@@ -53,12 +53,12 @@ export default function AuthLayout() {
   if (isLoggedin) <Redirect href={"/(root)/(tabs)"} />;
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
       <Stack
         initialRouteName="index"
         screenOptions={{ headerShadowVisible: false }}
       />
       <HandleAuthLink />
-    </>
+    </SafeAreaView>
   );
 }

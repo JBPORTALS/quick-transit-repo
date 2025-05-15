@@ -515,7 +515,7 @@ export const packagesRouter = createTRPCRouter({
     .input(
       z.object({
         tracking_id: z.string(),
-        // image_url: z.string().min(6).max(6),
+        image_url: z.string().min(6).max(6),
         package_id: z.string().min(1),
       }),
     )
@@ -524,6 +524,7 @@ export const packagesRouter = createTRPCRouter({
       const request = await ctx.db
         .update(requests)
         .set({
+          franchise_reciept_url: input.image_url,
           franchise_tracking_id: input.tracking_id,
           current_status: "delivered",
         })

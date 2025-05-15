@@ -109,6 +109,7 @@ function WithSplashScreenHandle({ children }: { children: React.ReactNode }) {
 
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+      <StatusBar style="auto" />
       <View
         style={{
           flex: 1,

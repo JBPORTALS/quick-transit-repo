@@ -100,6 +100,7 @@ export default function UploadTrackingDetails() {
 
         await updateTrackingDetails({
           package_id: id,
+          image_url: fileName,
           tracking_id: form.getValues().franchise_tracking_id,
         });
       }
