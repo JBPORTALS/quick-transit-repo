@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { View } from "react-native";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
@@ -21,14 +21,16 @@ export default function ProfileSettings() {
     <View className="flex-1">
       <Stack.Screen options={{ title: "Profile Settings" }} />
 
-      <Button
-        size={"lg"}
-        variant={"ghost"}
-        className="w-full justify-start rounded-none"
-      >
-        <Text>Documents</Text>
-        <Files size={20} className="ml-auto text-foreground" />
-      </Button>
+      <Link asChild href={"/documents"}>
+        <Button
+          size={"lg"}
+          variant={"ghost"}
+          className="w-full justify-start rounded-none"
+        >
+          <Text>Documents</Text>
+          <Files size={20} className="ml-auto text-foreground" />
+        </Button>
+      </Link>
       <Separator />
       <Button
         size={"lg"}
