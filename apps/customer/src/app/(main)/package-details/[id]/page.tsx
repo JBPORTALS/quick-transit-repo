@@ -39,6 +39,7 @@ import { Text } from "@qt/ui/text";
 import CancelDialog from "~/app/_components/cancel-dialog";
 import { api } from "~/trpc/server";
 import { convertTo12HourFormat } from "~/utils/extra";
+import { DownloadInvoiceButton } from "./download-invoice-button";
 
 export default async function PackageDetails({
   params,
@@ -88,13 +89,13 @@ export default async function PackageDetails({
             </VStack>
             {packageDetail.request.current_status !== "cancelled" && (
               <HStack className="items-center">
-                <Button size={"sm"} variant={"outline"}>
-                  <FileDown className="size-4" /> Invoice
-                </Button>
-                {/* <Button variant={"outline"} size={"sm"}>
-                  <Edit3Icon className="size-4" />
-                  Update Details
-                </Button> */}
+                {packageDetail.request.current_status === "delivered" && (
+                  <DownloadInvoiceButton
+                    packageId={packageDetail.id}
+                    packageTitle={packageDetail.title}
+                  />
+                )}
+
                 {["requested", "confirmed"].includes(
                   packageDetail.request.current_status,
                 ) && (
