@@ -291,7 +291,7 @@ export default function PackageDetails() {
                           strokeWidth={1.25}
                           className="text-primary-foreground"
                         />
-                        <Text>On Cash</Text>
+                        <Text>Collect & Save</Text>
                       </Button>
                       <Muted className="text-center">
                         Long press to confirm the cash collected action
